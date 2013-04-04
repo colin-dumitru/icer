@@ -1050,6 +1050,8 @@
                 <Set Property="List.Background" Value="#FF3A9EB8" Target="851b91de-fdb5-433b-9627-0395447df5d5" />
                 <Set Property="ItemBase.IsSelected" Value="True" Target="ee6a6e33-e95a-4a08-88b0-4c1374ecdd1d" />
                 <Set Property="ItemBase.IsSelected" Value="False" Target="60d1bbb9-d246-4fd4-88a1-e8778f434cb4" />
+                <Set Property="ItemBase.IsSelected" Value="True" Target="e963123b-35f6-47dc-ba26-91371542987b" />
+                <Set Property="ItemBase.IsSelected" Value="False" Target="8854f6bc-5e82-4901-ab52-6b97397ad87a" />
             </KeyFrame>
         </Scene>
         <Scene Title="Tapped/Clicked Artists" StateGroup="6ffd668a-20c1-4f58-9a38-9dbba8729261" ParentScene="6ffd668a-20c1-4f58-9a38-9dbba8729261" Created="03/31/2013 17:03:17" Id="381b5283-fb3a-4592-877b-207f22adeccf">
@@ -1061,9 +1063,6 @@
                 <Set Property="List.BorderColor" Value="#FF874006" Target="681565b0-08b4-49ff-bda2-5b1027886b66" />
                 <Set Property="List.Background" Value="#FF3A9EB8" Target="681565b0-08b4-49ff-bda2-5b1027886b66" />
             </KeyFrame>
-        </Scene>
-        <Scene Title="Disconnected State" StateGroup="381b5283-fb3a-4592-877b-207f22adeccf" ParentScene="381b5283-fb3a-4592-877b-207f22adeccf" Created="03/31/2013 17:06:19" Id="a55d6550-72e9-4cbb-9f80-f0ccf2b8d76b">
-            <KeyFrame Id="e71e968f-418e-44a0-aa05-cbb8c415ba5f" />
         </Scene>
         <Scene Title="Tapped/Clicked Gengre" StateGroup="6ffd668a-20c1-4f58-9a38-9dbba8729261" ParentScene="6ffd668a-20c1-4f58-9a38-9dbba8729261" Created="03/31/2013 17:11:34" Id="45b87bb0-c631-4203-8f62-d247bef7c3ae">
             <KeyFrame Id="ed3313e1-8021-4c1b-8649-3899b16cbf22">
