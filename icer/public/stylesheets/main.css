@@ -1,0 +1,89 @@
+* {
+    padding: 0px;
+    margin: 0px;
+}
+
+body {
+    margin: 0px;
+    padding: 0px;
+    height: 100%;
+}
+
+html {
+    margin: 0px;
+    padding: 0px;
+    height: 100%;
+    min-height: 600px;
+    min-width: 800px;
+}
+
+#magic {
+    height: 100%;
+    width: 100%;
+    table-layout: fixed;
+}
+
+#magic,
+#magic tr,
+#magic td {
+    border: none;
+    border-collapse: collapse;
+}
+
+#menu {
+    width: 50px;
+    height: 100%;
+    background: #3c5e5b;
+}
+
+#menuTable {
+    height: 100%;
+    width: 100%;
+    border: none;
+    border-collapse: collapse;
+    table-layout: fixed;
+    z-index: 7;
+}
+
+.menuItem div {
+    -moz-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    font-family: 'Days One', sans-serif;
+    color: #edfffc;
+}
+
+#menuSelectorBackground {
+    position: absolute;
+    width: 50px;
+    height: 100px;
+    background: #589c9b;
+    z-index: 0;
+}
+
+#menuSelector {
+    position: absolute;
+    width: 50px;
+    height: 100px;
+    background: rgba(255, 255, 255, 0.2);
+    z-index: 10;
+    cursor: move;
+}
+
+#content {
+    background: #0f2423;
+}
+
+#sectionTable {
+    width: 100%;
+    table-layout: fixed;
+    position: relative;
+}
+
+#sectionContainer {
+    overflow-y: hidden;
+}
+
+.section {
+    width: 100%;
+}

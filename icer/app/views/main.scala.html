@@ -5,13 +5,43 @@
 <html>
 <head>
     <title> @title </title>
+
+    <link href='http://fonts.googleapis.com/css?family=Days+One' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
     <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
 
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
+    <script src="@routes.Assets.at("typescript/common.js")" type="text/javascript"></script>
     <script src="@routes.Assets.at("typescript/main.js")" type="text/javascript"></script>
-    <script src="@routes.Assets.at("javascripts/jquery-1.9.0.min.js")" type="text/javascript"></script>
 </head>
 <body onload="run();">
-    @content
+    <table id="magic" border="0">
+        <tr>
+            <td id="menu">
+
+                <div id="menuSelector"></div>
+                <div id="menuSelectorBackground"></div>
+
+                <table id="menuTable">
+                </table>
+            </td>
+            <td id="content">
+                <div id="sectionContainer">
+                    <table id="sectionTable">
+                    </table>
+                </div>
+            </td>
+        </tr>
+    </table>
 </body>
 </html>
+
+<script type="text/template" id="menuTemplate">
+<tr>
+    <td id="{0}" class="menuItem">
+        <div>
+                {1} </div>
+    </td>
+</tr>
+</script>
