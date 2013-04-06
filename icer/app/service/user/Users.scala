@@ -2,6 +2,9 @@ package service.user
 
 import anorm._
 import model.User
+import play.api.db.DB
+import play.api.Play.current
+
 
 /**
  * Catalin Dumitru
@@ -9,9 +12,14 @@ import model.User
  */
 class Users {
   def find(userId: String) {
-    SQL("SELECT * FROM User u WHERE u.userId = {userId}")
-      .on("userId" -> userId)()
-      .map(row => new User(row("id"), row("userId"), row("name")))
+    DB.withConnection(
+      implicit c =>
+        SQL("SELECT * FROM User u WHERE u.userId = {userId}")
+          .on("userId" -> userId)()
+          .map(row => (new User(row[Long]("id"), row[String]("userId"), row[String]("full_name"))))
+          .toList
+
+    )
   }
 
 }

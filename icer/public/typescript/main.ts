@@ -6,7 +6,12 @@ interface SectionBinder{
     unbind();
 }
 
-var binders:{ [key: string]: SectionBinder; } = { };
+class Dimensions {
+    static menuItemHeight:number;
+    static menuItemWidth:number;
+    static windowHeight:number;
+    static windowWidth:number;
+}
 
 function run() {
     var sections = [];
@@ -23,6 +28,8 @@ function run() {
     $(window).resize(() => {
         sectionManager.resize();
     });
+
+    itemList.bind();
 }
 
 function buildSearchSection():Section {
@@ -42,8 +49,7 @@ function buildRadioSection():Section {
 }
 
 class SectionManager {
-    private sectionHeight:number;
-    private windowHeight:number;
+
     private previousSection:Section;
 
     constructor(private sections:Section[]) {
@@ -93,6 +99,9 @@ class SectionManager {
                     $("#menuSelectorBackground").css({
                         top: ui.position.top
                     })
+                    $("#sectionTable").css({
+                        top: -ui.position.top * us.sections.length
+                    });
                 },
                 stop: function (event, ui) {
                     us.changeSection(us.closestMenuItem(ui.position.top))
@@ -101,22 +110,20 @@ class SectionManager {
     }
 
     public changeSection(index:number) {
-        var us = this;
-
         $("#menuSelector").animate({
-            top: index * us.sectionHeight
+            top: index * Dimensions.menuItemHeight
         });
         $("#menuSelectorBackground").animate({
-            top: index * us.sectionHeight
+            top: index * Dimensions.menuItemHeight
         });
         $("#sectionTable").animate({
-            top: -index * us.windowHeight
+            top: -index * Dimensions.windowHeight
         });
         binders[this.sections[index].id].bind();
     }
 
     private closestMenuItem(top:number):number {
-        var closestOffset = top / this.sectionHeight;
+        var closestOffset = top / Dimensions.menuItemHeight;
         return Math.round(closestOffset);
     }
 
@@ -135,13 +142,15 @@ class SectionManager {
     }
 
     resize() {
-        this.sectionHeight = $("#" + this.sections[0].id + "Menu").height();
-        this.windowHeight = $(window).height();
+        Dimensions.menuItemHeight = $("#" + this.sections[0].id + "Menu").height();
+        Dimensions.menuItemWidth = $("#" + this.sections[0].id + "Menu").width();
+        Dimensions.windowHeight = $(window).height();
+        Dimensions.windowWidth = $(window).width();
 
-        $("#menuSelector").css("height", this.sectionHeight);
-        $("#menuSelectorBackground").css("height", this.sectionHeight);
-        $("#sectionContainer").css("height", this.windowHeight);
-        $("#sectionTable").css("height", this.windowHeight * this.sections.length);
+        $("#menuSelector").css("height", Dimensions.menuItemHeight);
+        $("#menuSelectorBackground").css("height", Dimensions.menuItemHeight);
+        $("#sectionContainer").css("height", Dimensions.windowHeight);
+        $("#sectionTable").css("height", Dimensions.windowHeight * this.sections.length);
     }
 }
 
@@ -151,3 +160,68 @@ class Section {
 
     rootNode:any;
 }
+
+class ItemList {
+    private isCollapsed:bool = true;
+
+    bind() {
+        $(window).mousemove((event) => {
+            if (event.clientX > (Dimensions.windowWidth - 5)) {
+                if (this.isCollapsed) {
+                    this.giveFocus();
+                }
+            }
+
+            if (event.clientX < (Dimensions.windowWidth - 250)) {
+                if (!this.isCollapsed) {
+                    this.takeFocus();
+                }
+            }
+        })
+    }
+
+    show() {
+
+    }
+
+    hide() {
+
+    }
+
+    giveFocus() {
+        $("#itemListContainer")
+            .transition({
+                width: 250,
+                perspective: "100px",
+                rotateY: '0deg',
+                transformOrigin: '0% 50%'
+            });
+        $("#sectionContainer")
+            .transition({
+                perspective: "100px",
+                rotateY: '-5deg',
+                transformOrigin: '100% 50%'
+            });
+        this.isCollapsed = false;
+    }
+
+    takeFocus() {
+        $("#itemListContainer")
+            .transition({
+                width: 0,
+                perspective: "100px",
+                rotateY: '10deg',
+                transformOrigin: '0% 50%'
+            });
+        $("#sectionContainer")
+            .transition({
+                perspective: "100px",
+                rotateY: '0deg',
+                transformOrigin: '100% 50%'
+            });
+        this.isCollapsed = true;
+    }
+}
+
+var binders:{ [key: string]: SectionBinder; } = { };
+var itemList = new ItemList();

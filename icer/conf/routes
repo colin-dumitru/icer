@@ -9,7 +9,7 @@ GET     /                           controllers.Application.index
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
 
 #Search
-POST /search/new controllers.Search.search
+POST /search/new controllers.Search.search(query)
 POST /search/songs/:sessionId/:from/:to controllers.Search.songs(sessionId:Long, from:Long, to:Long)
 POST /search/arists/:sessionId/:from/:to controllers.Search.artists(sessionId:Long, from:Long, to:Long)
 POST /search/genre/:sessionId/:from/:to controllers.Search.genre(sessionId:Long, from:Long, to:Long)
