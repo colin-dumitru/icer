@@ -78,6 +78,7 @@ class SectionManager {
         td.load(section.url, () => {
             this.onPageLoadComplete(section);
         });
+        td.css("height", Math.round(100 / this.sections.length) + "%");
         $("#sectionTable").append(section.rootNode);
     }
 
