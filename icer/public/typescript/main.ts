@@ -30,6 +30,8 @@ function run() {
     });
 
     itemList.bind();
+    playManager.bind();
+    globalPlaylistManager.bind();
 }
 
 function buildSearchSection():Section {
@@ -286,5 +288,88 @@ class Item {
     rootNode:any;
 }
 
+class PlayManager {
+    bind() {
+        $("#playButton").click(function () {
+            $(this).toggleClass("playButtonPaused");
+        });
+    }
+}
+
+class GlobalPlaylistManager {
+    private isCollapsed = true;
+    private isVolumeVisible = false;
+
+    bind() {
+        $(window).mousemove((event) => {
+            if (event.clientY > (Dimensions.windowHeight - 15)) {
+                if (this.isCollapsed) {
+                    this.giveFocus();
+                }
+            }
+
+            if (event.clientY < (Dimensions.windowHeight - 155)) {
+                if (!this.isCollapsed) {
+                    this.takeFocus();
+                }
+                if (this.isVolumeVisible) {
+                    $("#volumeSliderContainer").hide();
+                }
+            }
+        });
+
+        $("#volumeSliderContainer").slider({
+            orientation: "vertical",
+            range: "min",
+            min: 0,
+            max: 100,
+            value: 60
+        });
+
+        $("#volumeButton").mouseenter(() => {
+            $("#volumeSliderContainer").show();
+            this.isVolumeVisible = true;
+        });
+
+        //todo temp
+        var imageTemplate = template("#imageMock");
+        for (var i = 0; i < 25; i++) {
+            $("#globalPlaylistSongContainer").append(imageTemplate);
+        }
+    }
+
+    giveFocus() {
+        $("#globalPlaylistContainer")
+            .transition({
+                bottom: 120
+            });
+        $("#sectionContainer")
+            .transition({
+                perspective: "100px",
+                rotateX: '5deg',
+                y: -150,
+                transformOrigin: '50% 100%'
+            });
+        this.isCollapsed = false;
+    }
+
+    takeFocus() {
+        $("#globalPlaylistContainer")
+            .transition({
+                bottom: 0
+            });
+        $("#sectionContainer")
+            .transition({
+                perspective: "100px",
+                rotateX: '0deg',
+                y: 0,
+                transformOrigin: '50% 100%'
+            });
+        this.isCollapsed = true;
+    }
+}
+
 var binders:{ [key: string]: SectionBinder; } = { };
 var itemList = new ItemList();
+var playManager = new PlayManager();
+var globalPlaylistManager = new GlobalPlaylistManager();
