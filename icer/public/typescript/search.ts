@@ -39,10 +39,6 @@ class SearchManager {
     private pushSession(session:SearchSession) {
         this.searchSessionsQueue.push(session);
 
-        /*session.rootNode()
-         .transition({
-         translate3d: [0, 0, 20 * (this.searchSessionsQueue.length - 1)]
-         });*/
         this.giveSessionFocus(session);
     }
 

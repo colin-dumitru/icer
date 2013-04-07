@@ -7,19 +7,54 @@
         binders["history"] = new HistoryBinder();
     </script>
 </head>
-<body>
+<body class="raphael" id="g.raphael.dmitry.baranovskiy.com">
 <div id="historyPageContainer">
     <table id="historyLayout">
         <tr id="historyHeaderCell">
-            <td></td>
-            <td id="historyGenreCell"></td>
-            <td id="historyArtistCell"></td>
+            <td class="emptyHistoryCell"></td>
+            <td id="historyGenreCell">
+                <div id="historyGenreLabelContainer">
+                    <table>
+                        <tr>
+                            <td id="historyGenreLabel1">Genre1</td>
+                        </tr>
+                        <tr>
+                            <td id="historyGenreLabel2">Genre2</td>
+                        </tr>
+                        <tr>
+                            <td id="historyGenreLabel3">Genre3</td>
+                        </tr>
+                        <tr>
+                            <td id="historyGenreLabel4">Genre4</td>
+                        </tr>
+                    </table>
+                </div>
+                <div id="historyGenreCellContainer"></div>
+            </td>
+            <td id="historyArtistCell">
+                <ol>
+                    <li id="historyArtist1">Artist 1</li>
+                    <li id="historyArtist2">Artist 2</li>
+                    <li id="historyArtist3">Artist 3</li>
+                    <li id="historyArtist4">Artist 4</li>
+                </ol>
+            </td>
             <td></td>
         </tr>
 
         <tr id="historyBodyCell">
             <td colspan="4">
-                <div id="historyContainer"></div>
+                <div id="historyContainer">
+                    <div id="historySlider"></div>
+                </div>
+            </td>
+        </tr>
+
+        <tr id="historyTimelineCell">
+            <td colspan="4">
+                <span style="position: relative; left: 200px;">2011</span>
+                <span style="position: relative; left: 400px;">2012</span>
+                <span style="position: relative; left: 600px;">present</span>
             </td>
         </tr>
     </table>
