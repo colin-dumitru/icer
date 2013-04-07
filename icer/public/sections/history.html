@@ -1,10 +1,28 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <link rel="stylesheet" media="screen" href="/assets/stylesheets/history.css">
     <script type="text/javascript" src="/assets/typescript/history.js"></script>
     <script type="text/javascript">
         binders["history"] = new HistoryBinder();
     </script>
 </head>
-<body>History</body>
+<body>
+<div id="historyPageContainer">
+    <table id="historyLayout">
+        <tr id="historyHeaderCell">
+            <td></td>
+            <td id="historyGenreCell"></td>
+            <td id="historyArtistCell"></td>
+            <td></td>
+        </tr>
+
+        <tr id="historyBodyCell">
+            <td colspan="4">
+                <div id="historyContainer"></div>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
 </html>

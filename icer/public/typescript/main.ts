@@ -50,7 +50,7 @@ function buildRadioSection():Section {
 
 class SectionManager {
 
-    private previousSection:Section;
+    private currentSection:Section;
 
     constructor(private sections:Section[]) {
 
@@ -96,6 +96,9 @@ class SectionManager {
             .draggable({
                 containment: "#menu",
                 axis: "y",
+                start: function () {
+                    binders[us.currentSection.id].unbind();
+                },
                 drag: function (event, ui) {
                     $("#menuSelectorBackground").css({
                         top: ui.position.top
@@ -103,6 +106,7 @@ class SectionManager {
                     $("#sectionTable").css({
                         top: -ui.position.top * us.sections.length
                     });
+
                 },
                 stop: function (event, ui) {
                     us.changeSection(us.closestMenuItem(ui.position.top))
@@ -111,6 +115,7 @@ class SectionManager {
     }
 
     public changeSection(index:number) {
+        this.currentSection = this.sections[index];
         $("#menuSelector").animate({
             top: index * Dimensions.menuItemHeight
         });
@@ -120,7 +125,7 @@ class SectionManager {
         $("#sectionTable").animate({
             top: -index * Dimensions.windowHeight
         });
-        binders[this.sections[index].id].bind();
+        binders[this.currentSection.id].bind();
     }
 
     private closestMenuItem(top:number):number {
@@ -138,6 +143,7 @@ class SectionManager {
         var sectionTemplate = template("#menuTemplate", section.id + "Menu", section.menuLabel);
         $("#menuTable").append(sectionTemplate);
         $("#menuTable #" + section.id + "Menu").click(() => {
+            binders[this.currentSection.id].unbind();
             this.changeSection(this.sections.indexOf(section));
         });
     }
@@ -164,10 +170,14 @@ class Section {
 
 class ItemList {
     private isCollapsed:bool = true;
+    private itemList:Item[] = [];
+    private selectedItem:Item;
+
+    onInput:(input:String) => any;
 
     bind() {
         $(window).mousemove((event) => {
-            if (event.clientX > (Dimensions.windowWidth - 5)) {
+            if (event.clientX > (Dimensions.windowWidth - 15)) {
                 if (this.isCollapsed) {
                     this.giveFocus();
                 }
@@ -178,15 +188,26 @@ class ItemList {
                     this.takeFocus();
                 }
             }
-        })
+        });
+
+        var input = $("#newItemInput");
+        input.keypress((event) => {
+            if (event.which == 13) {
+                if (this.onInput == null) return;
+
+                var text = input.val();
+                input.val("");
+                this.onInput(text);
+            }
+        });
     }
 
     show() {
-
+        $("#itemListContainerTable").show(400);
     }
 
     hide() {
-
+        $("#itemListContainerTable").hide(400);
     }
 
     giveFocus() {
@@ -222,6 +243,47 @@ class ItemList {
             });
         this.isCollapsed = true;
     }
+
+    addItem(item:Item) {
+        this.itemList.push(item);
+        this.buildItemNode(item);
+        this.bindItemNode(item);
+    }
+
+    private bindItemNode(item:Item) {
+        item.rootNode.click(() => {
+            this.switchItem(item);
+            if (item.onSelect != null) {
+                item.onSelect();
+            }
+        });
+    }
+
+    public switchItem(item:Item) {
+        if (this.selectedItem != null) {
+            this.selectedItem.rootNode.removeClass("itemListFocused")
+        }
+        item.rootNode.addClass("itemListFocused");
+
+        this.selectedItem = item;
+        this.takeFocus();
+    }
+
+    private buildItemNode(item:Item) {
+        var li = document.createElement("li");
+        item.rootNode = $(li);
+
+        item.rootNode.append(item.title);
+        $("#itemListItemContainer").append(li);
+    }
+}
+
+class Item {
+    constructor(public id:String, public title:String) {
+    }
+
+    onSelect:() => any;
+    rootNode:any;
 }
 
 var binders:{ [key: string]: SectionBinder; } = { };

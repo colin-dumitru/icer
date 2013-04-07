@@ -1,8 +1,9 @@
 class HistoryBinder implements SectionBinder {
-    private rootNode:any;
+    private historyManager:HistoryManager;
 
     buildPage(rootNode:any) {
-        this.rootNode = rootNode;
+        this.historyManager = new HistoryManager(rootNode);
+        this.historyManager.loadHistory();
     }
 
     bind() {
@@ -10,6 +11,26 @@ class HistoryBinder implements SectionBinder {
 
     unbind() {
 
+    }
+
+
+}
+
+class HistoryManager {
+    constructor(private rootNode) {
+    }
+
+    loadHistory() {
+
+    }
+
+    mockHistory():HistoryPoint[] {
+
+    }
+}
+
+class HistoryPoint {
+    constructor(listenVolume:number, genres:{ string : SectionBinder; }[], artists:string[]) {
     }
 
 }

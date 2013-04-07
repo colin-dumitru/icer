@@ -8,12 +8,17 @@
 
     <link href='http://fonts.googleapis.com/css?family=Days+One' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Noto+Sans' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+
     <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
     <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
 
     <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
     <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
-    <script src="http://ricostacruz.com/jquery.transit/jquery.transit.min.js"></script>
+    <script src="@routes.Assets.at("javascripts/jquery.transit_dev.js")"></script>
+    <script src="@routes.Assets.at("javascripts/raphael-min.js")"></script>
+    <script src="@routes.Assets.at("javascripts/g.raphael-min.js")"></script>
+
     <script src="@routes.Assets.at("typescript/common.js")" type="text/javascript"></script>
     <script src="@routes.Assets.at("typescript/main.js")" type="text/javascript"></script>
 </head>
@@ -44,14 +49,8 @@
                                     <td id="itemListContainerCell">
                                         <div id="itemListContainer">
                                             <div id="itemList">
-                                                <input id="newItemInput" />
-                                                <ul>
-                                                    <li> test search </li>
-                                                    <li> test search </li>
-                                                    <li> test search </li>
-                                                    <li> test search </li>
-                                                    <li> test search </li>
-                                                    <li> test search </li>
+                                                <input id="newItemInput"/>
+                                                <ul id="itemListItemContainer">
                                                 </ul>
                                             </div>
                                         </div>

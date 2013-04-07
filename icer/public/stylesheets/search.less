@@ -1,0 +1,100 @@
+@import "common";
+
+#searchMainCell {
+  height: 450px;
+}
+
+#searchCell {
+  width: 600px;
+  vertical-align: middle;
+  position: relative;
+}
+
+#searchTableContainer {
+  position: relative;
+  height: 450px;
+  -webkit-perspective: 100px;
+}
+
+#searchStage {
+  position: relative;
+  height: 450px;
+  -webkit-perspective: 100px;
+}
+
+.searchTable {
+  height: 450px;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+}
+
+#searchMenuCell {
+  height: 50px;
+}
+
+#searchMenuFooter {
+  .fullFrame;
+  height: 10px;
+  background: @foreground_variant;
+}
+
+.searchMenuSelector {
+  .fullFrame;
+  .fontMenu;
+  color: @foreground_text;
+  height: 25px;
+  padding-top: 3px;
+  text-align: center;
+  background: @background_variant;
+  display: inline-block;
+  list-style-type: none;
+}
+
+.searchMenuSelector input {
+  display: none;
+}
+
+.searchMenuSelector:hover {
+  .searchMenuSelector;
+  background: @foreground_focus;
+}
+
+.searchMenuSelectorSelected {
+  .searchMenuSelector;
+  background: @foreground_variant;
+}
+
+#searchPageContainer {
+  width: 600px;
+  height: 100%;
+  overflow: visible;
+}
+
+#searchPageTable {
+  height: 100%;
+  position: relative;
+}
+
+.searchPage {
+  width: 600px;
+  height: 100%;
+}
+
+.searchPageSongContainer {
+  height: 400px;
+  margin: 0 auto;
+  width: 580px;
+  background: @background_variant;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.searchPageSongContainer img {
+  margin: 3px;
+}
+
+.searchPageSongContainerFocused {
+  .searchPageSongContainer;
+  background: @foreground_variant;
+}
