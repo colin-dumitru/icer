@@ -343,6 +343,12 @@ class GlobalPlaylistManager {
             .transition({
                 bottom: 120
             });
+        $("#globalPlaylistSongContainer")
+            .transition({
+                perspective: "100px",
+                transformOrigin: '50% 0%',
+                rotateX: 0
+            });
         $("#sectionContainer")
             .transition({
                 perspective: "100px",
@@ -357,6 +363,12 @@ class GlobalPlaylistManager {
         $("#globalPlaylistContainer")
             .transition({
                 bottom: 0
+            });
+        $("#globalPlaylistSongContainer")
+            .transition({
+                perspective: "100px",
+                transformOrigin: '50% 0%',
+                rotateX: -10
             });
         $("#sectionContainer")
             .transition({
