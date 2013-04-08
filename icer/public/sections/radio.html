@@ -1,10 +1,59 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <link rel="stylesheet" media="screen" href="/assets/stylesheets/radio.css">
     <script type="text/javascript" src="/assets/typescript/radio.js"></script>
     <script type="text/javascript">
         binders["radio"] = new RadioBinder();
     </script>
 </head>
-<body>Radio</body>
+<body>
+<table id="radioTable">
+    <tr>
+        <td id="radioBuilderCell">
+            <table id="radioBuilderTable">
+                <tr id="radio">
+                    <td id="radioAddButtonCell">+</td>
+                </tr>
+                <tr id="radioCustomCriteria">
+                    <td class="radioCriteriaOption"><span>Custom Query</span><input id="customCriteriaInput"></input>
+                    </td>
+                </tr>
+                <tr id="radioRecentSongsCriteria">
+                    <td class="radioCriteriaOption">Recent Songs</td>
+                </tr>
+                <tr id="radioRecentGenresCriteria">
+                    <td class="radioCriteriaOption">Recent Genres</td>
+                </tr>
+                <tr id="radioRecentAlbumsCriteria">
+                    <td class="radioCriteriaOption">Recent Albums</td>
+                </tr>
+                <tr id="radioPastConcertsCriteria">
+                    <td class="radioCriteriaOption">Past Concerts</td>
+                </tr>
+                <tr>
+                    <td class="radioCriteriaTableCell">
+                        <table id="radioCriteriaTable">
+                            <tr>
+                                <td class="radioCriteriaCell">ColdPlay</td>
+                            </tr>
+                            <tr>
+                                <td class="radioCriteriaCell">ColdPlay</td>
+                            </tr>
+                            <tr>
+                                <td class="radioCriteriaCell">ColdPlay</td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </td>
+        <td id="radioMenuCell">
+            <button class="radioManagerButtonLarge roundTopRight">Play Now</button>
+            <button class="radioManagerButton">Clear All</button>
+            <button class="radioManagerButton roundBottomRight">Reset</button>
+        </td>
+    </tr>
+</table>
+</body>
 </html>
