@@ -1,0 +1,164 @@
+﻿<?Infragistics.Models format="xaml" version="17"?>
+<Page xmlns="http://prototypes.infragistics.com/"
+                                                          Id="c876a959-90d9-4afa-b467-73cdc28d7d32">
+    <Page.Content>
+        <Content Width="800" Height="600" Background="White" Id="2bc60b6b-470b-458d-93f1-ec8149053921">
+            <Layer Layout="Stretch" Id="ae3f1e35-9cd0-497a-972c-70bc4e80b458" Panel.Layout="Stretch" />
+        </Content>
+    </Page.Content>
+    <Page.Scenes>
+        <Scene Title="Start" Created="04/02/2013 17:27:12" Id="c6868831-cc11-443b-a076-1b8178d07a43">
+            <KeyFrame Id="bf1ae638-7fe2-473e-8989-69e03ac5ab9e">
+                <Add Property="Panel.Children" Target="ae3f1e35-9cd0-497a-972c-70bc4e80b458">
+                    <Add.Item>
+                        <ContainerBox Background="White" Id="8bf679ea-4af1-4c65-a001-3985a6d530be" Panel.Bounds="-101,224,142{5,2147483647},148{5,2147483647}">
+                            <ContainerBox.MouseOver>
+                                <CommandNext SceneId="e384e703-66f3-4af0-a08b-5cf61029134d" AutoRevertEvent="MouseOut" Created="04/02/2013 18:05:41" />
+                            </ContainerBox.MouseOver>
+                            <Container Layout="Stretch" ClipToContainer="True" Id="f5f6a09e-591f-45d0-b1c8-a2d51afef41a" Panel.Bounds="0,0,140*,146*">
+                                <Tabs TabStripPlacement="Left" FontStyle="" Id="53d61bda-8559-4a22-aea5-18bd41298b32" Panel.Bounds="5,5,90{5,2147483647},134{5,2147483647}">
+                                    <TabItem Header="Search" Id="89d23423-411b-4a62-a965-8f7db092594f" Panel.Bounds="0,0,66*,30*">
+                                        <TabItem.Click>
+                                            <CommandNavigate Screen="/Search.screen" State="6ffd668a-20c1-4f58-9a38-9dbba8729261" Created="04/02/2013 18:06:07" />
+                                        </TabItem.Click>
+                                        <Container Layout="Stretch" ClipToContainer="True" Id="8dccc061-aecf-4784-972e-197bcfbe1ab7" />
+                                    </TabItem>
+                                    <TabItem Header="Playlist" Id="f6f9d073-45ab-4e87-8424-f590cf72f0ed" Panel.Bounds="0,0,66*,30*">
+                                        <TabItem.Click>
+                                            <CommandNavigate Screen="/Playlist.screen" State="9a1f3113-5415-4472-b464-931e512c564a" Created="04/02/2013 18:06:17" />
+                                        </TabItem.Click>
+                                        <Container Layout="Stretch" ClipToContainer="True" Id="e6ca7af6-86a1-404c-b4e5-ad587c9b611c" />
+                                    </TabItem>
+                                    <TabItem Header="History" Id="2165bb4b-f351-4089-a84e-2785dce85788" Panel.Bounds="0,0,66*,30*">
+                                        <TabItem.Click>
+                                            <CommandNavigate Screen="/History.screen" State="a14370ae-6489-47e4-8f63-402de1236960" Created="04/02/2013 18:06:25" />
+                                        </TabItem.Click>
+                                        <Container Layout="Stretch" ClipToContainer="True" Id="950bb429-eda5-4dac-8a62-30569fecea7b" Panel.Bounds="0,0,23*,132*" />
+                                    </TabItem>
+                                    <TabItem Header="Radio" IsSelected="True" Id="f3d22d12-8700-49a9-b7d1-5a105e04516e" Panel.Bounds="0,0,66*,30*">
+                                        <TabItem.Click>
+                                            <CommandNavigate Screen="/Radio.screen" State="c6868831-cc11-443b-a076-1b8178d07a43" Created="04/02/2013 18:06:36" />
+                                        </TabItem.Click>
+                                        <Container Layout="Stretch" ClipToContainer="True" Id="b5a013ad-d9a7-4223-9152-9835f6f3a54c" />
+                                    </TabItem>
+                                </Tabs>
+                                <Image Id="77e82e3f-b175-40ed-b28e-7a6d7b0a888c" Panel.Bounds="99,31,36{5,2147483647},92{5,2147483647}" />
+                            </Container>
+                        </ContainerBox>
+                    </Add.Item>
+                </Add>
+                <Add Property="Panel.Children" Target="ae3f1e35-9cd0-497a-972c-70bc4e80b458">
+                    <Add.Item>
+                        <Ellipse Background="#FF3A9EB8" Id="ce4eec19-35ea-4959-b932-a0e332333054" Panel.Bounds="-25,539,80{5,2147483647},80{5,2147483647}" />
+                    </Add.Item>
+                </Add>
+                <Add Property="Panel.Children" Target="ae3f1e35-9cd0-497a-972c-70bc4e80b458">
+                    <Add.Item>
+                        <Triangle Type="Triangle" Thickness="1" IsClosed="True" Background="#FFD1F0D5" Id="f6f56df8-1eac-4565-8912-3c9d1a70e020" Panel.Bounds="10,556,22{1,2147483647},35{1,2147483647}">
+                            <Triangle.StartPoint>
+                                <Point X="50" Id="e1ca4b58-1117-408a-b771-74867d7026fa" />
+                            </Triangle.StartPoint>
+                            <Triangle.Segments>
+                                <Segment Id="27255a2d-d093-45d9-b5be-44a2d0296c01">
+                                    <Segment.EndPoint>
+                                        <Point X="116" Y="59" Id="b40089fd-f750-487b-8408-d69a997111e6" />
+                                    </Segment.EndPoint>
+                                </Segment>
+                                <Segment Id="7ae9683e-9d24-41af-9c51-dd2036320c41">
+                                    <Segment.EndPoint>
+                                        <Point X="45" Y="109" Id="95faf123-eb1f-4407-926f-285f57fb71a4" />
+                                    </Segment.EndPoint>
+                                </Segment>
+                                <Segment Id="6432b6b5-b0f9-4bc1-8ae9-5c99f5f20f68">
+                                    <Segment.EndPoint>
+                                        <Point X="50" Id="289ed7b4-7c8d-44ac-af67-f4eccd5c57bb" />
+                                    </Segment.EndPoint>
+                                </Segment>
+                            </Triangle.Segments>
+                        </Triangle>
+                    </Add.Item>
+                </Add>
+                <Add Property="Panel.Children" Target="ae3f1e35-9cd0-497a-972c-70bc4e80b458">
+                    <Add.Item>
+                        <ContainerBox Background="#FF3A9EB8" Id="c476c75b-49f0-4ee4-887d-ec75d2d9318d" Panel.Bounds="422,21,340{5,2147483647},498{5,2147483647}">
+                            <Container Layout="Stretch" ClipToContainer="True" Id="b92c63c2-a83e-402a-a604-9a8dcd16e9ee">
+                                <Button Text="Recend Songs" Foreground="#FF282828" FontSize="13" FontStyle="Normal" Id="6c2ffc72-998d-4951-826d-185c520ea162" Panel.Bounds="56,21,220{5,2147483647},35{5,2147483647}" />
+                                <Button Text="Colplay" Foreground="#FF282828" FontSize="13" FontStyle="Normal" Id="1db1078d-2df4-41e1-a072-9f2817e55cb0" Panel.Bounds="56,69,220{5,2147483647},35{5,2147483647}" />
+                                <Button Text="Mat Kearney" Foreground="#FF282828" FontSize="13" FontStyle="Normal" Id="76d47ad9-2670-48fd-851b-cfdacbe347a5" Panel.Bounds="59,117,220{5,2147483647},35{5,2147483647}" />
+                            </Container>
+                        </ContainerBox>
+                    </Add.Item>
+                </Add>
+                <Add Property="Panel.Children" Target="ae3f1e35-9cd0-497a-972c-70bc4e80b458">
+                    <Add.Item>
+                        <Button Text="Specific Artist, Album or Song " Foreground="#FF282828" FontSize="13" FontStyle="Normal" Id="5cf56d68-b06b-45ab-86f9-f0715d6c3a63" Panel.Bounds="194,182,220{5,2147483647},35{5,2147483647}">
+                            <Button.Click>
+                                <CommandNext SceneId="0a927150-ce9b-4424-a6a3-e0cd8ad15caa" Created="04/02/2013 17:56:28" />
+                            </Button.Click>
+                        </Button>
+                    </Add.Item>
+                </Add>
+                <Add Property="Panel.Children" Target="ae3f1e35-9cd0-497a-972c-70bc4e80b458">
+                    <Add.Item>
+                        <Title Text="Drag Elements from&#xD;the left to create &#xD;a customized radio" Align="Right" Foreground="#FFE2E2E2" FontSize="34" FontStyle="Normal" Id="40492f44-e65d-4a11-a788-5922335fcede" Panel.Bounds="96,22,0*{5,2147483647},0*{5,2147483647}" />
+                    </Add.Item>
+                </Add>
+                <Add Property="Panel.Children" Target="ae3f1e35-9cd0-497a-972c-70bc4e80b458">
+                    <Add.Item>
+                        <Button Text="Recend Songs" Foreground="#FF282828" FontSize="13" FontStyle="Normal" Id="4a86eb33-48e9-4d41-b7e1-ae9f044b701b" Panel.Bounds="194,230,220{5,2147483647},35{5,2147483647}" />
+                    </Add.Item>
+                </Add>
+                <Add Property="Panel.Children" Target="ae3f1e35-9cd0-497a-972c-70bc4e80b458">
+                    <Add.Item>
+                        <Button Text="Recent Albums" Foreground="#FF282828" FontSize="13" FontStyle="Normal" Id="6de26c1d-882b-4358-b928-d6c348e921b7" Panel.Bounds="194,275,220{5,2147483647},35{5,2147483647}" />
+                    </Add.Item>
+                </Add>
+                <Add Property="Panel.Children" Target="ae3f1e35-9cd0-497a-972c-70bc4e80b458">
+                    <Add.Item>
+                        <Button Text="Recent Genres" Foreground="#FF282828" FontSize="13" FontStyle="Normal" Id="e22a4d8a-8c80-4543-b954-668368a189fa" Panel.Bounds="194,320,220{5,2147483647},35{5,2147483647}" />
+                    </Add.Item>
+                </Add>
+                <Add Property="Panel.Children" Target="ae3f1e35-9cd0-497a-972c-70bc4e80b458">
+                    <Add.Item>
+                        <Button Text="Play Now" Foreground="#FF282828" FontSize="13" FontStyle="Normal" Id="78e94bc4-b46d-4c28-be74-f7dc9da0b257" Panel.Bounds="422,536,340{5,2147483647},35{5,2147483647}" />
+                    </Add.Item>
+                </Add>
+                <Add Property="Panel.Children" Target="ae3f1e35-9cd0-497a-972c-70bc4e80b458">
+                    <Add.Item>
+                        <Button Text="Past Concerts" Foreground="#FF282828" FontSize="13" FontStyle="Normal" Id="2471ff25-b8e0-436c-92a5-108fc42534f2" Panel.Bounds="194,365,220{5,2147483647},35{5,2147483647}" />
+                    </Add.Item>
+                </Add>
+                <Add Property="Panel.Children" Before="8bf679ea-4af1-4c65-a001-3985a6d530be" Target="ae3f1e35-9cd0-497a-972c-70bc4e80b458">
+                    <Add.Item>
+                        <Title Text="Icer" Foreground="White" FontSize="300" FontStyle="Normal" Opacity="0.2" Id="cee187d5-7766-47ac-9059-1e051182c237" Panel.Bounds="-29,-108,0*,0*" />
+                    </Add.Item>
+                </Add>
+                <Set Property="Content.Background" Value="#FF1C1C1C" Target="2bc60b6b-470b-458d-93f1-ec8149053921" />
+            </KeyFrame>
+        </Scene>
+        <Scene Title="Tapped/Clicked Specific Artist, Alb..." StateGroup="c6868831-cc11-443b-a076-1b8178d07a43" ParentScene="c6868831-cc11-443b-a076-1b8178d07a43" Created="04/02/2013 17:56:28" Id="0a927150-ce9b-4424-a6a3-e0cd8ad15caa">
+            <KeyFrame Id="d13294f4-b15b-4a07-aafa-48bbc9bf9157">
+                <Add Property="Panel.Children" Target="ae3f1e35-9cd0-497a-972c-70bc4e80b458">
+                    <Add.Item>
+                        <ContainerBox Background="#FF1C1C1C" Opacity="0.8" Id="a2b51793-fa1f-4a3d-a828-647c0c00fc0f" Panel.Bounds="0,0,800{5,2147483647},600{5,2147483647}">
+                            <Container Layout="Stretch" ClipToContainer="True" Id="9cd16d71-7882-4d35-8e23-16a4345649fc">
+                                <TextBox Foreground="#FF282828" FontSize="13" FontStyle="Normal" Id="ced32e79-6429-41ce-89bb-09cbe7454dee" Panel.Bounds="232,244,187{5,2147483647},0*{5,2147483647}" />
+                                <Title Text="Enter Artists, Song or Album name" Foreground="White" FontSize="22" FontStyle="Normal" Id="60a50849-40da-4619-842c-e56011053238" Panel.Bounds="191,203,0*{5,2147483647},0*{5,2147483647}" />
+                                <Button Text="Add" Foreground="#FF282828" FontSize="13" FontStyle="Normal" Id="3a607bb8-345a-4824-af7a-3f5e223067d2" Panel.Bounds="441,238,80{5,2147483647},35{5,2147483647}">
+                                    <Button.Click>
+                                        <CommandSwitchTo SceneId="c6868831-cc11-443b-a076-1b8178d07a43" Created="04/02/2013 17:58:09" />
+                                    </Button.Click>
+                                </Button>
+                            </Container>
+                        </ContainerBox>
+                    </Add.Item>
+                </Add>
+            </KeyFrame>
+        </Scene>
+        <Scene Title="Hovering Container Box" ParentScene="c6868831-cc11-443b-a076-1b8178d07a43" Created="04/02/2013 18:05:41" Id="e384e703-66f3-4af0-a08b-5cf61029134d">
+            <KeyFrame Id="d3850ce2-4340-4bf4-ac2e-9fc5503a06df">
+                <Move To="-1,224" Target="8bf679ea-4af1-4c65-a001-3985a6d530be" />
+            </KeyFrame>
+        </Scene>
+    </Page.Scenes>
+</Page>

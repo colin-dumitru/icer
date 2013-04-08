@@ -1,0 +1,157 @@
+﻿<?Infragistics.Models format="xaml" version="17"?>
+<Page xmlns="http://prototypes.infragistics.com/"
+                                                          Id="d9035d81-99fb-4c6b-9ce5-7b6e569113b3">
+    <Page.Content>
+        <Content Width="800" Height="600" Background="White" Id="3ff5d11b-b2bb-445c-9d1f-e6fbb97f205c">
+            <Layer Layout="Stretch" Id="36b8dcea-849e-4386-b139-852bc802596b" Panel.Layout="Stretch" />
+        </Content>
+    </Page.Content>
+    <Page.Scenes>
+        <Scene Title="Start" Created="04/02/2013 17:15:01" Id="a14370ae-6489-47e4-8f63-402de1236960">
+            <KeyFrame Id="49bd1fc5-47fd-43c8-a275-40ed1dfd67e2">
+                <Add Property="Panel.Children" Target="36b8dcea-849e-4386-b139-852bc802596b">
+                    <Add.Item>
+                        <ContainerBox Background="White" Id="687bc4b7-650c-4352-a87d-d12553aff64c" Panel.Bounds="-101,224,142{5,2147483647},148{5,2147483647}">
+                            <ContainerBox.MouseOver>
+                                <CommandNext SceneId="790f039a-1d51-4702-8ff4-97c4df56545a" AutoRevertEvent="MouseOut" Created="04/02/2013 18:04:29" />
+                            </ContainerBox.MouseOver>
+                            <Container Layout="Stretch" ClipToContainer="True" Id="a270db8e-1468-40be-854d-689147258ee2" Panel.Bounds="0,0,140*,146*">
+                                <Tabs TabStripPlacement="Left" FontStyle="" Id="2149a048-e2ae-4b32-a2cf-c9a727dc9b24" Panel.Bounds="5,5,90{5,2147483647},134{5,2147483647}">
+                                    <TabItem Header="Search" Id="76437d50-8531-456a-992a-1ae917b5ce6d" Panel.Bounds="0,0,66*,30*">
+                                        <TabItem.Click>
+                                            <CommandNavigate Screen="/Search.screen" State="6ffd668a-20c1-4f58-9a38-9dbba8729261" Created="04/02/2013 18:04:50" />
+                                        </TabItem.Click>
+                                        <Container Layout="Stretch" ClipToContainer="True" Id="3c90ccbf-c6c7-4686-997f-20e0db06e3bf" />
+                                    </TabItem>
+                                    <TabItem Header="Playlist" Id="530aa268-9812-4998-b083-308c7185944e" Panel.Bounds="0,0,66*,30*">
+                                        <TabItem.Click>
+                                            <CommandNavigate Screen="/Playlist.screen" State="9a1f3113-5415-4472-b464-931e512c564a" Created="04/02/2013 18:04:57" />
+                                        </TabItem.Click>
+                                        <Container Layout="Stretch" ClipToContainer="True" Id="03d316ca-1c05-47aa-8c84-7ed0460f5602" Panel.Bounds="0,0,23*,132*" />
+                                    </TabItem>
+                                    <TabItem Header="History" IsSelected="True" Id="47c07554-a5f3-4569-9834-fba1a012af4b" Panel.Bounds="0,0,66*,30*">
+                                        <TabItem.Click>
+                                            <CommandNavigate Screen="/History.screen" State="a14370ae-6489-47e4-8f63-402de1236960" Created="04/02/2013 18:05:05" />
+                                        </TabItem.Click>
+                                        <Container Layout="Stretch" ClipToContainer="True" Id="a325e344-560b-4431-8809-1ab6b2d146e4" />
+                                    </TabItem>
+                                    <TabItem Header="Radio" Id="e9c3b25b-772e-47ea-931e-659d7f60f8c6" Panel.Bounds="0,0,66*,30*">
+                                        <TabItem.Click>
+                                            <CommandNavigate Screen="/Radio.screen" State="c6868831-cc11-443b-a076-1b8178d07a43" Created="04/02/2013 18:05:11" />
+                                        </TabItem.Click>
+                                        <Container Layout="Stretch" ClipToContainer="True" Id="46fc5630-5767-41e1-97c7-172881a274fd" />
+                                    </TabItem>
+                                </Tabs>
+                                <Image Id="2a925aa8-79ba-4c9d-afe8-841f39b289f7" Panel.Bounds="99,31,36{5,2147483647},92{5,2147483647}" />
+                            </Container>
+                        </ContainerBox>
+                    </Add.Item>
+                </Add>
+                <Add Property="Panel.Children" Target="36b8dcea-849e-4386-b139-852bc802596b">
+                    <Add.Item>
+                        <Ellipse Background="#FF3A9EB8" Id="cacedfe9-c67a-4ce2-9772-5c2692b1c42f" Panel.Bounds="-25,539,80{5,2147483647},80{5,2147483647}" />
+                    </Add.Item>
+                </Add>
+                <Add Property="Panel.Children" Target="36b8dcea-849e-4386-b139-852bc802596b">
+                    <Add.Item>
+                        <Triangle Type="Triangle" Thickness="1" IsClosed="True" Background="#FFD1F0D5" Id="a26cdc0c-f17e-40b2-ac55-15fe467da50a" Panel.Bounds="10,556,22{1,2147483647},35{1,2147483647}">
+                            <Triangle.StartPoint>
+                                <Point X="50" Id="c33ee973-3d31-47f2-bbda-ac0c63b04aa4" />
+                            </Triangle.StartPoint>
+                            <Triangle.Segments>
+                                <Segment Id="8464658c-252d-4d75-87c1-26f37fe3d7cf">
+                                    <Segment.EndPoint>
+                                        <Point X="116" Y="59" Id="838316b1-3c0d-4c9f-9785-4b5716862079" />
+                                    </Segment.EndPoint>
+                                </Segment>
+                                <Segment Id="87dbf26f-a038-401a-9945-1227689fed5f">
+                                    <Segment.EndPoint>
+                                        <Point X="45" Y="109" Id="2ff8553d-81ec-4ce2-af26-bee279c2342f" />
+                                    </Segment.EndPoint>
+                                </Segment>
+                                <Segment Id="44d90d78-5674-422c-890f-c58835ffe949">
+                                    <Segment.EndPoint>
+                                        <Point X="50" Id="d8400791-48f8-431d-9072-07601e2b6e17" />
+                                    </Segment.EndPoint>
+                                </Segment>
+                            </Triangle.Segments>
+                        </Triangle>
+                    </Add.Item>
+                </Add>
+                <Add Property="Panel.Children" Target="36b8dcea-849e-4386-b139-852bc802596b">
+                    <Add.Item>
+                        <ChartMock MockType="Area Chart" Id="f6a70ee6-c601-40c7-8d29-b92d3bdde48f" Panel.Bounds="96,292,666{5,2147483647},180{5,2147483647}" />
+                    </Add.Item>
+                </Add>
+                <Add Property="Panel.Children" Target="36b8dcea-849e-4386-b139-852bc802596b">
+                    <Add.Item>
+                        <Slider Value="89" Id="52934d5a-6979-4779-8029-a4a8e52e384c" Panel.Bounds="96,494,677{5,2147483647},5*{5,2147483647}" />
+                    </Add.Item>
+                </Add>
+                <Add Property="Panel.Children" Target="36b8dcea-849e-4386-b139-852bc802596b">
+                    <Add.Item>
+                        <Rectangle Background="White" Id="07938fa1-b5ce-4664-bc99-ce74f2f400d7" Panel.Bounds="685,199,15{5,2147483647},290{5,2147483647}" />
+                    </Add.Item>
+                </Add>
+                <Add Property="Panel.Children" Target="36b8dcea-849e-4386-b139-852bc802596b">
+                    <Add.Item>
+                        <ChartMock MockType="Bar Chart" Id="45d35513-438a-484d-b861-a217edad2023" Panel.Bounds="270,38,150{5,2147483647},150{5,2147483647}" />
+                    </Add.Item>
+                </Add>
+                <Add Property="Panel.Children" Target="36b8dcea-849e-4386-b139-852bc802596b">
+                    <Add.Item>
+                        <Label Text="Pop" Foreground="White" FontSize="13" FontStyle="Normal" Id="78756638-2474-42e5-80c2-95b7b144c89e" Panel.Bounds="239,49,0*{5,2147483647},0*{5,2147483647}" />
+                    </Add.Item>
+                </Add>
+                <Add Property="Panel.Children" Target="36b8dcea-849e-4386-b139-852bc802596b">
+                    <Add.Item>
+                        <Label Text="Present" Foreground="White" FontSize="13" FontStyle="Normal" Id="86d5ae71-86e4-4813-9d71-63bdd710d930" Panel.Bounds="726,511,0*{5,2147483647},0*{5,2147483647}" />
+                    </Add.Item>
+                </Add>
+                <Add Property="Panel.Children" Target="36b8dcea-849e-4386-b139-852bc802596b">
+                    <Add.Item>
+                        <Label Text="2013" Foreground="White" FontSize="13" FontStyle="Normal" Id="72a9beb1-aa4e-4b3c-9616-3c03f1ae98f3" Panel.Bounds="603,514,0*,0*" />
+                    </Add.Item>
+                </Add>
+                <Add Property="Panel.Children" Target="36b8dcea-849e-4386-b139-852bc802596b">
+                    <Add.Item>
+                        <Label Text="2012" Foreground="White" FontSize="13" FontStyle="Normal" Id="4af2939d-ea81-4d2a-96df-1aa5e26d0b07" Panel.Bounds="297,514,0*,0*" />
+                    </Add.Item>
+                </Add>
+                <Add Property="Panel.Children" Target="36b8dcea-849e-4386-b139-852bc802596b">
+                    <Add.Item>
+                        <Label Text="Country" Foreground="White" FontSize="13" FontStyle="Normal" Id="f3263933-bb77-4a27-be6b-04d9431170ea" Panel.Bounds="214,88,0*,0*" />
+                    </Add.Item>
+                </Add>
+                <Add Property="Panel.Children" Target="36b8dcea-849e-4386-b139-852bc802596b">
+                    <Add.Item>
+                        <Label Text="Electronic" Foreground="White" FontSize="13" FontStyle="Normal" Id="eebbac27-b6d0-48f0-9799-53a168babd1c" Panel.Bounds="203,124,0*,0*" />
+                    </Add.Item>
+                </Add>
+                <Add Property="Panel.Children" Target="36b8dcea-849e-4386-b139-852bc802596b">
+                    <Add.Item>
+                        <Label Text="Rock" Foreground="White" FontSize="13" FontStyle="Normal" Id="5f014210-ccaf-4fca-bdf5-9c8b4c3d20d0" Panel.Bounds="234,161,0*,0*" />
+                    </Add.Item>
+                </Add>
+                <Add Property="Panel.Children" Target="36b8dcea-849e-4386-b139-852bc802596b">
+                    <Add.Item>
+                        <TextArea Text="1. Coldplay&#xD;2. For Fighting Five&#xD;3. Mat Kearney&#xD;" Background="Transparent" Foreground="White" FontSize="13" FontStyle="Normal" Id="2e166835-299e-4a89-9f8f-02f076473b65" Panel.Bounds="444,38,170{5,2147483647},68{5,2147483647}" />
+                    </Add.Item>
+                </Add>
+                <Add Property="Panel.Children" Before="687bc4b7-650c-4352-a87d-d12553aff64c" Target="36b8dcea-849e-4386-b139-852bc802596b">
+                    <Add.Item>
+                        <Title Text="Icer" Foreground="White" FontSize="300" FontStyle="Normal" Opacity="0.2" Id="2def2749-5f21-4d93-84e9-061d42decc8a" Panel.Bounds="-29,12,0*,0*" />
+                    </Add.Item>
+                </Add>
+                <Set Property="Content.Background" Value="#FF1C1C1C" Target="3ff5d11b-b2bb-445c-9d1f-e6fbb97f205c" />
+            </KeyFrame>
+        </Scene>
+        <Scene Title="Hovering Container Box" ParentScene="a14370ae-6489-47e4-8f63-402de1236960" Created="04/02/2013 18:04:29" Id="790f039a-1d51-4702-8ff4-97c4df56545a">
+            <KeyFrame Id="af1a7aad-3643-4304-bc96-9939f1b21bd5">
+                <Move To="0,224" Target="687bc4b7-650c-4352-a87d-d12553aff64c" />
+                <Set Property="ItemBase.IsSelected" Value="True" Target="76437d50-8531-456a-992a-1ae917b5ce6d" />
+                <Set Property="ItemBase.IsSelected" Value="False" Target="47c07554-a5f3-4569-9834-fba1a012af4b" />
+            </KeyFrame>
+        </Scene>
+    </Page.Scenes>
+</Page>
