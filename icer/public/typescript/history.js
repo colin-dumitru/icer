@@ -1,7 +1,5 @@
 var HistoryBinder = (function () {
-    function HistoryBinder() {
-    }
-
+    function HistoryBinder() { }
     HistoryBinder.prototype.buildPage = function (rootNode) {
         this.historyManager = new HistoryManager(rootNode);
         this.historyManager.loadHistory();
@@ -27,22 +25,21 @@ var HistoryManager = (function () {
             {
                 x: 0,
                 y: 0
-            },
+            }, 
             {
                 x: 1,
                 y: 10
-            },
+            }, 
             {
                 x: 2,
                 y: 0
-            },
+            }, 
             {
                 x: 3,
                 y: 10
             }
         ];
     }
-
     HistoryManager.prototype.loadHistory = function () {
         this.historyPoints = this.mockHistory();
         this.buildHistoryChart();
@@ -117,56 +114,53 @@ var HistoryManager = (function () {
     };
     HistoryManager.prototype.mockHistory = function () {
         var genres = [
-            "rock",
-            "pop",
-            "country",
-            "electronic",
-            "trance",
+            "rock", 
+            "pop", 
+            "country", 
+            "electronic", 
+            "trance", 
             "hip-hop"
         ];
         var artists = [
-            "Colplay",
-            "Mat Kearney",
-            "Taylor Swift",
-            "For Fighting Five",
-            "John Groban",
-            "Camo & Krooked",
+            "Colplay", 
+            "Mat Kearney", 
+            "Taylor Swift", 
+            "For Fighting Five", 
+            "John Groban", 
+            "Camo & Krooked", 
             "Israel Kamakawiwo'ole"
         ];
         var points = [];
-
         function randomGenre() {
             var index = Math.floor(Math.random() * genres.length);
             return genres[index];
         }
-
         function randomArtist() {
             var index = Math.floor(Math.random() * artists.length);
             return genres[index];
         }
-
-        for (var i = 0; i < 25; i++) {
+        for(var i = 0; i < 25; i++) {
             points.push(new HistoryPoint(Math.random() * 50, [
                 {
                     name: randomGenre(),
                     volume: Math.random() * 50
-                },
+                }, 
                 {
                     name: randomGenre(),
                     volume: Math.random() * 50
-                },
+                }, 
                 {
                     name: randomGenre(),
                     volume: Math.random() * 50
-                },
+                }, 
                 {
                     name: randomGenre(),
                     volume: Math.random() * 50
                 }
             ], [
-                randomArtist(),
-                randomArtist(),
-                randomArtist(),
+                randomArtist(), 
+                randomArtist(), 
+                randomArtist(), 
                 randomArtist()
             ]));
         }
@@ -180,7 +174,6 @@ var HistoryPoint = (function () {
         this.genres = genres;
         this.artists = artists;
     }
-
     return HistoryPoint;
 })();
 //@ sourceMappingURL=history.js.map

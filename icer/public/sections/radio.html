@@ -15,45 +15,46 @@
                 <tr id="radio">
                     <td id="radioAddButtonCell">+</td>
                 </tr>
-                <tr id="radioCustomCriteria">
-                    <td class="radioCriteriaOption"><span>Custom Query</span><input id="customCriteriaInput"></input>
+                <tr class="zeroHeight">
+                    <td class="zeroHeight">
+                        <div id="radioCriteriaContainer">
+                            <div id="radioCustomCriteria" class="radioCriteriaOption"><span>Custom Query</span><input
+                                    id="customCriteriaInput"/></div>
+                            <div id="radioRecentSongsCriteria" class="radioCriteriaOption">Recent Songs</div>
+                            <div id="radioRecentGenresCriteria" class="radioCriteriaOption">Recent Genres</div>
+                            <div id="radioRecentAlbumsCriteria" class="radioCriteriaOption">Recent Albums</div>
+                            <div id="radioPastConcertsCriteria" class="radioCriteriaOption">Past Concerts</div>
+                        </div>
                     </td>
                 </tr>
-                <tr id="radioRecentSongsCriteria">
-                    <td class="radioCriteriaOption">Recent Songs</td>
-                </tr>
-                <tr id="radioRecentGenresCriteria">
-                    <td class="radioCriteriaOption">Recent Genres</td>
-                </tr>
-                <tr id="radioRecentAlbumsCriteria">
-                    <td class="radioCriteriaOption">Recent Albums</td>
-                </tr>
-                <tr id="radioPastConcertsCriteria">
-                    <td class="radioCriteriaOption">Past Concerts</td>
-                </tr>
+
                 <tr>
                     <td class="radioCriteriaTableCell">
-                        <table id="radioCriteriaTable">
-                            <tr>
-                                <td class="radioCriteriaCell">ColdPlay</td>
-                            </tr>
-                            <tr>
-                                <td class="radioCriteriaCell">ColdPlay</td>
-                            </tr>
-                            <tr>
-                                <td class="radioCriteriaCell">ColdPlay</td>
-                            </tr>
-                        </table>
+                        <div id="radioCriteriaTableContainer">
+                            <table id="radioCriteriaTable">
+                                <tbody id="radioCriteriaTableBody">
+
+                                </tbody>
+
+                            </table>
+                        </div>
                     </td>
                 </tr>
             </table>
         </td>
         <td id="radioMenuCell">
-            <button class="radioManagerButtonLarge roundTopRight">Play Now</button>
-            <button class="radioManagerButton">Clear All</button>
+            <button class="radioManagerButtonLarge roundTopRight">Play</button>
+            <button id="radioManagerClearButton" class="radioManagerButton">Clear All</button>
             <button class="radioManagerButton roundBottomRight">Reset</button>
         </td>
     </tr>
 </table>
 </body>
 </html>
+
+<script type="text/template" id="radioCriteriaTemplate">
+    <td>{0}</td>
+    <td class="radioCriteriaCloseCell">
+        <div id="radioCriteriaCloseButton">X</div>
+    </td>
+</script>

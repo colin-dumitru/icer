@@ -1,7 +1,5 @@
 var PlaylistBinder = (function () {
-    function PlaylistBinder() {
-    }
-
+    function PlaylistBinder() { }
     PlaylistBinder.prototype.buildPage = function (rootNode) {
         this.rootNode = rootNode;
     };

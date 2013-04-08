@@ -93,11 +93,24 @@ class SearchManager {
         var image = template("#imageMock");
 
         for (var i = 0; i < 30; i++) {
-            session.rootNode().find("#searchPageSongsContainer").append(image);
-            session.rootNode().find("#searchPageArtistContainer").append(image);
-            session.rootNode().find("#searchPageAlbumsContainer").append(image);
-            session.rootNode().find("#searchPageGenreContainer").append(image);
+            session.rootNode().find("#searchPageSongsContainer").append(this.buildMockImage(image));
+            session.rootNode().find("#searchPageArtistContainer").append(this.buildMockImage(image));
+            session.rootNode().find("#searchPageAlbumsContainer").append(this.buildMockImage(image));
+            session.rootNode().find("#searchPageGenreContainer").append(this.buildMockImage(image));
         }
+    }
+
+    private buildMockImage(template) {
+        var imageContainer = $("<span></span>");
+        imageContainer.append(template);
+
+        imageContainer.click((e) => {
+            songDetailManager.showDetails(["Play Now", "Search From Here", "Add To Playlist"],
+                (selectedItem) => {
+                }, "/assets/mock/bio.html", {x: e.pageX, y: e.pageY});
+        });
+
+        return imageContainer;
     }
 }
 

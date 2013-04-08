@@ -1,9 +1,3 @@
-var Dimensions = (function () {
-    function Dimensions() {
-    }
-
-    return Dimensions;
-})();
 function run() {
     var sections = [];
     sections.push(buildSearchSection());
@@ -19,6 +13,7 @@ function run() {
     itemList.bind();
     playManager.bind();
     globalPlaylistManager.bind();
+    songDetailManager.bind();
 }
 function buildSearchSection() {
     return new Section("Search", "search", "/assets/sections/search.html");
@@ -36,7 +31,6 @@ var SectionManager = (function () {
     function SectionManager(sections) {
         this.sections = sections;
     }
-
     SectionManager.prototype.build = function () {
         this.bindMenuSelector();
         this.buildMenu();
@@ -63,7 +57,7 @@ var SectionManager = (function () {
     };
     SectionManager.prototype.onPageLoadComplete = function (section) {
         binders[section.id].buildPage(section.rootNode);
-        if (this.sections.indexOf(section) == 0) {
+        if(this.sections.indexOf(section) == 0) {
             this.changeSection(0);
         }
     };
@@ -138,7 +132,6 @@ var Section = (function () {
         this.id = id;
         this.url = url;
     }
-
     return Section;
 })();
 var ItemList = (function () {
@@ -146,25 +139,24 @@ var ItemList = (function () {
         this.isCollapsed = true;
         this.itemList = [];
     }
-
     ItemList.prototype.bind = function () {
         var _this = this;
         $(window).mousemove(function (event) {
-            if (event.clientX > (Dimensions.windowWidth - 15)) {
-                if (_this.isCollapsed) {
+            if(event.clientX > (Dimensions.windowWidth - 15)) {
+                if(_this.isCollapsed) {
                     _this.giveFocus();
                 }
             }
-            if (event.clientX < (Dimensions.windowWidth - 250)) {
-                if (!_this.isCollapsed) {
+            if(event.clientX < (Dimensions.windowWidth - 250)) {
+                if(!_this.isCollapsed) {
                     _this.takeFocus();
                 }
             }
         });
         var input = $("#newItemInput");
         input.keypress(function (event) {
-            if (event.which == 13) {
-                if (_this.onInput == null) {
+            if(event.which == 13) {
+                if(_this.onInput == null) {
                     return;
                 }
                 var text = input.val();
@@ -216,13 +208,13 @@ var ItemList = (function () {
         var _this = this;
         item.rootNode.click(function () {
             _this.switchItem(item);
-            if (item.onSelect != null) {
+            if(item.onSelect != null) {
                 item.onSelect();
             }
         });
     };
     ItemList.prototype.switchItem = function (item) {
-        if (this.selectedItem != null) {
+        if(this.selectedItem != null) {
             this.selectedItem.rootNode.removeClass("itemListFocused");
         }
         item.rootNode.addClass("itemListFocused");
@@ -242,13 +234,10 @@ var Item = (function () {
         this.id = id;
         this.title = title;
     }
-
     return Item;
 })();
 var PlayManager = (function () {
-    function PlayManager() {
-    }
-
+    function PlayManager() { }
     PlayManager.prototype.bind = function () {
         $("#playButton").click(function () {
             $(this).toggleClass("playButtonPaused");
@@ -261,20 +250,19 @@ var GlobalPlaylistManager = (function () {
         this.isCollapsed = true;
         this.isVolumeVisible = false;
     }
-
     GlobalPlaylistManager.prototype.bind = function () {
         var _this = this;
         $(window).mousemove(function (event) {
-            if (event.clientY > (Dimensions.windowHeight - 15)) {
-                if (_this.isCollapsed) {
+            if(event.clientY > (Dimensions.windowHeight - 15)) {
+                if(_this.isCollapsed) {
                     _this.giveFocus();
                 }
             }
-            if (event.clientY < (Dimensions.windowHeight - 155)) {
-                if (!_this.isCollapsed) {
+            if(event.clientY < (Dimensions.windowHeight - 155)) {
+                if(!_this.isCollapsed) {
                     _this.takeFocus();
                 }
-                if (_this.isVolumeVisible) {
+                if(_this.isVolumeVisible) {
                     $("#volumeSliderContainer").hide();
                 }
             }
@@ -291,7 +279,7 @@ var GlobalPlaylistManager = (function () {
             _this.isVolumeVisible = true;
         });
         var imageTemplate = template("#imageMock");
-        for (var i = 0; i < 25; i++) {
+        for(var i = 0; i < 25; i++) {
             $("#globalPlaylistSongContainer").append(imageTemplate);
         }
     };

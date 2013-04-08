@@ -4,19 +4,19 @@ class RadioBinder implements SectionBinder {
     buildPage(rootNode:any) {
         this.radioManager = new RadioManager(rootNode);
 
-        this.radioManager.addCriteria(new RadioCriteriaInput("radioCustomCriteria", true, () => {
+        this.radioManager.addCriteriaInput(new RadioCriteriaInput("radioCustomCriteria", true, () => {
             return $("#customCriteriaInput").val();
         }));
-        this.radioManager.addCriteria(new RadioCriteriaInput("radioRecentSongsCriteria", false, () => {
+        this.radioManager.addCriteriaInput(new RadioCriteriaInput("radioRecentSongsCriteria", false, () => {
             return "Recent Songs";
         }));
-        this.radioManager.addCriteria(new RadioCriteriaInput("radioRecentGenresCriteria", false, () => {
+        this.radioManager.addCriteriaInput(new RadioCriteriaInput("radioRecentGenresCriteria", false, () => {
             return "Recent Genres";
         }));
-        this.radioManager.addCriteria(new RadioCriteriaInput("radioRecentAlbumsCriteria", false, () => {
+        this.radioManager.addCriteriaInput(new RadioCriteriaInput("radioRecentAlbumsCriteria", false, () => {
             return "Recent Albums";
         }));
-        this.radioManager.addCriteria(new RadioCriteriaInput("radioPastConcertsCriteria", false, () => {
+        this.radioManager.addCriteriaInput(new RadioCriteriaInput("radioPastConcertsCriteria", false, () => {
             return "Past Concerts";
         }));
 
@@ -38,20 +38,40 @@ class RadioManager {
 
     }
 
-    addCriteria(criteria:RadioCriteriaInput) {
+    addCriteriaInput(criteria:RadioCriteriaInput) {
         this.criterias.push(criteria);
+        $("#" + criteria.id).click(() => {
+            var criteriaTitle = criteria.labelFormatter();
+            if (!criteria.repeatable) {
+                $("#" + criteria.id).hide();
+            }
+            this.addCriteria(criteriaTitle, criteria);
+            $("#radioCriteriaContainer").hide(300);
+        });
+    }
+
+    addCriteria(criteria:string, criteriaInput:RadioCriteriaInput) {
+        var criteriaTemplate = template("#radioCriteriaTemplate", criteria);
+        var tr = $("<tr></tr>")
+            .addClass("radioCriteriaCell")
+            .append(criteriaTemplate);
+        $("#radioCriteriaTableBody").append(tr);
+
+        tr.find("#radioCriteriaCloseButton").click(() => {
+            tr.remove();
+            $("#" + criteriaInput.id).show();
+        })
     }
 
     bind() {
         $("#radioAddButtonCell").click(() => {
-            this.toggleCriteriasInput();
+            $("#radioCriteriaContainer").slideToggle(300);
         })
-
-    }
-
-    private toggleCriteriasInput() {
-        this.criterias.forEach((criteria) => {
-            $("#" + criteria.id).toggle(300);
+        $("#radioManagerClearButton").click(() => {
+            $("#radioCriteriaTableBody").empty();
+            this.criterias.forEach((criteria) => {
+                $("#" + criteria.id).show();
+            });
         });
     }
 

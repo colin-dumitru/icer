@@ -264,3 +264,64 @@ html {
   .fontText;
   color: @foreground_text;
 }
+
+.songImage {
+  cursor: pointer;
+}
+
+#songDetailContainer {
+  display: none;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 450px;
+  height: 400px;
+  z-index: 50;
+}
+
+#songDetailMenuCell {
+  position: absolute;
+  width: 150px;
+  background: @foreground_variant;
+  float: left;
+  box-shadow: #000 0px 0px 20px;
+}
+
+#songDetailBioCell {
+  .fontText;
+  padding: 5px;
+  color: @foreground_text;
+  width: 300px;
+  height: 100%;
+  background: @background_variant;
+  text-align: justify;
+  float: right;
+  overflow-y: auto;
+  font-size: 12px;
+}
+
+#songDetailBioCell table {
+  border: none;
+  padding: 5px;
+}
+
+#songDetailBioCell td {
+  border: none;
+  padding: 5px;
+}
+
+.songDetailMenuItem {
+  .fontText;
+  width: 100%;
+  background: @foreground_variant;
+  color: @foreground_text;
+  border-bottom: 1px solid @foreground_text;
+  font-size: 15px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.songDetailMenuItem:hover {
+  .fontText;
+  background: @foreground_focus;
+}

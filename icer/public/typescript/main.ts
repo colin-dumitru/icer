@@ -6,13 +6,6 @@ interface SectionBinder{
     unbind();
 }
 
-class Dimensions {
-    static menuItemHeight:number;
-    static menuItemWidth:number;
-    static windowHeight:number;
-    static windowWidth:number;
-}
-
 function run() {
     var sections = [];
 
@@ -32,6 +25,7 @@ function run() {
     itemList.bind();
     playManager.bind();
     globalPlaylistManager.bind();
+    songDetailManager.bind();
 }
 
 function buildSearchSection():Section {
