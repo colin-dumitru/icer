@@ -1,0 +1,90 @@
+.hidden {
+  display: none;
+}
+.zeroHeight {
+  position: relative;
+  height: 0px;
+}
+.topAlign {
+  vertical-align: top;
+}
+.fullFrame {
+  width: 100%;
+  height: 100%;
+}
+.noOverflow {
+  overflow: hidden;
+}
+.fontMenu {
+  font-family: 'Days One', sans-serif;
+}
+.fontMenu2 {
+  font-family: 'Noto Sans', sans-serif;
+}
+.fontText {
+  font-family: 'Roboto', sans-serif;
+}
+.roundTopRight {
+  border-top-right-radius: 5px;
+}
+.roundBottomRight {
+  border-bottom-right-radius: 5px;
+}
+#playListsContainer {
+  position: relative;
+  width: 600px;
+  height: 500px;
+  margin: 0 auto;
+  -webkit-perspective: 100px;
+}
+.playListTable {
+  position: absolute;
+  width: 580px;
+  height: 500px;
+  top: 0px;
+  left: 0px;
+}
+.playListsHeaderCell {
+  font-family: 'Noto Sans', sans-serif;
+  color: #edfffc;
+  font-size: 30px;
+  height: 50px;
+}
+#playlistSongContainer {
+  background: #346661;
+  border: 5px solid #589c9b;
+  width: 570px;
+  height: 100%;
+  box-shadow: black 0px 0px 20px;
+  overflow-y: auto;
+}
+#playlistSongContainer img {
+  margin: 3px;
+}
+#playListsFooterCell {
+  height: 30px;
+}
+#playPlaylistButton {
+  border: none;
+  background: #edfffc;
+  color: #418440;
+  font-size: 30px;
+  height: 50px;
+  width: 100px;
+  float: right;
+}
+#playPlaylistButton:hover {
+  background: #c5948a;
+}
+#deletePlaylistButton {
+  border: none;
+  background: #9c5b4d;
+  color: #edfffc;
+  font-size: 15px;
+  height: 30px;
+  width: 50px;
+  float: right;
+}
+#deletePlaylistButton:hover {
+  background: #c5948a;
+}
