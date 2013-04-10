@@ -171,6 +171,29 @@ class ItemList {
 
     onInput:(input:String) => any;
 
+    private itemListQueue:{[key:string] : {itemList:Item[]; selectedItem:Item;};} = {};
+
+    pushItemList(key:string) {
+        this.itemListQueue[key] = {itemList: this.itemList, selectedItem: this.selectedItem};
+        $("#itemListItemContainer").empty();
+    }
+
+    popItemList(key:string) {
+        var itemData = this.itemListQueue[key];
+
+        if (itemData == null) {
+            itemData = {itemList: [], selectedItem: null};
+        }
+
+        this.itemList = itemData.itemList;
+        this.selectedItem = itemData.selectedItem;
+
+        this.itemList.forEach((item) => {
+            $("#itemListItemContainer").append(item.rootNode);
+            this.bindItemNode(item);
+        });
+    }
+
     bind() {
         $(window).mousemove((event) => {
             if (event.clientX > (Dimensions.windowWidth - 15)) {

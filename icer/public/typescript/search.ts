@@ -1,21 +1,33 @@
 class SearchBinder implements SectionBinder {
     private manager:SearchManager;
+    private firstDisplay = true;
 
 
     buildPage(rootNode:any) {
         this.manager = new SearchManager(rootNode);
-        this.manager.performSearch("Test");
     }
 
     bind() {
+        itemList.popItemList("search");
         itemList.show();
+        if (this.firstDisplay) {
+            this.loadData();
+        }
         itemList.onInput = (input:string) => {
             this.manager.performSearch(input);
-        }
+        };
+    }
+
+    loadData() {
+        this.manager.performSearch("ColdPlay");
+        this.manager.performSearch("Matt Kearney");
+        this.manager.performSearch("John Mayer");
+        this.firstDisplay = false;
     }
 
     unbind() {
         itemList.hide();
+        itemList.pushItemList("search");
     }
 }
 
@@ -28,7 +40,7 @@ class SearchManager {
     private currentIndex:number;
 
     performSearch(query:string) {
-        var sessionId = "search" + Math.floor(Math.random() * 1000);
+        var sessionId = "search" + Math.floor(Math.random() * 100000);
         var session = new SearchSession(sessionId, query);
 
         this.buildSession(session);
