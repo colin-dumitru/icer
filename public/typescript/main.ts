@@ -13,6 +13,7 @@ function run() {
     sections.push(buildPlaylistSection());
     sections.push(buildHistorySection());
     sections.push(buildRadioSection());
+    sections.push(buildTopSection());
 
     var sectionManager = new SectionManager(sections);
     sectionManager.build();
@@ -42,6 +43,10 @@ function buildHistorySection():Section {
 
 function buildRadioSection():Section {
     return new Section("Radio", "radio", "/assets/sections/radio.html");
+}
+
+function buildTopSection():Section {
+    return new Section("Chart", "charts", "/assets/sections/charts.html");
 }
 
 class SectionManager {

@@ -1,0 +1,332 @@
+@import "common";
+
+#chartsCell {
+  position: relative;
+  width: 600px;
+  height: 450px;
+  margin: 0 auto;
+  -webkit-perspective: 100px;
+}
+
+#chartsSongListContainer {
+  position: absolute;
+  width: 600px;
+  height: 450px;
+  margin: 0 auto;
+  overflow-y: auto;
+}
+
+#chartSongTable {
+  width: 100%;
+  height: 100%;
+}
+
+#chartSongContainer {
+  width: 100%;
+  height: 150px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid @foreground_text;
+}
+
+#chartSongImageContainer {
+  width: 100px;
+  vertical-align: middle;
+}
+
+#chartSongImageContainer img {
+  width: 100px;
+}
+
+#chartMenuContainer {
+  width: 130px;
+  height: 100px;
+}
+
+#chartChangeCell {
+  height: 30px;
+}
+
+#chartChangeContainer {
+  width: 100px;
+  height: 40px;
+  margin: 0 auto;
+  position: relative;
+}
+
+#chartRankContainer{
+  position: absolute;
+  left: 0px;
+  bottom: 0px;
+  display: inline-block;
+  .fontText;
+  color: @foreground_text;
+  font-size: 40px;
+  vertical-align: middle;
+  text-align: center;
+  width: 33%;
+  height: 40px;
+}
+
+#chartChangeArrowContainer{
+  position: absolute;
+  right: 20px;
+  bottom: 0px;
+  display: inline-block;
+  .fontText;
+  color: @foreground_text;
+  font-size: 40px;
+  vertical-align: middle;
+  text-align: center;
+  width: 33%;
+  height: 100%;
+}
+
+#chartRankChangeContainer {
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  .fontText;
+  color: @foreground_text;
+  display: inline-block;
+  font-size: 15px;
+  vertical-align: bottom;
+  text-align: center;
+  width: 20%;
+  height: 15px;
+}
+
+.chartChangeArrowUp {
+  .fontText;
+  color: @playButton;
+  vertical-align: middle;
+  text-align: center;
+  font-size: 30px;
+  width: 45px;
+  height: 100%;
+}
+
+.chartChangeArrowDown {
+  .chartChangeArrowUp;
+  color: @foreground_focus;
+}
+
+.chartChangeArrowEqual {
+  .chartChangeArrowUp;
+  color: @foreground_text;
+}
+
+#chartTitleContainer {
+  .fontText;
+  color: @foreground_text;
+  font-size: 25px;
+  text-align: center;
+  width: 350px;
+  height: 30px;
+  overflow: hidden;
+}
+
+#chartArtistContainer {
+  .fontText;
+  color: darken(@foreground_text, 10%);
+  font-size: 20px;
+  text-align: center;
+  overflow: hiden;
+}
+
+#rankContainerCell {
+  width: 120px;
+  margin: 0 auto;
+}
+
+#rankContainerCell div {
+  color: @foreground_text;
+  .fontText;
+  font-size: 20px;
+  text-align: center;
+  display: inline-block;
+  width: 24px;
+}
+
+.chartMenuButton {
+  text-align: center;
+  .fontMenu2;
+  color: @foreground_text;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.chartMenuButton:hover {
+  background: @foreground_focus;
+}
+
+#chartsWhenButton {
+  position: absolute;
+  text-align: center;
+  vertical-align: middle;
+  top: 0px;
+  right: -100px;
+  .fontMenu2;
+  width: 100px;
+  height: 50px;
+  background: @foreground_variant;
+  color: @foreground_text;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+#chartsWhenButton:hover {
+  background: @foreground_focus;
+}
+
+#chartsDoneButton {
+  display: none;
+  position: absolute;
+  text-align: center;
+  vertical-align: middle;
+  bottom: 0px;
+  right: -100px;
+  .fontMenu2;
+  width: 100px;
+  height: 50px;
+  background: @playButton;
+  color: @foreground_text;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+#chartsDoneButton:hover {
+  background: @foreground_focus;
+}
+
+#chartsCancelButton {
+  display: none;
+  position: absolute;
+  text-align: center;
+  vertical-align: middle;
+  bottom: 50px;
+  right: -100px;
+  .fontMenu2;
+  width: 100px;
+  height: 50px;
+  background: @foreground_focus;
+  color: @foreground_text;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+#chartsCancelButton:hover {
+  background: @foreground_focus;
+}
+
+#chartsYearContainer {
+  position: absolute;
+  width: 600px;
+  height: 450px;
+  margin: 0 auto;
+  width: 100%;
+  height: 100%;
+  background: fade(@foreground_variant, 50px);
+}
+
+#chartsYearContainer table{
+  .fullFrame;
+}
+
+#chartsYearContainer td{
+  text-align: center;
+  width: 50%;
+  height: 50%;
+  color: @foreground_text;
+  .fontText;
+  font-size: 50px;
+  cursor: pointer;
+}
+
+#chartsYearContainer td:hover{
+  background: @foreground_focus;
+}
+
+#chartsMonthContainer{
+  #chartsYearContainer;
+}
+
+#chartsMonthContainer table{
+  .fullFrame;
+}
+
+#chartsMonthContainer td{
+  text-align: center;
+  width: 33%;
+  height: 25%;
+  color: @foreground_text;
+  .fontText;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+#chartsMonthContainer td:hover{
+  background: @foreground_focus;
+}
+
+#chartsWeekContainer{
+  #chartsYearContainer;
+}
+
+#chartsWeekContainer table {
+  .fullFrame;
+}
+
+#chartsWeekContainer td{
+  text-align: center;
+  width: 33%;
+  height: 25%;
+  cursor: pointer;
+}
+
+#chartsWeekContainer td:hover{
+  background: @foreground_focus;
+}
+
+
+#chartsWeekContainer td span{
+  color: darken(@foreground_text, 20%);
+  .fontText;
+  font-size: 20px;
+}
+
+#chartsWeekContainer td span:first-child{
+  color: @foreground_text;
+  display: block;
+  font-size: 30px;
+}
+
+#chartsDayContainer{
+  #chartsYearContainer;
+}
+
+#chartsDayContainer table {
+  .fullFrame;
+}
+
+#chartsDayContainer td{
+  text-align: center;
+  width: 50%;
+  height: 25%;
+  cursor: pointer;
+}
+
+#chartsDayContainer td:hover{
+  background: @foreground_focus;
+}
+
+#chartsDayContainer td span{
+  color: darken(@foreground_text, 20%);
+  .fontText;
+  font-size: 20px;
+}
+
+#chartsDayContainer td span:first-child{
+  color: @foreground_text;
+  display: block;
+  font-size: 30px;
+}

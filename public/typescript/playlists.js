@@ -2,14 +2,13 @@ var PlaylistBinder = (function () {
     function PlaylistBinder() {
         this.firstDisplay = true;
     }
-
     PlaylistBinder.prototype.buildPage = function (rootNode) {
         this.playlistManager = new PlaylistManager(rootNode);
     };
     PlaylistBinder.prototype.bind = function () {
         var _this = this;
         itemList.popItemList("playlist");
-        if (this.firstDisplay) {
+        if(this.firstDisplay) {
             this.loadData();
         }
         itemList.onInput = function (input) {
@@ -34,7 +33,6 @@ var PlaylistManager = (function () {
         this.playLists = [];
         this.playListsQueue = [];
     }
-
     PlaylistManager.prototype.addPlaylist = function (title) {
         var id = "playlist" + Math.floor(Math.random() * 10000);
         var playList = new Playlist(id, title);
@@ -56,7 +54,7 @@ var PlaylistManager = (function () {
         playlist.pageManager = new PlaylistPageManager(playlist, rootNode);
         playlist.pageManager.bind();
         var image = template("#imageMock");
-        for (var i = 0; i < 30; i++) {
+        for(var i = 0; i < 30; i++) {
             playlist.pageManager.rootNode.find("#playlistSongContainer").append(this.buildMockImage(image));
         }
     };
@@ -65,8 +63,8 @@ var PlaylistManager = (function () {
         imageContainer.append(template);
         imageContainer.click(function (e) {
             songDetailManager.showDetails([
-                "Play Now",
-                "Search From Here",
+                "Play Now", 
+                "Search From Here", 
                 "Remove From Playlist"
             ], function (selectedItem) {
             }, "/assets/mock/bio.html", {
@@ -91,8 +89,8 @@ var PlaylistManager = (function () {
         this.playListsQueue.forEach(function (playlist, i) {
             playlist.pageManager.rootNode.transition({
                 translate3d: [
-                    0,
-                    -100 * (i - _this.currentIndex),
+                    0, 
+                    -100 * (i - _this.currentIndex), 
                     20 * (i - _this.currentIndex)
                 ],
                 opacity: (i > _this.currentIndex) ? 0 : (i == _this.currentIndex) ? 1 : 0.5
@@ -100,7 +98,7 @@ var PlaylistManager = (function () {
         });
         window.setTimeout(function () {
             _this.playListsQueue.forEach(function (session, index) {
-                if (index > _this.currentIndex) {
+                if(index > _this.currentIndex) {
                     $(session.pageManager.rootNode).addClass("hidden");
                 }
             });
@@ -113,7 +111,6 @@ var PlaylistPageManager = (function () {
         this.playlist = playlist;
         this.rootNode = rootNode;
     }
-
     PlaylistPageManager.prototype.bind = function () {
     };
     return PlaylistPageManager;
@@ -123,7 +120,6 @@ var Playlist = (function () {
         this.id = id;
         this.title = title;
     }
-
     return Playlist;
 })();
 //@ sourceMappingURL=playlists.js.map
