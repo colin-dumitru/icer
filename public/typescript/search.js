@@ -2,6 +2,7 @@ var SearchBinder = (function () {
     function SearchBinder() {
         this.firstDisplay = true;
     }
+
     SearchBinder.prototype.buildPage = function (rootNode) {
         this.manager = new SearchManager(rootNode);
     };
@@ -9,12 +10,29 @@ var SearchBinder = (function () {
         var _this = this;
         itemList.popItemList("search");
         itemList.show();
-        if(this.firstDisplay) {
+        if (this.firstDisplay) {
             this.loadData();
         }
         itemList.onInput = function (input) {
             _this.manager.performSearch(input);
         };
+        $(window).bind("keydown", this.navigationHandler);
+    };
+    SearchBinder.prototype.navigationHandler = function (event) {
+        switch (event.which) {
+            case 37:
+                (binders["search"]).manager.givePreviousPageFocus();
+                break;
+            case 38:
+                (binders["search"]).manager.givePreviousSessionFocus();
+                break;
+            case 39:
+                (binders["search"]).manager.giveNextPageFocus();
+                break;
+            case 40:
+                (binders["search"]).manager.giveNextSessionFocus();
+                break;
+        }
     };
     SearchBinder.prototype.loadData = function () {
         this.manager.performSearch("ColdPlay");
@@ -25,6 +43,7 @@ var SearchBinder = (function () {
     SearchBinder.prototype.unbind = function () {
         itemList.hide();
         itemList.pushItemList("search");
+        $(window).unbind("keydown", this.navigationHandler);
     };
     return SearchBinder;
 })();
@@ -35,6 +54,7 @@ var SearchManager = (function () {
         };
         this.searchSessionsQueue = [];
     }
+
     SearchManager.prototype.performSearch = function (query) {
         var sessionId = "search" + Math.floor(Math.random() * 100000);
         var session = new SearchSession(sessionId, query);
@@ -46,6 +66,26 @@ var SearchManager = (function () {
         this.searchSessionsQueue.push(session);
         this.giveSessionFocus(session);
     };
+    SearchManager.prototype.givePreviousSessionFocus = function () {
+        if (this.currentIndex == 0) {
+            return;
+        }
+        this.giveSessionFocus(this.searchSessionsQueue[this.currentIndex - 1]);
+    };
+    SearchManager.prototype.giveNextSessionFocus = function () {
+        if (this.currentIndex == (this.searchSessionsQueue.length - 1)) {
+            return;
+        }
+        this.giveSessionFocus(this.searchSessionsQueue[this.currentIndex + 1]);
+    };
+    SearchManager.prototype.giveNextPageFocus = function () {
+        var session = this.searchSessionsQueue[this.currentIndex];
+        session.pageManager.nextPage();
+    };
+    SearchManager.prototype.givePreviousPageFocus = function () {
+        var session = this.searchSessionsQueue[this.currentIndex];
+        session.pageManager.previousPage();
+    };
     SearchManager.prototype.giveSessionFocus = function (session) {
         var _this = this;
         this.currentIndex = this.searchSessionsQueue.indexOf(session);
@@ -53,8 +93,8 @@ var SearchManager = (function () {
             session.rootNode().transition({
                 perspective: 100,
                 translate3d: [
-                    0, 
-                    -100 * (i - _this.currentIndex), 
+                    0,
+                    -100 * (i - _this.currentIndex),
                     20 * (i - _this.currentIndex)
                 ],
                 opacity: (i > _this.currentIndex) ? 0 : (i == _this.currentIndex) ? 1 : 0.5
@@ -62,7 +102,7 @@ var SearchManager = (function () {
         });
         window.setTimeout(function () {
             _this.searchSessionsQueue.forEach(function (session, index) {
-                if(index > _this.currentIndex) {
+                if (index > _this.currentIndex) {
                     $(session.rootNode()).addClass("hidden");
                 }
             });
@@ -92,7 +132,7 @@ var SearchManager = (function () {
         var title = randomSongTitle();
         var image = template("#imageMock", title.title, title.artist);
         var imageLarge = template("#imageLargeMock");
-        for(var i = 0; i < 5; i++) {
+        for (var i = 0; i < 5; i++) {
             session.rootNode().find("#searchPageSongsContainer").append(this.buildMockSongList(image, imageLarge));
             session.rootNode().find("#searchPageArtistContainer").append(this.buildMockSongList(image, imageLarge));
             session.rootNode().find("#searchPageAlbumsContainer").append(this.buildMockSongList(image, imageLarge));
@@ -107,7 +147,7 @@ var SearchManager = (function () {
         container.find("#searchLargeImageContainer").append(largeImageTemplate);
         container.find("#searchSongTitle").text(songTitle.title + " - " + songTitle.artist);
         var songListContainer = container.find("#searchSongListContainer");
-        for(var i = 0; i < 7; i++) {
+        for (var i = 0; i < 7; i++) {
             songListContainer.append(this.buildMockImage(imageTemplate));
         }
         return container;
@@ -118,8 +158,8 @@ var SearchManager = (function () {
         imageContainer.addClass("inline");
         imageContainer.click(function (e) {
             songDetailManager.showDetails([
-                "Play Now", 
-                "Search From Here", 
+                "Play Now",
+                "Search From Here",
                 "Add To Playlist"
             ], function (selectedItem) {
             }, "/assets/mock/bio.html", {
@@ -136,6 +176,7 @@ var SearchPageManager = (function () {
         this.session = session;
         this.pageIndex = 0;
     }
+
     SearchPageManager.prototype.bind = function () {
         var _this = this;
         $(this.session.rootNode()).find("#searchMenuSongs").click(function () {
@@ -165,6 +206,18 @@ var SearchPageManager = (function () {
     SearchPageManager.prototype.takeFocusMenuItem = function (index) {
         this.getMenuItem(index).removeClass("searchMenuSelectorSelected");
     };
+    SearchPageManager.prototype.nextPage = function () {
+        if (this.pageIndex > 2) {
+            return;
+        }
+        this.switchToPage(this.pageIndex + 1);
+    };
+    SearchPageManager.prototype.previousPage = function () {
+        if (this.pageIndex < 1) {
+            return;
+        }
+        this.switchToPage(this.pageIndex - 1);
+    };
     SearchPageManager.prototype.giveFocusPage = function (index) {
         var page = this.getPage(index);
         $(this.session.rootNode()).find("#searchPageTable").transition({
@@ -177,7 +230,7 @@ var SearchPageManager = (function () {
         page.find(".searchPageSongContainer").removeClass("searchPageSongContainerFocused");
     };
     SearchPageManager.prototype.getMenuItem = function (index) {
-        switch(index) {
+        switch (index) {
             case 0:
                 return $(this.session.rootNode()).find("#searchMenuSongs");
             case 1:
@@ -189,7 +242,7 @@ var SearchPageManager = (function () {
         }
     };
     SearchPageManager.prototype.getPage = function (index) {
-        switch(index) {
+        switch (index) {
             case 0:
                 return $(this.session.rootNode()).find("#searchPageSongs");
             case 1:
@@ -207,6 +260,7 @@ var SearchSession = (function () {
         this.id = id;
         this.title = title;
     }
+
     SearchSession.prototype.rootNode = function () {
         return $("#" + this.id);
     };

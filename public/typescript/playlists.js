@@ -2,19 +2,21 @@ var PlaylistBinder = (function () {
     function PlaylistBinder() {
         this.firstDisplay = true;
     }
+
     PlaylistBinder.prototype.buildPage = function (rootNode) {
         this.playlistManager = new PlaylistManager(rootNode);
     };
     PlaylistBinder.prototype.bind = function () {
         var _this = this;
         itemList.popItemList("playlist");
-        if(this.firstDisplay) {
+        if (this.firstDisplay) {
             this.loadData();
         }
         itemList.onInput = function (input) {
             _this.playlistManager.addPlaylist(input);
         };
         itemList.show();
+        $(window).bind("keydown", this.navigationHandler);
     };
     PlaylistBinder.prototype.loadData = function () {
         this.playlistManager.addPlaylist("Playlist 1");
@@ -25,6 +27,17 @@ var PlaylistBinder = (function () {
     PlaylistBinder.prototype.unbind = function () {
         itemList.pushItemList("playlist");
         itemList.hide();
+        $(window).unbind("keydown", this.navigationHandler);
+    };
+    PlaylistBinder.prototype.navigationHandler = function (event) {
+        switch (event.which) {
+            case 38:
+                (binders["playlist"]).playlistManager.givePreviousPlaylistFocus();
+                break;
+            case 40:
+                (binders["playlist"]).playlistManager.giveNextPlaylistFocus();
+                break;
+        }
     };
     return PlaylistBinder;
 })();
@@ -34,6 +47,7 @@ var PlaylistManager = (function () {
         this.playLists = [];
         this.playListsQueue = [];
     }
+
     PlaylistManager.prototype.addPlaylist = function (title) {
         var id = "playlist" + Math.floor(Math.random() * 10000);
         var playList = new Playlist(id, title);
@@ -56,7 +70,7 @@ var PlaylistManager = (function () {
         playlist.pageManager.bind();
         var title = randomSongTitle();
         var image = template("#imageMock", title.title, title.artist);
-        for(var i = 0; i < 30; i++) {
+        for (var i = 0; i < 30; i++) {
             playlist.pageManager.rootNode.find("#playlistSongContainer").append(this.buildMockImage(image));
         }
     };
@@ -66,8 +80,8 @@ var PlaylistManager = (function () {
         imageContainer.addClass("inline");
         imageContainer.click(function (e) {
             songDetailManager.showDetails([
-                "Play Now", 
-                "Search From Here", 
+                "Play Now",
+                "Search From Here",
                 "Remove From Playlist"
             ], function (selectedItem) {
             }, "/assets/mock/bio.html", {
@@ -86,6 +100,18 @@ var PlaylistManager = (function () {
         this.playLists[playlist.id] = playlist;
         this.givePlaylistFocus(playlist);
     };
+    PlaylistManager.prototype.giveNextPlaylistFocus = function () {
+        if (this.currentIndex > (this.playListsQueue.length - 2)) {
+            return;
+        }
+        this.givePlaylistFocus(this.playListsQueue[this.currentIndex + 1]);
+    };
+    PlaylistManager.prototype.givePreviousPlaylistFocus = function () {
+        if (this.currentIndex < 1) {
+            return;
+        }
+        this.givePlaylistFocus(this.playListsQueue[this.currentIndex - 1]);
+    };
     PlaylistManager.prototype.givePlaylistFocus = function (playlist) {
         var _this = this;
         this.currentIndex = this.playListsQueue.indexOf(playlist);
@@ -93,8 +119,8 @@ var PlaylistManager = (function () {
             playlist.pageManager.rootNode.transition({
                 perspective: 100,
                 translate3d: [
-                    0, 
-                    -100 * (i - _this.currentIndex), 
+                    0,
+                    -100 * (i - _this.currentIndex),
                     20 * (i - _this.currentIndex)
                 ],
                 opacity: (i > _this.currentIndex) ? 0 : (i == _this.currentIndex) ? 1 : 0.5
@@ -102,7 +128,7 @@ var PlaylistManager = (function () {
         });
         window.setTimeout(function () {
             _this.playListsQueue.forEach(function (session, index) {
-                if(index > _this.currentIndex) {
+                if (index > _this.currentIndex) {
                     $(session.pageManager.rootNode).addClass("hidden");
                 }
             });
@@ -115,6 +141,7 @@ var PlaylistPageManager = (function () {
         this.playlist = playlist;
         this.rootNode = rootNode;
     }
+
     PlaylistPageManager.prototype.bind = function () {
     };
     return PlaylistPageManager;
@@ -124,6 +151,7 @@ var Playlist = (function () {
         this.id = id;
         this.title = title;
     }
+
     return Playlist;
 })();
 //@ sourceMappingURL=playlists.js.map

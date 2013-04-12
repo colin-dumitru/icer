@@ -16,6 +16,25 @@ class SearchBinder implements SectionBinder {
         itemList.onInput = (input:string) => {
             this.manager.performSearch(input);
         };
+
+        $(window).bind("keydown", this.navigationHandler);
+    }
+
+    navigationHandler(event) {
+        switch (event.which) {
+            case 37: //left
+                (<SearchBinder>binders["search"]).manager.givePreviousPageFocus();
+                break;
+            case 38: //up
+                (<SearchBinder>binders["search"]).manager.givePreviousSessionFocus();
+                break;
+            case 39: //right
+                (<SearchBinder>binders["search"]).manager.giveNextPageFocus();
+                break;
+            case 40: //down
+                (<SearchBinder>binders["search"]).manager.giveNextSessionFocus();
+                break;
+        }
     }
 
     loadData() {
@@ -28,6 +47,7 @@ class SearchBinder implements SectionBinder {
     unbind() {
         itemList.hide();
         itemList.pushItemList("search");
+        $(window).unbind("keydown", this.navigationHandler);
     }
 }
 
@@ -52,6 +72,32 @@ class SearchManager {
         this.searchSessionsQueue.push(session);
 
         this.giveSessionFocus(session);
+    }
+
+    public givePreviousSessionFocus() {
+        if (this.currentIndex == 0) {
+            return;
+        }
+        this.giveSessionFocus(this.searchSessionsQueue[this.currentIndex - 1]);
+    }
+
+
+    public giveNextSessionFocus() {
+        if (this.currentIndex == (this.searchSessionsQueue.length - 1)) {
+            return;
+        }
+        this.giveSessionFocus(this.searchSessionsQueue[this.currentIndex + 1]);
+    }
+
+    public giveNextPageFocus() {
+        var session = this.searchSessionsQueue[this.currentIndex];
+        session.pageManager.nextPage();
+
+    }
+
+    public givePreviousPageFocus() {
+        var session = this.searchSessionsQueue[this.currentIndex];
+        session.pageManager.previousPage();
     }
 
     public giveSessionFocus(session:SearchSession) {
@@ -186,6 +232,20 @@ class SearchPageManager {
 
     takeFocusMenuItem(index:number) {
         this.getMenuItem(index).removeClass("searchMenuSelectorSelected");
+    }
+
+    nextPage() {
+        if (this.pageIndex > 2) {
+            return;
+        }
+        this.switchToPage(this.pageIndex + 1);
+    }
+
+    previousPage() {
+        if (this.pageIndex < 1) {
+            return;
+        }
+        this.switchToPage(this.pageIndex - 1);
     }
 
     giveFocusPage(index:number) {

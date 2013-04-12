@@ -52,12 +52,23 @@ function buildTopSection():Section {
 class SectionManager {
 
     private currentSection:Section;
+    private currentSectionIndex:number;
+
+    private menuSelector:any;
+    private menuSelectorBackground:any;
+    private sectionTable:any;
+    private sectionContainer:any;
 
     constructor(private sections:Section[]) {
 
     }
 
     build() {
+        this.menuSelector = $("#menuSelector");
+        this.menuSelectorBackground = $("#menuSelectorBackground");
+        this.sectionTable = $("#sectionTable");
+        this.sectionContainer = $("#sectionContainer");
+
         this.bindMenuSelector();
         this.buildMenu();
         this.buildSectionPages();
@@ -80,7 +91,7 @@ class SectionManager {
             this.onPageLoadComplete(section);
         });
         td.css("height", Math.round(100 / this.sections.length) + "%");
-        $("#sectionTable").append(section.rootNode);
+        this.sectionTable.append(section.rootNode);
     }
 
     private onPageLoadComplete(section:Section) {
@@ -92,8 +103,7 @@ class SectionManager {
 
     private bindMenuSelector() {
         var us = this;
-
-        $("#menuSelector")
+        this.menuSelector
             .draggable({
                 containment: "#menu",
                 axis: "y",
@@ -101,13 +111,12 @@ class SectionManager {
                     binders[us.currentSection.id].unbind();
                 },
                 drag: function (event, ui) {
-                    $("#menuSelectorBackground").css({
+                    us.menuSelectorBackground.css({
                         top: ui.position.top
-                    })
-                    $("#sectionTable").css({
+                    });
+                    us.sectionTable.css({
                         top: -ui.position.top * us.sections.length
                     });
-
                 },
                 stop: function (event, ui) {
                     us.changeSection(us.closestMenuItem(ui.position.top))
@@ -117,13 +126,15 @@ class SectionManager {
 
     public changeSection(index:number) {
         this.currentSection = this.sections[index];
-        $("#menuSelector").animate({
+        this.currentSectionIndex = index;
+
+        this.menuSelector.animate({
             top: index * Dimensions.menuItemHeight
         });
-        $("#menuSelectorBackground").animate({
+        this.menuSelectorBackground.animate({
             top: index * Dimensions.menuItemHeight
         });
-        $("#sectionTable").animate({
+        this.sectionTable.animate({
             top: -index * Dimensions.windowHeight
         });
         binders[this.currentSection.id].bind();
@@ -150,15 +161,25 @@ class SectionManager {
     }
 
     resize() {
-        Dimensions.menuItemHeight = $("#" + this.sections[0].id + "Menu").height();
-        Dimensions.menuItemWidth = $("#" + this.sections[0].id + "Menu").width();
+        var firstSection = $("#" + this.sections[0].id + "Menu");
+        Dimensions.menuItemHeight = firstSection.height();
+        Dimensions.menuItemWidth = firstSection.width();
         Dimensions.windowHeight = $(window).height();
         Dimensions.windowWidth = $(window).width();
 
-        $("#menuSelector").css("height", Dimensions.menuItemHeight);
-        $("#menuSelectorBackground").css("height", Dimensions.menuItemHeight);
-        $("#sectionContainer").css("height", Dimensions.windowHeight);
-        $("#sectionTable").css("height", Dimensions.windowHeight * this.sections.length);
+        this.menuSelector.css({
+            height: Dimensions.menuItemHeight,
+            top: this.currentSectionIndex * Dimensions.windowHeight
+        });
+        this.menuSelectorBackground.css({
+            height: Dimensions.menuItemHeight,
+            top: this.currentSectionIndex * Dimensions.menuItemHeight
+        });
+        this.sectionContainer.css("height", Dimensions.windowHeight);
+        this.sectionTable.css({
+            height: Dimensions.windowHeight * this.sections.length,
+            top: -this.currentSectionIndex * Dimensions.windowHeight
+        });
     }
 }
 
@@ -342,6 +363,7 @@ class GlobalPlaylistManager {
                 }
                 if (this.isVolumeVisible) {
                     $("#volumeSliderContainer").hide();
+                    this.isVolumeVisible = false;
                 }
             }
         });

@@ -1,5 +1,7 @@
 var Dimensions = (function () {
-    function Dimensions() { }
+    function Dimensions() {
+    }
+
     return Dimensions;
 })();
 function template(id) {
@@ -16,9 +18,11 @@ var SongDetailManager = (function () {
     function SongDetailManager() {
         this.menuHidden = true;
     }
+
     SongDetailManager.prototype.bind = function () {
-        this.menuWidth = $("#songDetailContainer").width();
-        this.menuHeight = $("#songDetailContainer").height();
+        var songDetailContainer = $("#songDetailContainer");
+        this.menuWidth = songDetailContainer.width();
+        this.menuHeight = songDetailContainer.height();
         this.bindHover();
     };
     SongDetailManager.prototype.showDetails = function (options, detailCallback, bioUrl, position) {
@@ -44,10 +48,10 @@ var SongDetailManager = (function () {
     SongDetailManager.prototype.bindHover = function () {
         var _this = this;
         $(window).mousemove(function (event) {
-            if(_this.menuHidden) {
+            if (_this.menuHidden) {
                 return;
             }
-            if(event.clientX < _this.menuX || event.clientX > (_this.menuX + _this.menuWidth) || event.clientY < _this.menuY || event.clientY > (_this.menuY + _this.menuHeight)) {
+            if (event.clientX < _this.menuX || event.clientX > (_this.menuX + _this.menuWidth) || event.clientY < _this.menuY || event.clientY > (_this.menuY + _this.menuHeight)) {
                 $("#songDetailContainer").hide(300);
                 _this.menuHidden = true;
             }
@@ -66,59 +70,59 @@ function randomSongTitle() {
         {
             artist: "Bruno Mars",
             title: "When I Was Your Man"
-        }, 
+        },
         {
             artist: "Imagine Dragons",
             title: "Radioactive"
-        }, 
+        },
         {
             artist: "Justin Timberlake",
             title: "Suit and tie"
-        }, 
+        },
         {
             artist: "Jonas Brothers",
             title: "Pom Poms"
-        }, 
+        },
         {
             artist: " Demi Lovato",
             title: "Heart attack"
-        }, 
+        },
         {
             artist: "Justin Timberlake",
             title: "Mirrors"
-        }, 
+        },
         {
-            artist: " Fall Out Boy",
-            title: "My Songs Know What You Did In The Dark"
-        }, 
+            artist: "Fall Out Boy",
+            title: "My Songs"
+        },
         {
             artist: "Darius Rucker",
             title: "Wagon Wheel"
-        }, 
+        },
         {
             artist: " Drake",
             title: "Started From The Bottom"
-        }, 
+        },
         {
             artist: " Fun",
             title: "Carry On"
-        }, 
+        },
         {
             artist: "Blake Shelton",
             title: "Sure Be Cool If You Did"
-        }, 
+        },
         {
             artist: "Baauer",
             title: "Harlem Shake"
-        }, 
+        },
         {
             artist: "Taylor Swift",
             title: "22"
-        }, 
+        },
         {
             artist: "Chris Brown",
             title: "Fine China"
-        }, 
+        },
         {
             artist: "Maroon 5",
             title: "Daylight"

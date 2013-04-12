@@ -15,6 +15,8 @@ class PlaylistBinder implements SectionBinder {
             this.playlistManager.addPlaylist(input);
         };
         itemList.show();
+
+        $(window).bind("keydown", this.navigationHandler);
     }
 
     private loadData() {
@@ -27,6 +29,19 @@ class PlaylistBinder implements SectionBinder {
     unbind() {
         itemList.pushItemList("playlist");
         itemList.hide();
+
+        $(window).unbind("keydown", this.navigationHandler);
+    }
+
+    navigationHandler(event) {
+        switch (event.which) {
+            case 38: //up
+                (<PlaylistBinder>binders["playlist"]).playlistManager.givePreviousPlaylistFocus();
+                break;
+            case 40: //down
+                (<PlaylistBinder>binders["playlist"]).playlistManager.giveNextPlaylistFocus();
+                break;
+        }
     }
 }
 
@@ -95,6 +110,20 @@ class PlaylistManager {
         this.playListsQueue.push(playlist);
         this.playLists[playlist.id] = playlist;
         this.givePlaylistFocus(playlist);
+    }
+
+    public giveNextPlaylistFocus() {
+        if (this.currentIndex > (this.playListsQueue.length - 2)) {
+            return;
+        }
+        this.givePlaylistFocus(this.playListsQueue[this.currentIndex + 1]);
+    }
+
+    public givePreviousPlaylistFocus() {
+        if (this.currentIndex < 1) {
+            return;
+        }
+        this.givePlaylistFocus(this.playListsQueue[this.currentIndex - 1]);
     }
 
     public givePlaylistFocus(playlist:Playlist) {

@@ -26,6 +26,7 @@ class HistoryBinder implements SectionBinder {
 
 class HistoryManager {
     private historyPoints:HistoryPoint[];
+    private dataWidth:number;
 
     private historyChart;
     private genreChart;
@@ -44,6 +45,7 @@ class HistoryManager {
 
         this.buildHistoryChart();
         this.buildGenreChart();
+        this.dataWidth = $("#historyContainer").width();
 
         this.slideReferencePoint(0);
     }
@@ -94,8 +96,7 @@ class HistoryManager {
     }
 
     slideReferencePoint(position:number) {
-        var dataWidth = $("#historyContainer").width();
-        var dataSetIndex = Math.floor(position / (dataWidth / this.historyPoints.length));
+        var dataSetIndex = Math.floor(position / (this.dataWidth / this.historyPoints.length));
         var point = this.historyPoints[dataSetIndex];
         this.displayDataPoint(point);
     }

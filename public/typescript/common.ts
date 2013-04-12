@@ -1,8 +1,8 @@
 class Dimensions {
-    static menuItemHeight:number;
-    static menuItemWidth:number;
-    static windowHeight:number;
-    static windowWidth:number;
+    public static menuItemHeight:number;
+    public static menuItemWidth:number;
+    public static windowHeight:number;
+    public static windowWidth:number;
 }
 
 function template(id, ...args:String[]):String {
@@ -23,8 +23,9 @@ class SongDetailManager {
     private menuY:number;
 
     bind() {
-        this.menuWidth = $("#songDetailContainer").width();
-        this.menuHeight = $("#songDetailContainer").height();
+        var songDetailContainer = $("#songDetailContainer");
+        this.menuWidth = songDetailContainer.width();
+        this.menuHeight = songDetailContainer.height();
         this.bindHover();
     }
 
@@ -98,7 +99,7 @@ function randomSongTitle():{artist:string; title:string;} {
         {artist: "Jonas Brothers", title: "Pom Poms"},
         {artist: " Demi Lovato", title: "Heart attack"},
         {artist: "Justin Timberlake", title: "Mirrors"},
-        {artist: " Fall Out Boy", title: "My Songs Know What You Did In The Dark"},
+        {artist: "Fall Out Boy", title: "My Songs"},
         {artist: "Darius Rucker", title: "Wagon Wheel"},
         {artist: " Drake", title: "Started From The Bottom"},
         {artist: " Fun", title: "Carry On"},
