@@ -24,6 +24,7 @@ var PlaylistBinder = (function () {
     };
     PlaylistBinder.prototype.unbind = function () {
         itemList.pushItemList("playlist");
+        itemList.hide();
     };
     return PlaylistBinder;
 })();
@@ -53,7 +54,8 @@ var PlaylistManager = (function () {
         var rootNode = this.buildPlaylistPage(playlist);
         playlist.pageManager = new PlaylistPageManager(playlist, rootNode);
         playlist.pageManager.bind();
-        var image = template("#imageMock");
+        var title = randomSongTitle();
+        var image = template("#imageMock", title.title, title.artist);
         for(var i = 0; i < 30; i++) {
             playlist.pageManager.rootNode.find("#playlistSongContainer").append(this.buildMockImage(image));
         }
@@ -61,6 +63,7 @@ var PlaylistManager = (function () {
     PlaylistManager.prototype.buildMockImage = function (template) {
         var imageContainer = $("<span></span>");
         imageContainer.append(template);
+        imageContainer.addClass("inline");
         imageContainer.click(function (e) {
             songDetailManager.showDetails([
                 "Play Now", 
@@ -88,6 +91,7 @@ var PlaylistManager = (function () {
         this.currentIndex = this.playListsQueue.indexOf(playlist);
         this.playListsQueue.forEach(function (playlist, i) {
             playlist.pageManager.rootNode.transition({
+                perspective: 100,
                 translate3d: [
                     0, 
                     -100 * (i - _this.currentIndex), 

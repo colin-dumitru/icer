@@ -26,6 +26,7 @@ class PlaylistBinder implements SectionBinder {
 
     unbind() {
         itemList.pushItemList("playlist");
+        itemList.hide();
     }
 }
 
@@ -63,7 +64,8 @@ class PlaylistManager {
         playlist.pageManager = new PlaylistPageManager(playlist, rootNode);
         playlist.pageManager.bind();
 
-        var image = template("#imageMock");
+        var title = randomSongTitle();
+        var image = template("#imageMock", title.title, title.artist);
 
         for (var i = 0; i < 30; i++) {
             playlist.pageManager.rootNode.find("#playlistSongContainer").append(this.buildMockImage(image));
@@ -74,6 +76,7 @@ class PlaylistManager {
         var imageContainer = $("<span></span>");
         imageContainer.append(template);
 
+        imageContainer.addClass("inline");
         imageContainer.click((e) => {
             songDetailManager.showDetails(["Play Now", "Search From Here", "Remove From Playlist"],
                 (selectedItem) => {
@@ -99,6 +102,7 @@ class PlaylistManager {
         this.playListsQueue.forEach((playlist, i) => {
             playlist.pageManager.rootNode
                 .transition({
+                    perspective: 100,
                     translate3d: [0, -100 * (i - this.currentIndex), 20 * (i - this.currentIndex)],
                     opacity: (i > this.currentIndex) ? 0 : (i == this.currentIndex) ? 1 : 0.5
                 }, 400)

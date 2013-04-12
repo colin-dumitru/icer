@@ -171,6 +171,7 @@ class Section {
 
 class ItemList {
     private isCollapsed:bool = true;
+    private isHidden = true;
     private itemList:Item[] = [];
     private selectedItem:Item;
 
@@ -201,6 +202,9 @@ class ItemList {
 
     bind() {
         $(window).mousemove((event) => {
+            if (this.isHidden) {
+                return;
+            }
             if (event.clientX > (Dimensions.windowWidth - 15)) {
                 if (this.isCollapsed) {
                     this.giveFocus();
@@ -227,10 +231,12 @@ class ItemList {
     }
 
     show() {
+        this.isHidden = false;
         $("#itemListContainerTable").show(400);
     }
 
     hide() {
+        this.isHidden = true;
         $("#itemListContainerTable").hide(400);
     }
 
@@ -355,7 +361,7 @@ class GlobalPlaylistManager {
 
         //todo temp
         var imageTemplate = template("#imageMock");
-        for (var i = 0; i < 25; i++) {
+        for (var i = 0; i < 15; i++) {
             $("#globalPlaylistSongContainer").append(imageTemplate);
         }
     }

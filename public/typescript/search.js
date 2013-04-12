@@ -51,6 +51,7 @@ var SearchManager = (function () {
         this.currentIndex = this.searchSessionsQueue.indexOf(session);
         this.searchSessionsQueue.forEach(function (session, i) {
             session.rootNode().transition({
+                perspective: 100,
                 translate3d: [
                     0, 
                     -100 * (i - _this.currentIndex), 
@@ -88,17 +89,33 @@ var SearchManager = (function () {
     SearchManager.prototype.buildPage = function (session) {
         var htmlTemplate = template("#searchPageTemplate", session.id);
         $("#searchTableContainer").append(htmlTemplate);
-        var image = template("#imageMock");
-        for(var i = 0; i < 30; i++) {
-            session.rootNode().find("#searchPageSongsContainer").append(this.buildMockImage(image));
-            session.rootNode().find("#searchPageArtistContainer").append(this.buildMockImage(image));
-            session.rootNode().find("#searchPageAlbumsContainer").append(this.buildMockImage(image));
-            session.rootNode().find("#searchPageGenreContainer").append(this.buildMockImage(image));
+        var title = randomSongTitle();
+        var image = template("#imageMock", title.title, title.artist);
+        var imageLarge = template("#imageLargeMock");
+        for(var i = 0; i < 5; i++) {
+            session.rootNode().find("#searchPageSongsContainer").append(this.buildMockSongList(image, imageLarge));
+            session.rootNode().find("#searchPageArtistContainer").append(this.buildMockSongList(image, imageLarge));
+            session.rootNode().find("#searchPageAlbumsContainer").append(this.buildMockSongList(image, imageLarge));
+            session.rootNode().find("#searchPageGenreContainer").append(this.buildMockSongList(image, imageLarge));
         }
     };
+    SearchManager.prototype.buildMockSongList = function (imageTemplate, largeImageTemplate) {
+        var container = $("<div></div>");
+        var listTemplate = this.buildMockImage(template("#searchSongListTemplate"));
+        var songTitle = randomSongTitle();
+        container.append(listTemplate);
+        container.find("#searchLargeImageContainer").append(largeImageTemplate);
+        container.find("#searchSongTitle").text(songTitle.title + " - " + songTitle.artist);
+        var songListContainer = container.find("#searchSongListContainer");
+        for(var i = 0; i < 7; i++) {
+            songListContainer.append(this.buildMockImage(imageTemplate));
+        }
+        return container;
+    };
     SearchManager.prototype.buildMockImage = function (template) {
-        var imageContainer = $("<span></span>");
+        var imageContainer = $("<div></div>");
         imageContainer.append(template);
+        imageContainer.addClass("inline");
         imageContainer.click(function (e) {
             songDetailManager.showDetails([
                 "Play Now", 

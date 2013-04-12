@@ -22,8 +22,6 @@ class HistoryBinder implements SectionBinder {
     unbind() {
 
     }
-
-
 }
 
 class HistoryManager {

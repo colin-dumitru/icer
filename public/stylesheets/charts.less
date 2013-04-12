@@ -5,7 +5,8 @@
   width: 600px;
   height: 450px;
   margin: 0 auto;
-  -webkit-perspective: 100px;
+  -webkit-perspective: 0px;
+  perspective: 0px;
 }
 
 #chartsSongListContainer {
@@ -14,6 +15,8 @@
   height: 450px;
   margin: 0 auto;
   overflow-y: auto;
+  background: @foreground_variant;
+  box-shadow: black 0px 0px 20px;
 }
 
 #chartSongTable {
@@ -29,12 +32,12 @@
 }
 
 #chartSongImageContainer {
-  width: 100px;
+  width: 150px;
   vertical-align: middle;
 }
 
 #chartSongImageContainer img {
-  width: 100px;
+  width: 150px;
 }
 
 #chartMenuContainer {
@@ -53,7 +56,7 @@
   position: relative;
 }
 
-#chartRankContainer{
+#chartRankContainer {
   position: absolute;
   left: 0px;
   bottom: 0px;
@@ -67,7 +70,7 @@
   height: 40px;
 }
 
-#chartChangeArrowContainer{
+#chartChangeArrowContainer {
   position: absolute;
   right: 20px;
   bottom: 0px;
@@ -120,7 +123,7 @@
   color: @foreground_text;
   font-size: 25px;
   text-align: center;
-  width: 350px;
+  width: 300px;
   height: 30px;
   overflow: hidden;
 }
@@ -130,7 +133,7 @@
   color: darken(@foreground_text, 10%);
   font-size: 20px;
   text-align: center;
-  overflow: hiden;
+  overflow: hidden;
 }
 
 #rankContainerCell {
@@ -228,11 +231,11 @@
   background: fade(@foreground_variant, 50px);
 }
 
-#chartsYearContainer table{
+#chartsYearContainer table {
   .fullFrame;
 }
 
-#chartsYearContainer td{
+#chartsYearContainer td {
   text-align: center;
   width: 50%;
   height: 50%;
@@ -242,19 +245,19 @@
   cursor: pointer;
 }
 
-#chartsYearContainer td:hover{
+#chartsYearContainer td:hover {
   background: @foreground_focus;
 }
 
-#chartsMonthContainer{
+#chartsMonthContainer {
   #chartsYearContainer;
 }
 
-#chartsMonthContainer table{
+#chartsMonthContainer table {
   .fullFrame;
 }
 
-#chartsMonthContainer td{
+#chartsMonthContainer td {
   text-align: center;
   width: 33%;
   height: 25%;
@@ -264,11 +267,11 @@
   cursor: pointer;
 }
 
-#chartsMonthContainer td:hover{
+#chartsMonthContainer td:hover {
   background: @foreground_focus;
 }
 
-#chartsWeekContainer{
+#chartsWeekContainer {
   #chartsYearContainer;
 }
 
@@ -276,31 +279,30 @@
   .fullFrame;
 }
 
-#chartsWeekContainer td{
+#chartsWeekContainer td {
   text-align: center;
   width: 33%;
   height: 25%;
   cursor: pointer;
 }
 
-#chartsWeekContainer td:hover{
+#chartsWeekContainer td:hover {
   background: @foreground_focus;
 }
 
-
-#chartsWeekContainer td span{
+#chartsWeekContainer td span {
   color: darken(@foreground_text, 20%);
   .fontText;
   font-size: 20px;
 }
 
-#chartsWeekContainer td span:first-child{
+#chartsWeekContainer td span:first-child {
   color: @foreground_text;
   display: block;
   font-size: 30px;
 }
 
-#chartsDayContainer{
+#chartsDayContainer {
   #chartsYearContainer;
 }
 
@@ -308,24 +310,24 @@
   .fullFrame;
 }
 
-#chartsDayContainer td{
+#chartsDayContainer td {
   text-align: center;
   width: 50%;
   height: 25%;
   cursor: pointer;
 }
 
-#chartsDayContainer td:hover{
+#chartsDayContainer td:hover {
   background: @foreground_focus;
 }
 
-#chartsDayContainer td span{
+#chartsDayContainer td span {
   color: darken(@foreground_text, 20%);
   .fontText;
   font-size: 20px;
 }
 
-#chartsDayContainer td span:first-child{
+#chartsDayContainer td span:first-child {
   color: @foreground_text;
   display: block;
   font-size: 30px;

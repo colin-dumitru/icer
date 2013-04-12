@@ -13,6 +13,8 @@ body {
   margin: 0px;
   padding: 0px;
   height: 100%;
+  -webkit-backface-visibility: hidden;
+  -webkit-perspective: 1000;
 }
 
 html {
@@ -324,4 +326,38 @@ html {
 .songDetailMenuItem:hover {
   .fontText;
   background: @foreground_focus;
+}
+
+.mockImageContainer {
+  position: relative;
+  width: 110px;
+  height: 100px;
+}
+
+.mockImageInfo {
+  position: absolute;
+  height: 40px;
+  width: 100px;
+  bottom: 0px;
+  left: 0px;
+}
+
+.mockImageTitle {
+  height: 20px;
+  width: 100px;
+  overflow: hidden;
+  text-align: center;
+  .fontText;
+  color: @foreground_text;
+  font-size: 15px;
+}
+
+.mockImageArtist {
+  height: 20px;
+  width: 100px;
+  overflow: hidden;
+  text-align: center;
+  .fontText;
+  color: darken(@foreground_text, 20%);
+  font-size: 11px;
 }

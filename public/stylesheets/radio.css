@@ -1,6 +1,9 @@
 .hidden {
   display: none;
 }
+.inline {
+  display: inline-block;
+}
 .zeroHeight {
   position: relative;
   height: 0px;
@@ -138,7 +141,7 @@
   background: #9c5b4d;
   color: #edfffc;
   font-family: 'Roboto', sans-serif;
-  font-size: 20;
+  font-size: 20px;
   width: 50px;
   cursor: pointer;
 }

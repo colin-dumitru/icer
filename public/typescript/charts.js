@@ -28,6 +28,9 @@ var ChartsManager = (function () {
     function ChartsManager(rootNode) {
         this.rootNode = rootNode;
         this.pickerPages = [];
+        this.arrowDown = template("#chartsDown");
+        this.arrowUp = template("#chartsUp");
+        this.arrowNoChange = template("#chartsNoChange");
     }
     ChartsManager.prototype.bind = function () {
         var _this = this;
@@ -70,6 +73,7 @@ var ChartsManager = (function () {
         this.currentIndex = index;
         this.pickerPages.forEach(function (page, i) {
             page.rootNode.transition({
+                perspective: 100,
                 translate3d: [
                     0, 
                     -100 * (i - _this.currentIndex), 
@@ -113,80 +117,15 @@ var ChartsManager = (function () {
     };
     ChartsManager.prototype.mockSongList = function () {
         var songList = [];
-        for(var i = 0; i < 100; i++) {
+        for(var i = 0; i < 99; i++) {
             var id = "chartSong" + Math.floor(Math.random() * 100000);
             songList.push(this.mockSong(id));
         }
         return songList;
     };
     ChartsManager.prototype.mockSong = function (id) {
-        var songTitle = this.randomSongTitle();
+        var songTitle = randomSongTitle();
         return new ChartSong(id, "", Math.floor(10 - Math.random() * 20), Math.floor(Math.random() * 100), songTitle.title, songTitle.artist);
-    };
-    ChartsManager.prototype.randomSongTitle = function () {
-        var titles = [
-            {
-                artist: "Bruno Mars",
-                title: "When I Was Your Man"
-            }, 
-            {
-                artist: "Imagine Dragons",
-                title: "Radioactive"
-            }, 
-            {
-                artist: "Justin Timberlake",
-                title: "Suit and tie"
-            }, 
-            {
-                artist: "Jonas Brothers",
-                title: "Pom Poms"
-            }, 
-            {
-                artist: " Demi Lovato",
-                title: "Heart attack"
-            }, 
-            {
-                artist: "Justin Timberlake",
-                title: "Mirrors"
-            }, 
-            {
-                artist: " Fall Out Boy",
-                title: "My Songs Know What You Did In The Dark"
-            }, 
-            {
-                artist: "Darius Rucker",
-                title: "Wagon Wheel"
-            }, 
-            {
-                artist: " Drake",
-                title: "Started From The Bottom"
-            }, 
-            {
-                artist: " Fun",
-                title: "Carry On"
-            }, 
-            {
-                artist: "Blake Shelton",
-                title: "Sure Be Cool If You Did"
-            }, 
-            {
-                artist: "Baauer",
-                title: "Harlem Shake"
-            }, 
-            {
-                artist: "Taylor Swift",
-                title: "22"
-            }, 
-            {
-                artist: "Chris Brown",
-                title: "Fine China"
-            }, 
-            {
-                artist: "Maroon 5",
-                title: "Daylight"
-            }
-        ];
-        return titles[Math.floor(Math.random() * titles.length)];
     };
     ChartsManager.prototype.setSongList = function (songList) {
         var _this = this;
@@ -210,12 +149,12 @@ var ChartsManager = (function () {
     };
     ChartsManager.prototype.buildPositionIcon = function (change) {
         if(change < 0) {
-            return template("#chartsDown");
+            return this.arrowDown;
         }
         if(change > 0) {
-            return template("#chartsUp");
+            return this.arrowUp;
         }
-        return template("#chartsNoChange");
+        return this.arrowNoChange;
     };
     ChartsManager.prototype.buildPositionClass = function (change) {
         if(change < 0) {

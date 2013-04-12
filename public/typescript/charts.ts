@@ -34,11 +34,18 @@ class ChartsManager {
     private pickerPages:PickerPage[] = [];
     private currentIndex:number;
 
+    private arrowUp:any;
+    private arrowDown:any;
+    private arrowNoChange:any;
+
     constructor(private rootNode) {
+        this.arrowDown = template("#chartsDown");
+        this.arrowUp = template("#chartsUp");
+        this.arrowNoChange = template("#chartsNoChange");
     }
 
     bind() {
-        $("#chartsWhenButton").click(() =>{
+        $("#chartsWhenButton").click(() => {
             this.givePickerPageFocus(1);
         });
         $("#chartsYearContainer").find("td").each((index, elem) => {
@@ -80,6 +87,7 @@ class ChartsManager {
         this.pickerPages.forEach((page:PickerPage, i) => {
             page.rootNode
                 .transition({
+                    perspective: 100,
                     translate3d: [0, -100 * (i - this.currentIndex), 20 * (i - this.currentIndex)],
                     opacity: (i > this.currentIndex) ? 0 : (i == this.currentIndex) ? 1 : 0.5
                 }, 400)
@@ -93,14 +101,14 @@ class ChartsManager {
                 }
             })
         }, 400);
-        if(index > 1) {
+        if (index > 1) {
             $("#chartsDoneButton").show("slide", { direction: "left" }, 200);
-        } else{
+        } else {
             $("#chartsDoneButton").hide("slide", { direction: "left" }, 200);
         }
-        if(index > 0) {
+        if (index > 0) {
             $("#chartsCancelButton").show("slide", { direction: "left" }, 200);
-        } else{
+        } else {
             $("#chartsCancelButton").hide("slide", { direction: "left" }, 200);
         }
     }
@@ -117,7 +125,7 @@ class ChartsManager {
     mockSongList():ChartSong[] {
         var songList:ChartSong[] = [];
 
-        for (var i = 0; i < 100; i++) {
+        for (var i = 0; i < 99; i++) {
             var id = "chartSong" + Math.floor(Math.random() * 100000);
             songList.push(this.mockSong(id));
         }
@@ -125,31 +133,10 @@ class ChartsManager {
     }
 
     mockSong(id:string) {
-        var songTitle = this.randomSongTitle();
+        var songTitle = randomSongTitle();
         return new ChartSong(id, "", Math.floor(10 - Math.random() * 20), Math.floor(Math.random() * 100),
             songTitle.title, songTitle.artist);
 
-    }
-
-    randomSongTitle():{artist:string; title:string;} {
-        var titles = [
-            {artist: "Bruno Mars", title: "When I Was Your Man"},
-            {artist: "Imagine Dragons", title: "Radioactive"},
-            {artist: "Justin Timberlake", title: "Suit and tie"},
-            {artist: "Jonas Brothers", title: "Pom Poms"},
-            {artist: " Demi Lovato", title: "Heart attack"},
-            {artist: "Justin Timberlake", title: "Mirrors"},
-            {artist: " Fall Out Boy", title: "My Songs Know What You Did In The Dark"},
-            {artist: "Darius Rucker", title: "Wagon Wheel"},
-            {artist: " Drake", title: "Started From The Bottom"},
-            {artist: " Fun", title: "Carry On"},
-            {artist: "Blake Shelton", title: "Sure Be Cool If You Did"},
-            {artist: "Baauer", title: "Harlem Shake"},
-            {artist: "Taylor Swift", title: "22"},
-            {artist: "Chris Brown", title: "Fine China"},
-            {artist: "Maroon 5", title: "Daylight"}
-        ];
-        return titles[Math.floor(Math.random() * titles.length)];
     }
 
     setSongList(songList:ChartSong[]) {
@@ -178,12 +165,12 @@ class ChartsManager {
 
     buildPositionIcon(change:number) {
         if (change < 0) {
-            return template("#chartsDown");
+            return this.arrowDown;
         }
         if (change > 0) {
-            return template("#chartsUp");
+            return this.arrowUp;
         }
-        return template("#chartsNoChange");
+        return this.arrowNoChange;
     }
 
 
@@ -198,8 +185,8 @@ class ChartsManager {
     }
 }
 
-class PickerPage{
-    constructor(public rootNode:any){
+class PickerPage {
+    constructor(public rootNode:any) {
 
     }
 }

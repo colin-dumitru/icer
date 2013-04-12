@@ -141,6 +141,7 @@ var Section = (function () {
 var ItemList = (function () {
     function ItemList() {
         this.isCollapsed = true;
+        this.isHidden = true;
         this.itemList = [];
         this.itemListQueue = {
         };
@@ -171,6 +172,9 @@ var ItemList = (function () {
     ItemList.prototype.bind = function () {
         var _this = this;
         $(window).mousemove(function (event) {
+            if(_this.isHidden) {
+                return;
+            }
             if(event.clientX > (Dimensions.windowWidth - 15)) {
                 if(_this.isCollapsed) {
                     _this.giveFocus();
@@ -195,9 +199,11 @@ var ItemList = (function () {
         });
     };
     ItemList.prototype.show = function () {
+        this.isHidden = false;
         $("#itemListContainerTable").show(400);
     };
     ItemList.prototype.hide = function () {
+        this.isHidden = true;
         $("#itemListContainerTable").hide(400);
     };
     ItemList.prototype.giveFocus = function () {
@@ -308,7 +314,7 @@ var GlobalPlaylistManager = (function () {
             _this.isVolumeVisible = true;
         });
         var imageTemplate = template("#imageMock");
-        for(var i = 0; i < 25; i++) {
+        for(var i = 0; i < 15; i++) {
             $("#globalPlaylistSongContainer").append(imageTemplate);
         }
     };

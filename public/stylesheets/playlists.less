@@ -3,15 +3,16 @@
 #playListsContainer {
   position: relative;
   width: 600px;
-  height: 500px;
+  height: 450px;
   margin: 0 auto;
-  -webkit-perspective: 100px;
+  -webkit-perspective: 0px;
+  perspective: 0px;
 }
 
 .playListTable {
   position: absolute;
   width: 580px;
-  height: 500px;
+  height: 450px;
   top: 0px;
   left: 0px;
 
@@ -28,7 +29,7 @@
   background: @background_variant;
   border: 5px solid @foreground_variant;
   width: 570px;
-  height: 100%;
+  height: 450px;
   box-shadow: black 0px 0px 20px;
   overflow-y: auto;
 }
@@ -66,5 +67,19 @@
 }
 
 #deletePlaylistButton:hover {
+  background: lighten(@foreground_focus, 20%);
+}
+
+#sharePlaylistButton {
+  border: none;
+  background: @foreground_variant;
+  color: @foreground_text;
+  font-size: 15px;
+  height: 30px;
+  width: 50px;
+  float: right;
+}
+
+#sharePlaylistButton:hover {
   background: lighten(@foreground_focus, 20%);
 }

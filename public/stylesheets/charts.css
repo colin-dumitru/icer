@@ -1,6 +1,9 @@
 .hidden {
   display: none;
 }
+.inline {
+  display: inline-block;
+}
 .zeroHeight {
   position: relative;
   height: 0px;
@@ -35,7 +38,8 @@
   width: 600px;
   height: 450px;
   margin: 0 auto;
-  -webkit-perspective: 100px;
+  -webkit-perspective: 0px;
+  perspective: 0px;
 }
 #chartsSongListContainer {
   position: absolute;
@@ -43,6 +47,8 @@
   height: 450px;
   margin: 0 auto;
   overflow-y: auto;
+  background: #589c9b;
+  box-shadow: black 0px 0px 20px;
 }
 #chartSongTable {
   width: 100%;
@@ -55,11 +61,11 @@
   border-bottom: 1px solid #edfffc;
 }
 #chartSongImageContainer {
-  width: 100px;
+  width: 150px;
   vertical-align: middle;
 }
 #chartSongImageContainer img {
-  width: 100px;
+  width: 150px;
 }
 #chartMenuContainer {
   width: 130px;
@@ -147,7 +153,7 @@
   color: #edfffc;
   font-size: 25px;
   text-align: center;
-  width: 350px;
+  width: 300px;
   height: 30px;
   overflow: hidden;
 }
@@ -156,7 +162,7 @@
   color: #bafff4;
   font-size: 20px;
   text-align: center;
-  overflow: hiden;
+  overflow: hidden;
 }
 #rankContainerCell {
   width: 120px;

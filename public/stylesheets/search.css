@@ -1,6 +1,9 @@
 .hidden {
   display: none;
 }
+.inline {
+  display: inline-block;
+}
 .zeroHeight {
   position: relative;
   height: 0px;
@@ -41,12 +44,12 @@
 #searchTableContainer {
   position: relative;
   height: 450px;
-  -webkit-perspective: 100px;
 }
 #searchStage {
   position: relative;
   height: 450px;
-  -webkit-perspective: 100px;
+  -webkit-perspective: 0px;
+  perspective: 0px;
 }
 .searchTable {
   height: 450px;
@@ -125,9 +128,6 @@
   overflow-y: scroll;
   overflow-x: hidden;
 }
-.searchPageSongContainer img {
-  margin: 3px;
-}
 .searchPageSongContainerFocused {
   height: 400px;
   margin: 0 auto;
@@ -136,4 +136,32 @@
   overflow-y: scroll;
   overflow-x: hidden;
   background: #589c9b;
+}
+#searchSongListTable {
+  width: 570px;
+  height: 160px;
+  margin-bottom: 10px;
+}
+#searchLargeImageContainer {
+  position: relative;
+  width: 150px;
+  top: 15px;
+}
+#searchSongListContainerWrapper {
+  position: relative;
+  right: 10px;
+  width: 350px;
+  height: 100px;
+  overflow-x: auto;
+}
+#searchSongListContainer {
+  float: left;
+  margin-right: -30000px;
+}
+#searchSongTitle {
+  color: #edfffc;
+  font-family: 'Roboto', sans-serif;
+  font-size: 20px;
+  height: 50px;
+  overflow: hidden;
 }
