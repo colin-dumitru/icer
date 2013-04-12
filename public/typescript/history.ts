@@ -131,7 +131,7 @@ class HistoryManager {
 
         function randomArtist() {
             var index = Math.floor(Math.random() * artists.length);
-            return genres[index];
+            return artists[index];
         }
 
         for (var i = 0; i < 25; i++) {
