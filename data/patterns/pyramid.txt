@@ -1,0 +1,4 @@
+Visual Framework - "You are here" navigational links
+Center Stage - the user is guided immediately to the pyramid
+Input Prompt - at search text box
+Extras On Demand - "More" options at tracks and similar artists, genre

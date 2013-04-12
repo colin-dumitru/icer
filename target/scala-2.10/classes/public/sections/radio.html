@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" media="screen" href="/assets/stylesheets/radio.css">
+    <script type="text/javascript" src="/assets/typescript/radio.js"></script>
+    <script type="text/javascript">
+        binders["radio"] = new RadioBinder();
+    </script>
+</head>
+<body>
+<table id="radioTable">
+    <tr>
+        <td id="radioBuilderCell">
+            <table id="radioBuilderTable">
+                <tr id="radio">
+                    <td id="radioAddButtonCell">+</td>
+                </tr>
+                <tr class="zeroHeight">
+                    <td class="zeroHeight">
+                        <div class="zeroHeight">
+                            <div id="radioCriteriaContainer">
+                                <div id="radioCustomCriteria" class="radioCriteriaOption"><span>Custom Search</span>
+                                    <input id="customCriteriaInput"/></div>
+                                <div id="radioRecentSongsCriteria" class="radioCriteriaOption">Recent Songs</div>
+                                <div id="radioRecentGenresCriteria" class="radioCriteriaOption">Recent Genres</div>
+                                <div id="radioRecentAlbumsCriteria" class="radioCriteriaOption">Recent Albums</div>
+                                <div id="radioPastConcertsCriteria" class="radioCriteriaOption">Past Concerts</div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="radioCriteriaTableCell">
+                        <div id="radioCriteriaTableContainer">
+                            <table id="radioCriteriaTable">
+                                <tbody id="radioCriteriaTableBody">
+
+                                </tbody>
+
+                            </table>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </td>
+        <td id="radioMenuCell">
+            <button class="radioManagerButtonLarge roundTopRight">Play</button>
+            <button id="radioManagerClearButton" class="radioManagerButton">Clear All</button>
+            <button class="radioManagerButton roundBottomRight">Reset</button>
+        </td>
+    </tr>
+</table>
+</body>
+</html>
+
+<script type="text/template" id="radioCriteriaTemplate">
+    <td>{0}</td>
+    <td class="radioCriteriaCloseCell">
+        <div id="radioCriteriaCloseButton">X</div>
+    </td>
+</script>

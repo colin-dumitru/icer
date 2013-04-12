@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" media="screen" href="/assets/stylesheets/playlists.css">
+    <script type="text/javascript" src="/assets/typescript/playlists.js"></script>
+    <script type="text/javascript">
+        binders["playlist"] = new PlaylistBinder();
+    </script>
+</head>
+<body>
+<div id="playListsContainer">
+
+</div>
+
+</body>
+</html>
+
+<script type="text/template" id="playlistPageTemplate">
+    <table id="{0}" class="playListTable">
+        <tr class="playListsHeaderCell">
+            <td>
+                <div>{1}
+                    <button id="playPlaylistButton">Play</button>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div id="playlistSongContainer"></div>
+            </td>
+        </tr>
+        <tr id="playListsFooterCell">
+            <td>
+                <div>
+                    <button id="deletePlaylistButton">Delete</button>
+                    <button id="sharePlaylistButton">Share</button>
+                </div>
+            </td>
+        </tr>
+    </table>
+</script>

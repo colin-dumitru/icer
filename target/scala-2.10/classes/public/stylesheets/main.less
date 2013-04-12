@@ -1,0 +1,363 @@
+@import "common";
+
+* {
+  padding: 0px;
+  margin: 0px;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+body {
+  margin: 0px;
+  padding: 0px;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  -webkit-perspective: 1000;
+}
+
+html {
+  margin: 0px;
+  padding: 0px;
+  height: 100%;
+  min-height: 600px;
+  min-width: 800px;
+  overflow: hidden;
+}
+
+#magic {
+  height: 100%;
+  width: 100%;
+  table-layout: fixed;
+}
+
+#magic, #magic tr, #magic td {
+  border: none;
+  border-collapse: collapse;
+}
+
+#menu {
+  width: 50px;
+  height: 100%;
+  background: desaturate(@background_variant, 10%);
+}
+
+#menuTable {
+  height: 100%;
+  width: 100%;
+  border: none;
+  border-collapse: collapse;
+  table-layout: fixed;
+  z-index: 7;
+}
+
+.menuItem {
+
+}
+
+.menuItem div {
+  -moz-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+  -webkit-transform: rotate(90deg);
+  .fontMenu;
+  color: @foreground_text;
+}
+
+#menuSelectorBackground {
+  position: absolute;
+  width: 50px;
+  height: 100px;
+  background: @foreground;
+  z-index: 0;
+}
+
+#menuSelector {
+  position: absolute;
+  width: 50px;
+  height: 100px;
+  background: @debug;
+  z-index: 10;
+  cursor: move;
+}
+
+#content {
+  background: @background;
+}
+
+#sectionTable {
+  width: 100%;
+  table-layout: fixed;
+  position: relative;
+}
+
+#sectionContainer {
+  overflow-y: hidden;
+}
+
+.section {
+  width: 100%;
+}
+
+#itemListContainer {
+  width: 0px;
+  -webkit-transform: perspective(100px) rotateY(10deg);
+  -webkit-transform-origin: 0% 50%;
+  height: 100%;
+  background: @background_variant;
+}
+
+#itemList {
+  width: 250px;
+}
+
+#itemList ul {
+
+}
+
+.selectItem {
+  list-style-type: none;
+  padding: 2px;
+  padding-left: 5px;
+  .fontMenu2;
+  color: @foreground_text;
+  cursor: pointer;
+}
+
+#itemList ul li {
+  .selectItem
+}
+
+#itemList ul li:hover {
+  .selectItem;
+  background: @foreground_focus;
+}
+
+.itemListFocused {
+  .selectItem;
+  background: @foreground_variant;
+}
+
+#itemListContainerCell {
+  height: 100%;
+  vertical-align: top;
+}
+
+#newItemInput {
+  width: 100%;
+  height: 25px;
+  border-radius: 5px;
+}
+
+#itemListDivider {
+  width: 15px;
+  height: 100%;
+}
+
+#itemListDivider div {
+  width: 15px;
+  height: 100%;
+  background: @foreground;
+}
+
+#itemListContainerTable {
+  height: 100%;
+  vertical-align: top;
+  box-shadow: #111 0px 0px 20px 5px;
+}
+
+#globalPlaylistContainer {
+  width: 100%;
+  height: 50px;
+  position: absolute;
+  bottom: 0px;
+}
+
+#bottomPlayBar {
+  background: @foreground_variant;
+  height: 15px;
+  width: 100%;
+  position: absolute;
+  top: 35px;
+  z-index: 0;
+  box-shadow: #000 0px 0px 20px;
+}
+
+#playButtonContainer {
+  width: 200px;
+  margin: 0 auto;
+  position: relative;
+}
+
+#playButton {
+  background: @foreground_text;
+  height: 50px;
+  width: 200px;
+  margin: 0 auto;
+  z-index: 50;
+  position: relative;
+
+  text-align: center;
+  vertical-align: middle;
+  font-size: 40px;
+  color: @playButton;
+  box-shadow: #000 0px 0px 20px;
+  cursor: pointer;
+}
+
+.playButtonPaused {
+  opacity: 0.5;
+}
+
+#playButton:hover {
+  #playButton;
+  background: lighten(@foreground_focus, 20);
+}
+
+#globalPlaylistSongContainer {
+  height: 120px;
+  background: @background_variant;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space: nowrap;
+}
+
+#globalPlaylistSongContainer img {
+  display: inline-block;
+  position: relative;
+  background: @background_variant;
+}
+
+#globalPlaylistSongContainer img:nth-of-type(1) {
+  -webkit-filter: brightness(120%);
+}
+
+#globalPlaylistHeader {
+  position: absolute;
+  top: 5px;
+  left: -100px;
+  width: 400px;
+  height: 45px;
+  background: @background_variant;
+  border-radius: 5px 5px 0px 0px;
+  border: 1px solid @foreground;
+  box-shadow: #000 0px 0px 20px inset;
+}
+
+#volumeButton {
+  position: absolute;
+  top: 5px;
+  right: 35px;
+}
+
+#volumeSliderContainer {
+  position: absolute;
+  top: -100px;
+  right: 45px;
+  height: 100px;
+  background: @background_variant;
+  display: none;
+}
+
+#durationText {
+  position: absolute;
+  top: 10px;
+  left: 30px;
+  .fontText;
+  color: @foreground_text;
+}
+
+.songImage {
+  cursor: pointer;
+}
+
+#songDetailContainer {
+  display: none;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 450px;
+  height: 400px;
+  z-index: 50;
+}
+
+#songDetailMenuCell {
+  position: absolute;
+  width: 150px;
+  background: @foreground_variant;
+  float: left;
+  box-shadow: #000 0px 0px 20px;
+}
+
+#songDetailBioCell {
+  .fontText;
+  padding: 5px;
+  color: @foreground_text;
+  width: 300px;
+  height: 100%;
+  background: @background_variant;
+  text-align: justify;
+  float: right;
+  overflow-y: auto;
+  font-size: 12px;
+}
+
+#songDetailBioCell table {
+  border: none;
+  padding: 5px;
+}
+
+#songDetailBioCell td {
+  border: none;
+  padding: 5px;
+}
+
+.songDetailMenuItem {
+  .fontText;
+  width: 100%;
+  background: @foreground_variant;
+  color: @foreground_text;
+  border-bottom: 1px solid @foreground_text;
+  font-size: 15px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.songDetailMenuItem:hover {
+  .fontText;
+  background: @foreground_focus;
+}
+
+.mockImageContainer {
+  position: relative;
+  width: 110px;
+  height: 100px;
+}
+
+.mockImageInfo {
+  position: absolute;
+  height: 40px;
+  width: 100px;
+  bottom: 0px;
+  left: 0px;
+}
+
+.mockImageTitle {
+  height: 20px;
+  width: 100px;
+  overflow: hidden;
+  text-align: center;
+  .fontText;
+  color: @foreground_text;
+  font-size: 15px;
+}
+
+.mockImageArtist {
+  height: 20px;
+  width: 100px;
+  overflow: hidden;
+  text-align: center;
+  .fontText;
+  color: @foreground_text;
+  font-size: 11px;
+}

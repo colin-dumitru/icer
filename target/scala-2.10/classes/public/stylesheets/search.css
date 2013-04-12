@@ -1,0 +1,167 @@
+.hidden {
+  display: none;
+}
+.inline {
+  display: inline-block;
+}
+.zeroHeight {
+  position: relative;
+  height: 0px;
+}
+.topAlign {
+  vertical-align: top;
+}
+.fullFrame {
+  width: 100%;
+  height: 100%;
+}
+.noOverflow {
+  overflow: hidden;
+}
+.fontMenu {
+  font-family: 'Days One', sans-serif;
+}
+.fontMenu2 {
+  font-family: 'Noto Sans', sans-serif;
+}
+.fontText {
+  font-family: 'Roboto', sans-serif;
+}
+.roundTopRight {
+  border-top-right-radius: 5px;
+}
+.roundBottomRight {
+  border-bottom-right-radius: 5px;
+}
+#searchMainCell {
+  height: 450px;
+}
+#searchCell {
+  width: 600px;
+  vertical-align: middle;
+  position: relative;
+}
+#searchTableContainer {
+  position: relative;
+  height: 450px;
+}
+#searchStage {
+  position: relative;
+  height: 450px;
+  -webkit-perspective: 0px;
+  perspective: 0px;
+}
+.searchTable {
+  height: 450px;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+}
+#searchMenuCell {
+  height: 50px;
+}
+#searchMenuFooter {
+  width: 100%;
+  height: 100%;
+  height: 10px;
+  background: #589c9b;
+}
+.searchMenuSelector {
+  width: 100%;
+  height: 100%;
+  font-family: 'Days One', sans-serif;
+  color: #edfffc;
+  height: 25px;
+  padding-top: 3px;
+  text-align: center;
+  background: #346661;
+  display: inline-block;
+  list-style-type: none;
+}
+.searchMenuSelector input {
+  display: none;
+}
+.searchMenuSelector:hover {
+  width: 100%;
+  height: 100%;
+  font-family: 'Days One', sans-serif;
+  color: #edfffc;
+  height: 25px;
+  padding-top: 3px;
+  text-align: center;
+  background: #346661;
+  display: inline-block;
+  list-style-type: none;
+  background: #9c5b4d;
+}
+.searchMenuSelectorSelected {
+  width: 100%;
+  height: 100%;
+  font-family: 'Days One', sans-serif;
+  color: #edfffc;
+  height: 25px;
+  padding-top: 3px;
+  text-align: center;
+  background: #346661;
+  display: inline-block;
+  list-style-type: none;
+  background: #589c9b;
+}
+#searchPageContainer {
+  width: 600px;
+  height: 100%;
+  overflow: visible;
+}
+#searchPageTable {
+  height: 100%;
+  position: relative;
+}
+.searchPage {
+  width: 600px;
+  height: 100%;
+}
+.searchPageSongContainer {
+  height: 400px;
+  margin: 0 auto;
+  width: 580px;
+  background: #346661;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+.searchPageSongContainerFocused {
+  height: 400px;
+  margin: 0 auto;
+  width: 580px;
+  background: #346661;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  background: #589c9b;
+}
+#searchSongListTable {
+  width: 570px;
+  height: 160px;
+  margin-bottom: 10px;
+}
+#searchLargeImageContainer {
+  position: relative;
+  width: 150px;
+  top: 15px;
+}
+#searchSongListContainerWrapper {
+  position: relative;
+  right: 10px;
+  width: 350px;
+  height: 100px;
+  overflow-x: auto;
+}
+#searchSongListContainer {
+  float: left;
+  margin-right: -30000px;
+}
+#searchSongTitle {
+  color: #edfffc;
+  font-family: 'Roboto', sans-serif;
+  font-size: 20px;
+  height: 50px;
+  overflow: hidden;
+}

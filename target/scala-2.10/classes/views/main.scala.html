@@ -1,0 +1,116 @@
+@(title: String)(content: Html)
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title> @title </title>
+
+    <link href='http://fonts.googleapis.com/css?family=Days+One' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Noto+Sans' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" />
+
+    <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
+    <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
+
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
+    <script src="@routes.Assets.at("javascripts/rickshaw.min.js")"></script>
+    <script src="@routes.Assets.at("javascripts/d3.v2.js")"></script>
+    <script src="@routes.Assets.at("javascripts/jquery.transit_dev.js")"></script>
+
+    <script src="@routes.Assets.at("typescript/common.js")" type="text/javascript"></script>
+    <script src="@routes.Assets.at("typescript/main.js")" type="text/javascript"></script>
+</head>
+<body onload="run();">
+    <div id="songDetailContainer">
+        <div id="songDetailMenuCell">
+            <div class="songDetailMenuItem"> Play </div>
+            <div class="songDetailMenuItem"> Play </div>
+            <div class="songDetailMenuItem"> Play </div>
+        </div>
+        <div id="songDetailBioCell"></div>
+    </div>
+    <table id="magic" border="0">
+        <tr class="topAlign">
+            <td id="menu" style="z-index: 10">
+
+                <div id="menuSelector"></div>
+                <div id="menuSelectorBackground"></div>
+
+                <table id="menuTable">
+                </table>
+            </td>
+            <td id="content">
+                <table>
+                    <tr>
+                        <td>
+                            <div id="sectionContainer">
+                                <table id="sectionTable">
+                                </table>
+                            </div>
+                        </td>
+                        <td class="zeroHeight">
+                            <table id="itemListContainerTable">
+                                <tr>
+                                    <td id="itemListDivider"> <div></div> </td>
+                                    <td id="itemListContainerCell">
+                                        <div id="itemListContainer">
+                                            <div id="itemList">
+                                                <input id="newItemInput"/>
+                                                <ul id="itemListItemContainer">
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+
+    <div id="globalPlaylistContainer">
+        <div id="bottomPlayBar"></div>
+        <div id="playButtonContainer">
+            <div id="playButton">
+                <span> &#x25B6; </span>
+
+            </div>
+            <div id="globalPlaylistHeader">
+                <span id="durationText"> 00:00 </span>
+                <img id="volumeButton" src="@routes.Assets.at("images/volume_button.png")"/>
+                <div id="volumeSliderContainer">
+                </div>
+            </div>
+        </div>
+        <div>
+            <div id="globalPlaylistSongContainer"></div>
+        </div>
+    </div>
+
+</body>
+</html>
+
+<script type="text/template" id="menuTemplate">
+<tr>
+    <td id="{0}" class="menuItem">
+        <div>
+                {1}
+        </div>
+    </td>
+</tr>
+</script>
+
+<script type="text/template" id="imageMock">
+<img class="songImage" src="data:image/gif;base64,R0lGODlhZABkALMAAF2PmomwuHGfqVJ+h5q7wliIko+zu3ynsJS3vmaYo1WDjWucpnekrYOstE54gaHAxiwAAAAAZABkAAAE/9DJSau9OOvNu35gKI5kaZ5oqq6lxL5wLMvubN/4W+d8z+++oJAFHBqPoiJyKVQynzkndEpzUK83KXZ70nK/SSt4bPKSueYzNq2mstvQN5wpnyPrdiM+3xTz0X5/a4GCboSFcYeIdIqLd42OepCRfZSJlk97mDCaIQAAAp6fByifo3OdIAk7AA4LKgUOAHapIK1+k0l5tQ8ABg4KIH6rsi0gAhUPEgUhEwS2FKEBErM2vLO/wWI1Srjb28JW3MLQwtVVOdUu3+Ek3u3KIAjw4MoOAdO5Xfop5xP0h97ZI/fggANi4bjxS3EtDEB3zdjFUzaP27OIIS6iu8FAggEQsf9AdBRGSgSyYAMH/nrloAAChf8IOBigLIG1hSZM+Qvx0sE8EToPGND5qVfRBjNrKisgoFWAcE9vbtrh4GMPXlxkykrqA+umfV8fRYrKKAjOiPnIhgl0a4jXlJys3isT0O1ZFBI00lDrcMRdFW8Nirn11EUsmMKiTqBp7x/Bxoyl/ngwkl5Fc/QKW1EgcdyDATSn4fAqq62wyyEEZ+6rkGCyLH9JFACFzBuCi60WcOWm2AEyeK1cd43tN8QvjTWCK1O3rbBN5a0ntrxKPERleClXPZiGktusdZ1fKfuom1R1uEfUNphFINQJAK8YfLRSNKd42GGPvM3fl7/Z8/65A2BngP0RGMWABqKXoGQL4teggw/OsF+AE/pXIX8X5pdhWBt+1eFUCBr4ISYjWlIiJSdGkqIjKy7SIiIvFhKjIDP+USMfN+4SIoE50rIjhT9aGCSGQ2pYJIdHepgkiBHe5MGTUEYp5ZQRAAA7" />
+</script>
+
+<script type="text/template" id="songDetailOptionTemplate">
+<div class="songDetailMenuItem">
+        {0} </div>
+</script>

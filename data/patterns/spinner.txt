@@ -1,0 +1,5 @@
+For SPINNER version :   -> alternative views  -> multiple 3D perspectives	
+			-> extras on demand   -> when hovering over an artist information appears
+		  	-> Global navigation  -> consistent left menu 
+		  	-> center stage	      -> right canvas		
+		  	-> closable panels    -> the player can be hidden/shown	
