@@ -35,7 +35,6 @@ var SectionManager = (function () {
     function SectionManager(sections) {
         this.sections = sections;
     }
-
     SectionManager.prototype.build = function () {
         this.menuSelector = $("#menuSelector");
         this.menuSelectorBackground = $("#menuSelectorBackground");
@@ -66,7 +65,7 @@ var SectionManager = (function () {
     };
     SectionManager.prototype.onPageLoadComplete = function (section) {
         binders[section.id].buildPage(section.rootNode);
-        if (this.sections.indexOf(section) == 0) {
+        if(this.sections.indexOf(section) == 0) {
             this.changeSection(0);
         }
     };
@@ -152,7 +151,6 @@ var Section = (function () {
         this.id = id;
         this.url = url;
     }
-
     return Section;
 })();
 var ItemList = (function () {
@@ -163,7 +161,6 @@ var ItemList = (function () {
         this.itemListQueue = {
         };
     }
-
     ItemList.prototype.pushItemList = function (key) {
         this.itemListQueue[key] = {
             itemList: this.itemList,
@@ -174,7 +171,7 @@ var ItemList = (function () {
     ItemList.prototype.popItemList = function (key) {
         var _this = this;
         var itemData = this.itemListQueue[key];
-        if (itemData == null) {
+        if(itemData == null) {
             itemData = {
                 itemList: [],
                 selectedItem: null
@@ -190,24 +187,24 @@ var ItemList = (function () {
     ItemList.prototype.bind = function () {
         var _this = this;
         $(window).mousemove(function (event) {
-            if (_this.isHidden) {
+            if(_this.isHidden) {
                 return;
             }
-            if (event.clientX > (Dimensions.windowWidth - 15)) {
-                if (_this.isCollapsed) {
+            if(event.clientX > (Dimensions.windowWidth - 15)) {
+                if(_this.isCollapsed) {
                     _this.giveFocus();
                 }
             }
-            if (event.clientX < (Dimensions.windowWidth - 250)) {
-                if (!_this.isCollapsed) {
+            if(event.clientX < (Dimensions.windowWidth - 250)) {
+                if(!_this.isCollapsed) {
                     _this.takeFocus();
                 }
             }
         });
         var input = $("#newItemInput");
         input.keypress(function (event) {
-            if (event.which == 13) {
-                if (_this.onInput == null) {
+            if(event.which == 13) {
+                if(_this.onInput == null) {
                     return;
                 }
                 var text = input.val();
@@ -225,12 +222,7 @@ var ItemList = (function () {
         $("#itemListContainerTable").hide(400);
     };
     ItemList.prototype.giveFocus = function () {
-        $("#itemListContainer").transition({
-            width: 250,
-            perspective: "100px",
-            rotateY: '0deg',
-            transformOrigin: '0% 50%'
-        });
+        $("#itemListContainer").addClass("itemListContainerExpanded").removeClass("itemListContainerContracted");
         $("#sectionContainer").transition({
             perspective: "100px",
             rotateY: '-5deg',
@@ -239,12 +231,7 @@ var ItemList = (function () {
         this.isCollapsed = false;
     };
     ItemList.prototype.takeFocus = function () {
-        $("#itemListContainer").transition({
-            width: 0,
-            perspective: "100px",
-            rotateY: '10deg',
-            transformOrigin: '0% 50%'
-        });
+        $("#itemListContainer").removeClass("itemListContainerExpanded").addClass("itemListContainerContracted");
         $("#sectionContainer").transition({
             perspective: "100px",
             rotateY: '0deg',
@@ -261,13 +248,13 @@ var ItemList = (function () {
         var _this = this;
         item.rootNode.click(function () {
             _this.switchItem(item);
-            if (item.onSelect != null) {
+            if(item.onSelect != null) {
                 item.onSelect();
             }
         });
     };
     ItemList.prototype.switchItem = function (item) {
-        if (this.selectedItem != null) {
+        if(this.selectedItem != null) {
             this.selectedItem.rootNode.removeClass("itemListFocused");
         }
         item.rootNode.addClass("itemListFocused");
@@ -287,13 +274,10 @@ var Item = (function () {
         this.id = id;
         this.title = title;
     }
-
     return Item;
 })();
 var PlayManager = (function () {
-    function PlayManager() {
-    }
-
+    function PlayManager() { }
     PlayManager.prototype.bind = function () {
         $("#playButton").click(function () {
             $(this).toggleClass("playButtonPaused");
@@ -306,20 +290,19 @@ var GlobalPlaylistManager = (function () {
         this.isCollapsed = true;
         this.isVolumeVisible = false;
     }
-
     GlobalPlaylistManager.prototype.bind = function () {
         var _this = this;
         $(window).mousemove(function (event) {
-            if (event.clientY > (Dimensions.windowHeight - 15)) {
-                if (_this.isCollapsed) {
+            if(event.clientY > (Dimensions.windowHeight - 15)) {
+                if(_this.isCollapsed) {
                     _this.giveFocus();
                 }
             }
-            if (event.clientY < (Dimensions.windowHeight - 155)) {
-                if (!_this.isCollapsed) {
+            if(event.clientY < (Dimensions.windowHeight - 155)) {
+                if(!_this.isCollapsed) {
                     _this.takeFocus();
                 }
-                if (_this.isVolumeVisible) {
+                if(_this.isVolumeVisible) {
                     $("#volumeSliderContainer").hide();
                     _this.isVolumeVisible = false;
                 }
@@ -337,7 +320,7 @@ var GlobalPlaylistManager = (function () {
             _this.isVolumeVisible = true;
         });
         var imageTemplate = template("#imageMock");
-        for (var i = 0; i < 15; i++) {
+        for(var i = 0; i < 15; i++) {
             $("#globalPlaylistSongContainer").append(imageTemplate);
         }
     };

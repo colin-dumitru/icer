@@ -43,10 +43,8 @@
   top: 20%;
   position: relative;
   margin: 0 auto;
-  width: 50%;
   width: 700px;
-  height: 480px;
-  height: 50%;
+  height: 400px;
 }
 #historyLayout td {
   width: 25%;

@@ -263,12 +263,9 @@ class ItemList {
 
     giveFocus() {
         $("#itemListContainer")
-            .transition({
-                width: 250,
-                perspective: "100px",
-                rotateY: '0deg',
-                transformOrigin: '0% 50%'
-            });
+            .addClass("itemListContainerExpanded")
+            .removeClass("itemListContainerContracted");
+
         $("#sectionContainer")
             .transition({
                 perspective: "100px",
@@ -280,12 +277,8 @@ class ItemList {
 
     takeFocus() {
         $("#itemListContainer")
-            .transition({
-                width: 0,
-                perspective: "100px",
-                rotateY: '10deg',
-                transformOrigin: '0% 50%'
-            });
+            .removeClass("itemListContainerExpanded")
+            .addClass("itemListContainerContracted");
         $("#sectionContainer")
             .transition({
                 perspective: "100px",
