@@ -32,9 +32,11 @@ var PlaylistBinder = (function () {
         switch(event.which) {
             case 38:
                 (binders["playlist"]).playlistManager.givePreviousPlaylistFocus();
+                event.preventDefault();
                 break;
             case 40:
                 (binders["playlist"]).playlistManager.giveNextPlaylistFocus();
+                event.preventDefault();
                 break;
         }
     };

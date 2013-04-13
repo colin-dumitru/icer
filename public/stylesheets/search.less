@@ -113,15 +113,20 @@
 
 #searchSongListContainerWrapper {
   position: relative;
-  right: 10px;
-  width: 350px;
-  height: 100px;
+  left: 10px;
+  width: 400px;
+  height: 120px;
   overflow-x: auto;
+  overflow-y: hidden;
+  float: left;
 }
 
 #searchSongListContainer {
   float: left;
-  margin-right: -30000px;
+}
+
+#searchSongListContainer > .inline{
+  display: table-cell;
 }
 
 #searchSongTitle {

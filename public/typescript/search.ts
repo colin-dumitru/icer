@@ -24,15 +24,19 @@ class SearchBinder implements SectionBinder {
         switch (event.which) {
             case 37: //left
                 (<SearchBinder>binders["search"]).manager.givePreviousPageFocus();
+                event.preventDefault();
                 break;
             case 38: //up
                 (<SearchBinder>binders["search"]).manager.givePreviousSessionFocus();
+                event.preventDefault();
                 break;
             case 39: //right
                 (<SearchBinder>binders["search"]).manager.giveNextPageFocus();
+                event.preventDefault();
                 break;
             case 40: //down
                 (<SearchBinder>binders["search"]).manager.giveNextSessionFocus();
+                event.preventDefault();
                 break;
         }
     }

@@ -21,15 +21,19 @@ var SearchBinder = (function () {
         switch(event.which) {
             case 37:
                 (binders["search"]).manager.givePreviousPageFocus();
+                event.preventDefault();
                 break;
             case 38:
                 (binders["search"]).manager.givePreviousSessionFocus();
+                event.preventDefault();
                 break;
             case 39:
                 (binders["search"]).manager.giveNextPageFocus();
+                event.preventDefault();
                 break;
             case 40:
                 (binders["search"]).manager.giveNextSessionFocus();
+                event.preventDefault();
                 break;
         }
     };

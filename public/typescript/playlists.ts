@@ -37,9 +37,11 @@ class PlaylistBinder implements SectionBinder {
         switch (event.which) {
             case 38: //up
                 (<PlaylistBinder>binders["playlist"]).playlistManager.givePreviousPlaylistFocus();
+                event.preventDefault();
                 break;
             case 40: //down
                 (<PlaylistBinder>binders["playlist"]).playlistManager.giveNextPlaylistFocus();
+                event.preventDefault();
                 break;
         }
     }
