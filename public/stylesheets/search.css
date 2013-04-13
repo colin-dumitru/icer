@@ -163,6 +163,7 @@
   display: table-cell;
 }
 #searchSongTitle {
+  padding-left: 10px;
   color: #edfffc;
   font-family: 'Roboto', sans-serif;
   font-size: 20px;
