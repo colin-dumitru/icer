@@ -1,0 +1,21 @@
+@(message: String)
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="@routes.Assets.at("/stylesheets/main.css")" />
+</head>
+
+<body class="errorBody">
+
+    <table id="errorTable">
+        <tr>
+            <td id="sadSmiley"> :( </td>
+            <td id="errorMessage"> @message </td>
+        </tr>
+    </table>
+
+</body>
+
+</html>
+

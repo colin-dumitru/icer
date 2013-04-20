@@ -26,6 +26,30 @@ html {
   overflow: hidden;
 }
 
+.errorBody {
+  background: @background;
+}
+
+#sadSmiley {
+  .fontMenu2;
+  color: @foreground_focus;
+  font-size: 100px;
+}
+
+#errorTable {
+  position: relative;
+  top: 100px;
+  width: 600px;
+  margin: 0 auto;
+}
+
+#errorMessage {
+  width: 500px;
+  .fontText;
+  color: @foreground_text;
+  font-size: 20px;
+}
+
 #magic {
   height: 100%;
   width: 100%;
@@ -110,15 +134,15 @@ html {
   transition: all 0.4s ease;
 }
 
-.itemListContainerContracted{
-  -webkit-transform:rotateY(20deg);
+.itemListContainerContracted {
+  -webkit-transform: rotateY(20deg);
   transform: rotateY(20deg);
   width: 0px;
 }
 
-.itemListContainerExpanded{
+.itemListContainerExpanded {
   width: 250px;
-  -webkit-transform:rotateY(0deg);
+  -webkit-transform: rotateY(0deg);
   transform: rotateY(0deg);
 }
 
