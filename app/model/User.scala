@@ -4,17 +4,18 @@ import play.api.db._
 import play.api.Play.current
 import anorm._
 import anorm.SqlParser._
+import java.math.BigDecimal
 
 /**
  * Catalin Dumitru
  * Universitatea Alexandru Ioan Cuza
  */
-case class User(id: Pk[Long], email: String) {
+case class User(id: Pk[BigDecimal], email: String) {
 }
 
 object User {
   val simple = {
-    get[Pk[Long]]("id") ~
+    get[Pk[BigDecimal]]("id") ~
       get[String]("email") map {
       case id ~ email => User(id, email)
     }

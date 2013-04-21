@@ -1,28 +1,49 @@
-@()
+@(authToken: String)
 
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="@routes.Assets.at("/stylesheets/main.css")" />
-    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <link rel="stylesheet" href="@routes.Assets.at("stylesheets/main.css")" />
 
-    <script type="text/javascript" src="@routes.Assets.at("javascripts/login.js")">
+    <script>
+            var token = " @authToken";
+            console.log(token);
     </script>
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script type="text/javascript" src="@routes.Assets.at("javascripts/login.js")"></script>
 </head>
 
-<body class="errorBody">
-    <div id="gConnect">
-        <button class="g-signin"
-        data-scope="https://www.googleapis.com/auth/userinfo.profile"
-        data-requestvisibleactions="http://schemas.google.com/AddActivity"
-        data-clientId="23795176944.apps.googleusercontent.com"
-        data-accesstype="offline"
-        data-callback="signInCallback"
-        data-redirecturi="oauth2callback"
-        data-theme="dark"
-        data-cookiepolicy="single_host_origin">
-        </button>
+<body class="fullFrameBody">
+
+    <div id="loaderOverlay">
+        <img src="@routes.Assets.at("images/loader.gif")" />
     </div>
+
+    <table class="centeredTable">
+        <tr>
+            <td id="attentionSign"> ! </td>
+            <td id="loginMessage">
+                <div> Please connect with your Google Plus account to start Playing.</div>
+
+                <div id="gConnect">
+                    <button class="g-signin"
+                    data-scope="https://www.googleapis.com/auth/userinfo.profile"
+                    data-requestvisibleactions="http://schemas.google.com/AddActivity"
+                    data-clientId="23795176944.apps.googleusercontent.com"
+                    data-accesstype="offline"
+                    data-callback="signInCallback"
+                    data-theme="dark"
+                    data-cookiepolicy="single_host_origin">
+                    </button>
+                </div>
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="2" id="loginErrorMessage">
+            </td>
+        </tr>
+    </table>
 
 </body>
 

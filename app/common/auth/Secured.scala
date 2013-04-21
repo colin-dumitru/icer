@@ -3,6 +3,7 @@ package common.auth
 import play.api.mvc._
 import controllers.routes
 import Results._
+import service.auth.Auth
 
 /**
  * Catalin Dumitru
@@ -12,19 +13,23 @@ import Results._
 object Secured {
   def apply(block: (Request[AnyContent]) => Result): Action[AnyContent] = {
     Action(request => {
-      request.session.get("userId") match {
-        case Some(userId) => block(request)
-        case None => Redirect(routes.Application.login().url)
+      request.session.get("access_token") match {
+        case Some(token) => {
+          Auth.userInfo.get(token) match {
+            case Some(info) => if (info.id == null) toLogIn else block(request)
+            case None => toLogIn
+          }
+        }
+        case None => toLogIn
       }
     })
   }
 
+  def toLogIn: SimpleResult[EmptyContent] = {
+    Redirect(routes.Application.login().url)
+  }
+
   def apply(result: PlainResult): Action[AnyContent] = {
-    Action(request => {
-      request.session.get("userId") match {
-        case Some(userId) => result
-        case None => Redirect(routes.Application.login().url)
-      }
-    })
+    Secured(req => result)
   }
 }
