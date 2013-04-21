@@ -46,14 +46,14 @@ object Application extends Controller {
 
 
   def storeAccessToken(storedToken: String, token: String, jsValue: JsValue): PlainResult = {
-    if (storedToken == token) {
+    if (storedToken.trim == token.trim) {
       Ok("Token was stored")
         .withSession("access_token" -> (Auth.storeToken(jsValue) match {
         case Some(auth_token) => auth_token
         case None => null
       }))
     } else {
-      BadRequest("Bad user token received")
+      BadRequest("Bad user token received: " + token + "/" + storedToken)
     }
   }
 
