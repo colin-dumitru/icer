@@ -9,12 +9,13 @@ import service.auth.{UserInfo, Auth}
 import play.api.libs.json
 import scala.None
 import play.api.libs.json.JsValue
+import common.config.Global
 
 object Application extends Controller {
 
   def index = Secured {
-    request =>
-      Ok(views.html.main("Welcome to Uplay3D.", Auth.userInfo(request.session("access_token")).name))
+    (request, id) =>
+      Ok(views.html.main("Welcome to UPlay3D.", Auth.userInfo(request.session("access_token")).name, Global.soundCloudClientId))
   }
 
 

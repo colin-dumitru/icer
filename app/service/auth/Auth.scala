@@ -52,4 +52,4 @@ object Auth {
   }
 }
 
-case class UserInfo(toke: String, id: BigDecimal, name: String)
+case class UserInfo(token: String, id: BigDecimal, name: String)

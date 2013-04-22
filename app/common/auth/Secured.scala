@@ -11,12 +11,12 @@ import service.auth.Auth
  */
 
 object Secured {
-  def apply(block: (Request[AnyContent]) => Result): Action[AnyContent] = {
+  def apply(block: (Request[AnyContent], BigDecimal) => Result): Action[AnyContent] = {
     Action(request => {
       request.session.get("access_token") match {
         case Some(token) => {
           Auth.userInfo.get(token) match {
-            case Some(info) => if (info.id == null) toLogIn else block(request)
+            case Some(info) => if (info.id == null) toLogIn else block(request, info.id)
             case None => toLogIn
           }
         }
@@ -30,6 +30,6 @@ object Secured {
   }
 
   def apply(result: PlainResult): Action[AnyContent] = {
-    Secured(req => result)
+    Secured((req, id) => result)
   }
 }

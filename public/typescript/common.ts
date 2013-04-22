@@ -113,3 +113,7 @@ function randomSongTitle():{artist:string; title:string;} {
 }
 
 var songDetailManager:SongDetailManager = new SongDetailManager();
+
+class Song {
+
+}
