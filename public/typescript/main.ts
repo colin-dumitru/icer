@@ -27,6 +27,16 @@ function run() {
     playManager.bind();
     globalPlaylistManager.bind();
     songDetailManager.bind();
+
+    //todo temp
+    globalPlaylistManager.pushSongs([
+        new Song("077f4678-2eed-4e3e-bdbd-8476a9201b62", new SongInfo("Believe Me Natalie", "The Killers", "http://userserve-ak.last.fm/serve/300x300/68101062.png")),
+        new Song("812349b2-b115-4dc2-b90e-040a1eac3725", new SongInfo("I Believe in a Thing Called Love", "The Darkness", "http://userserve-ak.last.fm/serve/300x300/87434825.png")),
+        new Song("077f4678-2eed-4e3e-bdbd-8476a9201b62", new SongInfo("Believe Me Natalie", "The Killers", "http://userserve-ak.last.fm/serve/300x300/68101062.png")),
+        new Song("077f4678-2eed-4e3e-bdbd-8476a9201b62", new SongInfo("Believe Me Natalie", "The Killers", "http://userserve-ak.last.fm/serve/300x300/68101062.png")),
+        new Song("077f4678-2eed-4e3e-bdbd-8476a9201b62", new SongInfo("Believe Me Natalie", "The Killers", "http://userserve-ak.last.fm/serve/300x300/68101062.png")),
+        new Song("077f4678-2eed-4e3e-bdbd-8476a9201b62", new SongInfo("Believe Me Natalie", "The Killers", "http://userserve-ak.last.fm/serve/300x300/68101062.png"))
+    ])
 }
 
 function buildSearchSection():Section {
@@ -342,6 +352,12 @@ class GlobalPlaylistManager {
     private isCollapsed = true;
     private isVolumeVisible = false;
 
+    private playerWidget = null;
+
+    private songQueue:Song[] = [];
+    private currentSongIndex = 0;
+    private playing = false;
+
     bind() {
         $(window).mousemove((event) => {
             if (event.clientY > (Dimensions.windowHeight - 15)) {
@@ -374,11 +390,64 @@ class GlobalPlaylistManager {
             this.isVolumeVisible = true;
         });
 
-        //todo temp
-        var imageTemplate = template("#imageMock");
-        for (var i = 0; i < 15; i++) {
-            $("#globalPlaylistSongContainer").append(imageTemplate);
+        $("#playButton").click(() => {
+            this.playToggle();
+        });
+    }
+
+    private playToggle() {
+        if (this.playing) {
+            this.pause();
+            this.playing = false;
+        } else {
+            this.play();
+            this.playing = true;
         }
+    }
+
+    private play() {
+        var currentSong = this.getCurrentSong();
+        if (currentSong == null) {
+            return;
+        }
+        this.playSong(currentSong);
+    }
+
+    private playSong(song:Song) {
+
+    }
+
+    private pause() {
+
+    }
+
+    private getCurrentSong():Song {
+        if (this.currentSongIndex < 0 || this.currentSongIndex >= this.songQueue.length) {
+            return null;
+        }
+        return this.songQueue[this.currentSongIndex];
+    }
+
+    public pushSongs(songs:Song[]) {
+        songs.forEach((song) => {
+            this.pushSong(song);
+        });
+    }
+
+    public pushSong(song:Song) {
+        this.songQueue.push(song);
+        this.addImageTemplate(song);
+    }
+
+    private addImageTemplate(song:Song) {
+        var template = buildSmallSong(song);
+        $("#globalPlaylistSongContainer").append(template);
+        //todo events for click
+    }
+
+    public clearSongs() {
+        this.songQueue = [];
+        this.currentSongIndex = 0;
     }
 
     giveFocus() {

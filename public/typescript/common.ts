@@ -114,6 +114,25 @@ function randomSongTitle():{artist:string; title:string;} {
 
 var songDetailManager:SongDetailManager = new SongDetailManager();
 
-class Song {
+function buildSmallSong(song:Song) {
+    var parentDiv = $("<div></div>");
+    var imageTemplate = template("#imageMock", song.info.title, song.info.artist);
+    parentDiv.addClass("imageContainer");
+    parentDiv.addClass("inline");
+    parentDiv.append(imageTemplate);
 
+    if (song.info.imageUrl != null) {
+        parentDiv.find("#songImage").attr("src", song.info.imageUrl);
+    }
+    return parentDiv;
+}
+
+class Song {
+    constructor(public mbdid:string, public info:SongInfo) {
+    }
+}
+
+class SongInfo {
+    constructor(public title:String, public artist:String, public imageUrl:String) {
+    }
 }

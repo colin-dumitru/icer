@@ -131,10 +131,32 @@ function randomSongTitle() {
     return titles[Math.floor(Math.random() * titles.length)];
 }
 var songDetailManager = new SongDetailManager();
+function buildSmallSong(song) {
+    var parentDiv = $("<div></div>");
+    var imageTemplate = template("#imageMock", song.info.title, song.info.artist);
+    parentDiv.addClass("imageContainer");
+    parentDiv.addClass("inline");
+    parentDiv.append(imageTemplate);
+    if (song.info.imageUrl != null) {
+        parentDiv.find("#songImage").attr("src", song.info.imageUrl);
+    }
+    return parentDiv;
+}
 var Song = (function () {
-    function Song() {
+    function Song(mbdid, info) {
+        this.mbdid = mbdid;
+        this.info = info;
     }
 
     return Song;
+})();
+var SongInfo = (function () {
+    function SongInfo(title, artist, imageUrl) {
+        this.title = title;
+        this.artist = artist;
+        this.imageUrl = imageUrl;
+    }
+
+    return SongInfo;
 })();
 //@ sourceMappingURL=common.js.map

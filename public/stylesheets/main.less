@@ -430,21 +430,22 @@ html {
   background: @foreground_focus;
 }
 
-.mockImageContainer {
+.imageContainer {
   position: relative;
   width: 110px;
   height: 100px;
 }
 
-.mockImageInfo {
+.imageInfo {
   position: absolute;
   height: 40px;
   width: 100px;
   bottom: 0px;
   left: 0px;
+  background: fade(@background, 50%);
 }
 
-.mockImageTitle {
+.imageTitle {
   height: 20px;
   width: 100px;
   overflow: hidden;
@@ -454,12 +455,7 @@ html {
   font-size: 15px;
 }
 
-.mockImageArtist {
-  height: 20px;
-  width: 100px;
-  overflow: hidden;
-  text-align: center;
-  .fontText;
-  color: @foreground_text;
+.imageArtist {
+  .imageTitle;
   font-size: 11px;
 }

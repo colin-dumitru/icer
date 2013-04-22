@@ -5,6 +5,7 @@ import play.api.libs.ws.{Response, WS}
 import scala.util.{Success, Failure, Try}
 import scala.collection.mutable
 import scala.concurrent.ExecutionContext.Implicits.global
+import java.math.BigDecimal
 
 /**
  * Catalin Dumitru
@@ -39,7 +40,7 @@ object Auth {
     val user = UserInfo(
       token,
       (jsValue \ "id").asOpt[String] match {
-        case Some(id) => BigDecimal(id)
+        case Some(id) => new BigDecimal(id)
         case None => null
       },
       (jsValue \ "name").asOpt[String] match {
