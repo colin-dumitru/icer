@@ -370,6 +370,7 @@ html {
 }
 
 .songImage {
+  position: relative;
   cursor: pointer;
 }
 
@@ -434,6 +435,19 @@ html {
   position: relative;
   width: 110px;
   height: 100px;
+}
+
+.disabledGlobalSong {
+  opacity: 0.5;
+}
+
+.playingSongOverlay {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 100px;
+  height: 100px;
+  background: fade(@foreground_focus, 50%);
 }
 
 .imageInfo {

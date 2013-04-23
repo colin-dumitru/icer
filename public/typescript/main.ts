@@ -1,4 +1,13 @@
 declare var $;
+declare var soundCloudId;
+declare var SC;
+
+$.scPlayer.defaults.onDomReady = function () {
+
+    SC.initialize({
+        client_id: soundCloudId
+    });
+};
 
 interface SectionBinder{
     buildPage(rootNode:any);
@@ -32,10 +41,10 @@ function run() {
     globalPlaylistManager.pushSongs([
         new Song("077f4678-2eed-4e3e-bdbd-8476a9201b62", new SongInfo("Believe Me Natalie", "The Killers", "http://userserve-ak.last.fm/serve/300x300/68101062.png")),
         new Song("812349b2-b115-4dc2-b90e-040a1eac3725", new SongInfo("I Believe in a Thing Called Love", "The Darkness", "http://userserve-ak.last.fm/serve/300x300/87434825.png")),
-        new Song("077f4678-2eed-4e3e-bdbd-8476a9201b62", new SongInfo("Believe Me Natalie", "The Killers", "http://userserve-ak.last.fm/serve/300x300/68101062.png")),
-        new Song("077f4678-2eed-4e3e-bdbd-8476a9201b62", new SongInfo("Believe Me Natalie", "The Killers", "http://userserve-ak.last.fm/serve/300x300/68101062.png")),
-        new Song("077f4678-2eed-4e3e-bdbd-8476a9201b62", new SongInfo("Believe Me Natalie", "The Killers", "http://userserve-ak.last.fm/serve/300x300/68101062.png")),
-        new Song("077f4678-2eed-4e3e-bdbd-8476a9201b62", new SongInfo("Believe Me Natalie", "The Killers", "http://userserve-ak.last.fm/serve/300x300/68101062.png"))
+        new Song("13194c93-89c6-4ab4-aaf2-15db5d73b74e", new SongInfo("Believe", "Cher", "http://userserve-ak.last.fm/serve/300x300/71997588.png")),
+        new Song("5750327d-09ba-43e5-bd75-a08ba29e22f5", new SongInfo("We Believe", "Red Hot Chili Peppers", "http://userserve-ak.last.fm/serve/300x300/66662762.png")),
+        new Song("0196b4cc-66ec-4ad4-acad-2fe852a4ccd5", new SongInfo("I'm a Believer", "The Monkees", "http://userserve-ak.last.fm/serve/300x300/77468760.png")),
+        new Song("076ed98f-f3e9-44c8-b9b7-66624de9b9f0", new SongInfo("Believe", "The Bravery", "http://userserve-ak.last.fm/serve/300x300/9723711.jpg"))
     ])
 }
 
@@ -341,10 +350,82 @@ class Item {
 }
 
 class PlayManager {
-    bind() {
-        $("#playButton").click(function () {
-            $(this).toggleClass("playButtonPaused");
+    public player = null;
+    public onSongError:(song:Song) => any;
+    public onFinish:(song:Song) => any;
+
+    private currentSong = null;
+    private currentPlayer = null;
+
+    public bind() {
+        SC.initialize({
+            client_id: soundCloudId
         });
+        window.setInterval(() => {
+            this.updateElapsed();
+        }, 500);
+    }
+
+    private updateElapsed() {
+        if (this.currentPlayer != null) {
+            var seconds = Math.floor(this.currentPlayer.position / 1000);
+            var minutes = Math.floor(seconds / 60);
+            var clampedSeconds = seconds % 60;
+            $("#durationText").text(this.padZeros(minutes.toString()) + ":" + this.padZeros(clampedSeconds.toString()));
+        }
+    }
+
+    private padZeros(text:String):String {
+        if (text.length == 1) {
+            return "0" + text;
+        }
+        return text;
+    }
+
+    public playSong(song:Song) {
+        if (song == this.currentSong) {
+            this.currentPlayer.play();
+        } else {
+            this.resolveSoundUrl(song);
+        }
+    }
+
+    public pause() {
+        if (this.currentSong != null) {
+            this.currentPlayer.pause();
+        }
+    }
+
+    public changeVolume(value:number) {
+        if (this.currentSong != null) {
+            this.currentPlayer.setVolume(value);
+        }
+    }
+
+    private resolveSoundUrl(song:Song) {
+        SC.get('/tracks', { q: song.info.title + " " + song.info.artist}, (tracks:any[]) => {
+            if (tracks.length == 0) {
+                this.onSongError(song);
+            } else {
+                this.playResolved(tracks[0], song);
+            }
+        });
+    }
+
+    private playResolved(trackInfo:any, song:Song) {
+        var trackId = trackInfo["id"];
+        SC.stream("/tracks/" + trackId,
+            {
+                onfinish: () => {
+                    this.onFinish(song);
+                }
+            },
+            (sound)  => {
+                this.currentPlayer = sound;
+                this.currentSong = song;
+                console.log(sound);
+                sound.play();
+            });
     }
 }
 
@@ -352,15 +433,15 @@ class GlobalPlaylistManager {
     private isCollapsed = true;
     private isVolumeVisible = false;
 
-    private playerWidget = null;
-
     private songQueue:Song[] = [];
     private currentSongIndex = 0;
+    private playingSong:Song;
     private playing = false;
 
     bind() {
         $(window).mousemove((event) => {
-            if (event.clientY > (Dimensions.windowHeight - 15)) {
+            if (event.clientY > (Dimensions.windowHeight - 15) &&
+                (event.clientX < (Dimensions.windowWidth / 2 - 200) || event.clientX > (Dimensions.windowWidth / 2 + 200))) {
                 if (this.isCollapsed) {
                     this.giveFocus();
                 }
@@ -382,7 +463,10 @@ class GlobalPlaylistManager {
             range: "min",
             min: 0,
             max: 100,
-            value: 60
+            value: 100,
+            slide: (event, ui) => {
+                this.changeVolume(ui.value);
+            }
         });
 
         $("#volumeButton").mouseenter(() => {
@@ -391,8 +475,30 @@ class GlobalPlaylistManager {
         });
 
         $("#playButton").click(() => {
+            $("#playButton").toggleClass("playButtonPaused");
             this.playToggle();
         });
+
+        playManager.onSongError = (song) => {
+            this.disableSong(song);
+            this.playNext();
+        };
+
+        playManager.onFinish = (song) => {
+            this.playNext();
+        }
+    }
+
+    private changeVolume(value:number) {
+        playManager.changeVolume(value);
+    }
+
+    private disableSong(song:Song) {
+        var songContainer = $("#globalPlay" + song.mbdid);
+
+        songContainer.addClass("disabledGlobalSong");
+        songContainer.find(".imageTitle").text("Not Found");
+        songContainer.find(".imageArtist").text(":(");
     }
 
     private playToggle() {
@@ -413,12 +519,49 @@ class GlobalPlaylistManager {
         this.playSong(currentSong);
     }
 
-    private playSong(song:Song) {
+    private playNext() {
+        this.currentSongIndex += 1;
+        if (this.currentSongIndex == this.songQueue.length) {
+            this.currentSongIndex = 0;
+        }
+        var songToPlay = this.getCurrentSong();
+        this.playSong(songToPlay);
+    }
 
+    private playSong(song:Song) {
+        if (song == null) {
+            return;
+        }
+
+        this.unDecorateSong(this.playingSong);
+        this.decorateSong(song);
+
+        this.playingSong = song;
+        playManager.playSong(song);
+    }
+
+    private decorateSong(song:Song) {
+        var songContainer = $("#globalPlay" + song.mbdid);
+        songContainer.append(this.createOverlay());
+    }
+
+    private unDecorateSong(song:Song) {
+        if (song == null) {
+            return;
+        }
+        var songContainer = $("#globalPlay" + song.mbdid)
+            .find(".playingSongOverlay");
+        songContainer.remove();
+    }
+
+    private createOverlay() {
+        var elem = $("<div></div>");
+        elem.addClass("playingSongOverlay");
+        return elem;
     }
 
     private pause() {
-
+        playManager.pause();
     }
 
     private getCurrentSong():Song {
@@ -441,6 +584,7 @@ class GlobalPlaylistManager {
 
     private addImageTemplate(song:Song) {
         var template = buildSmallSong(song);
+        $(template).attr("id", "globalPlay" + song.mbdid);
         $("#globalPlaylistSongContainer").append(template);
         //todo events for click
     }

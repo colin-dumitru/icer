@@ -21,6 +21,7 @@
             ;
     </script>
 
+    <script src="http://connect.soundcloud.com/sdk.js"></script>
     <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
     <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
     <script src="@routes.Assets.at("javascripts/rickshaw.min.js")"></script>
@@ -87,10 +88,9 @@
     <div id="globalPlaylistContainer">
         <div id="bottomPlayBar"></div>
         <div id="playButtonContainer">
-            <div class="sc-play"></div>
+            <a class="hidden" id="soundCloudPlayer" class="sc-play" href="http://soundcloud.com/matas/hobnotropic"></a>
             <div id="playButton">
                 <span> &#x25B6; </span>
-
             </div>
             <div id="globalPlaylistHeader">
                 <span id="durationText"> 00:00 </span>
