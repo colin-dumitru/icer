@@ -2,13 +2,6 @@ declare var $;
 declare var soundCloudId;
 declare var SC;
 
-$.scPlayer.defaults.onDomReady = function () {
-
-    SC.initialize({
-        client_id: soundCloudId
-    });
-};
-
 interface SectionBinder{
     buildPage(rootNode:any);
     bind();

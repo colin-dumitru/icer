@@ -1,8 +1,3 @@
-$.scPlayer.defaults.onDomReady = function () {
-    SC.initialize({
-        client_id: soundCloudId
-    });
-};
 function run() {
     var sections = [];
     sections.push(buildSearchSection());
