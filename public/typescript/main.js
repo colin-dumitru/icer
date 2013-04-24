@@ -16,11 +16,11 @@ function run() {
     globalPlaylistManager.bind();
     songDetailManager.bind();
     globalPlaylistManager.pushSongs([
-        new Song("077f4678-2eed-4e3e-bdbd-8476a9201b62", new SongInfo("Believe Me Natalie", "The Killers", "http://userserve-ak.last.fm/serve/300x300/68101062.png")),
-        new Song("812349b2-b115-4dc2-b90e-040a1eac3725", new SongInfo("I Believe in a Thing Called Love", "The Darkness", "http://userserve-ak.last.fm/serve/300x300/87434825.png")),
-        new Song("13194c93-89c6-4ab4-aaf2-15db5d73b74e", new SongInfo("Believe", "Cher", "http://userserve-ak.last.fm/serve/300x300/71997588.png")),
-        new Song("5750327d-09ba-43e5-bd75-a08ba29e22f5", new SongInfo("We Believe", "Red Hot Chili Peppers", "http://userserve-ak.last.fm/serve/300x300/66662762.png")),
-        new Song("0196b4cc-66ec-4ad4-acad-2fe852a4ccd5", new SongInfo("I'm a Believer", "The Monkees", "http://userserve-ak.last.fm/serve/300x300/77468760.png")),
+        new Song("077f4678-2eed-4e3e-bdbd-8476a9201b62", new SongInfo("Believe Me Natalie", "The Killers", "http://userserve-ak.last.fm/serve/300x300/68101062.png")), 
+        new Song("812349b2-b115-4dc2-b90e-040a1eac3725", new SongInfo("I Believe in a Thing Called Love", "The Darkness", "http://userserve-ak.last.fm/serve/300x300/87434825.png")), 
+        new Song("13194c93-89c6-4ab4-aaf2-15db5d73b74e", new SongInfo("Believe", "Cher", "http://userserve-ak.last.fm/serve/300x300/71997588.png")), 
+        new Song("5750327d-09ba-43e5-bd75-a08ba29e22f5", new SongInfo("We Believe", "Red Hot Chili Peppers", "http://userserve-ak.last.fm/serve/300x300/66662762.png")), 
+        new Song("0196b4cc-66ec-4ad4-acad-2fe852a4ccd5", new SongInfo("I'm a Believer", "The Monkees", "http://userserve-ak.last.fm/serve/300x300/77468760.png")), 
         new Song("076ed98f-f3e9-44c8-b9b7-66624de9b9f0", new SongInfo("Believe", "The Bravery", "http://userserve-ak.last.fm/serve/300x300/9723711.jpg"))
     ]);
 }
@@ -43,7 +43,6 @@ var SectionManager = (function () {
     function SectionManager(sections) {
         this.sections = sections;
     }
-
     SectionManager.prototype.build = function () {
         this.menuSelector = $("#menuSelector");
         this.menuSelectorBackground = $("#menuSelectorBackground");
@@ -74,7 +73,7 @@ var SectionManager = (function () {
     };
     SectionManager.prototype.onPageLoadComplete = function (section) {
         binders[section.id].buildPage(section.rootNode);
-        if (this.sections.indexOf(section) == 0) {
+        if(this.sections.indexOf(section) == 0) {
             this.changeSection(0);
         }
     };
@@ -103,18 +102,18 @@ var SectionManager = (function () {
         this.currentSection = this.sections[index];
         this.currentSectionIndex = index;
         this.menuSelector.animate({
-            top: index * Dimensions.menuItemHeight
+            top: index * dimensions.menuItemHeight
         });
         this.menuSelectorBackground.animate({
-            top: index * Dimensions.menuItemHeight
+            top: index * dimensions.menuItemHeight
         });
         this.sectionTable.animate({
-            top: -index * Dimensions.windowHeight
+            top: -index * dimensions.windowHeight
         });
         binders[this.currentSection.id].bind();
     };
     SectionManager.prototype.closestMenuItem = function (top) {
-        var closestOffset = top / Dimensions.menuItemHeight;
+        var closestOffset = top / dimensions.menuItemHeight;
         return Math.round(closestOffset);
     };
     SectionManager.prototype.buildMenu = function () {
@@ -134,22 +133,22 @@ var SectionManager = (function () {
     };
     SectionManager.prototype.resize = function () {
         var firstSection = $("#" + this.sections[0].id + "Menu");
-        Dimensions.menuItemHeight = firstSection.height();
-        Dimensions.menuItemWidth = firstSection.width();
-        Dimensions.windowHeight = $(window).height();
-        Dimensions.windowWidth = $(window).width();
+        dimensions.menuItemHeight = firstSection.height();
+        dimensions.menuItemWidth = firstSection.width();
+        dimensions.windowHeight = $(window).height();
+        dimensions.windowWidth = $(window).width();
         this.menuSelector.css({
-            height: Dimensions.menuItemHeight,
-            top: this.currentSectionIndex * Dimensions.windowHeight
+            height: dimensions.menuItemHeight,
+            top: this.currentSectionIndex * dimensions.windowHeight
         });
         this.menuSelectorBackground.css({
-            height: Dimensions.menuItemHeight,
-            top: this.currentSectionIndex * Dimensions.menuItemHeight
+            height: dimensions.menuItemHeight,
+            top: this.currentSectionIndex * dimensions.menuItemHeight
         });
-        this.sectionContainer.css("height", Dimensions.windowHeight);
+        this.sectionContainer.css("height", dimensions.windowHeight);
         this.sectionTable.css({
-            height: Dimensions.windowHeight * this.sections.length,
-            top: -this.currentSectionIndex * Dimensions.windowHeight
+            height: dimensions.windowHeight * this.sections.length,
+            top: -this.currentSectionIndex * dimensions.windowHeight
         });
     };
     return SectionManager;
@@ -160,7 +159,6 @@ var Section = (function () {
         this.id = id;
         this.url = url;
     }
-
     return Section;
 })();
 var ItemList = (function () {
@@ -171,7 +169,6 @@ var ItemList = (function () {
         this.itemListQueue = {
         };
     }
-
     ItemList.prototype.pushItemList = function (key) {
         this.itemListQueue[key] = {
             itemList: this.itemList,
@@ -182,7 +179,7 @@ var ItemList = (function () {
     ItemList.prototype.popItemList = function (key) {
         var _this = this;
         var itemData = this.itemListQueue[key];
-        if (itemData == null) {
+        if(itemData == null) {
             itemData = {
                 itemList: [],
                 selectedItem: null
@@ -198,24 +195,24 @@ var ItemList = (function () {
     ItemList.prototype.bind = function () {
         var _this = this;
         $(window).mousemove(function (event) {
-            if (_this.isHidden) {
+            if(_this.isHidden) {
                 return;
             }
-            if (event.clientX > (Dimensions.windowWidth - 15)) {
-                if (_this.isCollapsed) {
+            if(event.clientX > (dimensions.windowWidth - 15)) {
+                if(_this.isCollapsed) {
                     _this.giveFocus();
                 }
             }
-            if (event.clientX < (Dimensions.windowWidth - 250)) {
-                if (!_this.isCollapsed) {
+            if(event.clientX < (dimensions.windowWidth - 250)) {
+                if(!_this.isCollapsed) {
                     _this.takeFocus();
                 }
             }
         });
         var input = $("#newItemInput");
         input.keypress(function (event) {
-            if (event.which == 13) {
-                if (_this.onInput == null) {
+            if(event.which == 13) {
+                if(_this.onInput == null) {
                     return;
                 }
                 var text = input.val();
@@ -259,13 +256,13 @@ var ItemList = (function () {
         var _this = this;
         item.rootNode.click(function () {
             _this.switchItem(item);
-            if (item.onSelect != null) {
+            if(item.onSelect != null) {
                 item.onSelect();
             }
         });
     };
     ItemList.prototype.switchItem = function (item) {
-        if (this.selectedItem != null) {
+        if(this.selectedItem != null) {
             this.selectedItem.rootNode.removeClass("itemListFocused");
         }
         item.rootNode.addClass("itemListFocused");
@@ -285,7 +282,6 @@ var Item = (function () {
         this.id = id;
         this.title = title;
     }
-
     return Item;
 })();
 var PlayManager = (function () {
@@ -294,7 +290,6 @@ var PlayManager = (function () {
         this.currentSong = null;
         this.currentPlayer = null;
     }
-
     PlayManager.prototype.bind = function () {
         var _this = this;
         SC.initialize({
@@ -305,7 +300,7 @@ var PlayManager = (function () {
         }, 500);
     };
     PlayManager.prototype.updateElapsed = function () {
-        if (this.currentPlayer != null) {
+        if(this.currentPlayer != null) {
             var seconds = Math.floor(this.currentPlayer.position / 1000);
             var minutes = Math.floor(seconds / 60);
             var clampedSeconds = seconds % 60;
@@ -313,25 +308,31 @@ var PlayManager = (function () {
         }
     };
     PlayManager.prototype.padZeros = function (text) {
-        if (text.length == 1) {
+        if(text.length == 1) {
             return "0" + text;
         }
         return text;
     };
     PlayManager.prototype.playSong = function (song) {
-        if (song == this.currentSong) {
+        if(song == this.currentSong) {
             this.currentPlayer.play();
         } else {
+            this.stopCurrentSong();
             this.resolveSoundUrl(song);
         }
     };
+    PlayManager.prototype.stopCurrentSong = function () {
+        if(this.currentPlayer != null) {
+            this.currentPlayer.stop();
+        }
+    };
     PlayManager.prototype.pause = function () {
-        if (this.currentSong != null) {
+        if(this.currentSong != null) {
             this.currentPlayer.pause();
         }
     };
     PlayManager.prototype.changeVolume = function (value) {
-        if (this.currentSong != null) {
+        if(this.currentSong != null) {
             this.currentPlayer.setVolume(value);
         }
     };
@@ -340,7 +341,7 @@ var PlayManager = (function () {
         SC.get('/tracks', {
             q: song.info.title + " " + song.info.artist
         }, function (tracks) {
-            if (tracks.length == 0) {
+            if(tracks.length == 0) {
                 _this.onSongError(song);
             } else {
                 _this.playResolved(tracks[0], song);
@@ -368,23 +369,21 @@ var GlobalPlaylistManager = (function () {
         this.isCollapsed = true;
         this.isVolumeVisible = false;
         this.songQueue = [];
-        this.currentSongIndex = 0;
         this.playing = false;
     }
-
     GlobalPlaylistManager.prototype.bind = function () {
         var _this = this;
         $(window).mousemove(function (event) {
-            if (event.clientY > (Dimensions.windowHeight - 15) && (event.clientX < (Dimensions.windowWidth / 2 - 200) || event.clientX > (Dimensions.windowWidth / 2 + 200))) {
-                if (_this.isCollapsed) {
+            if(event.clientY > (dimensions.windowHeight - 15) && (event.clientX < (dimensions.windowWidth / 2 - 200) || event.clientX > (dimensions.windowWidth / 2 + 200))) {
+                if(_this.isCollapsed) {
                     _this.giveFocus();
                 }
             }
-            if (event.clientY < (Dimensions.windowHeight - 155)) {
-                if (!_this.isCollapsed) {
+            if(event.clientY < (dimensions.windowHeight - 155)) {
+                if(!_this.isCollapsed) {
                     _this.takeFocus();
                 }
-                if (_this.isVolumeVisible) {
+                if(_this.isVolumeVisible) {
                     $("#volumeSliderContainer").hide();
                     _this.isVolumeVisible = false;
                 }
@@ -405,7 +404,6 @@ var GlobalPlaylistManager = (function () {
             _this.isVolumeVisible = true;
         });
         $("#playButton").click(function () {
-            $("#playButton").toggleClass("playButtonPaused");
             _this.playToggle();
         });
         playManager.onSongError = function (song) {
@@ -426,44 +424,44 @@ var GlobalPlaylistManager = (function () {
         songContainer.find(".imageArtist").text(":(");
     };
     GlobalPlaylistManager.prototype.playToggle = function () {
-        if (this.playing) {
+        if(this.playing) {
             this.pause();
-            this.playing = false;
         } else {
             this.play();
-            this.playing = true;
         }
     };
     GlobalPlaylistManager.prototype.play = function () {
         var currentSong = this.getCurrentSong();
-        if (currentSong == null) {
+        if(currentSong == null) {
             return;
         }
         this.playSong(currentSong);
     };
     GlobalPlaylistManager.prototype.playNext = function () {
-        this.currentSongIndex += 1;
-        if (this.currentSongIndex == this.songQueue.length) {
-            this.currentSongIndex = 0;
+        var currentSongIndex = this.songQueue.indexOf(this.getCurrentSong()) + 1;
+        if(currentSongIndex == this.songQueue.length) {
+            currentSongIndex = 0;
         }
-        var songToPlay = this.getCurrentSong();
+        var songToPlay = this.songQueue[currentSongIndex];
         this.playSong(songToPlay);
     };
     GlobalPlaylistManager.prototype.playSong = function (song) {
-        if (song == null) {
+        if(song == null) {
             return;
         }
         this.unDecorateSong(this.playingSong);
         this.decorateSong(song);
+        this.playing = true;
         this.playingSong = song;
         playManager.playSong(song);
+        $("#playButton").removeClass("playButtonPaused");
     };
     GlobalPlaylistManager.prototype.decorateSong = function (song) {
         var songContainer = $("#globalPlay" + song.mbdid);
         songContainer.append(this.createOverlay());
     };
     GlobalPlaylistManager.prototype.unDecorateSong = function (song) {
-        if (song == null) {
+        if(song == null) {
             return;
         }
         var songContainer = $("#globalPlay" + song.mbdid).find(".playingSongOverlay");
@@ -475,13 +473,15 @@ var GlobalPlaylistManager = (function () {
         return elem;
     };
     GlobalPlaylistManager.prototype.pause = function () {
+        this.playing = false;
+        $("#playButton").addClass("playButtonPaused");
         playManager.pause();
     };
     GlobalPlaylistManager.prototype.getCurrentSong = function () {
-        if (this.currentSongIndex < 0 || this.currentSongIndex >= this.songQueue.length) {
-            return null;
+        if(this.playingSong == null) {
+            return this.songQueue[0];
         }
-        return this.songQueue[this.currentSongIndex];
+        return this.playingSong;
     };
     GlobalPlaylistManager.prototype.pushSongs = function (songs) {
         var _this = this;
@@ -494,13 +494,16 @@ var GlobalPlaylistManager = (function () {
         this.addImageTemplate(song);
     };
     GlobalPlaylistManager.prototype.addImageTemplate = function (song) {
+        var _this = this;
         var template = buildSmallSong(song);
-        $(template).attr("id", "globalPlay" + song.mbdid);
+        $(template).attr("id", "globalPlay" + song.mbdid).click(function () {
+            _this.playSong(song);
+        });
         $("#globalPlaylistSongContainer").append(template);
     };
     GlobalPlaylistManager.prototype.clearSongs = function () {
         this.songQueue = [];
-        this.currentSongIndex = 0;
+        this.playingSong = null;
     };
     GlobalPlaylistManager.prototype.giveFocus = function () {
         $("#globalPlaylistContainer").transition({

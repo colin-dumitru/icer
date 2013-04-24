@@ -1,5 +1,6 @@
 declare var $;
 declare var soundCloudId;
+declare var dimensions;
 declare var SC;
 
 interface SectionBinder{
@@ -141,19 +142,19 @@ class SectionManager {
         this.currentSectionIndex = index;
 
         this.menuSelector.animate({
-            top: index * Dimensions.menuItemHeight
+            top: index * dimensions.menuItemHeight
         });
         this.menuSelectorBackground.animate({
-            top: index * Dimensions.menuItemHeight
+            top: index * dimensions.menuItemHeight
         });
         this.sectionTable.animate({
-            top: -index * Dimensions.windowHeight
+            top: -index * dimensions.windowHeight
         });
         binders[this.currentSection.id].bind();
     }
 
     private closestMenuItem(top:number):number {
-        var closestOffset = top / Dimensions.menuItemHeight;
+        var closestOffset = top / dimensions.menuItemHeight;
         return Math.round(closestOffset);
     }
 
@@ -174,23 +175,23 @@ class SectionManager {
 
     resize() {
         var firstSection = $("#" + this.sections[0].id + "Menu");
-        Dimensions.menuItemHeight = firstSection.height();
-        Dimensions.menuItemWidth = firstSection.width();
-        Dimensions.windowHeight = $(window).height();
-        Dimensions.windowWidth = $(window).width();
+        dimensions.menuItemHeight = firstSection.height();
+        dimensions.menuItemWidth = firstSection.width();
+        dimensions.windowHeight = $(window).height();
+        dimensions.windowWidth = $(window).width();
 
         this.menuSelector.css({
-            height: Dimensions.menuItemHeight,
-            top: this.currentSectionIndex * Dimensions.windowHeight
+            height: dimensions.menuItemHeight,
+            top: this.currentSectionIndex * dimensions.windowHeight
         });
         this.menuSelectorBackground.css({
-            height: Dimensions.menuItemHeight,
-            top: this.currentSectionIndex * Dimensions.menuItemHeight
+            height: dimensions.menuItemHeight,
+            top: this.currentSectionIndex * dimensions.menuItemHeight
         });
-        this.sectionContainer.css("height", Dimensions.windowHeight);
+        this.sectionContainer.css("height", dimensions.windowHeight);
         this.sectionTable.css({
-            height: Dimensions.windowHeight * this.sections.length,
-            top: -this.currentSectionIndex * Dimensions.windowHeight
+            height: dimensions.windowHeight * this.sections.length,
+            top: -this.currentSectionIndex * dimensions.windowHeight
         });
     }
 }
@@ -238,13 +239,13 @@ class ItemList {
             if (this.isHidden) {
                 return;
             }
-            if (event.clientX > (Dimensions.windowWidth - 15)) {
+            if (event.clientX > (dimensions.windowWidth - 15)) {
                 if (this.isCollapsed) {
                     this.giveFocus();
                 }
             }
 
-            if (event.clientX < (Dimensions.windowWidth - 250)) {
+            if (event.clientX < (dimensions.windowWidth - 250)) {
                 if (!this.isCollapsed) {
                     this.takeFocus();
                 }
@@ -379,7 +380,14 @@ class PlayManager {
         if (song == this.currentSong) {
             this.currentPlayer.play();
         } else {
+            this.stopCurrentSong()
             this.resolveSoundUrl(song);
+        }
+    }
+
+    private stopCurrentSong() {
+        if (this.currentPlayer != null) {
+            this.currentPlayer.stop();
         }
     }
 
@@ -427,20 +435,19 @@ class GlobalPlaylistManager {
     private isVolumeVisible = false;
 
     private songQueue:Song[] = [];
-    private currentSongIndex = 0;
     private playingSong:Song;
     private playing = false;
 
     bind() {
         $(window).mousemove((event) => {
-            if (event.clientY > (Dimensions.windowHeight - 15) &&
-                (event.clientX < (Dimensions.windowWidth / 2 - 200) || event.clientX > (Dimensions.windowWidth / 2 + 200))) {
+            if (event.clientY > (dimensions.windowHeight - 15) &&
+                (event.clientX < (dimensions.windowWidth / 2 - 200) || event.clientX > (dimensions.windowWidth / 2 + 200))) {
                 if (this.isCollapsed) {
                     this.giveFocus();
                 }
             }
 
-            if (event.clientY < (Dimensions.windowHeight - 155)) {
+            if (event.clientY < (dimensions.windowHeight - 155)) {
                 if (!this.isCollapsed) {
                     this.takeFocus();
                 }
@@ -468,7 +475,6 @@ class GlobalPlaylistManager {
         });
 
         $("#playButton").click(() => {
-            $("#playButton").toggleClass("playButtonPaused");
             this.playToggle();
         });
 
@@ -497,10 +503,8 @@ class GlobalPlaylistManager {
     private playToggle() {
         if (this.playing) {
             this.pause();
-            this.playing = false;
         } else {
             this.play();
-            this.playing = true;
         }
     }
 
@@ -513,11 +517,11 @@ class GlobalPlaylistManager {
     }
 
     private playNext() {
-        this.currentSongIndex += 1;
-        if (this.currentSongIndex == this.songQueue.length) {
-            this.currentSongIndex = 0;
+        var currentSongIndex = this.songQueue.indexOf(this.getCurrentSong()) + 1;
+        if (currentSongIndex == this.songQueue.length) {
+            currentSongIndex = 0;
         }
-        var songToPlay = this.getCurrentSong();
+        var songToPlay = this.songQueue[currentSongIndex];
         this.playSong(songToPlay);
     }
 
@@ -529,8 +533,10 @@ class GlobalPlaylistManager {
         this.unDecorateSong(this.playingSong);
         this.decorateSong(song);
 
+        this.playing = true;
         this.playingSong = song;
         playManager.playSong(song);
+        $("#playButton").removeClass("playButtonPaused");
     }
 
     private decorateSong(song:Song) {
@@ -554,14 +560,16 @@ class GlobalPlaylistManager {
     }
 
     private pause() {
+        this.playing = false;
+        $("#playButton").addClass("playButtonPaused");
         playManager.pause();
     }
 
     private getCurrentSong():Song {
-        if (this.currentSongIndex < 0 || this.currentSongIndex >= this.songQueue.length) {
-            return null;
+        if (this.playingSong == null) {
+            return this.songQueue[0];
         }
-        return this.songQueue[this.currentSongIndex];
+        return this.playingSong;
     }
 
     public pushSongs(songs:Song[]) {
@@ -577,14 +585,18 @@ class GlobalPlaylistManager {
 
     private addImageTemplate(song:Song) {
         var template = buildSmallSong(song);
-        $(template).attr("id", "globalPlay" + song.mbdid);
+        $(template)
+            .attr("id", "globalPlay" + song.mbdid)
+            .click(() => {
+                this.playSong(song);
+            });
         $("#globalPlaylistSongContainer").append(template);
         //todo events for click
     }
 
     public clearSongs() {
         this.songQueue = [];
-        this.currentSongIndex = 0;
+        this.playingSong = null;
     }
 
     giveFocus() {

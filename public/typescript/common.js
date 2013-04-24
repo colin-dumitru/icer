@@ -1,7 +1,5 @@
 var Dimensions = (function () {
-    function Dimensions() {
-    }
-
+    function Dimensions() { }
     return Dimensions;
 })();
 function template(id) {
@@ -18,7 +16,6 @@ var SongDetailManager = (function () {
     function SongDetailManager() {
         this.menuHidden = true;
     }
-
     SongDetailManager.prototype.bind = function () {
         var songDetailContainer = $("#songDetailContainer");
         this.menuWidth = songDetailContainer.width();
@@ -48,20 +45,20 @@ var SongDetailManager = (function () {
     SongDetailManager.prototype.bindHover = function () {
         var _this = this;
         $(window).mousemove(function (event) {
-            if (_this.menuHidden) {
+            if(_this.menuHidden) {
                 return;
             }
-            if (event.clientX < _this.menuX || event.clientX > (_this.menuX + _this.menuWidth) || event.clientY < _this.menuY || event.clientY > (_this.menuY + _this.menuHeight)) {
+            if(event.clientX < _this.menuX || event.clientX > (_this.menuX + _this.menuWidth) || event.clientY < _this.menuY || event.clientY > (_this.menuY + _this.menuHeight)) {
                 $("#songDetailContainer").hide(300);
                 _this.menuHidden = true;
             }
         });
     };
     SongDetailManager.prototype.hasSpaceOnRight = function (x) {
-        return x + this.menuWidth < Dimensions.windowWidth || x < this.menuWidth;
+        return x + this.menuWidth < dimensions.windowWidth || x < this.menuWidth;
     };
     SongDetailManager.prototype.hasSpaceOnBottom = function (y) {
-        return y + this.menuHeight < Dimensions.windowHeight || y < this.menuHeight;
+        return y + this.menuHeight < dimensions.windowHeight || y < this.menuHeight;
     };
     return SongDetailManager;
 })();
@@ -70,59 +67,59 @@ function randomSongTitle() {
         {
             artist: "Bruno Mars",
             title: "When I Was Your Man"
-        },
+        }, 
         {
             artist: "Imagine Dragons",
             title: "Radioactive"
-        },
+        }, 
         {
             artist: "Justin Timberlake",
             title: "Suit and tie"
-        },
+        }, 
         {
             artist: "Jonas Brothers",
             title: "Pom Poms"
-        },
+        }, 
         {
             artist: " Demi Lovato",
             title: "Heart attack"
-        },
+        }, 
         {
             artist: "Justin Timberlake",
             title: "Mirrors"
-        },
+        }, 
         {
             artist: "Fall Out Boy",
             title: "My Songs"
-        },
+        }, 
         {
             artist: "Darius Rucker",
             title: "Wagon Wheel"
-        },
+        }, 
         {
             artist: " Drake",
             title: "Started From The Bottom"
-        },
+        }, 
         {
             artist: " Fun",
             title: "Carry On"
-        },
+        }, 
         {
             artist: "Blake Shelton",
             title: "Sure Be Cool If You Did"
-        },
+        }, 
         {
             artist: "Baauer",
             title: "Harlem Shake"
-        },
+        }, 
         {
             artist: "Taylor Swift",
             title: "22"
-        },
+        }, 
         {
             artist: "Chris Brown",
             title: "Fine China"
-        },
+        }, 
         {
             artist: "Maroon 5",
             title: "Daylight"
@@ -130,14 +127,13 @@ function randomSongTitle() {
     ];
     return titles[Math.floor(Math.random() * titles.length)];
 }
-var songDetailManager = new SongDetailManager();
 function buildSmallSong(song) {
     var parentDiv = $("<div></div>");
     var imageTemplate = template("#imageMock", song.info.title, song.info.artist);
     parentDiv.addClass("imageContainer");
     parentDiv.addClass("inline");
     parentDiv.append(imageTemplate);
-    if (song.info.imageUrl != null) {
+    if(song.info.imageUrl != null) {
         parentDiv.find("#songImage").attr("src", song.info.imageUrl);
     }
     return parentDiv;
@@ -147,7 +143,6 @@ var Song = (function () {
         this.mbdid = mbdid;
         this.info = info;
     }
-
     return Song;
 })();
 var SongInfo = (function () {
@@ -156,7 +151,8 @@ var SongInfo = (function () {
         this.artist = artist;
         this.imageUrl = imageUrl;
     }
-
     return SongInfo;
 })();
+var dimensions = new Dimensions();
+var songDetailManager = new SongDetailManager();
 //@ sourceMappingURL=common.js.map

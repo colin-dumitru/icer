@@ -1,8 +1,8 @@
 class Dimensions {
-    public static menuItemHeight:number;
-    public static menuItemWidth:number;
-    public static windowHeight:number;
-    public static windowWidth:number;
+    public menuItemHeight:number;
+    public menuItemWidth:number;
+    public windowHeight:number;
+    public windowWidth:number;
 }
 
 function template(id, ...args:String[]):String {
@@ -81,12 +81,12 @@ class SongDetailManager {
     }
 
     private hasSpaceOnRight(x:number):bool {
-        return x + this.menuWidth < Dimensions.windowWidth
+        return x + this.menuWidth < dimensions.windowWidth
             || x < this.menuWidth;
     }
 
     private hasSpaceOnBottom(y:number):bool {
-        return y + this.menuHeight < Dimensions.windowHeight
+        return y + this.menuHeight < dimensions.windowHeight
             || y < this.menuHeight;
     }
 }
@@ -112,8 +112,6 @@ function randomSongTitle():{artist:string; title:string;} {
     return titles[Math.floor(Math.random() * titles.length)];
 }
 
-var songDetailManager:SongDetailManager = new SongDetailManager();
-
 function buildSmallSong(song:Song) {
     var parentDiv = $("<div></div>");
     var imageTemplate = template("#imageMock", song.info.title, song.info.artist);
@@ -136,3 +134,6 @@ class SongInfo {
     constructor(public title:String, public artist:String, public imageUrl:String) {
     }
 }
+
+var dimensions = new Dimensions();
+var songDetailManager:SongDetailManager = new SongDetailManager();
