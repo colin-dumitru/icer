@@ -286,19 +286,75 @@ html {
 }
 
 #playButtonContainer {
-  width: 200px;
+  width: 150px;
   margin: 0 auto;
   position: relative;
 }
 
+#playControllsContainer {
+  position: relative;
+  margin: 0 auto;
+  width: 200px;
+  height: 50px;
+  z-index: 50;
+  box-shadow: 0px 0px 20px black;
+}
+
+#seekSlider {
+  box-shadow: 0px 0px 20px black;
+  position: absolute;
+  width: 200px;
+  height: 10px;
+  bottom: 0px;
+}
+
+#seekSlider .ui-slider-handle {
+  width: 10px;
+  height: 10px;
+  top: 0px;
+  margin-left: -5px;
+  background: @foreground_text;
+}
+
+.navigationButton {
+  width: 15px;
+  height: 30px;
+  background: @foreground_variant;
+  position: absolute;
+  .fontMenu2;
+  color: @foreground_text;
+  vertical-align: middle;
+  font-size: 30px;
+  padding: 5px;
+  cursor: pointer;
+}
+
+#previousButton {
+  .navigationButton;
+  left: 0px;
+  top: 0px;
+}
+
+#previousButton:hover {
+  background: @foreground_focus;
+}
+
+#nextButton {
+  .navigationButton;
+  right: 0px;
+  top: 0px;
+}
+
+#nextButton:hover {
+  background: @foreground_focus;
+}
+
 #playButton {
   background: @foreground_text;
-  height: 50px;
-  width: 200px;
+  height: 40px;
+  width: 150px;
   margin: 0 auto;
-  z-index: 50;
   position: relative;
-
   text-align: center;
   vertical-align: middle;
   font-size: 40px;

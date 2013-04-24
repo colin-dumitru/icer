@@ -366,6 +366,7 @@ class PlayManager {
             var minutes = Math.floor(seconds / 60);
             var clampedSeconds = seconds % 60;
             $("#durationText").text(this.padZeros(minutes.toString()) + ":" + this.padZeros(clampedSeconds.toString()));
+            $("#seekSlider").slider("value", Math.floor((this.currentPlayer.position / this.currentPlayer.duration) * 1000));
         }
     }
 
@@ -395,6 +396,13 @@ class PlayManager {
         if (this.currentSong != null) {
             this.currentPlayer.pause();
         }
+    }
+
+    public seek(percentage:number) {
+        if (this.currentPlayer != null) {
+            this.currentPlayer.setPosition(Math.floor(this.currentPlayer.duration * (percentage / 1000)));
+        }
+
     }
 
     public changeVolume(value:number) {
@@ -478,6 +486,28 @@ class GlobalPlaylistManager {
             this.playToggle();
         });
 
+        $("#nextButton").click(() => {
+            if (this.playing) {
+                this.playNext();
+            }
+        });
+
+        $("#previousButton").click(() => {
+            if (this.playing) {
+                this.playPrevious();
+            }
+        });
+
+        $("#seekSlider").slider({
+            orientation: "horizontal",
+            min: 0,
+            max: 1000,
+            value: 0,
+            slide: (event, ui) => {
+                this.changePosition(ui.value);
+            }
+        });
+
         playManager.onSongError = (song) => {
             this.disableSong(song);
             this.playNext();
@@ -485,6 +515,12 @@ class GlobalPlaylistManager {
 
         playManager.onFinish = (song) => {
             this.playNext();
+        }
+    }
+
+    private changePosition(value:number) {
+        if (this.playing) {
+            playManager.seek(value);
         }
     }
 
@@ -520,6 +556,15 @@ class GlobalPlaylistManager {
         var currentSongIndex = this.songQueue.indexOf(this.getCurrentSong()) + 1;
         if (currentSongIndex == this.songQueue.length) {
             currentSongIndex = 0;
+        }
+        var songToPlay = this.songQueue[currentSongIndex];
+        this.playSong(songToPlay);
+    }
+
+    private playPrevious() {
+        var currentSongIndex = this.songQueue.indexOf(this.getCurrentSong()) - 1;
+        if (currentSongIndex < 0) {
+            currentSongIndex = this.songQueue.length - 1;
         }
         var songToPlay = this.songQueue[currentSongIndex];
         this.playSong(songToPlay);
