@@ -367,11 +367,17 @@ var PlayManager = (function () {
                 _this.onFinish(song);
             }
         }, function (sound) {
-            _this.currentPlayer = sound;
-            _this.currentSong = song;
-            console.log(sound);
-            sound.play();
+            _this.switchActiveSong(sound, song);
         });
+    };
+    PlayManager.prototype.switchActiveSong = function (sound, song) {
+        if (this.currentPlayer != null) {
+            this.currentPlayer.stop();
+        }
+        this.currentPlayer = sound;
+        this.currentSong = song;
+        console.log(sound);
+        sound.play();
     };
     return PlayManager;
 })();

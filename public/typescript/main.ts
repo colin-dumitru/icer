@@ -430,11 +430,18 @@ class PlayManager {
                 }
             },
             (sound)  => {
-                this.currentPlayer = sound;
-                this.currentSong = song;
-                console.log(sound);
-                sound.play();
+                this.switchActiveSong(sound, song);
             });
+    }
+
+    private switchActiveSong(sound:any, song:Song) {
+        if (this.currentPlayer != null) {
+            this.currentPlayer.stop();
+        }
+        this.currentPlayer = sound;
+        this.currentSong = song;
+        console.log(sound);
+        sound.play();
     }
 }
 
