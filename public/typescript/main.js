@@ -349,13 +349,16 @@ var PlayManager = (function () {
     };
     PlayManager.prototype.resolveSoundUrl = function (song) {
         var _this = this;
+        this.currentSong = song;
         SC.get('/tracks', {
             q: song.info.title + " " + song.info.artist
         }, function (tracks) {
             if (tracks.length == 0) {
                 _this.onSongError(song);
             } else {
-                _this.playResolved(tracks[0], song);
+                if (_this.currentSong == song) {
+                    _this.playResolved(tracks[0], song);
+                }
             }
         });
     };
@@ -371,11 +374,7 @@ var PlayManager = (function () {
         });
     };
     PlayManager.prototype.switchActiveSong = function (sound, song) {
-        if (this.currentPlayer != null) {
-            this.currentPlayer.stop();
-        }
         this.currentPlayer = sound;
-        this.currentSong = song;
         console.log(sound);
         sound.play();
     };

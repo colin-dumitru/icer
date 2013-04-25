@@ -412,11 +412,15 @@ class PlayManager {
     }
 
     private resolveSoundUrl(song:Song) {
+        this.currentSong = song;
+
         SC.get('/tracks', { q: song.info.title + " " + song.info.artist}, (tracks:any[]) => {
             if (tracks.length == 0) {
                 this.onSongError(song);
             } else {
-                this.playResolved(tracks[0], song);
+                if (this.currentSong == song) {
+                    this.playResolved(tracks[0], song);
+                }
             }
         });
     }
@@ -435,11 +439,7 @@ class PlayManager {
     }
 
     private switchActiveSong(sound:any, song:Song) {
-        if (this.currentPlayer != null) {
-            this.currentPlayer.stop();
-        }
         this.currentPlayer = sound;
-        this.currentSong = song;
         console.log(sound);
         sound.play();
     }
