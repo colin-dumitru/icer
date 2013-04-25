@@ -119,19 +119,19 @@ function buildSmallSong(song:Song) {
     parentDiv.addClass("inline");
     parentDiv.append(imageTemplate);
 
-    if (song.info.imageUrl != null) {
-        parentDiv.find("#songImage").attr("src", song.info.imageUrl);
+    if (song.imageUrl != null) {
+        parentDiv.find("#songImage").attr("src", song.imageUrl);
     }
     return parentDiv;
 }
 
 class Song {
-    constructor(public mbdid:string, public info:SongInfo) {
+    constructor(public mbid:string, public info:SongInfo, public imageUrl:String) {
     }
 }
 
 class SongInfo {
-    constructor(public title:String, public artist:String, public imageUrl:String) {
+    constructor(public title:String, public artist:String, public album:String, public genre:String) {
     }
 }
 

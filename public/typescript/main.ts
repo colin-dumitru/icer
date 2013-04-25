@@ -33,12 +33,12 @@ function run() {
 
     //todo temp
     globalPlaylistManager.pushSongs([
-        new Song("077f4678-2eed-4e3e-bdbd-8476a9201b62", new SongInfo("Believe Me Natalie", "The Killers", "http://userserve-ak.last.fm/serve/300x300/68101062.png")),
-        new Song("812349b2-b115-4dc2-b90e-040a1eac3725", new SongInfo("I Believe in a Thing Called Love", "The Darkness", "http://userserve-ak.last.fm/serve/300x300/87434825.png")),
-        new Song("13194c93-89c6-4ab4-aaf2-15db5d73b74e", new SongInfo("Believe", "Cher", "http://userserve-ak.last.fm/serve/300x300/71997588.png")),
-        new Song("5750327d-09ba-43e5-bd75-a08ba29e22f5", new SongInfo("We Believe", "Red Hot Chili Peppers", "http://userserve-ak.last.fm/serve/300x300/66662762.png")),
-        new Song("0196b4cc-66ec-4ad4-acad-2fe852a4ccd5", new SongInfo("I'm a Believer", "The Monkees", "http://userserve-ak.last.fm/serve/300x300/77468760.png")),
-        new Song("076ed98f-f3e9-44c8-b9b7-66624de9b9f0", new SongInfo("Believe", "The Bravery", "http://userserve-ak.last.fm/serve/300x300/9723711.jpg"))
+        new Song("077f4678-2eed-4e3e-bdbd-8476a9201b62", new SongInfo("Believe Me Natalie", "The Killers", null, null), "http://userserve-ak.last.fm/serve/300x300/68101062.png"),
+        new Song("812349b2-b115-4dc2-b90e-040a1eac3725", new SongInfo("I Believe in a Thing Called Love", "The Darkness", null, null), "http://userserve-ak.last.fm/serve/300x300/87434825.png"),
+        new Song("13194c93-89c6-4ab4-aaf2-15db5d73b74e", new SongInfo("Believe", "Cher", null, null), "http://userserve-ak.last.fm/serve/300x300/71997588.png"),
+        new Song("5750327d-09ba-43e5-bd75-a08ba29e22f5", new SongInfo("We Believe", "Red Hot Chili Peppers", null, null), "http://userserve-ak.last.fm/serve/300x300/66662762.png"),
+        new Song("0196b4cc-66ec-4ad4-acad-2fe852a4ccd5", new SongInfo("I'm a Believer", "The Monkees", null, null), "http://userserve-ak.last.fm/serve/300x300/77468760.png"),
+        new Song("076ed98f-f3e9-44c8-b9b7-66624de9b9f0", new SongInfo("Believe", "The Bravery", null, null), "http://userserve-ak.last.fm/serve/300x300/9723711.jpg")
     ])
 }
 
@@ -427,6 +427,11 @@ class PlayManager {
 
     private playResolved(trackInfo:any, song:Song) {
         var trackId = trackInfo["id"];
+        this.streamSong(trackId, song)
+        this.pushSongHistory(song);
+    }
+
+    private streamSong(trackId:any, song:Song) {
         SC.stream("/tracks/" + trackId,
             {
                 onfinish: () => {
@@ -436,6 +441,15 @@ class PlayManager {
             (sound)  => {
                 this.switchActiveSong(sound, song);
             });
+    }
+
+    private pushSongHistory(song:Song) {
+        $.ajax({
+            url: "/history/push",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(song),
+            type: "POST"
+        });
     }
 
     private switchActiveSong(sound:any, song:Song) {
@@ -536,7 +550,7 @@ class GlobalPlaylistManager {
     }
 
     private disableSong(song:Song) {
-        var songContainer = $("#globalPlay" + song.mbdid);
+        var songContainer = $("#globalPlay" + song.mbid);
 
         songContainer.addClass("disabledGlobalSong");
         songContainer.find(".imageTitle").text("Not Found");
@@ -592,7 +606,7 @@ class GlobalPlaylistManager {
     }
 
     private decorateSong(song:Song) {
-        var songContainer = $("#globalPlay" + song.mbdid);
+        var songContainer = $("#globalPlay" + song.mbid);
         songContainer.append(this.createOverlay());
     }
 
@@ -600,7 +614,7 @@ class GlobalPlaylistManager {
         if (song == null) {
             return;
         }
-        var songContainer = $("#globalPlay" + song.mbdid)
+        var songContainer = $("#globalPlay" + song.mbid)
             .find(".playingSongOverlay");
         songContainer.remove();
     }
@@ -638,7 +652,7 @@ class GlobalPlaylistManager {
     private addImageTemplate(song:Song) {
         var template = buildSmallSong(song);
         $(template)
-            .attr("id", "globalPlay" + song.mbdid)
+            .attr("id", "globalPlay" + song.mbid)
             .click(() => {
                 this.playSong(song);
             });

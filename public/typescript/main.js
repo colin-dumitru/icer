@@ -16,12 +16,12 @@ function run() {
     globalPlaylistManager.bind();
     songDetailManager.bind();
     globalPlaylistManager.pushSongs([
-        new Song("077f4678-2eed-4e3e-bdbd-8476a9201b62", new SongInfo("Believe Me Natalie", "The Killers", "http://userserve-ak.last.fm/serve/300x300/68101062.png")),
-        new Song("812349b2-b115-4dc2-b90e-040a1eac3725", new SongInfo("I Believe in a Thing Called Love", "The Darkness", "http://userserve-ak.last.fm/serve/300x300/87434825.png")),
-        new Song("13194c93-89c6-4ab4-aaf2-15db5d73b74e", new SongInfo("Believe", "Cher", "http://userserve-ak.last.fm/serve/300x300/71997588.png")),
-        new Song("5750327d-09ba-43e5-bd75-a08ba29e22f5", new SongInfo("We Believe", "Red Hot Chili Peppers", "http://userserve-ak.last.fm/serve/300x300/66662762.png")),
-        new Song("0196b4cc-66ec-4ad4-acad-2fe852a4ccd5", new SongInfo("I'm a Believer", "The Monkees", "http://userserve-ak.last.fm/serve/300x300/77468760.png")),
-        new Song("076ed98f-f3e9-44c8-b9b7-66624de9b9f0", new SongInfo("Believe", "The Bravery", "http://userserve-ak.last.fm/serve/300x300/9723711.jpg"))
+        new Song("077f4678-2eed-4e3e-bdbd-8476a9201b62", new SongInfo("Believe Me Natalie", "The Killers", null, null), "http://userserve-ak.last.fm/serve/300x300/68101062.png"),
+        new Song("812349b2-b115-4dc2-b90e-040a1eac3725", new SongInfo("I Believe in a Thing Called Love", "The Darkness", null, null), "http://userserve-ak.last.fm/serve/300x300/87434825.png"),
+        new Song("13194c93-89c6-4ab4-aaf2-15db5d73b74e", new SongInfo("Believe", "Cher", null, null), "http://userserve-ak.last.fm/serve/300x300/71997588.png"),
+        new Song("5750327d-09ba-43e5-bd75-a08ba29e22f5", new SongInfo("We Believe", "Red Hot Chili Peppers", null, null), "http://userserve-ak.last.fm/serve/300x300/66662762.png"),
+        new Song("0196b4cc-66ec-4ad4-acad-2fe852a4ccd5", new SongInfo("I'm a Believer", "The Monkees", null, null), "http://userserve-ak.last.fm/serve/300x300/77468760.png"),
+        new Song("076ed98f-f3e9-44c8-b9b7-66624de9b9f0", new SongInfo("Believe", "The Bravery", null, null), "http://userserve-ak.last.fm/serve/300x300/9723711.jpg")
     ]);
 }
 function buildSearchSection() {
@@ -363,14 +363,26 @@ var PlayManager = (function () {
         });
     };
     PlayManager.prototype.playResolved = function (trackInfo, song) {
-        var _this = this;
         var trackId = trackInfo["id"];
+        this.streamSong(trackId, song);
+        this.pushSongHistory(song);
+    };
+    PlayManager.prototype.streamSong = function (trackId, song) {
+        var _this = this;
         SC.stream("/tracks/" + trackId, {
             onfinish: function () {
                 _this.onFinish(song);
             }
         }, function (sound) {
             _this.switchActiveSong(sound, song);
+        });
+    };
+    PlayManager.prototype.pushSongHistory = function (song) {
+        $.ajax({
+            url: "/history/push",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(song),
+            type: "POST"
         });
     };
     PlayManager.prototype.switchActiveSong = function (sound, song) {
@@ -459,7 +471,7 @@ var GlobalPlaylistManager = (function () {
         playManager.changeVolume(value);
     };
     GlobalPlaylistManager.prototype.disableSong = function (song) {
-        var songContainer = $("#globalPlay" + song.mbdid);
+        var songContainer = $("#globalPlay" + song.mbid);
         songContainer.addClass("disabledGlobalSong");
         songContainer.find(".imageTitle").text("Not Found");
         songContainer.find(".imageArtist").text(":(");
@@ -506,14 +518,14 @@ var GlobalPlaylistManager = (function () {
         $("#playButton").removeClass("playButtonPaused");
     };
     GlobalPlaylistManager.prototype.decorateSong = function (song) {
-        var songContainer = $("#globalPlay" + song.mbdid);
+        var songContainer = $("#globalPlay" + song.mbid);
         songContainer.append(this.createOverlay());
     };
     GlobalPlaylistManager.prototype.unDecorateSong = function (song) {
         if (song == null) {
             return;
         }
-        var songContainer = $("#globalPlay" + song.mbdid).find(".playingSongOverlay");
+        var songContainer = $("#globalPlay" + song.mbid).find(".playingSongOverlay");
         songContainer.remove();
     };
     GlobalPlaylistManager.prototype.createOverlay = function () {
@@ -545,7 +557,7 @@ var GlobalPlaylistManager = (function () {
     GlobalPlaylistManager.prototype.addImageTemplate = function (song) {
         var _this = this;
         var template = buildSmallSong(song);
-        $(template).attr("id", "globalPlay" + song.mbdid).click(function () {
+        $(template).attr("id", "globalPlay" + song.mbid).click(function () {
             _this.playSong(song);
         });
         $("#globalPlaylistSongContainer").append(template);
