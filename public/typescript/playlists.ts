@@ -12,7 +12,7 @@ class PlaylistBinder implements SectionBinder {
             this.loadData();
         }
         itemList.onInput = (input:string) => {
-            this.playlistManager.addPlaylist(input);
+            this.playlistManager.addPlaylistServer(input);
         };
         itemList.show();
 
@@ -20,10 +20,22 @@ class PlaylistBinder implements SectionBinder {
     }
 
     private loadData() {
-        this.playlistManager.addPlaylist("Playlist 1");
-        this.playlistManager.addPlaylist("Playlist 2");
-        this.playlistManager.addPlaylist("Playlist 3");
+        this.performLoadRequest();
         this.firstDisplay = false;
+    }
+
+    private performLoadRequest(){
+        $.ajax("/playlist/load",{
+            type: "POST",
+            dataType: "json",
+            success:  data => {
+                for(var i = 0; i < data.length; i++)
+                    this.playlistManager.loadPlaylist(data[i].id, data[i].name);
+            },
+            error: function (reason){
+                alert(reason)
+            }
+        });
     }
 
     unbind() {
@@ -56,8 +68,21 @@ class PlaylistManager {
     constructor(private rootNode:any) {
     }
 
-    addPlaylist(title:string) {
-        var id = "playlist" + Math.floor(Math.random() * 10000);
+    addPlaylistServer(title: String){
+        $.ajax("/playlist/new/"+title,{
+            type: "POST",
+            dataType: "json",
+            success:  data => {
+                this.loadPlaylist(data.id,title)
+            },
+            error: function (reason){
+                alert(reason)
+            }
+        });
+    }
+
+    loadPlaylist(idPlaylist: string, title: string){
+        var id = "playlist" + idPlaylist;
         var playList = new Playlist(id, title);
 
         this.buildPage(playList);

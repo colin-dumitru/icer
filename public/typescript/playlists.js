@@ -12,16 +12,29 @@ var PlaylistBinder = (function () {
             this.loadData();
         }
         itemList.onInput = function (input) {
-            _this.playlistManager.addPlaylist(input);
+            _this.playlistManager.addPlaylistServer(input);
         };
         itemList.show();
         $(window).bind("keydown", this.navigationHandler);
     };
     PlaylistBinder.prototype.loadData = function () {
-        this.playlistManager.addPlaylist("Playlist 1");
-        this.playlistManager.addPlaylist("Playlist 2");
-        this.playlistManager.addPlaylist("Playlist 3");
+        this.performLoadRequest();
         this.firstDisplay = false;
+    };
+    PlaylistBinder.prototype.performLoadRequest = function () {
+        var _this = this;
+        $.ajax("/playlist/load", {
+            type: "POST",
+            dataType: "json",
+            success: function (data) {
+                for(var i = 0; i < data.length; i++) {
+                    _this.playlistManager.loadPlaylist(data[i].id, data[i].name);
+                }
+            },
+            error: function (reason) {
+                alert(reason);
+            }
+        });
     };
     PlaylistBinder.prototype.unbind = function () {
         itemList.pushItemList("playlist");
@@ -48,8 +61,21 @@ var PlaylistManager = (function () {
         this.playLists = [];
         this.playListsQueue = [];
     }
-    PlaylistManager.prototype.addPlaylist = function (title) {
-        var id = "playlist" + Math.floor(Math.random() * 10000);
+    PlaylistManager.prototype.addPlaylistServer = function (title) {
+        var _this = this;
+        $.ajax("/playlist/new/" + title, {
+            type: "POST",
+            dataType: "json",
+            success: function (data) {
+                _this.loadPlaylist(data.id, title);
+            },
+            error: function (reason) {
+                alert(reason);
+            }
+        });
+    };
+    PlaylistManager.prototype.loadPlaylist = function (idPlaylist, title) {
+        var id = "playlist" + idPlaylist;
         var playList = new Playlist(id, title);
         this.buildPage(playList);
         this.buildPlaylistItem(playList);
