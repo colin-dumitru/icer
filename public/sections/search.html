@@ -67,22 +67,35 @@
                         <tr>
                             <td>
                                 <div id="searchPageSongs" class="searchPage">
-                                    <div id="searchPageSongsContainer" class="searchPageSongContainer"></div>
+                                    <div id="searchPageSongsContainer" class="searchPageSongContainer">
+                                    </div>
+                                    <div id="searchPageLoadingContainer" class="searchLoadingContainer">
+                                        <img src="/assets/images/loader.gif"/>
+                                    </div>
                                 </div>
                             </td>
                             <td>
                                 <div id="searchPageArtist" class="searchPage">
                                     <div id="searchPageArtistContainer" class="searchPageSongContainer"></div>
+                                    <div id="searchArtistLoadingContainer" class="searchLoadingContainer">
+                                        <img src="/assets/images/loader.gif"/>
+                                    </div>
                                 </div>
                             </td>
                             <td>
                                 <div id="searchPageAlbums" class="searchPage">
                                     <div id="searchPageAlbumsContainer" class="searchPageSongContainer"></div>
+                                    <div class="searchLoadingContainer">
+                                        <img src="/assets/images/loader.gif"/>
+                                    </div>
                                 </div>
                             </td>
                             <td>
                                 <div id="searchPageGenre" class="searchPage">
                                     <div id="searchPageGenreContainer" class="searchPageSongContainer"></div>
+                                    <div class="searchLoadingContainer">
+                                        <img src="/assets/images/loader.gif"/>
+                                    </div>
                                 </div>
                             </td>
                         </tr>
@@ -103,8 +116,17 @@
         </tr>
         <tr>
             <td id="searchSongListContainerWrapper">
-                <div id="searchSongListContainer"></div>
+                <div id="searchSongListContainer">
+                </div>
+                <div id="searchSimilarLoadingContainer" class="searchSimilarLoadingContainer">
+                    <img src="/assets/images/loader.gif"/>
+                </div>
             </td>
         </tr>
     </table>
+</script>
+
+<script type="text/template" id="searchSongNoSimilarTemplate">
+    <div class="noSimilarSongsTitle">{0}</div>
+    <div class="noSimilarSongsSadFace">:(</div>
 </script>

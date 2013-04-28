@@ -125,13 +125,51 @@ function buildSmallSong(song:Song) {
     return parentDiv;
 }
 
+function loadSongInfo(song:Song) {
+    //todo
+}
+
+function getLargeImage(track:any):string {
+    if (track.image == null) {
+        return "/assets/images/logo.gif";
+    }
+    for (var i = 0; i < track.image.length; i++) {
+        if (track.image[i].size == "medium") {
+            return track.image[i]["#text"];
+        }
+    }
+    return "/assets/images/logo.gif";
+}
+
+function getExtraLargeImage(track:any):string {
+    if (track.image == null) {
+        return "/assets/images/logo.gif";
+    }
+    for (var i = 0; i < track.image.length; i++) {
+        if (track.image[i].size == "extralarge") {
+            return track.image[i]["#text"];
+        }
+    }
+    return "/assets/images/logo.gif";
+}
+
 class Song {
-    constructor(public mbid:string, public info:SongInfo, public imageUrl:String) {
+    constructor(public mbid:string, public info:SongInfo, public imageUrl:string) {
     }
 }
 
 class SongInfo {
-    constructor(public title:String, public artist:String, public album:String, public genre:String) {
+    constructor(public title:string, public artist:string, public album:string, public genre:string) {
+    }
+}
+
+class Artist {
+    constructor(public mbid:string, public info:ArtistInfo, public imageUrl:string) {
+    }
+}
+
+class ArtistInfo {
+    constructor(public name:string) {
     }
 }
 

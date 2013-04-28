@@ -77,11 +77,13 @@
 }
 
 .searchPage {
+  position: relative;
   width: 600px;
   height: 100%;
 }
 
 .searchPageSongContainer {
+  position: relative;
   height: 400px;
   margin: 0 auto;
   width: 580px;
@@ -125,7 +127,7 @@
   float: left;
 }
 
-#searchSongListContainer > .inline{
+#searchSongListContainer > .inline {
   display: table-cell;
 }
 
@@ -136,4 +138,51 @@
   font-size: 20px;
   height: 50px;
   overflow: hidden;
+}
+
+.searchLoadingContainer {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+}
+
+.searchLoadingContainer img {
+  position: relative;
+  top: 100px;
+  left: 150px;
+}
+
+.noSimilarSongsTitle {
+  .fontText;
+  color: lighten(@foreground_variant, 15%);
+  font-size: 20px;
+  float: left;
+  position: relative;
+  top: 50px;
+}
+
+.noSimilarSongsSadFace {
+  .fontMenu2;
+  color: lighten(@foreground_variant, 15%);
+  font-size: 100px;
+  float: left;
+  position: relative;
+  top: -15px;
+}
+
+.searchSimilarSong {
+  padding-right: 10px;
+}
+
+.searchSimilarLoadingContainer {
+  position: absolute;
+  left: 150px;
+}
+
+.searchSimilarLoadingContainer img {
+  width: 100px;
+  height: 100px;
+
 }

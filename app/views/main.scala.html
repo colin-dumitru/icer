@@ -1,4 +1,4 @@
-@(title: String, name: String, soundCloudId: String)
+@(title: String, name: String, soundCloudId: String, lastFmApiKey: String)
 
 <!DOCTYPE html>
 
@@ -18,6 +18,9 @@
     <script type="text/javascript">
             var soundCloudId =
             @Html("\"" + soundCloudId + "\"")
+            ;
+            var lastFmApiKey =
+            @Html("\"" + lastFmApiKey + "\"")
             ;
     </script>
 

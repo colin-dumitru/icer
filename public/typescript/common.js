@@ -138,6 +138,30 @@ function buildSmallSong(song) {
     }
     return parentDiv;
 }
+function loadSongInfo(song) {
+}
+function getLargeImage(track) {
+    if(track.image == null) {
+        return "/assets/images/logo.gif";
+    }
+    for(var i = 0; i < track.image.length; i++) {
+        if(track.image[i].size == "medium") {
+            return track.image[i]["#text"];
+        }
+    }
+    return "/assets/images/logo.gif";
+}
+function getExtraLargeImage(track) {
+    if(track.image == null) {
+        return "/assets/images/logo.gif";
+    }
+    for(var i = 0; i < track.image.length; i++) {
+        if(track.image[i].size == "extralarge") {
+            return track.image[i]["#text"];
+        }
+    }
+    return "/assets/images/logo.gif";
+}
 var Song = (function () {
     function Song(mbid, info, imageUrl) {
         this.mbid = mbid;
@@ -154,6 +178,20 @@ var SongInfo = (function () {
         this.genre = genre;
     }
     return SongInfo;
+})();
+var Artist = (function () {
+    function Artist(mbid, info, imageUrl) {
+        this.mbid = mbid;
+        this.info = info;
+        this.imageUrl = imageUrl;
+    }
+    return Artist;
+})();
+var ArtistInfo = (function () {
+    function ArtistInfo(name) {
+        this.name = name;
+    }
+    return ArtistInfo;
 })();
 var dimensions = new Dimensions();
 var songDetailManager = new SongDetailManager();

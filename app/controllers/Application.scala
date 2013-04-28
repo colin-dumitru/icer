@@ -15,7 +15,8 @@ object Application extends Controller {
 
   def index = Secured {
     (request, userId) =>
-      Ok(views.html.main("Welcome to UPlay3D.", Auth.userInfo(request.session("access_token")).name, Global.soundCloudClientId))
+      Ok(views.html.main("Welcome to UPlay3D.", Auth.userInfo(request.session("access_token")).name,
+        Global.soundCloudClientId, Global.lastFmApiKey))
   }
 
 
