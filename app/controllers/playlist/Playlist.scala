@@ -6,6 +6,7 @@ import common.json.JsonJack._
 import model.PlaylistModel
 import modelview.PlaylistView
 
+//crw template
 /**
  * Created with IntelliJ IDEA.
  * User: Irina
@@ -13,7 +14,7 @@ import modelview.PlaylistView
  * Time: 11:34 AM
  * To change this template use File | Settings | File Templates.
  */
-object Playlist  extends Controller {
+object Playlist extends Controller {
 
   def findAllForUser() = Secured {
     (request, idUser) => {
@@ -26,9 +27,8 @@ object Playlist  extends Controller {
   def createPlaylist(name: String) = Secured {
     (request, idUser) => {
       val newPlaylist = new PlaylistModel(null, idUser, name)
-      val mwPlaylist = new PlaylistView(PlaylistModel.create(newPlaylist).toString,idUser.toString(), name);
+      val mwPlaylist = new PlaylistView(PlaylistModel.create(newPlaylist).toString, idUser.toString(), name); //crw extra ";" and () for toString method
       Ok(generate(mwPlaylist)).as("application/json")
-
     }
   }
 }
