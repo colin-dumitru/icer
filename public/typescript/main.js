@@ -357,10 +357,21 @@ var PlayManager = (function () {
                 _this.onSongError(song);
             } else {
                 if (_this.currentSong == song) {
-                    _this.playResolved(tracks[0], song);
+                    _this.playResolved(_this.bestTrack(tracks), song);
                 }
             }
         });
+    };
+    PlayManager.prototype.bestTrack = function (tracks) {
+        var maxPlays = tracks[0].playback_count;
+        var maxTrack = tracks[0];
+        for (var i = 1; i < tracks.length; i++) {
+            if (tracks[i].playback_count > maxPlays) {
+                maxPlays = tracks[i].playback_count;
+                maxTrack = tracks[i];
+            }
+        }
+        return maxTrack;
     };
     PlayManager.prototype.playResolved = function (trackInfo, song) {
         var trackId = trackInfo["id"];
@@ -387,7 +398,6 @@ var PlayManager = (function () {
     };
     PlayManager.prototype.switchActiveSong = function (sound, song) {
         this.currentPlayer = sound;
-        console.log(sound);
         sound.play();
     };
     return PlayManager;

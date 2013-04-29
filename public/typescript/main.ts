@@ -419,10 +419,23 @@ class PlayManager {
                 this.onSongError(song);
             } else {
                 if (this.currentSong == song) {
-                    this.playResolved(tracks[0], song);
+                    this.playResolved(this.bestTrack(tracks), song);
                 }
             }
         });
+    }
+
+    private bestTrack(tracks:any[]) {
+        var maxPlays = tracks[0].playback_count;
+        var maxTrack = tracks[0];
+
+        for (var i = 1; i < tracks.length; i++) {
+            if (tracks[i].playback_count > maxPlays) {
+                maxPlays = tracks[i].playback_count;
+                maxTrack = tracks[i];
+            }
+        }
+        return maxTrack;
     }
 
     private playResolved(trackInfo:any, song:Song) {
@@ -454,7 +467,6 @@ class PlayManager {
 
     private switchActiveSong(sound:any, song:Song) {
         this.currentPlayer = sound;
-        console.log(sound);
         sound.play();
     }
 }
