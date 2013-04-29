@@ -113,7 +113,8 @@
   top: 15px;
 }
 
-#searchSongListContainerWrapper {
+#searchSongListContainerWrapper,
+#searchGenreListContainerWrapper {
   position: relative;
   left: 10px;
   width: 400px;
@@ -123,15 +124,26 @@
   float: left;
 }
 
-#searchSongListContainer {
+#searchGenreListContainerWrapper {
+  width: 550px;
+}
+
+#searchGenreSimilarLoadingContainer {
+  left: 225px;
+}
+
+#searchSongListContainer,
+searchGenreListContainer {
   float: left;
 }
 
-#searchSongListContainer > .inline {
+#searchSongListContainer > .inline,
+#searchGenreListContainer > .inline, {
   display: table-cell;
 }
 
-#searchSongTitle {
+#searchSongTitle,
+#searchGenreTitle {
   padding-left: 10px;
   color: @foreground_text;
   .fontText;

@@ -93,7 +93,7 @@
                             <td>
                                 <div id="searchPageGenre" class="searchPage">
                                     <div id="searchPageGenreContainer" class="searchPageSongContainer"></div>
-                                    <div class="searchLoadingContainer">
+                                    <div id="searchGenreLoadingContainer" class="searchLoadingContainer">
                                         <img src="/assets/images/loader.gif"/>
                                     </div>
                                 </div>
@@ -119,6 +119,23 @@
                 <div id="searchSongListContainer">
                 </div>
                 <div id="searchSimilarLoadingContainer" class="searchSimilarLoadingContainer">
+                    <img src="/assets/images/loader.gif"/>
+                </div>
+            </td>
+        </tr>
+    </table>
+</script>
+
+<script type="text/template" id="searchGenreListTemplate">
+    <table id="searchGenreListTable">
+        <tr>
+            <td id="searchGenreTitle"></td>
+        </tr>
+        <tr>
+            <td id="searchGenreListContainerWrapper">
+                <div id="searchGenreListContainer">
+                </div>
+                <div id="searchGenreSimilarLoadingContainer" class="searchSimilarLoadingContainer">
                     <img src="/assets/images/loader.gif"/>
                 </div>
             </td>

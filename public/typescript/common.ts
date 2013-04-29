@@ -125,10 +125,6 @@ function buildSmallSong(song:Song) {
     return parentDiv;
 }
 
-function loadSongInfo(song:Song) {
-    //todo
-}
-
 function getLargeImage(images:any[]):string {
     if (images == null) {
         return "/assets/images/logo.gif";
@@ -192,6 +188,11 @@ class Album {
 
 class AlbumInfo {
     constructor(public name:string, public artist:string) {
+    }
+}
+
+class Tag {
+    constructor(public name:string) {
     }
 }
 

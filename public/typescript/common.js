@@ -141,8 +141,6 @@ function buildSmallSong(song) {
     }
     return parentDiv;
 }
-function loadSongInfo(song) {
-}
 function getLargeImage(images) {
     if (images == null) {
         return "/assets/images/logo.gif";
@@ -226,6 +224,13 @@ var AlbumInfo = (function () {
     }
 
     return AlbumInfo;
+})();
+var Tag = (function () {
+    function Tag(name) {
+        this.name = name;
+    }
+
+    return Tag;
 })();
 var dimensions = new Dimensions();
 var songDetailManager = new SongDetailManager();
