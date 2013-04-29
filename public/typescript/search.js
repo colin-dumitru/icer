@@ -2,6 +2,7 @@ var SearchBinder = (function () {
     function SearchBinder() {
         this.firstDisplay = true;
     }
+
     SearchBinder.prototype.buildPage = function (rootNode) {
         this.manager = new SearchManager(rootNode);
     };
@@ -9,7 +10,7 @@ var SearchBinder = (function () {
         var _this = this;
         itemList.popItemList("search");
         itemList.show();
-        if(this.firstDisplay) {
+        if (this.firstDisplay) {
             this.loadData();
         }
         itemList.onInput = function (input) {
@@ -18,7 +19,7 @@ var SearchBinder = (function () {
         $(window).bind("keydown", this.navigationHandler);
     };
     SearchBinder.prototype.navigationHandler = function (event) {
-        switch(event.which) {
+        switch (event.which) {
             case 37:
                 (binders["search"]).manager.givePreviousPageFocus();
                 event.preventDefault();
@@ -58,6 +59,7 @@ var SearchManager = (function () {
         this.searchSessionsQueue = [];
         this.previousSessionId = 0;
     }
+
     SearchManager.prototype.performSearch = function (query) {
         var sessionId = "search" + this.previousSessionId++;
         var session = new SearchSession(sessionId, query, query);
@@ -69,19 +71,20 @@ var SearchManager = (function () {
     SearchManager.prototype.registerSearchCallback = function (session) {
         new SearchSongCallback(session).load();
         new SearchArtistCallback(session).load();
+        new SearchAlbumCallback(session).load();
     };
     SearchManager.prototype.pushSession = function (session) {
         this.searchSessionsQueue.push(session);
         this.giveSessionFocus(session);
     };
     SearchManager.prototype.givePreviousSessionFocus = function () {
-        if(this.currentIndex == 0) {
+        if (this.currentIndex == 0) {
             return;
         }
         this.giveSessionFocus(this.searchSessionsQueue[this.currentIndex - 1]);
     };
     SearchManager.prototype.giveNextSessionFocus = function () {
-        if(this.currentIndex == (this.searchSessionsQueue.length - 1)) {
+        if (this.currentIndex == (this.searchSessionsQueue.length - 1)) {
             return;
         }
         this.giveSessionFocus(this.searchSessionsQueue[this.currentIndex + 1]);
@@ -101,8 +104,8 @@ var SearchManager = (function () {
             session.rootNode().transition({
                 perspective: 100,
                 translate3d: [
-                    0, 
-                    -100 * (i - _this.currentIndex), 
+                    0,
+                    -100 * (i - _this.currentIndex),
                     20 * (i - _this.currentIndex)
                 ],
                 opacity: (i > _this.currentIndex) ? 0 : (i == _this.currentIndex) ? 1 : 0.5
@@ -110,7 +113,7 @@ var SearchManager = (function () {
         });
         window.setTimeout(function () {
             _this.searchSessionsQueue.forEach(function (session, index) {
-                if(index > _this.currentIndex) {
+                if (index > _this.currentIndex) {
                     $(session.rootNode()).addClass("hidden");
                 }
             });
@@ -144,10 +147,12 @@ var SearchSongCallback = (function () {
     function SearchSongCallback(session) {
         this.session = session;
     }
+
     SearchSongCallback.prototype.load = function () {
         var _this = this;
         $.ajax({
             url: this.buildMainSearchUrl(),
+            dataType: "json",
             method: "POST",
             success: function (res) {
                 return _this.onMainResult(res["results"]["trackmatches"]["track"]);
@@ -155,13 +160,14 @@ var SearchSongCallback = (function () {
         });
     };
     SearchSongCallback.prototype.onMainResult = function (tracks) {
-        for(var i = 0; i < tracks.length; i++) {
+        for (var i = 0; i < tracks.length; i++) {
             this.pushMainResult(tracks[i]);
         }
         this.removeLoadingScreen();
     };
     SearchSongCallback.prototype.pushMainResult = function (track) {
-        var song = new Song(track.mbid, new SongInfo(track.name, track.artist, null, null), getExtraLargeImage(track));
+        var id = guid(track.mbid, track.name.trim() + track.artist.trim());
+        var song = new Song(id, new SongInfo(track.name, track.artist, null, null), getExtraLargeImage(track.image));
         loadSongInfo(song);
         var itemTemplate = this.buildItemList(song);
         this.session.rootNode().find("#searchPageSongsContainer").append(itemTemplate);
@@ -171,6 +177,7 @@ var SearchSongCallback = (function () {
         var _this = this;
         $.ajax({
             url: this.buildSimilarSearchUrl(song),
+            dataType: "json",
             method: "POST",
             success: function (res) {
                 return _this.onSimilarResults(res, itemTemplate);
@@ -178,25 +185,27 @@ var SearchSongCallback = (function () {
         });
     };
     SearchSongCallback.prototype.onSimilarResults = function (res, itemTemplate) {
-        if(res.error == null) {
-            this.addSimilarSongs(res.similartracks.track, itemTemplate);
+        if (res.error == null && Array.isArray(res["similartracks"]["track"])) {
+            this.addSimilarSongs(res["similartracks"]["track"], itemTemplate);
         } else {
             this.addNoSimilarSongsTemplate(itemTemplate);
         }
         this.removeSimilarLoader(itemTemplate);
     };
     SearchSongCallback.prototype.removeSimilarLoader = function (itemTemplate) {
-        itemTemplate.find("#searchSimilarLoadingContainer").fadeOut(400, function () {
-            this.remove();
+        var container = itemTemplate.find("#searchSimilarLoadingContainer");
+        container.fadeOut(400, function () {
+            container.remove();
         });
     };
     SearchSongCallback.prototype.addSimilarSongs = function (tracks, itemTemplate) {
-        for(var i = 0; i < tracks.length; i++) {
+        for (var i = 0; i < tracks.length; i++) {
             this.addSimilarSong(tracks[i], itemTemplate);
         }
     };
     SearchSongCallback.prototype.addSimilarSong = function (track, itemTemplate) {
-        var song = new Song(track.mbid, new SongInfo(track.name, track.artist.name, null, null), getLargeImage(track));
+        var id = guid(track.mbid, track.name.trim() + track.artist.name.trim());
+        var song = new Song(id, new SongInfo(track.name, track.artist.name, null, null), getLargeImage(track.image));
         loadSongInfo(song);
         var songTemplate = buildSmallSong(song);
         songTemplate.addClass("searchSimilarSong");
@@ -209,11 +218,16 @@ var SearchSongCallback = (function () {
         itemTemplate.find("#searchSongListContainer").append(container);
     };
     SearchSongCallback.prototype.buildSimilarSearchUrl = function (song) {
-        return "http://ws.audioscrobbler.com/2.0/?method=track.getsimilar&mbid=" + song.mbid + "&api_key=" + lastFmApiKey + "&format=json&limit=10";
+        if (isMbid(song.mbid)) {
+            return "http://ws.audioscrobbler.com/2.0/?method=track.getsimilar&mbid=" + song.mbid + "&api_key=" + lastFmApiKey + "&format=json&limit=10";
+        } else {
+            return "http://ws.audioscrobbler.com/2.0/?method=track.getsimilar&artist=" + song.info.artist + "&track=" + song.info.title + "&api_key=" + lastFmApiKey + "&format=json&limit=10";
+        }
     };
     SearchSongCallback.prototype.removeLoadingScreen = function () {
-        this.session.rootNode().find("#searchPageLoadingContainer").fadeOut(400, function () {
-            this.remove();
+        var container = this.session.rootNode().find("#searchPageLoadingContainer");
+        container.fadeOut(400, function () {
+            container.remove();
         });
     };
     SearchSongCallback.prototype.buildItemList = function (song) {
@@ -239,10 +253,12 @@ var SearchArtistCallback = (function () {
     function SearchArtistCallback(session) {
         this.session = session;
     }
+
     SearchArtistCallback.prototype.load = function () {
         var _this = this;
         $.ajax({
             url: this.buildMainSearchUrl(),
+            dataType: "json",
             method: "POST",
             success: function (res) {
                 return _this.onMainResult(res["results"]["artistmatches"]["artist"]);
@@ -250,21 +266,23 @@ var SearchArtistCallback = (function () {
         });
     };
     SearchArtistCallback.prototype.onMainResult = function (artists) {
-        for(var i = 0; i < artists.length; i++) {
+        for (var i = 0; i < artists.length; i++) {
             this.pushMainResult(artists[i]);
         }
         this.removeLoadingScreen();
     };
     SearchArtistCallback.prototype.pushMainResult = function (artist) {
-        var artist = new Artist(artist.mbid, new ArtistInfo(artist.name), getExtraLargeImage(artist));
-        var itemTemplate = this.buildItemList(artist);
+        var id = guid(artist.mbid, artist.name.trim());
+        var artistInfo = new Artist(id, new ArtistInfo(artist.name), getExtraLargeImage(artist.image));
+        var itemTemplate = this.buildItemList(artistInfo);
         this.session.rootNode().find("#searchPageArtistContainer").append(itemTemplate);
-        this.loadArtistSongs(artist, itemTemplate);
+        this.loadArtistSongs(artistInfo, itemTemplate);
     };
     SearchArtistCallback.prototype.loadArtistSongs = function (artist, itemTemplate) {
         var _this = this;
         $.ajax({
             url: this.buildArtistSearchUrl(artist),
+            dataType: "json",
             method: "POST",
             success: function (res) {
                 return _this.onArtistResults(res, itemTemplate);
@@ -272,7 +290,7 @@ var SearchArtistCallback = (function () {
         });
     };
     SearchArtistCallback.prototype.onArtistResults = function (res, itemTemplate) {
-        if(res.error == null) {
+        if (res.error == null && res["toptracks"]["track"] != null) {
             this.addArtistSongs(res["toptracks"]["track"], itemTemplate);
         } else {
             this.addNoArtistSongsTemplate(itemTemplate);
@@ -280,20 +298,19 @@ var SearchArtistCallback = (function () {
         this.removeSimilarLoader(itemTemplate);
     };
     SearchArtistCallback.prototype.removeSimilarLoader = function (itemTemplate) {
-        itemTemplate.find("#searchSimilarLoadingContainer").fadeOut(400, function () {
-            this.remove();
+        var container = itemTemplate.find("#searchSimilarLoadingContainer");
+        container.fadeOut(400, function () {
+            container.remove();
         });
     };
     SearchArtistCallback.prototype.addArtistSongs = function (tracks, itemTemplate) {
-        if(tracks == null) {
-            return;
-        }
-        for(var i = 0; i < tracks.length; i++) {
+        for (var i = 0; i < tracks.length; i++) {
             this.addArtistSong(tracks[i], itemTemplate);
         }
     };
     SearchArtistCallback.prototype.addArtistSong = function (track, itemTemplate) {
-        var song = new Song(track.mbid, new SongInfo(track.name, track.artist.name, null, null), getLargeImage(track));
+        var id = guid(track.mbid, track.name.trim() + track.artist.name.trim());
+        var song = new Song(id, new SongInfo(track.name, track.artist.name, null, null), getLargeImage(track.image));
         loadSongInfo(song);
         var songTemplate = buildSmallSong(song);
         songTemplate.addClass("searchSimilarSong");
@@ -306,15 +323,16 @@ var SearchArtistCallback = (function () {
         itemTemplate.find("#searchSongListContainer").append(container);
     };
     SearchArtistCallback.prototype.buildArtistSearchUrl = function (artist) {
-        if(artist.mbid == null || artist.mbid.length == 0) {
-            return "http://ws.audioscrobbler.com/2.0/?method=artist.gettoptracks&artist=" + artist.info.name + "&api_key=" + lastFmApiKey + "&format=json&limit=10";
-        } else {
+        if (isMbid(artist.mbid)) {
             return "http://ws.audioscrobbler.com/2.0/?method=artist.gettoptracks&mbid=" + artist.mbid + "&api_key=" + lastFmApiKey + "&format=json&limit=10";
+        } else {
+            return "http://ws.audioscrobbler.com/2.0/?method=artist.gettoptracks&artist=" + artist.info.name + "&api_key=" + lastFmApiKey + "&format=json&limit=10";
         }
     };
     SearchArtistCallback.prototype.removeLoadingScreen = function () {
-        this.session.rootNode().find("#searchArtistLoadingContainer").fadeOut(400, function () {
-            this.remove();
+        var container = this.session.rootNode().find("#searchArtistLoadingContainer");
+        container.fadeOut(400, function () {
+            container.remove();
         });
     };
     SearchArtistCallback.prototype.buildItemList = function (artist) {
@@ -336,11 +354,119 @@ var SearchArtistCallback = (function () {
     };
     return SearchArtistCallback;
 })();
+var SearchAlbumCallback = (function () {
+    function SearchAlbumCallback(session) {
+        this.session = session;
+    }
+
+    SearchAlbumCallback.prototype.load = function () {
+        var _this = this;
+        $.ajax({
+            url: this.buildMainSearchUrl(),
+            dataType: "json",
+            method: "POST",
+            success: function (res) {
+                return _this.onMainResult(res["results"]["albummatches"]["album"]);
+            }
+        });
+    };
+    SearchAlbumCallback.prototype.onMainResult = function (albums) {
+        for (var i = 0; i < albums.length; i++) {
+            this.pushMainResult(albums[i]);
+        }
+        this.removeLoadingScreen();
+    };
+    SearchAlbumCallback.prototype.pushMainResult = function (albumInfo) {
+        var id = guid(albumInfo.mbid, albumInfo.name.trim() + albumInfo.artist.trim());
+        var album = new Album(albumInfo.mbid, new AlbumInfo(albumInfo.name, albumInfo.artist), getExtraLargeImage(albumInfo.image));
+        var itemTemplate = this.buildItemList(album);
+        this.session.rootNode().find("#searchPageAlbumsContainer").append(itemTemplate);
+        this.loadAlbumSongs(album, itemTemplate);
+    };
+    SearchAlbumCallback.prototype.loadAlbumSongs = function (album, itemTemplate) {
+        var _this = this;
+        $.ajax({
+            url: this.buildAlbumSearchUrl(album),
+            dataType: "json",
+            method: "POST",
+            success: function (res) {
+                return _this.onAlbumResults(res, itemTemplate);
+            }
+        });
+    };
+    SearchAlbumCallback.prototype.onAlbumResults = function (res, itemTemplate) {
+        if (res.error == null && res["album"]["tracks"]["track"] != null) {
+            var image = getLargeImage(res["album"]["image"]);
+            this.addAlbumSongs(res["album"]["tracks"]["track"], image, itemTemplate);
+        } else {
+            this.addNoArtistSongsTemplate(itemTemplate);
+        }
+        this.removeSimilarLoader(itemTemplate);
+    };
+    SearchAlbumCallback.prototype.removeSimilarLoader = function (itemTemplate) {
+        var container = itemTemplate.find("#searchSimilarLoadingContainer");
+        container.fadeOut(400, function () {
+            container.remove();
+        });
+    };
+    SearchAlbumCallback.prototype.addAlbumSongs = function (tracks, image, itemTemplate) {
+        for (var i = 0; i < tracks.length; i++) {
+            this.addAlbumSong(tracks[i], image, itemTemplate);
+        }
+    };
+    SearchAlbumCallback.prototype.addAlbumSong = function (track, image, itemTemplate) {
+        var id = guid(track.mbid, track.name.trim() + track.artist.name.trim());
+        var song = new Song(id, new SongInfo(track.name, track.artist.name, null, null), image);
+        loadSongInfo(song);
+        var songTemplate = buildSmallSong(song);
+        songTemplate.addClass("searchSimilarSong");
+        itemTemplate.find("#searchSongListContainer").append(songTemplate);
+    };
+    SearchAlbumCallback.prototype.addNoArtistSongsTemplate = function (itemTemplate) {
+        var container = $("<div></div>");
+        var messageTemplate = template("#searchSongNoSimilarTemplate", "No songs were found for album");
+        container.append(messageTemplate);
+        itemTemplate.find("#searchSongListContainer").append(container);
+    };
+    SearchAlbumCallback.prototype.buildAlbumSearchUrl = function (album) {
+        if (isMbid(album.mbid)) {
+            "&api_key=ccb7bf48e8055843e17952fbeb6bfabd&artist=Cher&album=Believe&format=json";
+            return "http://ws.audioscrobbler.com/2.0/?method=album.getinfo&mbid=" + album.mbid + "&api_key=" + lastFmApiKey + "&format=json";
+        } else {
+            return "http://ws.audioscrobbler.com/2.0/?method=album.getinfo&artist=" + album.info.artist + "&album=" + album.info.name + "&api_key=" + lastFmApiKey + "&format=json";
+        }
+    };
+    SearchAlbumCallback.prototype.removeLoadingScreen = function () {
+        var container = this.session.rootNode().find("#searchAlbumLoadingContainer");
+        container.fadeOut(400, function () {
+            container.remove();
+        });
+    };
+    SearchAlbumCallback.prototype.buildItemList = function (album) {
+        var listContainer = $("<div></div>");
+        var listTemplate = template("#searchSongListTemplate");
+        var imageTemplate = this.buildLargeImageTemplate(album);
+        listContainer.append(listTemplate);
+        listContainer.find("#searchSongTitle").text(album.info.artist + "-" + album.info.name);
+        listContainer.find("#searchLargeImageContainer").append(imageTemplate);
+        return listContainer;
+    };
+    SearchAlbumCallback.prototype.buildLargeImageTemplate = function (album) {
+        var img = $("<img />");
+        img.attr("src", album.imageUrl).attr("width", 150).attr("height", 150);
+        return img;
+    };
+    SearchAlbumCallback.prototype.buildMainSearchUrl = function () {
+        return "http://ws.audioscrobbler.com/2.0/?method=album.search&album=" + this.session.query + "&api_key=" + lastFmApiKey + "&format=json&limit=10";
+    };
+    return SearchAlbumCallback;
+})();
 var SearchPageManager = (function () {
     function SearchPageManager(session) {
         this.session = session;
         this.pageIndex = 0;
     }
+
     SearchPageManager.prototype.bind = function () {
         var _this = this;
         $(this.session.rootNode()).find("#searchMenuSongs").click(function () {
@@ -371,13 +497,13 @@ var SearchPageManager = (function () {
         this.getMenuItem(index).removeClass("searchMenuSelectorSelected");
     };
     SearchPageManager.prototype.nextPage = function () {
-        if(this.pageIndex > 2) {
+        if (this.pageIndex > 2) {
             return;
         }
         this.switchToPage(this.pageIndex + 1);
     };
     SearchPageManager.prototype.previousPage = function () {
-        if(this.pageIndex < 1) {
+        if (this.pageIndex < 1) {
             return;
         }
         this.switchToPage(this.pageIndex - 1);
@@ -394,7 +520,7 @@ var SearchPageManager = (function () {
         page.find(".searchPageSongContainer").removeClass("searchPageSongContainerFocused");
     };
     SearchPageManager.prototype.getMenuItem = function (index) {
-        switch(index) {
+        switch (index) {
             case 0:
                 return $(this.session.rootNode()).find("#searchMenuSongs");
             case 1:
@@ -406,7 +532,7 @@ var SearchPageManager = (function () {
         }
     };
     SearchPageManager.prototype.getPage = function (index) {
-        switch(index) {
+        switch (index) {
             case 0:
                 return $(this.session.rootNode()).find("#searchPageSongs");
             case 1:
@@ -425,6 +551,7 @@ var SearchSession = (function () {
         this.title = title;
         this.query = query;
     }
+
     SearchSession.prototype.rootNode = function () {
         return $("#" + this.id);
     };

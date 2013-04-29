@@ -129,28 +129,40 @@ function loadSongInfo(song:Song) {
     //todo
 }
 
-function getLargeImage(track:any):string {
-    if (track.image == null) {
+function getLargeImage(images:any[]):string {
+    if (images == null) {
         return "/assets/images/logo.gif";
     }
-    for (var i = 0; i < track.image.length; i++) {
-        if (track.image[i].size == "medium") {
-            return track.image[i]["#text"];
+    for (var i = 0; i < images.length; i++) {
+        if (images[i].size == "medium") {
+            return images[i]["#text"];
         }
     }
     return "/assets/images/logo.gif";
 }
 
-function getExtraLargeImage(track:any):string {
-    if (track.image == null) {
+function getExtraLargeImage(images:any[]):string {
+    if (images == null) {
         return "/assets/images/logo.gif";
     }
-    for (var i = 0; i < track.image.length; i++) {
-        if (track.image[i].size == "extralarge") {
-            return track.image[i]["#text"];
+    for (var i = 0; i < images.length; i++) {
+        if (images[i].size == "extralarge") {
+            return images[i]["#text"];
         }
     }
     return "/assets/images/logo.gif";
+}
+
+function guid(mbid:string, seed:string):string {
+    if (mbid == null || mbid.length != 36) {
+        return md5(seed);
+    } else {
+        return mbid;
+    }
+}
+
+function isMbid(mbid:string) {
+    return mbid.length == 36;
 }
 
 class Song {
@@ -170,6 +182,16 @@ class Artist {
 
 class ArtistInfo {
     constructor(public name:string) {
+    }
+}
+
+class Album {
+    constructor(public mbid:string, public info:AlbumInfo, public imageUrl:string) {
+    }
+}
+
+class AlbumInfo {
+    constructor(public name:string, public artist:string) {
     }
 }
 

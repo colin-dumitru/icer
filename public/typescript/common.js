@@ -1,5 +1,7 @@
 var Dimensions = (function () {
-    function Dimensions() { }
+    function Dimensions() {
+    }
+
     return Dimensions;
 })();
 function template(id) {
@@ -16,6 +18,7 @@ var SongDetailManager = (function () {
     function SongDetailManager() {
         this.menuHidden = true;
     }
+
     SongDetailManager.prototype.bind = function () {
         var songDetailContainer = $("#songDetailContainer");
         this.menuWidth = songDetailContainer.width();
@@ -45,10 +48,10 @@ var SongDetailManager = (function () {
     SongDetailManager.prototype.bindHover = function () {
         var _this = this;
         $(window).mousemove(function (event) {
-            if(_this.menuHidden) {
+            if (_this.menuHidden) {
                 return;
             }
-            if(event.clientX < _this.menuX || event.clientX > (_this.menuX + _this.menuWidth) || event.clientY < _this.menuY || event.clientY > (_this.menuY + _this.menuHeight)) {
+            if (event.clientX < _this.menuX || event.clientX > (_this.menuX + _this.menuWidth) || event.clientY < _this.menuY || event.clientY > (_this.menuY + _this.menuHeight)) {
                 $("#songDetailContainer").hide(300);
                 _this.menuHidden = true;
             }
@@ -67,59 +70,59 @@ function randomSongTitle() {
         {
             artist: "Bruno Mars",
             title: "When I Was Your Man"
-        }, 
+        },
         {
             artist: "Imagine Dragons",
             title: "Radioactive"
-        }, 
+        },
         {
             artist: "Justin Timberlake",
             title: "Suit and tie"
-        }, 
+        },
         {
             artist: "Jonas Brothers",
             title: "Pom Poms"
-        }, 
+        },
         {
             artist: " Demi Lovato",
             title: "Heart attack"
-        }, 
+        },
         {
             artist: "Justin Timberlake",
             title: "Mirrors"
-        }, 
+        },
         {
             artist: "Fall Out Boy",
             title: "My Songs"
-        }, 
+        },
         {
             artist: "Darius Rucker",
             title: "Wagon Wheel"
-        }, 
+        },
         {
             artist: " Drake",
             title: "Started From The Bottom"
-        }, 
+        },
         {
             artist: " Fun",
             title: "Carry On"
-        }, 
+        },
         {
             artist: "Blake Shelton",
             title: "Sure Be Cool If You Did"
-        }, 
+        },
         {
             artist: "Baauer",
             title: "Harlem Shake"
-        }, 
+        },
         {
             artist: "Taylor Swift",
             title: "22"
-        }, 
+        },
         {
             artist: "Chris Brown",
             title: "Fine China"
-        }, 
+        },
         {
             artist: "Maroon 5",
             title: "Daylight"
@@ -133,34 +136,44 @@ function buildSmallSong(song) {
     parentDiv.addClass("imageContainer");
     parentDiv.addClass("inline");
     parentDiv.append(imageTemplate);
-    if(song.imageUrl != null) {
+    if (song.imageUrl != null) {
         parentDiv.find("#songImage").attr("src", song.imageUrl);
     }
     return parentDiv;
 }
 function loadSongInfo(song) {
 }
-function getLargeImage(track) {
-    if(track.image == null) {
+function getLargeImage(images) {
+    if (images == null) {
         return "/assets/images/logo.gif";
     }
-    for(var i = 0; i < track.image.length; i++) {
-        if(track.image[i].size == "medium") {
-            return track.image[i]["#text"];
+    for (var i = 0; i < images.length; i++) {
+        if (images[i].size == "medium") {
+            return images[i]["#text"];
         }
     }
     return "/assets/images/logo.gif";
 }
-function getExtraLargeImage(track) {
-    if(track.image == null) {
+function getExtraLargeImage(images) {
+    if (images == null) {
         return "/assets/images/logo.gif";
     }
-    for(var i = 0; i < track.image.length; i++) {
-        if(track.image[i].size == "extralarge") {
-            return track.image[i]["#text"];
+    for (var i = 0; i < images.length; i++) {
+        if (images[i].size == "extralarge") {
+            return images[i]["#text"];
         }
     }
     return "/assets/images/logo.gif";
+}
+function guid(mbid, seed) {
+    if (mbid == null || mbid.length != 36) {
+        return md5(seed);
+    } else {
+        return mbid;
+    }
+}
+function isMbid(mbid) {
+    return mbid.length == 36;
 }
 var Song = (function () {
     function Song(mbid, info, imageUrl) {
@@ -168,6 +181,7 @@ var Song = (function () {
         this.info = info;
         this.imageUrl = imageUrl;
     }
+
     return Song;
 })();
 var SongInfo = (function () {
@@ -177,6 +191,7 @@ var SongInfo = (function () {
         this.album = album;
         this.genre = genre;
     }
+
     return SongInfo;
 })();
 var Artist = (function () {
@@ -185,13 +200,32 @@ var Artist = (function () {
         this.info = info;
         this.imageUrl = imageUrl;
     }
+
     return Artist;
 })();
 var ArtistInfo = (function () {
     function ArtistInfo(name) {
         this.name = name;
     }
+
     return ArtistInfo;
+})();
+var Album = (function () {
+    function Album(mbid, info, imageUrl) {
+        this.mbid = mbid;
+        this.info = info;
+        this.imageUrl = imageUrl;
+    }
+
+    return Album;
+})();
+var AlbumInfo = (function () {
+    function AlbumInfo(name, artist) {
+        this.name = name;
+        this.artist = artist;
+    }
+
+    return AlbumInfo;
 })();
 var dimensions = new Dimensions();
 var songDetailManager = new SongDetailManager();
