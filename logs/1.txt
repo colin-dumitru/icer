@@ -1,0 +1,101 @@
+2013-04-10T10:40:39.116132+00:00 heroku[web.1]: Starting process with command `target/start -Dhttp.port=43420 $JAVA_OPTS`
+2013-04-10T10:40:39.241151+00:00 heroku[api]: Add DATABASE_URL config by colin.dumitru@gmail.com
+2013-04-10T10:40:39.278731+00:00 heroku[api]: Release v4 created by colin.dumitru@gmail.com
+2013-04-10T10:40:39.373830+00:00 heroku[api]: Add PATH, JAVA_OPTS, SBT_OPTS, REPO config by colin.dumitru@gmail.com
+2013-04-10T10:40:39.407024+00:00 heroku[api]: Release v5 created by colin.dumitru@gmail.com
+2013-04-10T10:40:39.519757+00:00 heroku[api]: Release v6 created by colin.dumitru@gmail.com
+2013-04-10T10:40:39.591332+00:00 heroku[api]: Deploy be16b80 by colin.dumitru@gmail.com
+2013-04-10T10:40:39.780022+00:00 app[web.1]: bash: target/start: No such file or directory
+2013-04-10T10:40:40.320617+00:00 heroku[slugc]: Slug compilation finished
+2013-04-10T10:40:40.975981+00:00 heroku[web.1]: Process exited with status 127
+2013-04-10T10:40:44.200242+00:00 heroku[web.1]: Starting process with command `target/start -Dhttp.port=55728 -Xmx384m -Xss512k -XX:+UseCompressedOops`
+2013-04-10T10:40:45.215972+00:00 app[web.1]: Play server process ID is 2
+2013-04-10T10:40:46.079025+00:00 app[web.1]: userId varchar(255),
+2013-04-10T10:40:46.082641+00:00 app[web.1]: 	at play.api.db.evolutions.EvolutionsPlugin.onStart(Evolutions.scala:432)
+2013-04-10T10:40:46.084010+00:00 app[web.1]: 	at play.core.server.NettyServer$.createServer(NettyServer.scala:228)
+2013-04-10T10:40:46.020983+00:00 app[web.1]: [[37minfo[0m] play - database [default] connected at jdbc:h2:mem:play
+2013-04-10T10:40:46.079025+00:00 app[web.1]: );
+2013-04-10T10:40:46.082081+00:00 app[web.1]: 	at play.api.db.evolutions.EvolutionsPlugin$$anonfun$onStart$1$$anonfun$apply$1.apply$mcV$sp(Evolutions.scala:455)
+2013-04-10T10:40:46.083187+00:00 app[web.1]: 	at play.api.Play$$anonfun$start$1.apply$mcV$sp(Play.scala:63)
+2013-04-10T10:40:46.079025+00:00 app[web.1]: # --- Rev:1,Ups - f4a6943
+2013-04-10T10:40:46.081796+00:00 app[web.1]: Oops, cannot start the server.
+2013-04-10T10:40:46.083478+00:00 app[web.1]: 	at play.api.Play$$anonfun$start$1.apply(Play.scala:63)
+2013-04-10T10:40:46.084732+00:00 app[web.1]: 	at play.core.server.NettyServer.main(NettyServer.scala)
+2013-04-10T10:40:46.079025+00:00 app[web.1]: CREATE SEQUENCE user_id_seq;
+2013-04-10T10:40:46.082919+00:00 app[web.1]: 	at play.api.Play$$anonfun$start$1$$anonfun$apply$mcV$sp$1.apply(Play.scala:63)
+2013-04-10T10:40:46.084589+00:00 app[web.1]: 	at play.core.server.NettyServer$.main(NettyServer.scala:258)
+2013-04-10T10:40:46.079025+00:00 app[web.1]: [[33mwarn[0m] play - Your production database [default] needs evolutions! 
+2013-04-10T10:40:46.079025+00:00 app[web.1]: 
+2013-04-10T10:40:46.081856+00:00 app[web.1]: @6e0f9lk4i: Database 'default' needs evolution!
+2013-04-10T10:40:46.083319+00:00 app[web.1]: 	at play.api.Play$$anonfun$start$1.apply(Play.scala:63)
+2013-04-10T10:40:46.079317+00:00 app[web.1]: INSERT INTO User (id, userId, full_name) VALUES(1, 'catalin', 'Catalin')
+2013-04-10T10:40:46.082469+00:00 app[web.1]: 	at scala.collection.immutable.List.foreach(List.scala:309)
+2013-04-10T10:40:46.083880+00:00 app[web.1]: 	at play.core.StaticApplication.<init>(ApplicationProvider.scala:54)
+2013-04-10T10:40:46.084316+00:00 app[web.1]: 	at play.core.server.NettyServer$$anonfun$main$5.apply(NettyServer.scala:258)
+2013-04-10T10:40:46.079317+00:00 app[web.1]: 
+2013-04-10T10:40:46.079025+00:00 app[web.1]: 
+2013-04-10T10:40:46.079442+00:00 app[web.1]: [[33mwarn[0m] play - Run with -DapplyEvolutions.default=true if you want to run them automatically (be careful)
+2013-04-10T10:40:46.082242+00:00 app[web.1]: 	at play.api.db.evolutions.EvolutionsPlugin$$anonfun$onStart$1.apply(Evolutions.scala:434)
+2013-04-10T10:40:46.082329+00:00 app[web.1]: 	at play.api.db.evolutions.EvolutionsPlugin$$anonfun$onStart$1.apply(Evolutions.scala:432)
+2013-04-10T10:40:46.083750+00:00 app[web.1]: 	at play.api.Play$.start(Play.scala:62)
+2013-04-10T10:40:46.084451+00:00 app[web.1]: 	at scala.Option.map(Option.scala:145)
+2013-04-10T10:40:46.083049+00:00 app[web.1]: 	at scala.collection.immutable.List.foreach(List.scala:309)
+2013-04-10T10:40:46.079025+00:00 app[web.1]: id integer NOT NULL DEFAULT nextval('user_id_seq'),
+2013-04-10T10:40:46.082148+00:00 app[web.1]: 	at play.api.db.evolutions.EvolutionsPlugin.withLock(Evolutions.scala:478)
+2013-04-10T10:40:46.083620+00:00 app[web.1]: 	at play.utils.Threads$.withContextClassLoader(Threads.scala:18)
+2013-04-10T10:40:46.084147+00:00 app[web.1]: 	at play.core.server.NettyServer$$anonfun$main$5.apply(NettyServer.scala:259)
+2013-04-10T10:40:46.079025+00:00 app[web.1]: CREATE TABLE User (
+2013-04-10T10:40:46.079025+00:00 app[web.1]: full_name varchar(255)
+2013-04-10T10:40:46.082787+00:00 app[web.1]: 	at play.api.Play$$anonfun$start$1$$anonfun$apply$mcV$sp$1.apply(Play.scala:63)
+2013-04-10T10:40:47.249683+00:00 heroku[web.1]: Process exited with status 255
+2013-04-10T10:40:47.262446+00:00 heroku[web.1]: State changed from starting to crashed
+2013-04-10T10:40:47.262446+00:00 heroku[web.1]: State changed from crashed to starting
+2013-04-10T10:40:55.869215+00:00 heroku[web.1]: Starting process with command `target/start -Dhttp.port=7102 -Xmx384m -Xss512k -XX:+UseCompressedOops`
+2013-04-10T10:40:57.446208+00:00 app[web.1]: Play server process ID is 2
+2013-04-10T10:40:58.344483+00:00 app[web.1]: [[37minfo[0m] play - database [default] connected at jdbc:h2:mem:play
+2013-04-10T10:40:58.405190+00:00 app[web.1]: @6e0f9mcah: Database 'default' needs evolution!
+2013-04-10T10:40:58.402280+00:00 app[web.1]: CREATE SEQUENCE user_id_seq;
+2013-04-10T10:40:58.405584+00:00 app[web.1]: 	at play.api.db.evolutions.EvolutionsPlugin$$anonfun$onStart$1.apply(Evolutions.scala:434)
+2013-04-10T10:40:58.402280+00:00 app[web.1]: 
+2013-04-10T10:40:58.405839+00:00 app[web.1]: 	at play.api.db.evolutions.EvolutionsPlugin.onStart(Evolutions.scala:432)
+2013-04-10T10:40:58.406285+00:00 app[web.1]: 	at play.utils.Threads$.withContextClassLoader(Threads.scala:18)
+2013-04-10T10:40:58.402280+00:00 app[web.1]: CREATE TABLE User (
+2013-04-10T10:40:58.402280+00:00 app[web.1]: full_name varchar(255)
+2013-04-10T10:40:58.402600+00:00 app[web.1]: 
+2013-04-10T10:40:58.405099+00:00 app[web.1]: Oops, cannot start the server.
+2013-04-10T10:40:58.402280+00:00 app[web.1]: # --- Rev:1,Ups - f4a6943
+2013-04-10T10:40:58.402280+00:00 app[web.1]: );
+2013-04-10T10:40:58.406216+00:00 app[web.1]: 	at play.api.Play$$anonfun$start$1.apply(Play.scala:63)
+2013-04-10T10:40:58.402280+00:00 app[web.1]: userId varchar(255),
+2013-04-10T10:40:58.402600+00:00 app[web.1]: INSERT INTO User (id, userId, full_name) VALUES(1, 'catalin', 'Catalin')
+2013-04-10T10:40:58.402673+00:00 app[web.1]: [[33mwarn[0m] play - Run with -DapplyEvolutions.default=true if you want to run them automatically (be careful)
+2013-04-10T10:40:58.405428+00:00 app[web.1]: 	at play.api.db.evolutions.EvolutionsPlugin$$anonfun$onStart$1$$anonfun$apply$1.apply$mcV$sp(Evolutions.scala:455)
+2013-04-10T10:40:58.405506+00:00 app[web.1]: 	at play.api.db.evolutions.EvolutionsPlugin.withLock(Evolutions.scala:478)
+2013-04-10T10:40:58.405992+00:00 app[web.1]: 	at play.api.Play$$anonfun$start$1$$anonfun$apply$mcV$sp$1.apply(Play.scala:63)
+2013-04-10T10:40:58.406473+00:00 app[web.1]: 	at play.core.server.NettyServer$.createServer(NettyServer.scala:228)
+2013-04-10T10:40:58.405652+00:00 app[web.1]: 	at play.api.db.evolutions.EvolutionsPlugin$$anonfun$onStart$1.apply(Evolutions.scala:432)
+2013-04-10T10:40:58.402280+00:00 app[web.1]: 
+2013-04-10T10:40:58.405903+00:00 app[web.1]: 	at play.api.Play$$anonfun$start$1$$anonfun$apply$mcV$sp$1.apply(Play.scala:63)
+2013-04-10T10:40:58.405992+00:00 app[web.1]: 	at scala.collection.immutable.List.foreach(List.scala:309)
+2013-04-10T10:40:58.402280+00:00 app[web.1]: [[33mwarn[0m] play - Your production database [default] needs evolutions! 
+2013-04-10T10:40:58.402280+00:00 app[web.1]: id integer NOT NULL DEFAULT nextval('user_id_seq'),
+2013-04-10T10:40:58.406086+00:00 app[web.1]: 	at play.api.Play$$anonfun$start$1.apply$mcV$sp(Play.scala:63)
+2013-04-10T10:40:58.406354+00:00 app[web.1]: 	at play.api.Play$.start(Play.scala:62)
+2013-04-10T10:40:58.405726+00:00 app[web.1]: 	at scala.collection.immutable.List.foreach(List.scala:309)
+2013-04-10T10:40:58.406412+00:00 app[web.1]: 	at play.core.StaticApplication.<init>(ApplicationProvider.scala:54)
+2013-04-10T10:40:58.409567+00:00 app[web.1]: 	at play.core.server.NettyServer$.main(NettyServer.scala:258)
+2013-04-10T10:40:58.409567+00:00 app[web.1]: 	at play.core.server.NettyServer$$anonfun$main$5.apply(NettyServer.scala:258)
+2013-04-10T10:40:58.406145+00:00 app[web.1]: 	at play.api.Play$$anonfun$start$1.apply(Play.scala:63)
+2013-04-10T10:40:58.406578+00:00 app[web.1]: 	at play.core.server.NettyServer$$anonfun$main$5.apply(NettyServer.scala:259)
+2013-04-10T10:40:58.409781+00:00 app[web.1]: 	at play.core.server.NettyServer.main(NettyServer.scala)
+2013-04-10T10:40:58.409567+00:00 app[web.1]: 	at scala.Option.map(Option.scala:145)
+2013-04-10T10:40:59.570179+00:00 heroku[web.1]: Process exited with status 255
+2013-04-10T10:40:59.597071+00:00 heroku[web.1]: State changed from starting to crashed
+2013-04-10T10:41:23.595084+00:00 heroku[router]: at=error code=H10 desc="App crashed" method=GET path=/ host=cryptic-plateau-1613.herokuapp.com fwd="85.204.103.51" dyno= connect= service= status=503 bytes=
+2013-04-10T10:41:24.067339+00:00 heroku[router]: at=error code=H10 desc="App crashed" method=GET path=/favicon.ico host=cryptic-plateau-1613.herokuapp.com fwd="85.204.103.51" dyno= connect= service= status=503 bytes=
+2013-04-10T10:42:05.091234+00:00 heroku[router]: at=error code=H10 desc="App crashed" method=GET path=/ host=cryptic-plateau-1613.herokuapp.com fwd="85.204.103.51" dyno= connect= service= status=503 bytes=
+2013-04-10T10:42:05.280824+00:00 heroku[router]: at=error code=H10 desc="App crashed" method=GET path=/favicon.ico host=cryptic-plateau-1613.herokuapp.com fwd="85.204.103.51" dyno= connect= service= status=503 bytes=
+2013-04-10T10:42:28.416364+00:00 heroku[router]: at=error code=H10 desc="App crashed" method=GET path=/ host=cryptic-plateau-1613.herokuapp.com fwd="85.204.103.51" dyno= connect= service= status=503 bytes=
+2013-04-10T10:42:28.601668+00:00 heroku[router]: at=error code=H10 desc="App crashed" method=GET path=/favicon.ico host=cryptic-plateau-1613.herokuapp.com fwd="85.204.103.51" dyno= connect= service= status=503 bytes=
+2013-04-10T10:43:06.145663+00:00 heroku[router]: at=error code=H10 desc="App crashed" method=GET path=/ host=cryptic-plateau-1613.herokuapp.com fwd="85.204.103.51" dyno= connect= service= status=503 bytes=
+2013-04-10T10:43:06.325880+00:00 heroku[router]: at=error code=H10 desc="App crashed" method=GET path=/favicon.ico host=cryptic-plateau-1613.herokuapp.com fwd="85.204.103.51" dyno= connect= service= status=503 bytes=
