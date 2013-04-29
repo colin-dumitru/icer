@@ -26,16 +26,30 @@ var SongDetailManager = (function () {
         this.bindHover();
     };
     SongDetailManager.prototype.showDetails = function (options, detailCallback, bioUrl, position) {
+        var _this = this;
         this.menuHidden = false;
         $("#songDetailMenuCell").empty();
         options.forEach(function (option) {
-            var optionTemplate = template("#songDetailOptionTemplate", option);
-            $("#songDetailMenuCell").append(optionTemplate);
+            _this.buildOption(option, detailCallback);
         });
         this.updateLayout(position);
         this.menuX = this.hasSpaceOnRight(position.x) ? position.x : position.x - this.menuWidth;
         this.menuY = this.hasSpaceOnBottom(position.y) ? position.y : position.y - this.menuHeight;
         this.loadBio(bioUrl);
+    };
+    SongDetailManager.prototype.buildOption = function (option, detailCallback) {
+        var container = $("<div></div>");
+        var optionTemplate = template("#songDetailOptionTemplate", option);
+        container.append(optionTemplate);
+        $("#songDetailMenuCell").append(container);
+        this.bindOptionClick(option, container, detailCallback);
+    };
+    SongDetailManager.prototype.bindOptionClick = function (option, template, detailCallback) {
+        var _this = this;
+        template.click(function () {
+            detailCallback(option);
+            _this.hide();
+        });
     };
     SongDetailManager.prototype.updateLayout = function (position) {
         $("#songDetailContainer").css("left", this.hasSpaceOnRight(position.x) ? position.x : (position.x - this.menuWidth)).css("top", this.hasSpaceOnBottom(position.y) ? position.y : (position.y - this.menuHeight)).show(300);
@@ -52,10 +66,13 @@ var SongDetailManager = (function () {
                 return;
             }
             if (event.clientX < _this.menuX || event.clientX > (_this.menuX + _this.menuWidth) || event.clientY < _this.menuY || event.clientY > (_this.menuY + _this.menuHeight)) {
-                $("#songDetailContainer").hide(300);
-                _this.menuHidden = true;
+                _this.hide();
             }
         });
+    };
+    SongDetailManager.prototype.hide = function () {
+        $("#songDetailContainer").hide(300);
+        this.menuHidden = true;
     };
     SongDetailManager.prototype.hasSpaceOnRight = function (x) {
         return x + this.menuWidth < dimensions.windowWidth || x < this.menuWidth;

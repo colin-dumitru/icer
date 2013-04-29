@@ -34,8 +34,7 @@ class SongDetailManager {
 
         $("#songDetailMenuCell").empty();
         options.forEach((option) => {
-            var optionTemplate = template("#songDetailOptionTemplate", option);
-            $("#songDetailMenuCell").append(optionTemplate);
+            this.buildOption(option, detailCallback)
         });
 
         this.updateLayout(position);
@@ -44,6 +43,22 @@ class SongDetailManager {
         this.menuY = this.hasSpaceOnBottom(position.y) ? position.y : position.y - this.menuHeight;
 
         this.loadBio(bioUrl);
+    }
+
+    private buildOption(option:string, detailCallback:(string) => any) {
+        var container = $("<div></div>");
+        var optionTemplate = template("#songDetailOptionTemplate", option);
+        container.append(optionTemplate);
+
+        $("#songDetailMenuCell").append(container);
+        this.bindOptionClick(option, container, detailCallback);
+    }
+
+    private bindOptionClick(option:string, template, detailCallback:(string) => any) {
+        template.click(() => {
+            detailCallback(option);
+            this.hide();
+        });
     }
 
     private updateLayout(position:{x : number; y:number;}) {
@@ -74,10 +89,14 @@ class SongDetailManager {
                 || event.clientX > (this.menuX + this.menuWidth)
                 || event.clientY < this.menuY
                 || event.clientY > (this.menuY + this.menuHeight)) {
-                $("#songDetailContainer").hide(300);
-                this.menuHidden = true;
+                this.hide();
             }
         });
+    }
+
+    public hide() {
+        $("#songDetailContainer").hide(300);
+        this.menuHidden = true;
     }
 
     private hasSpaceOnRight(x:number):bool {

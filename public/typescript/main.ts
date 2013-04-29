@@ -427,7 +427,7 @@ class PlayManager {
 
     private playResolved(trackInfo:any, song:Song) {
         var trackId = trackInfo["id"];
-        this.streamSong(trackId, song)
+        this.streamSong(trackId, song);
         this.pushSongHistory(song);
     }
 
@@ -591,7 +591,7 @@ class GlobalPlaylistManager {
         this.playSong(songToPlay);
     }
 
-    private playSong(song:Song) {
+    public playSong(song:Song) {
         if (song == null) {
             return;
         }
@@ -663,6 +663,7 @@ class GlobalPlaylistManager {
     public clearSongs() {
         this.songQueue = [];
         this.playingSong = null;
+        $("#globalPlaylistSongContainer").empty();
     }
 
     giveFocus() {
