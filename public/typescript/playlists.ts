@@ -24,15 +24,15 @@ class PlaylistBinder implements SectionBinder {
         this.firstDisplay = false;
     }
 
-    private performLoadRequest(){
-        $.ajax("/playlist/load",{
+    private performLoadRequest() {
+        $.ajax("/playlist/load", {
             type: "POST",
             dataType: "json",
-            success:  data => {
-                for(var i = 0; i < data.length; i++)
+            success: data => {
+                for (var i = 0; i < data.length; i++)
                     this.playlistManager.loadPlaylist(data[i].id, data[i].name);
             },
-            error: function (reason){
+            error: function (reason) {
                 alert(reason)
             }
         });
@@ -68,22 +68,21 @@ class PlaylistManager {
     constructor(private rootNode:any) {
     }
 
-    addPlaylistServer(title: String){
-        $.ajax("/playlist/new/"+title,{
+    addPlaylistServer(title:String) {
+        $.ajax("/playlist/new/" + title, {
             type: "POST",
             dataType: "json",
-            success:  data => {
-                this.loadPlaylist(data.id,title)
+            success: data => {
+                this.loadPlaylist(data.id, title)
             },
-            error: function (reason){
+            error: function (reason) {
                 alert(reason)
             }
         });
     }
 
-    loadPlaylist(idPlaylist: string, title: string){
-        var id = "playlist" + idPlaylist;
-        var playList = new Playlist(id, title);
+    loadPlaylist(idPlaylist:string, title:string) {
+        var playList = new Playlist(idPlaylist, title);
 
         this.buildPage(playList);
         this.buildPlaylistItem(playList);
@@ -91,7 +90,7 @@ class PlaylistManager {
     }
 
     private buildPlaylistItem(playlist:Playlist) {
-        var item:Item = new Item(playlist.id, playlist.title);
+        var item:Item = new Item("playlist" + playlist.id, playlist.title);
         itemList.addItem(item);
 
         item.onSelect = () => {
@@ -106,12 +105,27 @@ class PlaylistManager {
         playlist.pageManager = new PlaylistPageManager(playlist, rootNode);
         playlist.pageManager.bind();
 
-        var title = randomSongTitle();
-        var image = template("#imageMock", title.title, title.artist);
+        this.songsForPlaylistRequest(playlist);
+    }
 
-        for (var i = 0; i < 30; i++) {
-            playlist.pageManager.rootNode.find("#playlistSongContainer").append(this.buildMockImage(image));
-        }
+    private songsForPlaylistRequest(playlist:Playlist) {
+        $.ajax("/playlist/songs/" + playlist.id, {
+            type: "POST",
+            dataType: "json",
+            success: data => {
+
+                for (var i = 0; i < data.length; i++) {
+                    var songInfo = new SongInfo(data[i].title, data[i].artist, data[i].album, data[i].genre)
+                    var song = new Song(data[i].mbid, songInfo, null)
+                    var image = buildSmallSong(song)
+                    playlist.pageManager.rootNode.find("#playlistSongContainer").append(this.buildMockImage(image))
+                    playlist.songs.push(song);
+                }
+            },
+            error: function (reason) {
+                alert(reason)
+            }
+        });
     }
 
     private buildMockImage(template) {
@@ -180,7 +194,14 @@ class PlaylistPageManager {
     }
 
     bind() {
+        $(this.rootNode).find("#playPlaylistButton").click(() => {
+            this.playPlaylist();
+        });
+    }
 
+    public playPlaylist() {
+        globalPlaylistManager.clearSongs();
+        globalPlaylistManager.pushSongs(this.playlist.songs);
     }
 }
 
@@ -189,5 +210,5 @@ class Playlist {
     }
 
     pageManager:PlaylistPageManager;
-
+    songs:Song[] = [];
 }

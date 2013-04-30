@@ -29,9 +29,9 @@ object Song {
     get[Pk[String]]("mbid") ~
       get[String]("title") ~
       get[String]("artist") ~
-      get[String]("album") ~
-      get[String]("genre") map {
-      case mbid ~ title ~ artist ~ album ~ genre => Song(mbid.get, title, artist, album, genre)
+      get[Option[String]]("album") ~
+      get[Option[String]]("genre") map {
+      case mbid ~ title ~ artist ~ album ~ genre => Song(mbid.get, title, artist, album.getOrElse(null), genre.getOrElse(null))
     }
   }
 
@@ -53,6 +53,14 @@ object Song {
           "album" -> song.album,
           "artist" -> song.artist
         ).executeUpdate()
+    }
+  }
+
+  def getSongsForPlaylist(idPlaylist: Long): Seq[Song] = {
+    DB.withConnection {
+      implicit connection =>
+        SQL("select * from songs, playlist_song where songs.mbid = playlist_song.id_song and playlist_song.id_playlist = {idPlaylist}").on(
+          "idPlaylist" -> idPlaylist).as(Song.simple *)
     }
   }
 }

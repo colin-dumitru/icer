@@ -3,8 +3,8 @@ package controllers.playlist
 import play.api.mvc.Controller
 import common.auth.Secured
 import common.json.JsonJack._
-import model.PlaylistModel
-import modelview.PlaylistView
+import model.{Song, PlaylistModel}
+import modelview.{SongView, PlaylistView}
 
 //crw template
 /**
@@ -29,6 +29,15 @@ object Playlist extends Controller {
       val newPlaylist = new PlaylistModel(null, idUser, name)
       val mwPlaylist = new PlaylistView(PlaylistModel.create(newPlaylist).toString, idUser.toString(), name); //crw extra ";" and () for toString method
       Ok(generate(mwPlaylist)).as("application/json")
+    }
+  }
+
+  def getSongsForPlaylist(idPlaylist: String) = Secured {
+    (request, idUser) => {
+      val songsForPlaylist = Song.getSongsForPlaylist(idPlaylist.toLong);
+      val mwSongs = songsForPlaylist.map(song => new SongView(song.mbid, song.title, song.artist, song.album, song.genre)).toArray
+      Ok(generate(mwSongs)).as("application/json")
+
     }
   }
 }

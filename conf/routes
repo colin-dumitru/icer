@@ -19,3 +19,4 @@ POST    /history/push               controllers.history.History.push
 #Playlist
 POST /playlist/load controllers.playlist.Playlist.findAllForUser
 POST /playlist/new/:name controllers.playlist.Playlist.createPlaylist(name: String)
+POST /playlist/songs/:idPlaylist controllers.playlist.Playlist.getSongsForPlaylist(idPlaylist: String)

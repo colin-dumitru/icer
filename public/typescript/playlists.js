@@ -2,13 +2,14 @@ var PlaylistBinder = (function () {
     function PlaylistBinder() {
         this.firstDisplay = true;
     }
+
     PlaylistBinder.prototype.buildPage = function (rootNode) {
         this.playlistManager = new PlaylistManager(rootNode);
     };
     PlaylistBinder.prototype.bind = function () {
         var _this = this;
         itemList.popItemList("playlist");
-        if(this.firstDisplay) {
+        if (this.firstDisplay) {
             this.loadData();
         }
         itemList.onInput = function (input) {
@@ -27,7 +28,7 @@ var PlaylistBinder = (function () {
             type: "POST",
             dataType: "json",
             success: function (data) {
-                for(var i = 0; i < data.length; i++) {
+                for (var i = 0; i < data.length; i++) {
                     _this.playlistManager.loadPlaylist(data[i].id, data[i].name);
                 }
             },
@@ -42,7 +43,7 @@ var PlaylistBinder = (function () {
         $(window).unbind("keydown", this.navigationHandler);
     };
     PlaylistBinder.prototype.navigationHandler = function (event) {
-        switch(event.which) {
+        switch (event.which) {
             case 38:
                 (binders["playlist"]).playlistManager.givePreviousPlaylistFocus();
                 event.preventDefault();
@@ -61,6 +62,7 @@ var PlaylistManager = (function () {
         this.playLists = [];
         this.playListsQueue = [];
     }
+
     PlaylistManager.prototype.addPlaylistServer = function (title) {
         var _this = this;
         $.ajax("/playlist/new/" + title, {
@@ -75,15 +77,14 @@ var PlaylistManager = (function () {
         });
     };
     PlaylistManager.prototype.loadPlaylist = function (idPlaylist, title) {
-        var id = "playlist" + idPlaylist;
-        var playList = new Playlist(id, title);
+        var playList = new Playlist(idPlaylist, title);
         this.buildPage(playList);
         this.buildPlaylistItem(playList);
         this.pushPlaylist(playList);
     };
     PlaylistManager.prototype.buildPlaylistItem = function (playlist) {
         var _this = this;
-        var item = new Item(playlist.id, playlist.title);
+        var item = new Item("playlist" + playlist.id, playlist.title);
         itemList.addItem(item);
         item.onSelect = function () {
             _this.givePlaylistFocus(playlist);
@@ -94,11 +95,26 @@ var PlaylistManager = (function () {
         var rootNode = this.buildPlaylistPage(playlist);
         playlist.pageManager = new PlaylistPageManager(playlist, rootNode);
         playlist.pageManager.bind();
-        var title = randomSongTitle();
-        var image = template("#imageMock", title.title, title.artist);
-        for(var i = 0; i < 30; i++) {
-            playlist.pageManager.rootNode.find("#playlistSongContainer").append(this.buildMockImage(image));
-        }
+        this.songsForPlaylistRequest(playlist);
+    };
+    PlaylistManager.prototype.songsForPlaylistRequest = function (playlist) {
+        var _this = this;
+        $.ajax("/playlist/songs/" + playlist.id, {
+            type: "POST",
+            dataType: "json",
+            success: function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    var songInfo = new SongInfo(data[i].title, data[i].artist, data[i].album, data[i].genre);
+                    var song = new Song(data[i].mbid, songInfo, null);
+                    var image = buildSmallSong(song);
+                    playlist.pageManager.rootNode.find("#playlistSongContainer").append(_this.buildMockImage(image));
+                    playlist.songs.push(song);
+                }
+            },
+            error: function (reason) {
+                alert(reason);
+            }
+        });
     };
     PlaylistManager.prototype.buildMockImage = function (template) {
         var imageContainer = $("<span></span>");
@@ -106,8 +122,8 @@ var PlaylistManager = (function () {
         imageContainer.addClass("inline");
         imageContainer.click(function (e) {
             songDetailManager.showDetails([
-                "Play Now", 
-                "Search From Here", 
+                "Play Now",
+                "Search From Here",
                 "Remove From Playlist"
             ], function (selectedItem) {
             }, "/assets/mock/bio.html", {
@@ -127,13 +143,13 @@ var PlaylistManager = (function () {
         this.givePlaylistFocus(playlist);
     };
     PlaylistManager.prototype.giveNextPlaylistFocus = function () {
-        if(this.currentIndex > (this.playListsQueue.length - 2)) {
+        if (this.currentIndex > (this.playListsQueue.length - 2)) {
             return;
         }
         this.givePlaylistFocus(this.playListsQueue[this.currentIndex + 1]);
     };
     PlaylistManager.prototype.givePreviousPlaylistFocus = function () {
-        if(this.currentIndex < 1) {
+        if (this.currentIndex < 1) {
             return;
         }
         this.givePlaylistFocus(this.playListsQueue[this.currentIndex - 1]);
@@ -145,8 +161,8 @@ var PlaylistManager = (function () {
             playlist.pageManager.rootNode.transition({
                 perspective: 100,
                 translate3d: [
-                    0, 
-                    -100 * (i - _this.currentIndex), 
+                    0,
+                    -100 * (i - _this.currentIndex),
                     20 * (i - _this.currentIndex)
                 ],
                 opacity: (i > _this.currentIndex) ? 0 : (i == _this.currentIndex) ? 1 : 0.5
@@ -154,7 +170,7 @@ var PlaylistManager = (function () {
         });
         window.setTimeout(function () {
             _this.playListsQueue.forEach(function (session, index) {
-                if(index > _this.currentIndex) {
+                if (index > _this.currentIndex) {
                     $(session.pageManager.rootNode).addClass("hidden");
                 }
             });
@@ -167,7 +183,16 @@ var PlaylistPageManager = (function () {
         this.playlist = playlist;
         this.rootNode = rootNode;
     }
+
     PlaylistPageManager.prototype.bind = function () {
+        var _this = this;
+        $(this.rootNode).find("#playPlaylistButton").click(function () {
+            _this.playPlaylist();
+        });
+    };
+    PlaylistPageManager.prototype.playPlaylist = function () {
+        globalPlaylistManager.clearSongs();
+        globalPlaylistManager.pushSongs(this.playlist.songs);
     };
     return PlaylistPageManager;
 })();
@@ -175,7 +200,9 @@ var Playlist = (function () {
     function Playlist(id, title) {
         this.id = id;
         this.title = title;
+        this.songs = [];
     }
+
     return Playlist;
 })();
 //@ sourceMappingURL=playlists.js.map
