@@ -63,4 +63,15 @@ object Song {
           "idPlaylist" -> idPlaylist).as(Song.simple *)
     }
   }
+
+  def getSongsForChart(startDate:String, endDate:String): Seq[Song] = {
+    DB.withConnection {
+      implicit connection =>
+        SQL("select s.* from playback_history p, songs s " +
+          "where s.mbid = p.song_id and p.play_date >= {startDate}::date and p.play_date <= {endDate}::date " +
+          "group by s.mbid order by count(p.*) desc limit 100;").on(
+          "startDate" -> startDate,
+          "endDate" -> endDate).as(Song.simple *)
+    }
+  }
 }

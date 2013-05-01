@@ -18,7 +18,9 @@ var ChartsBinder = (function () {
         }
     };
     ChartsBinder.prototype.loadData = function () {
-        this.manager.loadSongList("day", 0);
+        var currentDate = new Date();
+        var date = new ChartDate(currentDate.getFullYear(), (currentDate.getMonth() + 1), currentDate.getDate());
+        this.manager.loadSongList(date.toString(), date.toString());
     };
     ChartsBinder.prototype.unbind = function () {
     };
@@ -28,6 +30,21 @@ var ChartsManager = (function () {
     function ChartsManager(rootNode) {
         this.rootNode = rootNode;
         this.pickerPages = [];
+        this.longMonths = [
+            1, 
+            3, 
+            5, 
+            7, 
+            8, 
+            10, 
+            12
+        ];
+        this.shortMonths = [
+            4, 
+            6, 
+            9, 
+            11
+        ];
         this.arrowDown = template("#chartsDown");
         this.arrowUp = template("#chartsUp");
         this.arrowNoChange = template("#chartsNoChange");
@@ -39,34 +56,108 @@ var ChartsManager = (function () {
         });
         $("#chartsYearContainer").find("td").each(function (index, elem) {
             $(elem).click(function () {
+                _this.startDate = new ChartDate(parseInt(elem.innerHTML), 1, 1);
+                _this.endDate = new ChartDate(parseInt(elem.innerHTML), 12, 31);
                 _this.givePickerPageFocus(2);
             });
         });
         $("#chartsMonthContainer").find("td").each(function (index, elem) {
             $(elem).click(function () {
+                var month = index + 1;
+                _this.startDate.month = month;
+                _this.endDate.month = month;
+                if($.inArray(month, _this.longMonths) != -1) {
+                    _this.displayContainerValues("chartsWeekContainer", 0);
+                } else if($.inArray(month, _this.shortMonths) != -1) {
+                    _this.endDate.day = 30;
+                    _this.displayContainerValues("chartsWeekContainer", 1);
+                } else if(month == 2) {
+                    if(_this.endDate.year % 4 == 0) {
+                        _this.endDate.day = 29;
+                        _this.displayContainerValues("chartsWeekContainer", 2);
+                    } else {
+                        _this.endDate.day = 28;
+                        _this.displayContainerValues("chartsWeekContainer", 3);
+                    }
+                }
                 _this.givePickerPageFocus(3);
             });
         });
         $("#chartsWeekContainer").find("td").each(function (index, elem) {
             $(elem).click(function () {
+                var week;
+                _this.startDate.day = parseInt(elem.childNodes[1].innerHTML.substr(1, 2));
+                _this.endDate.day = parseInt(elem.childNodes[1].innerHTML.substr(4, 2));
+                if($(elem).parent().index() == 0) {
+                    week = $(elem).index() + 1;
+                } else if($(elem).parent().index() == 1) {
+                    week = $(elem).index() + 3;
+                } else {
+                    week = 5;
+                }
+                if(week < 5) {
+                    _this.displayContainerValues("chartsDayContainer", (week - 1));
+                } else if(week == 5) {
+                    if(_this.endDate.month == 12) {
+                        _this.endDate.month = 1;
+                        _this.endDate.year += 1;
+                    } else {
+                        _this.endDate.month += 1;
+                    }
+                    if($.inArray(_this.startDate.month, _this.longMonths) != -1) {
+                        _this.displayContainerValues("chartsDayContainer", 4);
+                    } else if($.inArray(_this.startDate.month, _this.shortMonths) != -1) {
+                        _this.displayContainerValues("chartsDayContainer", 5);
+                    } else {
+                        if(_this.endDate.year % 4 == 0) {
+                            _this.displayContainerValues("chartsDayContainer", 6);
+                        }
+                    }
+                }
                 _this.givePickerPageFocus(4);
             });
         });
         $("#chartsDayContainer").find("td").each(function (index, elem) {
             $(elem).click(function () {
-                _this.updateCharts();
+                _this.startDate.day = parseInt(elem.childNodes[1].innerHTML.substr(1, 2));
+                _this.endDate.day = parseInt(elem.childNodes[1].innerHTML.substr(1, 2));
+                if(_this.startDate.month != _this.endDate.month) {
+                    if(_this.startDate.day < 29) {
+                        if(_this.startDate.month != 12) {
+                            _this.startDate.month += 1;
+                        } else {
+                            _this.startDate.year += 1;
+                            _this.startDate.month = 1;
+                        }
+                    }
+                    if(_this.endDate.day >= 29) {
+                        _this.endDate.month -= 1;
+                    }
+                }
+                _this.updateCharts(_this.startDate.toString(), _this.endDate.toString());
             });
         });
         $("#chartsDoneButton").click(function () {
-            _this.updateCharts();
+            _this.updateCharts(_this.startDate.toString(), _this.endDate.toString());
         });
         $("#chartsCancelButton").click(function () {
             _this.givePickerPageFocus(0);
         });
     };
-    ChartsManager.prototype.updateCharts = function () {
+    ChartsManager.prototype.displayContainerValues = function (container, index) {
+        var children = document.getElementById(container).children;
+        var length = children.length;
+        for(var i = 0; i < length; i++) {
+            if(i != index) {
+                children[i].style.display = "none";
+            } else {
+                children[index].style.display = "table";
+            }
+        }
+    };
+    ChartsManager.prototype.updateCharts = function (startDate, endDate) {
         this.givePickerPageFocus(0);
-        this.loadSongList("", 0);
+        this.loadSongList(startDate, endDate);
     };
     ChartsManager.prototype.givePickerPageFocus = function (index) {
         var _this = this;
@@ -111,9 +202,20 @@ var ChartsManager = (function () {
     ChartsManager.prototype.addPickerPage = function (pickerPage) {
         this.pickerPages.push(pickerPage);
     };
-    ChartsManager.prototype.loadSongList = function (timeUnit, period) {
-        var songList = this.mockSongList();
-        this.setSongList(songList);
+    ChartsManager.prototype.loadSongList = function (startDate, endDate) {
+        var _this = this;
+        $.ajax("/chart/generate/" + startDate + '/' + endDate, {
+            type: "POST",
+            dataType: "json",
+            success: function (data) {
+                if(data.length == 0) {
+                }
+                _this.setSongList(data);
+            },
+            error: function (reason) {
+                alert(reason);
+            }
+        });
     };
     ChartsManager.prototype.mockSongList = function () {
         var songList = [];
@@ -190,5 +292,16 @@ var ChartSong = (function () {
         this.artist = artist;
     }
     return ChartSong;
+})();
+var ChartDate = (function () {
+    function ChartDate(year, month, day) {
+        this.year = year;
+        this.month = month;
+        this.day = day;
+    }
+    ChartDate.prototype.toString = function () {
+        return "'" + this.year + '-' + this.month + '-' + this.day + "'";
+    };
+    return ChartDate;
 })();
 //@ sourceMappingURL=charts.js.map

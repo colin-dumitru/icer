@@ -22,3 +22,6 @@ POST /playlist/new/:name controllers.playlist.Playlist.createPlaylist(name: Stri
 POST /playlist/songs/:idPlaylist controllers.playlist.Playlist.getSongsForPlaylist(idPlaylist: String)
 POST /playlist/song/delete/:idPlaylist/:idSong controllers.playlist.Playlist.deleteSongFromPlaylist(idPlaylist: String, idSong: String)
 POST /playlist/delete/:idPlaylist controllers.playlist.Playlist.deletePlaylist(idPlaylist: String)
+
+#Chart
+POST    /chart/generate/:startDate/:endDate             controllers.chart.Chart.generateChart(startDate:String, endDate:String)

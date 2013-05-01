@@ -23,7 +23,9 @@ class ChartsBinder implements SectionBinder {
     }
 
     loadData() {
-        this.manager.loadSongList("day", 0);
+        var currentDate = new Date();
+        var date = new ChartDate(currentDate.getFullYear(), (currentDate.getMonth() + 1), currentDate.getDate());
+        this.manager.loadSongList(date.toString(), date.toString());
     }
 
     unbind() {
@@ -33,6 +35,10 @@ class ChartsBinder implements SectionBinder {
 class ChartsManager {
     private pickerPages:PickerPage[] = [];
     private currentIndex:number;
+    private longMonths = [1, 3, 5, 7, 8, 10, 12];
+    private shortMonths = [4, 6, 9, 11];
+    private startDate:ChartDate;
+    private endDate:ChartDate;
 
     private arrowUp:any;
     private arrowDown:any;
@@ -44,42 +50,131 @@ class ChartsManager {
         this.arrowNoChange = template("#chartsNoChange");
     }
 
+    //TODO: refactor
     bind() {
         $("#chartsWhenButton").click(() => {
             this.givePickerPageFocus(1);
         });
         $("#chartsYearContainer").find("td").each((index, elem) => {
             $(elem).click(() => {
+                this.startDate = new ChartDate(parseInt(elem.innerHTML), 1, 1);
+                this.endDate = new ChartDate(parseInt(elem.innerHTML), 12, 31);
+
                 this.givePickerPageFocus(2);
             });
         });
         $("#chartsMonthContainer").find("td").each((index, elem) => {
             $(elem).click(() => {
+                var month = index + 1;
+                this.startDate.month = month;
+                this.endDate.month = month;
+
+                if ($.inArray(month, this.longMonths) != -1) {
+                    this.displayContainerValues("chartsWeekContainer", 0);
+                } else if ($.inArray(month, this.shortMonths) != -1) {
+                    this.endDate.day = 30;
+                    this.displayContainerValues("chartsWeekContainer", 1);
+                } else if (month == 2) {
+                    if (this.endDate.year % 4 == 0) {
+                        this.endDate.day = 29;
+                        this.displayContainerValues("chartsWeekContainer", 2);
+                    } else {
+                        this.endDate.day = 28;
+                        this.displayContainerValues("chartsWeekContainer", 3);
+                    }
+                }
+
                 this.givePickerPageFocus(3);
             });
         });
         $("#chartsWeekContainer").find("td").each((index, elem) => {
             $(elem).click(() => {
+                var week;
+                this.startDate.day = parseInt(elem.childNodes[1].innerHTML.substr(1, 2));
+                this.endDate.day = parseInt(elem.childNodes[1].innerHTML.substr(4, 2));
+
+                if ($(elem).parent().index() == 0) {
+                    week = $(elem).index() + 1;
+                } else if ($(elem).parent().index() == 1) {
+                    week = $(elem).index() + 3;
+                } else {
+                    week = 5;
+                }
+
+                if (week < 5) {
+                    this.displayContainerValues("chartsDayContainer", (week - 1));
+                } else if (week == 5) {
+                    if (this.endDate.month == 12) {
+                        this.endDate.month = 1;
+                        this.endDate.year += 1;
+                    } else {
+                        this.endDate.month += 1;
+                    }
+
+                    if ($.inArray(this.startDate.month, this.longMonths) != -1) {
+                        this.displayContainerValues("chartsDayContainer", 4);
+                    } else if ($.inArray(this.startDate.month, this.shortMonths) != -1) {
+                        this.displayContainerValues("chartsDayContainer", 5);
+                    } else {
+                        if (this.endDate.year % 4 == 0) {
+                            this.displayContainerValues("chartsDayContainer", 6);
+                        }
+                    }
+                }
+
                 this.givePickerPageFocus(4);
             });
         });
 
         $("#chartsDayContainer").find("td").each((index, elem) => {
             $(elem).click(() => {
-                this.updateCharts();
+                this.startDate.day = parseInt(elem.childNodes[1].innerHTML.substr(1, 2));
+                this.endDate.day = parseInt(elem.childNodes[1].innerHTML.substr(1, 2));
+
+                if (this.startDate.month != this.endDate.month) {
+                    if (this.startDate.day < 29) {
+                        if (this.startDate.month != 12) {
+                            this.startDate.month += 1;
+                        } else {
+                            this.startDate.year += 1;
+                            this.startDate.month = 1;
+                        }
+                    }
+
+                    if (this.endDate.day >= 29) {
+                        this.endDate.month -= 1
+                    }
+                }
+
+                this.updateCharts(this.startDate.toString(), this.endDate.toString());
             });
         });
         $("#chartsDoneButton").click(() => {
-            this.updateCharts();
+            this.updateCharts(this.startDate.toString(), this.endDate.toString());
         });
         $("#chartsCancelButton").click(() => {
             this.givePickerPageFocus(0);
         });
     }
 
-    private updateCharts() {
+    private displayContainerValues(container:string, index:number) {
+        var children = document.getElementById(container).children;
+        var length = children.length;
+
+        for (var i = 0; i < length; i++) {
+            if (i != index) {
+                children[i].style.display = "none";
+            } else {
+                children[index].style.display = "table";
+            }
+        }
+    }
+
+    private updateCharts(startDate:string, endDate:string) {
         this.givePickerPageFocus(0);
-        this.loadSongList("", 0);
+        //alert(this.startDate.toString());
+        //alert(this.endDate.toString());
+        this.loadSongList(startDate, endDate);
     }
 
     public givePickerPageFocus(index:number) {
@@ -117,9 +212,20 @@ class ChartsManager {
         this.pickerPages.push(pickerPage);
     }
 
-    loadSongList(timeUnit:string, period:number) {
-        var songList = this.mockSongList();
-        this.setSongList(songList);
+    loadSongList(startDate:string, endDate:string) {
+        $.ajax("/chart/generate/" + startDate + '/' + endDate,{
+            type: "POST",
+            dataType: "json",
+            success:  data => {
+                if (data.length == 0) {
+                    //alert("No chart available for selected time span.")
+                }
+                this.setSongList(data);
+            },
+            error: function (reason){
+                alert(reason)
+            }
+        });
     }
 
     mockSongList():ChartSong[] {
@@ -200,5 +306,15 @@ class ChartSongManager {
 class ChartSong {
     constructor(public id:string, public imageUrl:string, public positionChange:number, public peekPosition:number, public title:string, public artist:string) {
 
+    }
+}
+
+class ChartDate {
+    constructor(public year:number, public month:number, public day:number) {
+
+    }
+
+    toString() {
+        return "'" + this.year + '-' + this.month + '-' + this.day + "'";
     }
 }
