@@ -1,3 +1,5 @@
+declare var md5:(string) => string;
+
 class Dimensions {
     public menuItemHeight:number;
     public menuItemWidth:number;

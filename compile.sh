@@ -1,0 +1,1 @@
+tsc --sourcemap `ls *.ts`

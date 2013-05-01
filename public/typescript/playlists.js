@@ -43,14 +43,18 @@ var PlaylistBinder = (function () {
     };
     PlaylistBinder.prototype.navigationHandler = function (event) {
         switch(event.which) {
-            case 38:
+            case 38: {
                 (binders["playlist"]).playlistManager.givePreviousPlaylistFocus();
                 event.preventDefault();
                 break;
-            case 40:
+
+            }
+            case 40: {
                 (binders["playlist"]).playlistManager.giveNextPlaylistFocus();
                 event.preventDefault();
                 break;
+
+            }
         }
     };
     return PlaylistBinder;
@@ -82,7 +86,7 @@ var PlaylistManager = (function () {
                 _this.loadPlaylist(data.id, title);
             },
             error: function (reason) {
-                alert(reason);
+                alert(reason.toString());
             }
         });
     };
@@ -131,11 +135,15 @@ var PlaylistManager = (function () {
         var detailCallback = function (selectedItem) {
             if(selectedItem == "Play Now") {
                 _this.playSong(song);
-            } else if(selectedItem == "Search From Here") {
-                _this.searchFromSong(song);
-                _this.changeToSearchSection();
-            } else if(selectedItem == "Remove From Playlist") {
-                _this.removeSong(song, imageContainer);
+            } else {
+                if(selectedItem == "Search From Here") {
+                    _this.searchFromSong(song);
+                    _this.changeToSearchSection();
+                } else {
+                    if(selectedItem == "Remove From Playlist") {
+                        _this.removeSong(song, imageContainer);
+                    }
+                }
             }
         };
         var imageContainer = $("<span></span>");
