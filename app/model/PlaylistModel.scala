@@ -59,4 +59,15 @@ object PlaylistModel {
       }
     }
   }
+
+  def deletePlaylist(idPlaylist: Long) {
+    DB.withConnection {
+      implicit connection => {
+        SQL("delete from playlists where id = {idPlaylist}").on(
+          "idPlaylist" -> idPlaylist
+        ).executeUpdate();
+      }
+    }
+  }
+
 }

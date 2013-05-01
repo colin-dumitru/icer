@@ -62,6 +62,17 @@ var PlaylistManager = (function () {
         this.playLists = [];
         this.playListsQueue = [];
     }
+    PlaylistManager.prototype.deleteCurrentPlaylist = function () {
+        this.playLists.splice(this.currentIndex, 1);
+        this.playListsQueue.splice(this.currentIndex, 1);
+        if(this.playListsQueue.length != 0) {
+            if(this.currentIndex == 0) {
+                this.givePlaylistFocus(this.playListsQueue[this.currentIndex]);
+            } else {
+                this.givePreviousPlaylistFocus();
+            }
+        }
+    };
     PlaylistManager.prototype.addPlaylistServer = function (title) {
         var _this = this;
         $.ajax("/playlist/new/" + title, {
@@ -219,10 +230,35 @@ var PlaylistPageManager = (function () {
         $(this.rootNode).find("#playPlaylistButton").click(function () {
             _this.playPlaylist();
         });
+        $(this.rootNode).find("#deletePlaylistButton").click(function () {
+            _this.deletePlaylist();
+        });
     };
     PlaylistPageManager.prototype.playPlaylist = function () {
         globalPlaylistManager.clearSongs();
         globalPlaylistManager.pushSongs(this.playlist.songs);
+    };
+    PlaylistPageManager.prototype.deletePlaylist = function () {
+        this.deletePlaylistPage();
+        this.deletePlaylistItem();
+        this.deletePlaylistServer();
+    };
+    PlaylistPageManager.prototype.deletePlaylistPage = function () {
+        var pageTemplate = template("#playlistPageTemplate", this.playlist.id, this.playlist.title);
+        var toDelete = $("#playListsContainer").find("#" + this.playlist.id);
+        toDelete.remove();
+        (binders["playlist"]).playlistManager.deleteCurrentPlaylist();
+    };
+    PlaylistPageManager.prototype.deletePlaylistItem = function () {
+        itemList.deleteItem("playlist" + this.playlist.id);
+    };
+    PlaylistPageManager.prototype.deletePlaylistServer = function () {
+        $.ajax("/playlist/delete/" + this.playlist.id, {
+            type: "POST",
+            error: function (reason) {
+                alert(reason);
+            }
+        });
     };
     return PlaylistPageManager;
 })();

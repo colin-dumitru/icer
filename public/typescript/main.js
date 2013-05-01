@@ -252,6 +252,15 @@ var ItemList = (function () {
         this.buildItemNode(item);
         this.bindItemNode(item);
     };
+    ItemList.prototype.deleteItem = function (id) {
+        var item = this.itemList.filter(function (item) {
+            return item.id == id;
+        });
+        var indexOfItem = this.itemList.indexOf(item[0]);
+        this.itemList.splice(indexOfItem, 1);
+        var lItems = $("#itemListItemContainer").find("li");
+        lItems[indexOfItem].remove();
+    };
     ItemList.prototype.bindItemNode = function (item) {
         var _this = this;
         item.rootNode.click(function () {

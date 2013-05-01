@@ -302,6 +302,15 @@ class ItemList {
         this.bindItemNode(item);
     }
 
+    public deleteItem(id:string) {
+        var item = this.itemList.filter(item => item.id == id);
+        var indexOfItem = this.itemList.indexOf(item[0]);
+        this.itemList.splice(indexOfItem, 1);
+
+        var lItems = $("#itemListItemContainer").find("li");
+        lItems[indexOfItem].remove();
+    }
+
     private bindItemNode(item:Item) {
         item.rootNode.click(() => {
             this.switchItem(item);

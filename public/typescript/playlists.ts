@@ -1,5 +1,6 @@
 class PlaylistBinder implements SectionBinder {
-    private playlistManager:PlaylistManager;
+    //todo CHECK
+    public playlistManager:PlaylistManager;
     private firstDisplay:bool = true;
 
     buildPage(rootNode:any) {
@@ -67,6 +68,19 @@ class PlaylistManager {
     private currentIndex:number;
 
     constructor(private rootNode:any) {
+    }
+
+    public deleteCurrentPlaylist() {
+
+        this.playLists.splice(this.currentIndex, 1);
+        this.playListsQueue.splice(this.currentIndex, 1);
+        if (this.playListsQueue.length != 0) {
+            if (this.currentIndex == 0) {
+                this.givePlaylistFocus(this.playListsQueue[this.currentIndex]);
+            }
+            else
+                this.givePreviousPlaylistFocus();
+        }
     }
 
     addPlaylistServer(title:String) {
@@ -232,15 +246,48 @@ class PlaylistPageManager {
     constructor(public playlist:Playlist, public rootNode:any) {
     }
 
+
     bind() {
         $(this.rootNode).find("#playPlaylistButton").click(() => {
             this.playPlaylist();
         });
+
+        $(this.rootNode).find("#deletePlaylistButton").click(() => {
+            this.deletePlaylist();
+        });
     }
 
-    public playPlaylist() {
+    private playPlaylist() {
         globalPlaylistManager.clearSongs();
         globalPlaylistManager.pushSongs(this.playlist.songs);
+    }
+
+    private deletePlaylist() {
+        this.deletePlaylistPage();
+        this.deletePlaylistItem();
+        this.deletePlaylistServer();
+    }
+
+    private deletePlaylistPage() {
+        var pageTemplate = template("#playlistPageTemplate", this.playlist.id, this.playlist.title);
+        var toDelete = $("#playListsContainer").find("#" + this.playlist.id);
+        toDelete.remove();
+
+        //todo CHECK
+        (<PlaylistBinder>binders["playlist"]).playlistManager.deleteCurrentPlaylist();
+    }
+
+    private deletePlaylistItem() {
+        itemList.deleteItem("playlist" + this.playlist.id);
+    }
+
+    private deletePlaylistServer() {
+        $.ajax("/playlist/delete/" + this.playlist.id, {
+            type: "POST",
+            error: function (reason) {
+                alert(reason)
+            }
+        });
     }
 }
 
