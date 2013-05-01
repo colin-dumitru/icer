@@ -60,11 +60,12 @@ object PlaylistModel {
     }
   }
 
-  def deletePlaylist(idPlaylist: Long) {
+  def deletePlaylist(idPlaylist: Long, userId: BigDecimal) {
     DB.withConnection {
       implicit connection => {
-        SQL("delete from playlists where id = {idPlaylist}").on(
-          "idPlaylist" -> idPlaylist
+        SQL("delete from playlists where id = {idPlaylist} and userid = {userId}").on(
+          "idPlaylist" -> idPlaylist,
+          "userId" -> userId
         ).executeUpdate();
       }
     }

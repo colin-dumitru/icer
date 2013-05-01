@@ -51,7 +51,7 @@ object Playlist extends Controller {
 
   def deletePlaylist(idPlaylist: String) = Secured {
     (request, idUser) => {
-      PlaylistModel.deletePlaylist(idPlaylist.toLong)
+      PlaylistModel.deletePlaylist(idPlaylist.toLong, idUser)
       Ok("Playlist deleted")
 
     }
