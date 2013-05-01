@@ -9,5 +9,5 @@ import scala.beans.BeanProperty
  * Time: 3:22 PM
  * To change this template use File | Settings | File Templates.
  */
-case class SongView(@BeanProperty var mbid: String, @BeanProperty var title: String, @BeanProperty var artist: String, @BeanProperty var album: String, @BeanProperty var genre: String) {
+case class SongModelView(@BeanProperty val mbid: String, @BeanProperty val title: String, @BeanProperty val artist: String, @BeanProperty val album: String, @BeanProperty val genre: String) {
 }

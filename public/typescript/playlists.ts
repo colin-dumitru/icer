@@ -60,6 +60,7 @@ class PlaylistBinder implements SectionBinder {
 }
 
 class PlaylistManager {
+    SEARCH_SECTION = 0;
     private playLists:{[key:string] : Playlist;}[] = [];
     private playListsQueue:Playlist[] = [];
 
@@ -105,10 +106,10 @@ class PlaylistManager {
         playlist.pageManager = new PlaylistPageManager(playlist, rootNode);
         playlist.pageManager.bind();
 
-        this.songsForPlaylistRequest(playlist);
+        this.requestSongsForPlaylist(playlist);
     }
 
-    private songsForPlaylistRequest(playlist:Playlist) {
+    private requestSongsForPlaylist(playlist:Playlist) {
         $.ajax("/playlist/songs/" + playlist.id, {
             type: "POST",
             dataType: "json",
@@ -118,7 +119,7 @@ class PlaylistManager {
                     var songInfo = new SongInfo(data[i].title, data[i].artist, data[i].album, data[i].genre)
                     var song = new Song(data[i].mbid, songInfo, null)
                     var image = buildSmallSong(song)
-                    playlist.pageManager.rootNode.find("#playlistSongContainer").append(this.buildMockImage(image))
+                    playlist.pageManager.rootNode.find("#playlistSongContainer").append(this.buildMockImage(song, image))
                     playlist.songs.push(song);
                 }
             },
@@ -128,18 +129,56 @@ class PlaylistManager {
         });
     }
 
-    private buildMockImage(template) {
+    private buildMockImage(song:Song, template) {
+        var detailCallback = (selectedItem) => {
+            if (selectedItem == "Play Now") {
+                this.playSong(song)
+            } else if (selectedItem == "Search From Here") {
+                this.searchFromSong(song)
+                this.changeToSearchSection()
+            } else if (selectedItem == "Remove From Playlist") {
+                this.removeSong(song, imageContainer);
+
+            }
+        };
+
         var imageContainer = $("<span></span>");
         imageContainer.append(template);
 
         imageContainer.addClass("inline");
         imageContainer.click((e) => {
             songDetailManager.showDetails(["Play Now", "Search From Here", "Remove From Playlist"],
-                (selectedItem) => {
-                }, "/assets/mock/bio.html", {x: e.pageX, y: e.pageY});
+                detailCallback, "/assets/mock/bio.html", {x: e.pageX, y: e.pageY});
         });
 
         return imageContainer;
+    }
+
+    private searchFromSong(song:Song) {
+        globalSearchManager.performSearch(song.info.title + " " + song.info.artist);
+    }
+
+    private changeToSearchSection() {
+        sectionManager.changeSection(this.SEARCH_SECTION);
+    }
+
+    private playSong(song:Song) {
+        globalPlaylistManager.pushSong(song);
+        globalPlaylistManager.playSong(song);
+    }
+
+    private removeSong(song:Song, imageContainer) {
+        var currentPlaylist = this.playListsQueue[this.currentIndex];
+        var indexOfSong = currentPlaylist.songs.indexOf(song);
+        currentPlaylist.songs.splice(indexOfSong, 1);
+        imageContainer.remove();
+        this.deleteSongFromPlaylist(currentPlaylist.id, song.mbid);
+    }
+
+    private deleteSongFromPlaylist(idPlaylist:String, idSong:String) {
+        $.ajax("/playlist/song/delete/" + idPlaylist + "/" + idSong, {
+            type: "POST"
+        });
     }
 
     private buildPlaylistPage(playlist:Playlist):any {

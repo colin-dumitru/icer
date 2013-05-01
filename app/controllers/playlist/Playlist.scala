@@ -4,7 +4,7 @@ import play.api.mvc.Controller
 import common.auth.Secured
 import common.json.JsonJack._
 import model.{Song, PlaylistModel}
-import modelview.{SongView, PlaylistView}
+import modelview.{SongModelView, PlaylistModelView}
 
 //crw template
 /**
@@ -19,15 +19,15 @@ object Playlist extends Controller {
   def findAllForUser() = Secured {
     (request, idUser) => {
       val allPlaylists = PlaylistModel.findAllForUser(idUser)
-      val mvPlaylists = allPlaylists.map(p => new PlaylistView(p.id.toString, p.userid.toString, p.title)).toArray
+      val mvPlaylists = allPlaylists.map(p => new PlaylistModelView(p.id.toString, p.userid.toString, p.title)).toArray
       Ok(generate(mvPlaylists)).as("application/json")
     }
   }
 
   def createPlaylist(name: String) = Secured {
     (request, idUser) => {
-      val newPlaylist = new PlaylistModel(null, idUser, name)
-      val mwPlaylist = new PlaylistView(PlaylistModel.create(newPlaylist).toString, idUser.toString(), name); //crw extra ";" and () for toString method
+      val newPlaylist = new PlaylistModel(null, idUser, name);
+      val mwPlaylist = new PlaylistModelView(PlaylistModel.create(newPlaylist).toString(), idUser.toString(), name); //crw extra ";" and () for toString method
       Ok(generate(mwPlaylist)).as("application/json")
     }
   }
@@ -35,8 +35,16 @@ object Playlist extends Controller {
   def getSongsForPlaylist(idPlaylist: String) = Secured {
     (request, idUser) => {
       val songsForPlaylist = Song.getSongsForPlaylist(idPlaylist.toLong);
-      val mwSongs = songsForPlaylist.map(song => new SongView(song.mbid, song.title, song.artist, song.album, song.genre)).toArray
+      val mwSongs = songsForPlaylist.map(song => new SongModelView(song.mbid, song.title, song.artist, song.album, song.genre)).toArray
       Ok(generate(mwSongs)).as("application/json")
+
+    }
+  }
+
+  def deleteSongFromPlaylist(idPlaylist: String, idSong: String) = Secured {
+    (request, idUser) => {
+      PlaylistModel.deleteSongFromPlaylist(idPlaylist.toLong, idSong);
+      Ok("Song deleted")
 
     }
   }

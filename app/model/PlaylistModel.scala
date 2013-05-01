@@ -49,5 +49,14 @@ object PlaylistModel {
     }
   }
 
-
+  def deleteSongFromPlaylist(idPlaylist: Long, idSong: String) {
+    DB.withConnection {
+      implicit connection => {
+        SQL("delete from playlist_song where id_playlist = {idPlaylist} and id_song = {idSong}").on(
+          "idPlaylist" -> idPlaylist,
+          "idSong" -> idSong
+        ).executeUpdate();
+      }
+    }
+  }
 }

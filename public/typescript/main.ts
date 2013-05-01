@@ -1,8 +1,3 @@
-declare var $;
-declare var soundCloudId;
-declare var dimensions;
-declare var SC;
-
 interface SectionBinder{
     buildPage(rootNode:any);
     bind();
@@ -18,7 +13,7 @@ function run() {
     sections.push(buildRadioSection());
     sections.push(buildTopSection());
 
-    var sectionManager = new SectionManager(sections);
+    sectionManager = new SectionManager(sections);
     sectionManager.build();
     sectionManager.resize();
 
@@ -720,6 +715,13 @@ class GlobalPlaylistManager {
         this.isCollapsed = true;
     }
 }
+
+declare var $;
+declare var soundCloudId;
+declare var dimensions;
+declare var SC;
+//todo Catalin check this
+declare var sectionManager;
 
 var binders:{ [key: string]: SectionBinder; } = { };
 var itemList = new ItemList();

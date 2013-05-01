@@ -2,14 +2,13 @@ var PlaylistBinder = (function () {
     function PlaylistBinder() {
         this.firstDisplay = true;
     }
-
     PlaylistBinder.prototype.buildPage = function (rootNode) {
         this.playlistManager = new PlaylistManager(rootNode);
     };
     PlaylistBinder.prototype.bind = function () {
         var _this = this;
         itemList.popItemList("playlist");
-        if (this.firstDisplay) {
+        if(this.firstDisplay) {
             this.loadData();
         }
         itemList.onInput = function (input) {
@@ -28,7 +27,7 @@ var PlaylistBinder = (function () {
             type: "POST",
             dataType: "json",
             success: function (data) {
-                for (var i = 0; i < data.length; i++) {
+                for(var i = 0; i < data.length; i++) {
                     _this.playlistManager.loadPlaylist(data[i].id, data[i].name);
                 }
             },
@@ -43,7 +42,7 @@ var PlaylistBinder = (function () {
         $(window).unbind("keydown", this.navigationHandler);
     };
     PlaylistBinder.prototype.navigationHandler = function (event) {
-        switch (event.which) {
+        switch(event.which) {
             case 38:
                 (binders["playlist"]).playlistManager.givePreviousPlaylistFocus();
                 event.preventDefault();
@@ -59,10 +58,10 @@ var PlaylistBinder = (function () {
 var PlaylistManager = (function () {
     function PlaylistManager(rootNode) {
         this.rootNode = rootNode;
+        this.SEARCH_SECTION = 0;
         this.playLists = [];
         this.playListsQueue = [];
     }
-
     PlaylistManager.prototype.addPlaylistServer = function (title) {
         var _this = this;
         $.ajax("/playlist/new/" + title, {
@@ -95,19 +94,19 @@ var PlaylistManager = (function () {
         var rootNode = this.buildPlaylistPage(playlist);
         playlist.pageManager = new PlaylistPageManager(playlist, rootNode);
         playlist.pageManager.bind();
-        this.songsForPlaylistRequest(playlist);
+        this.requestSongsForPlaylist(playlist);
     };
-    PlaylistManager.prototype.songsForPlaylistRequest = function (playlist) {
+    PlaylistManager.prototype.requestSongsForPlaylist = function (playlist) {
         var _this = this;
         $.ajax("/playlist/songs/" + playlist.id, {
             type: "POST",
             dataType: "json",
             success: function (data) {
-                for (var i = 0; i < data.length; i++) {
+                for(var i = 0; i < data.length; i++) {
                     var songInfo = new SongInfo(data[i].title, data[i].artist, data[i].album, data[i].genre);
                     var song = new Song(data[i].mbid, songInfo, null);
                     var image = buildSmallSong(song);
-                    playlist.pageManager.rootNode.find("#playlistSongContainer").append(_this.buildMockImage(image));
+                    playlist.pageManager.rootNode.find("#playlistSongContainer").append(_this.buildMockImage(song, image));
                     playlist.songs.push(song);
                 }
             },
@@ -116,22 +115,54 @@ var PlaylistManager = (function () {
             }
         });
     };
-    PlaylistManager.prototype.buildMockImage = function (template) {
+    PlaylistManager.prototype.buildMockImage = function (song, template) {
+        var _this = this;
+        var detailCallback = function (selectedItem) {
+            if(selectedItem == "Play Now") {
+                _this.playSong(song);
+            } else if(selectedItem == "Search From Here") {
+                _this.searchFromSong(song);
+                _this.changeToSearchSection();
+            } else if(selectedItem == "Remove From Playlist") {
+                _this.removeSong(song, imageContainer);
+            }
+        };
         var imageContainer = $("<span></span>");
         imageContainer.append(template);
         imageContainer.addClass("inline");
         imageContainer.click(function (e) {
             songDetailManager.showDetails([
-                "Play Now",
-                "Search From Here",
+                "Play Now", 
+                "Search From Here", 
                 "Remove From Playlist"
-            ], function (selectedItem) {
-            }, "/assets/mock/bio.html", {
+            ], detailCallback, "/assets/mock/bio.html", {
                 x: e.pageX,
                 y: e.pageY
             });
         });
         return imageContainer;
+    };
+    PlaylistManager.prototype.searchFromSong = function (song) {
+        globalSearchManager.performSearch(song.info.title + " " + song.info.artist);
+    };
+    PlaylistManager.prototype.changeToSearchSection = function () {
+        sectionManager.changeSection(this.SEARCH_SECTION);
+    };
+    PlaylistManager.prototype.playSong = function (song) {
+        globalPlaylistManager.pushSong(song);
+        globalPlaylistManager.playSong(song);
+    };
+    PlaylistManager.prototype.removeSong = function (song, imageContainer) {
+        var currentPlaylist = this.playListsQueue[this.currentIndex];
+        var indexOfSong = currentPlaylist.songs.indexOf(song);
+        currentPlaylist.songs.splice(indexOfSong, 1);
+        imageContainer.remove();
+        this.deleteSongFromPlaylist(currentPlaylist.id, song.mbid);
+    };
+    PlaylistManager.prototype.deleteSongFromPlaylist = function (idPlaylist, idSong) {
+        $.ajax("/playlist/song/delete/" + idPlaylist + "/" + idSong, {
+            type: "POST"
+        });
     };
     PlaylistManager.prototype.buildPlaylistPage = function (playlist) {
         var pageTemplate = template("#playlistPageTemplate", playlist.id, playlist.title);
@@ -143,13 +174,13 @@ var PlaylistManager = (function () {
         this.givePlaylistFocus(playlist);
     };
     PlaylistManager.prototype.giveNextPlaylistFocus = function () {
-        if (this.currentIndex > (this.playListsQueue.length - 2)) {
+        if(this.currentIndex > (this.playListsQueue.length - 2)) {
             return;
         }
         this.givePlaylistFocus(this.playListsQueue[this.currentIndex + 1]);
     };
     PlaylistManager.prototype.givePreviousPlaylistFocus = function () {
-        if (this.currentIndex < 1) {
+        if(this.currentIndex < 1) {
             return;
         }
         this.givePlaylistFocus(this.playListsQueue[this.currentIndex - 1]);
@@ -161,8 +192,8 @@ var PlaylistManager = (function () {
             playlist.pageManager.rootNode.transition({
                 perspective: 100,
                 translate3d: [
-                    0,
-                    -100 * (i - _this.currentIndex),
+                    0, 
+                    -100 * (i - _this.currentIndex), 
                     20 * (i - _this.currentIndex)
                 ],
                 opacity: (i > _this.currentIndex) ? 0 : (i == _this.currentIndex) ? 1 : 0.5
@@ -170,7 +201,7 @@ var PlaylistManager = (function () {
         });
         window.setTimeout(function () {
             _this.playListsQueue.forEach(function (session, index) {
-                if (index > _this.currentIndex) {
+                if(index > _this.currentIndex) {
                     $(session.pageManager.rootNode).addClass("hidden");
                 }
             });
@@ -183,7 +214,6 @@ var PlaylistPageManager = (function () {
         this.playlist = playlist;
         this.rootNode = rootNode;
     }
-
     PlaylistPageManager.prototype.bind = function () {
         var _this = this;
         $(this.rootNode).find("#playPlaylistButton").click(function () {
@@ -202,7 +232,6 @@ var Playlist = (function () {
         this.title = title;
         this.songs = [];
     }
-
     return Playlist;
 })();
 //@ sourceMappingURL=playlists.js.map

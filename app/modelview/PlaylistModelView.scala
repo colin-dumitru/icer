@@ -10,6 +10,6 @@ import scala.beans.BeanProperty
  * To change this template use File | Settings | File Templates.
  */
 //crw View means a... view. This is a model-view. Change the suffix to make it less confusing.
-case class PlaylistView(@BeanProperty var id: String, @BeanProperty var idUser: String, @BeanProperty var name: String) {
+case class PlaylistModelView(@BeanProperty val id: String, @BeanProperty val idUser: String, @BeanProperty val name: String) {
 
 }
