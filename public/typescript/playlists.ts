@@ -161,8 +161,8 @@ class PlaylistManager {
             if (option == 0) {
                 this.playSong(song)
             } else if (option == 1) {
-                this.searchFromSong(song)
                 this.changeToSearchSection()
+                this.searchFromSong(song)
             } else if (option == 2) {
                 this.removeSong(song, template);
             }
@@ -183,6 +183,7 @@ class PlaylistManager {
     }
 
     private changeToSearchSection() {
+        binders["playlist"].unbind();
         sectionManager.changeSection(this.SEARCH_SECTION);
     }
 

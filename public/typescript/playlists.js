@@ -146,8 +146,8 @@ var PlaylistManager = (function () {
                 _this.playSong(song);
             } else {
                 if (option == 1) {
-                    _this.searchFromSong(song);
                     _this.changeToSearchSection();
+                    _this.searchFromSong(song);
                 } else {
                     if (option == 2) {
                         _this.removeSong(song, template);
@@ -179,6 +179,7 @@ var PlaylistManager = (function () {
         searchManager.performSearch(song.info.title + " " + song.info.artist);
     };
     PlaylistManager.prototype.changeToSearchSection = function () {
+        binders["playlist"].unbind();
         sectionManager.changeSection(this.SEARCH_SECTION);
     };
     PlaylistManager.prototype.playSong = function (song) {
