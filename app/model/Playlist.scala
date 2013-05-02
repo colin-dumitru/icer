@@ -15,27 +15,26 @@ import java.math.BigDecimal
  * To change this template use File | Settings | File Templates.
  */
 //crw you do not need val for case classes as it infered by default, or "{..}" empty classes
-case class PlaylistModel(val id: Pk[Long], val userid: BigDecimal, val title: String) {
+case class Playlist(val id: Pk[Long], val userid: BigDecimal, val title: String) {
 }
 
-//crw Model sufix is redundant as it is part of the model package
-object PlaylistModel {
+object Playlist {
   val simple = {
     get[Pk[Long]]("id") ~
       get[BigDecimal]("userid") ~
       get[String]("title") map {
-      case id ~ userid ~ title => PlaylistModel(id, userid, title)
+      case id ~ userid ~ title => Playlist(id, userid, title)
     }
   }
 
-  def findAllForUser(userId: BigDecimal): Seq[PlaylistModel] = {
+  def findAllForUser(userId: BigDecimal): Seq[Playlist] = {
     DB.withConnection {
       implicit connection =>
-        SQL("select * from playlists where userid = {userId}").on("userId" -> userId).as(PlaylistModel.simple *)
+        SQL("select * from playlists where userid = {userId}").on("userId" -> userId).as(Playlist.simple *)
     }
   }
 
-  def create(playlist: PlaylistModel): Pk[Long] = {
+  def create(playlist: Playlist): Pk[Long] = {
     DB.withConnection {
       implicit connection => {
         SQL("insert into playlists(userid,title) values ({userid},{title})").on(
@@ -49,13 +48,26 @@ object PlaylistModel {
     }
   }
 
+  //crw check if the user who created the playlist is the one who deletes the song
   def deleteSongFromPlaylist(idPlaylist: Long, idSong: String) {
     DB.withConnection {
       implicit connection => {
         SQL("delete from playlist_song where id_playlist = {idPlaylist} and id_song = {idSong}").on(
           "idPlaylist" -> idPlaylist,
           "idSong" -> idSong
-        ).executeUpdate();
+        ).executeUpdate()
+      }
+    }
+  }
+
+  def addSongToPlaylist(playlistId: Long, songId: String, userId: BigDecimal) {
+    DB.withConnection {
+      implicit connection => {
+        SQL("insert into playlist_song(id_playlist, id_song) select {playlistId}, {songId} " +
+          "where exists (select 1 from playlists pts where pts.userId = {userId})")
+          .on("playlistId" -> playlistId)
+          .on("songId" -> songId)
+          .on("userId" -> userId).executeUpdate()
       }
     }
   }
@@ -66,7 +78,7 @@ object PlaylistModel {
         SQL("delete from playlists where id = {idPlaylist} and userid = {userId}").on(
           "idPlaylist" -> idPlaylist,
           "userId" -> userId
-        ).executeUpdate();
+        ).executeUpdate()
       }
     }
   }

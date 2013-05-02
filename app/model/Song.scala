@@ -11,7 +11,7 @@ import play.api.Play.current
  * Catalin Dumitru
  * Universitatea Alexandru Ioan Cuza
  */
-case class Song(mbid: String, title: String, artist: String, album: String, genre: String) {
+case class Song(mbid: String, title: String, artist: String, album: String, genre: String, imageUrl: String) {
 }
 
 object Song {
@@ -21,7 +21,8 @@ object Song {
       (jsValue \ "info" \ "title").asOpt[String].getOrElse(null),
       (jsValue \ "info" \ "artist").asOpt[String].getOrElse(null),
       (jsValue \ "info" \ "album").asOpt[String].getOrElse(null),
-      (jsValue \ "info" \ "genre").asOpt[String].getOrElse(null)
+      (jsValue \ "info" \ "genre").asOpt[String].getOrElse(null),
+      (jsValue \ "imageUrl").asOpt[String].getOrElse(null)
     )
   }
 
@@ -30,8 +31,10 @@ object Song {
       get[String]("title") ~
       get[String]("artist") ~
       get[Option[String]]("album") ~
-      get[Option[String]]("genre") map {
-      case mbid ~ title ~ artist ~ album ~ genre => Song(mbid.get, title, artist, album.getOrElse(null), genre.getOrElse(null))
+      get[Option[String]]("genre") ~
+      get[Option[String]]("imageUrl") map {
+      case mbid ~ title ~ artist ~ album ~ genre ~ imageUrl => Song(mbid.get, title, artist, album.getOrElse(null),
+        genre.getOrElse(null), imageUrl.getOrElse(null))
     }
   }
 
@@ -45,13 +48,15 @@ object Song {
   def save(song: Song) = {
     DB.withConnection {
       implicit connection =>
-        SQL("insert into songs(mbid, title, genre, album, artist) select {mbid}, {title}, {genre}, {album}, {artist} " +
+        SQL("insert into songs(mbid, title, genre, album, artist, imageurl) " +
+          "select {mbid}, {title}, {genre}, {album}, {artist}, {imageUrl}" +
           "where not exists (select 1 from songs where mbid = {mbid})").on(
           "mbid" -> song.mbid,
           "title" -> song.title,
           "genre" -> song.genre,
           "album" -> song.album,
-          "artist" -> song.artist
+          "artist" -> song.artist,
+          "imageUrl" -> song.imageUrl
         ).executeUpdate()
     }
   }
@@ -64,7 +69,7 @@ object Song {
     }
   }
 
-  def getSongsForChart(startDate:String, endDate:String): Seq[Song] = {
+  def getSongsForChart(startDate: String, endDate: String): Seq[Song] = {
     DB.withConnection {
       implicit connection =>
         SQL("select s.* from playback_history p, songs s " +

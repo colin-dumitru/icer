@@ -3,8 +3,9 @@ package controllers.playlist
 import play.api.mvc.Controller
 import common.auth.Secured
 import common.json.JsonJack._
-import model.{Song, PlaylistModel}
+import model.{Song, Playlist}
 import modelview.{SongModelView, PlaylistModelView}
+import service.song.SongInfoService
 
 //crw template
 /**
@@ -14,11 +15,11 @@ import modelview.{SongModelView, PlaylistModelView}
  * Time: 11:34 AM
  * To change this template use File | Settings | File Templates.
  */
-object Playlist extends Controller {
+object Playlists extends Controller {
 
   def findAllForUser() = Secured {
     (request, idUser) => {
-      val allPlaylists = PlaylistModel.findAllForUser(idUser)
+      val allPlaylists = Playlist.findAllForUser(idUser)
       val mvPlaylists = allPlaylists.map(p => new PlaylistModelView(p.id.toString, p.userid.toString, p.title)).toArray
       Ok(generate(mvPlaylists)).as("application/json")
     }
@@ -26,8 +27,8 @@ object Playlist extends Controller {
 
   def createPlaylist(name: String) = Secured {
     (request, idUser) => {
-      val newPlaylist = new PlaylistModel(null, idUser, name)
-      val mwPlaylist = new PlaylistModelView(PlaylistModel.create(newPlaylist).toString(), idUser.toString(), name); //crw extra ";" and () for toString method
+      val newPlaylist = new Playlist(null, idUser, name)
+      val mwPlaylist = new PlaylistModelView(Playlist.create(newPlaylist).toString(), idUser.toString(), name); //crw extra ";" and () for toString method
       Ok(generate(mwPlaylist)).as("application/json")
     }
   }
@@ -43,7 +44,7 @@ object Playlist extends Controller {
 
   def deleteSongFromPlaylist(idPlaylist: String, idSong: String) = Secured {
     (request, idUser) => {
-      PlaylistModel.deleteSongFromPlaylist(idPlaylist.toLong, idSong)
+      Playlist.deleteSongFromPlaylist(idPlaylist.toLong, idSong)
       Ok("Song deleted")
 
     }
@@ -51,16 +52,19 @@ object Playlist extends Controller {
 
   def deletePlaylist(idPlaylist: String) = Secured {
     (request, idUser) => {
-      PlaylistModel.deletePlaylist(idPlaylist.toLong, idUser)
+      Playlist.deletePlaylist(idPlaylist.toLong, idUser)
       Ok("Playlist deleted")
     }
   }
 
-  def addSongToPlaylist(idPlaylist: String, issong: String) = Secured {
+  def addSongToPlaylist(idPlaylist: String) = Secured {
     (request, userId) => {
-      Ok("")
+      SongInfoService.loadInfo(Song(request.body.asJson.get), song => {
+        Song.save(song)
+        Playlist.addSongToPlaylist(idPlaylist.toLong, song.mbid, userId)
+      })
+      Ok("Song added")
     }
   }
-
 
 }

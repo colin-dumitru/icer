@@ -68,16 +68,20 @@ var ChartsManager = (function () {
                 _this.endDate.month = month;
                 if($.inArray(month, _this.longMonths) != -1) {
                     _this.displayContainerValues("chartsWeekContainer", 0);
-                } else if($.inArray(month, _this.shortMonths) != -1) {
-                    _this.endDate.day = 30;
-                    _this.displayContainerValues("chartsWeekContainer", 1);
-                } else if(month == 2) {
-                    if(_this.endDate.year % 4 == 0) {
-                        _this.endDate.day = 29;
-                        _this.displayContainerValues("chartsWeekContainer", 2);
+                } else {
+                    if($.inArray(month, _this.shortMonths) != -1) {
+                        _this.endDate.day = 30;
+                        _this.displayContainerValues("chartsWeekContainer", 1);
                     } else {
-                        _this.endDate.day = 28;
-                        _this.displayContainerValues("chartsWeekContainer", 3);
+                        if(month == 2) {
+                            if(_this.endDate.year % 4 == 0) {
+                                _this.endDate.day = 29;
+                                _this.displayContainerValues("chartsWeekContainer", 2);
+                            } else {
+                                _this.endDate.day = 28;
+                                _this.displayContainerValues("chartsWeekContainer", 3);
+                            }
+                        }
                     }
                 }
                 _this.givePickerPageFocus(3);
@@ -90,27 +94,33 @@ var ChartsManager = (function () {
                 _this.endDate.day = parseInt(elem.childNodes[1].innerHTML.substr(4, 2));
                 if($(elem).parent().index() == 0) {
                     week = $(elem).index() + 1;
-                } else if($(elem).parent().index() == 1) {
-                    week = $(elem).index() + 3;
                 } else {
-                    week = 5;
+                    if($(elem).parent().index() == 1) {
+                        week = $(elem).index() + 3;
+                    } else {
+                        week = 5;
+                    }
                 }
                 if(week < 5) {
                     _this.displayContainerValues("chartsDayContainer", (week - 1));
-                } else if(week == 5) {
-                    if(_this.endDate.month == 12) {
-                        _this.endDate.month = 1;
-                        _this.endDate.year += 1;
-                    } else {
-                        _this.endDate.month += 1;
-                    }
-                    if($.inArray(_this.startDate.month, _this.longMonths) != -1) {
-                        _this.displayContainerValues("chartsDayContainer", 4);
-                    } else if($.inArray(_this.startDate.month, _this.shortMonths) != -1) {
-                        _this.displayContainerValues("chartsDayContainer", 5);
-                    } else {
-                        if(_this.endDate.year % 4 == 0) {
-                            _this.displayContainerValues("chartsDayContainer", 6);
+                } else {
+                    if(week == 5) {
+                        if(_this.endDate.month == 12) {
+                            _this.endDate.month = 1;
+                            _this.endDate.year += 1;
+                        } else {
+                            _this.endDate.month += 1;
+                        }
+                        if($.inArray(_this.startDate.month, _this.longMonths) != -1) {
+                            _this.displayContainerValues("chartsDayContainer", 4);
+                        } else {
+                            if($.inArray(_this.startDate.month, _this.shortMonths) != -1) {
+                                _this.displayContainerValues("chartsDayContainer", 5);
+                            } else {
+                                if(_this.endDate.year % 4 == 0) {
+                                    _this.displayContainerValues("chartsDayContainer", 6);
+                                }
+                            }
                         }
                     }
                 }
@@ -149,9 +159,9 @@ var ChartsManager = (function () {
         var length = children.length;
         for(var i = 0; i < length; i++) {
             if(i != index) {
-                children[i].style.display = "none";
+                $(children[i]).css("display", "none");
             } else {
-                children[index].style.display = "table";
+                $(children[index]).css("display", "table");
             }
         }
     };

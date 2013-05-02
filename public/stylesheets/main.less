@@ -458,9 +458,7 @@ html {
 #songDetailMenuCell {
   position: absolute;
   width: 150px;
-  background: @foreground_variant;
   float: left;
-  box-shadow: #000 0px 0px 20px;
 }
 
 #songDetailBioCell {
@@ -491,14 +489,43 @@ html {
   width: 100%;
   background: @foreground_variant;
   color: @foreground_text;
-  border-bottom: 1px solid @foreground_text;
   font-size: 15px;
   text-align: center;
   cursor: pointer;
+  z-index: 100;
+  position: relative;
 }
 
 .songDetailMenuItem:hover {
   .fontText;
+  background: @foreground_focus;
+}
+
+.songDetailSubOptionsContainer {
+  display: none;
+  width: 90%;
+  position: relative;
+  margin: 0 auto;
+  overflow-y: auto;
+  max-height: 200px;
+  background: darken(@foreground_variant, 10%);
+  box-shadow: black 0px 0px 20px inset;
+  border: 1px solid @foreground_variant;
+}
+
+#songDetailSubOptionsList {
+}
+
+#songDetailSubOptionsList li {
+  .fontMenu2;
+  font-size: 15px;
+  color: @foreground_text;
+  padding-left: 5px;
+  padding-right: 5px;
+  cursor: pointer;
+}
+
+#songDetailSubOptionsList li:hover {
   background: @foreground_focus;
 }
 

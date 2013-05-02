@@ -163,9 +163,9 @@ class ChartsManager {
 
         for (var i = 0; i < length; i++) {
             if (i != index) {
-                children[i].style.display = "none";
+                $(children[i]).css("display", "none");
             } else {
-                children[index].style.display = "table";
+                $(children[index]).css("display", "table");
             }
         }
     }
@@ -213,16 +213,16 @@ class ChartsManager {
     }
 
     loadSongList(startDate:string, endDate:string) {
-        $.ajax("/chart/generate/" + startDate + '/' + endDate,{
+        $.ajax("/chart/generate/" + startDate + '/' + endDate, {
             type: "POST",
             dataType: "json",
-            success:  data => {
+            success: data => {
                 if (data.length == 0) {
                     //alert("No chart available for selected time span.")
                 }
                 this.setSongList(data);
             },
-            error: function (reason){
+            error: function (reason) {
                 alert(reason)
             }
         });

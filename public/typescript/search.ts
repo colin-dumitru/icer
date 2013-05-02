@@ -1,14 +1,15 @@
 declare var lastFmApiKey;
 declare var globalPlaylistManager:GlobalPlaylistManager;
+declare var playlistManager:PlaylistManager;
 
-var globalSearchManager:SearchManager = null;
+var searchManager:SearchManager = null;
 
 class SearchBinder implements SectionBinder {
     private firstDisplay = true;
 
 
     buildPage(rootNode:any) {
-        globalSearchManager = new SearchManager(rootNode);
+        searchManager = new SearchManager(rootNode);
     }
 
     bind() {
@@ -18,7 +19,7 @@ class SearchBinder implements SectionBinder {
             this.loadData();
         }
         itemList.onInput = (input:string) => {
-            globalSearchManager.performSearch(input);
+            searchManager.performSearch(input);
         };
 
         $(window).bind("keydown", this.navigationHandler);
@@ -27,28 +28,28 @@ class SearchBinder implements SectionBinder {
     navigationHandler(event) {
         switch (event.which) {
             case 37: //left
-                globalSearchManager.givePreviousPageFocus();
+                searchManager.givePreviousPageFocus();
                 event.preventDefault();
                 break;
             case 38: //up
-                globalSearchManager.givePreviousSessionFocus();
+                searchManager.givePreviousSessionFocus();
                 event.preventDefault();
                 break;
             case 39: //right
-                globalSearchManager.giveNextPageFocus();
+                searchManager.giveNextPageFocus();
                 event.preventDefault();
                 break;
             case 40: //down
-                globalSearchManager.giveNextSessionFocus();
+                searchManager.giveNextSessionFocus();
                 event.preventDefault();
                 break;
         }
     }
 
     loadData() {
-        globalSearchManager.performSearch("ColdPlay");
-        globalSearchManager.performSearch("Bridgit Mendler");
-        globalSearchManager.performSearch("John Mayer");
+        searchManager.performSearch("ColdPlay");
+        searchManager.performSearch("Bridgit Mendler");
+        searchManager.performSearch("John Mayer");
         this.firstDisplay = false;
     }
 
@@ -195,32 +196,61 @@ class SearchCallback {
     }
 
     bindSongMenu(song:Song, template) {
-        var detailCallback = (selectedItem) => {
-            if (selectedItem == "Play Now") {
+        var detailCallback = (selectedOption:number, selectedSubOption:number) => {
+            if (selectedOption == 0) {
                 this.playSong(song);
-            } else if (selectedItem == "Add to Now Playing") {
+            } else if (selectedOption == 2) {
                 this.pushSong(song);
-            } else if (selectedItem == "Search From Here") {
+            } else if (selectedOption == 3) {
                 this.searchFromSong(song);
+            } else if (selectedOption == 1) {
+                this.addSongToPlaylist(song, selectedSubOption);
             }
         };
 
         template.click((e) => {
-            songDetailManager.showDetails(["Play Now", "Add to Now Playing", "Search From Here", "Add To Playlist"],
-                detailCallback, "/assets/mock/bio.html", {x: e.pageX, y: e.pageY});
+            songDetailManager.showDetails([
+                {label: "Play Now", subOptions: []},
+                {label: "Add To Playlist", subOptions: this.buildPlaylistList()},
+                {label: "Add to Now Playing", subOptions: []},
+                {label: "Search From Here", subOptions: []}
+            ],
+                detailCallback,
+                "/assets/mock/bio.html",
+                {x: e.pageX, y: e.pageY});
         });
     }
 
-    private searchFromSong(song:Song) {
-        globalSearchManager.performSearch(song.info.title + " " + song.info.artist);
+    private addSongToPlaylist(song:Song, playlistIndex) {
+        if (playlistIndex == null) {
+            return;
+        }
+        var selectedPlaylist = playlistManager.getPlaylist()[playlistIndex];
+
+        $.ajax({
+            url: "/playlist/song/add/" + selectedPlaylist.id,
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(song)
+        })
     }
 
-    private playSong(song:Song) {
+    private buildPlaylistList():string[] {
+        return playlistManager.getPlaylist().map(p => p.title);
+    }
+
+    private searchFromSong(song:Song) {
+        searchManager.performSearch(song.info.title + " " + song.info.artist);
+    }
+
+    private
+        playSong(song:Song) {
         globalPlaylistManager.pushSong(song);
         globalPlaylistManager.playSong(song);
     }
 
-    private pushSong(song:Song) {
+    private
+        pushSong(song:Song) {
         globalPlaylistManager.pushSong(song);
 
     }

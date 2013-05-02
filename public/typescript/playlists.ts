@@ -1,19 +1,20 @@
+declare var searchManager;
+
+var playlistManager:PlaylistManager = null;
+
 class PlaylistBinder implements SectionBinder {
     //todo CHECK
-    public playlistManager:PlaylistManager;
     private firstDisplay:bool = true;
 
     buildPage(rootNode:any) {
-        this.playlistManager = new PlaylistManager(rootNode);
+        playlistManager = new PlaylistManager(rootNode);
+        this.loadData();
     }
 
     bind() {
         itemList.popItemList("playlist");
-        if (this.firstDisplay) {
-            this.loadData();
-        }
         itemList.onInput = (input:string) => {
-            this.playlistManager.addPlaylistServer(input);
+            playlistManager.addPlaylistServer(input);
         };
         itemList.show();
 
@@ -31,7 +32,7 @@ class PlaylistBinder implements SectionBinder {
             dataType: "json",
             success: data => {
                 for (var i = 0; i < data.length; i++)
-                    this.playlistManager.loadPlaylist(data[i].id, data[i].name);
+                    playlistManager.loadPlaylist(data[i].id, data[i].name);
             },
             error: function (reason) {
                 alert(reason)
@@ -49,11 +50,11 @@ class PlaylistBinder implements SectionBinder {
     navigationHandler(event) {
         switch (event.which) {
             case 38: //up
-                (<PlaylistBinder>binders["playlist"]).playlistManager.givePreviousPlaylistFocus();
+                playlistManager.givePreviousPlaylistFocus();
                 event.preventDefault();
                 break;
             case 40: //down
-                (<PlaylistBinder>binders["playlist"]).playlistManager.giveNextPlaylistFocus();
+                playlistManager.giveNextPlaylistFocus();
                 event.preventDefault();
                 break;
         }
@@ -68,6 +69,10 @@ class PlaylistManager {
     private currentIndex:number;
 
     constructor(private rootNode:any) {
+    }
+
+    public getPlaylist():Playlist[] {
+        return this.playListsQueue;
     }
 
     public deleteCurrentPlaylist() {
@@ -144,15 +149,14 @@ class PlaylistManager {
     }
 
     private buildMockImage(song:Song, template) {
-        var detailCallback = (selectedItem) => {
-            if (selectedItem == "Play Now") {
+        var detailCallback = (option:number, subOption:number) => {
+            if (option == 0) {
                 this.playSong(song)
-            } else if (selectedItem == "Search From Here") {
+            } else if (option == 1) {
                 this.searchFromSong(song)
                 this.changeToSearchSection()
-            } else if (selectedItem == "Remove From Playlist") {
+            } else if (option == 2) {
                 this.removeSong(song, imageContainer);
-
             }
         };
 
@@ -161,7 +165,11 @@ class PlaylistManager {
 
         imageContainer.addClass("inline");
         imageContainer.click((e) => {
-            songDetailManager.showDetails(["Play Now", "Search From Here", "Remove From Playlist"],
+            songDetailManager.showDetails([
+                {label: "Play Now", subOptions: []},
+                {label: "Search From Here", subOptions: []},
+                {label: "Remove From Playlist", subOptions: []}
+            ],
                 detailCallback, "/assets/mock/bio.html", {x: e.pageX, y: e.pageY});
         });
 
@@ -169,7 +177,7 @@ class PlaylistManager {
     }
 
     private searchFromSong(song:Song) {
-        globalSearchManager.performSearch(song.info.title + " " + song.info.artist);
+        searchManager.performSearch(song.info.title + " " + song.info.artist);
     }
 
     private changeToSearchSection() {
@@ -274,7 +282,7 @@ class PlaylistPageManager {
         toDelete.remove();
 
         //todo CHECK
-        (<PlaylistBinder>binders["playlist"]).playlistManager.deleteCurrentPlaylist();
+        playlistManager.deleteCurrentPlaylist();
     }
 
     private deletePlaylistItem() {

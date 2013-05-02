@@ -665,7 +665,6 @@ class GlobalPlaylistManager {
                 this.playSong(song);
             });
         $("#globalPlaylistSongContainer").append(template);
-        //todo events for click
     }
 
     public clearSongs() {
@@ -711,7 +710,6 @@ declare var $;
 declare var soundCloudId;
 declare var dimensions;
 declare var SC;
-//todo Catalin check this
 declare var sectionManager;
 
 var binders:{ [key: string]: SectionBinder; } = { };

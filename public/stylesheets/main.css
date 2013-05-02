@@ -545,9 +545,7 @@ html {
 #songDetailMenuCell {
     position: absolute;
     width: 150px;
-    background: #589c9b;
     float: left;
-    box-shadow: #000 0px 0px 20px;
 }
 
 #songDetailBioCell {
@@ -578,14 +576,40 @@ html {
     width: 100%;
     background: #589c9b;
     color: #edfffc;
-    border-bottom: 1px solid #edfffc;
     font-size: 15px;
     text-align: center;
     cursor: pointer;
+    z-index: 100;
+    position: relative;
 }
 
 .songDetailMenuItem:hover {
     font-family: 'Roboto', sans-serif;
+    background: #9c5b4d;
+}
+
+.songDetailSubOptionsContainer {
+    display: none;
+    width: 90%;
+    position: relative;
+    margin: 0 auto;
+    overflow-y: auto;
+    max-height: 200px;
+    background: #467b7b;
+    box-shadow: black 0px 0px 20px inset;
+    border: 1px solid #589c9b;
+}
+
+#songDetailSubOptionsList li {
+    font-family: 'Noto Sans', sans-serif;
+    font-size: 15px;
+    color: #edfffc;
+    padding-left: 5px;
+    padding-right: 5px;
+    cursor: pointer;
+}
+
+#songDetailSubOptionsList li:hover {
     background: #9c5b4d;
 }
 

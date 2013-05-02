@@ -26,25 +26,43 @@ var SongDetailManager = (function () {
         var _this = this;
         this.menuHidden = false;
         $("#songDetailMenuCell").empty();
-        options.forEach(function (option) {
-            _this.buildOption(option, detailCallback);
+        options.forEach(function (option, index) {
+            _this.buildOption(option, index, detailCallback);
         });
         this.updateLayout(position);
         this.menuX = this.hasSpaceOnRight(position.x) ? position.x : position.x - this.menuWidth;
         this.menuY = this.hasSpaceOnBottom(position.y) ? position.y : position.y - this.menuHeight;
         this.loadBio(bioUrl);
     };
-    SongDetailManager.prototype.buildOption = function (option, detailCallback) {
+    SongDetailManager.prototype.buildOption = function (option, optionIndex, detailCallback) {
         var container = $("<div></div>");
-        var optionTemplate = template("#songDetailOptionTemplate", option);
+        var optionTemplate = template("#songDetailOptionTemplate", option.label);
         container.append(optionTemplate);
         $("#songDetailMenuCell").append(container);
-        this.bindOptionClick(option, container, detailCallback);
+        if(option.subOptions.length == 0) {
+            this.bindOptionClick(optionIndex, null, container, detailCallback);
+        } else {
+            this.buildSubOptions(option.subOptions, optionIndex, detailCallback, container);
+        }
     };
-    SongDetailManager.prototype.bindOptionClick = function (option, template, detailCallback) {
+    SongDetailManager.prototype.buildSubOptions = function (subOptions, optionIndex, detailCallback, parentTemplate) {
+        var _this = this;
+        var listContainer = parentTemplate.find("#songDetailSubOptionsContainer");
+        var container = parentTemplate.find("#songDetailSubOptionsList");
+        parentTemplate.find("#songDetailMenuItem").click(function () {
+            listContainer.slideToggle(400);
+        });
+        subOptions.forEach(function (sopt, index) {
+            var li = $("<li></li>");
+            li.append(sopt);
+            container.append(li);
+            _this.bindOptionClick(optionIndex, index, li, detailCallback);
+        });
+    };
+    SongDetailManager.prototype.bindOptionClick = function (option, subOption, template, detailCallback) {
         var _this = this;
         template.click(function () {
-            detailCallback(option);
+            detailCallback(option, subOption);
             _this.hide();
         });
     };
@@ -62,7 +80,7 @@ var SongDetailManager = (function () {
             if(_this.menuHidden) {
                 return;
             }
-            if(event.clientX < _this.menuX || event.clientX > (_this.menuX + _this.menuWidth) || event.clientY < _this.menuY || event.clientY > (_this.menuY + _this.menuHeight)) {
+            if(event.clientX < (_this.menuX - 10) || event.clientX > (_this.menuX + _this.menuWidth + 10) || event.clientY < (_this.menuY - 10) || event.clientY > (_this.menuY + _this.menuHeight + 10)) {
                 _this.hide();
             }
         });

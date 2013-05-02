@@ -17,6 +17,10 @@ function template(id, ...args:String[]):String {
     });
 }
 
+interface DetailCallback {
+    (optionIndex:number, subOptionIndex:number): void;
+}
+
 class SongDetailManager {
     private menuWidth:number;
     private menuHeight:number;
@@ -31,12 +35,12 @@ class SongDetailManager {
         this.bindHover();
     }
 
-    showDetails(options:string[], detailCallback:(string) => any, bioUrl, position:{x : number; y:number;}) {
+    showDetails(options:{label:string; subOptions:string[];}[], detailCallback:DetailCallback, bioUrl, position:{x : number; y:number;}) {
         this.menuHidden = false;
 
         $("#songDetailMenuCell").empty();
-        options.forEach((option) => {
-            this.buildOption(option, detailCallback)
+        options.forEach((option, index) => {
+            this.buildOption(option, index, detailCallback)
         });
 
         this.updateLayout(position);
@@ -47,18 +51,38 @@ class SongDetailManager {
         this.loadBio(bioUrl);
     }
 
-    private buildOption(option:string, detailCallback:(string) => any) {
+    private buildOption(option:{label:string; subOptions:string[];}, optionIndex:number, detailCallback:DetailCallback) {
         var container = $("<div></div>");
-        var optionTemplate = template("#songDetailOptionTemplate", option);
+        var optionTemplate = template("#songDetailOptionTemplate", option.label);
         container.append(optionTemplate);
 
         $("#songDetailMenuCell").append(container);
-        this.bindOptionClick(option, container, detailCallback);
+        if (option.subOptions.length == 0) {
+            this.bindOptionClick(optionIndex, null, container, detailCallback);
+        } else {
+            this.buildSubOptions(option.subOptions, optionIndex, detailCallback, container);
+        }
     }
 
-    private bindOptionClick(option:string, template, detailCallback:(string) => any) {
+    private buildSubOptions(subOptions:string[], optionIndex:number, detailCallback:DetailCallback, parentTemplate) {
+        var listContainer = parentTemplate.find("#songDetailSubOptionsContainer");
+        var container = parentTemplate.find("#songDetailSubOptionsList");
+
+        parentTemplate.find("#songDetailMenuItem").click(() => {
+            listContainer.slideToggle(400);
+        });
+
+        subOptions.forEach((sopt, index) => {
+            var li = $("<li></li>");
+            li.append(sopt);
+            container.append(li);
+            this.bindOptionClick(optionIndex, index, li, detailCallback)
+        });
+    }
+
+    private bindOptionClick(option:number, subOption:number, template, detailCallback:DetailCallback) {
         template.click(() => {
-            detailCallback(option);
+            detailCallback(option, subOption);
             this.hide();
         });
     }
@@ -87,10 +111,10 @@ class SongDetailManager {
         $(window).mousemove((event) => {
             if (this.menuHidden) return;
 
-            if (event.clientX < this.menuX
-                || event.clientX > (this.menuX + this.menuWidth)
-                || event.clientY < this.menuY
-                || event.clientY > (this.menuY + this.menuHeight)) {
+            if (event.clientX < (this.menuX - 10)
+                || event.clientX > (this.menuX + this.menuWidth + 10)
+                || event.clientY < (this.menuY - 10)
+                || event.clientY > (this.menuY + this.menuHeight + 10)) {
                 this.hide();
             }
         });
