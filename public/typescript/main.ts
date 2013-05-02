@@ -275,11 +275,7 @@ class ItemList {
             .removeClass("itemListContainerContracted");
 
         $("#sectionContainer")
-            .transition({
-                perspective: "100px",
-                rotateY: '-5deg',
-                transformOrigin: '100% 50%'
-            });
+            .addClass("sectionContainerContracted");
         this.isCollapsed = false;
     }
 
@@ -288,11 +284,7 @@ class ItemList {
             .removeClass("itemListContainerExpanded")
             .addClass("itemListContainerContracted");
         $("#sectionContainer")
-            .transition({
-                perspective: "100px",
-                rotateY: '0deg',
-                transformOrigin: '100% 50%'
-            });
+            .removeClass("sectionContainerContracted");
         this.isCollapsed = true;
     }
 
@@ -486,7 +478,7 @@ class GlobalPlaylistManager {
     bind() {
         $(window).mousemove((event) => {
             if (event.clientY > (dimensions.windowHeight - 15) &&
-                (event.clientX < (dimensions.windowWidth / 2 - 200) || event.clientX > (dimensions.windowWidth / 2 + 200))) {
+                (event.clientX < (dimensions.windowWidth / 2 - 185) || event.clientX > (dimensions.windowWidth / 2 + 235))) {
                 if (this.isCollapsed) {
                     this.giveFocus();
                 }
@@ -694,12 +686,7 @@ class GlobalPlaylistManager {
                 rotateX: 0
             });
         $("#sectionContainer")
-            .transition({
-                perspective: "100px",
-                rotateX: '5deg',
-                y: -150,
-                transformOrigin: '50% 100%'
-            });
+            .addClass("sectionContainerContractedVertical");
         this.isCollapsed = false;
     }
 
@@ -715,12 +702,7 @@ class GlobalPlaylistManager {
                 rotateX: -10
             });
         $("#sectionContainer")
-            .transition({
-                perspective: "100px",
-                rotateX: '0deg',
-                y: 0,
-                transformOrigin: '50% 100%'
-            });
+            .removeClass("sectionContainerContractedVertical");
         this.isCollapsed = true;
     }
 }

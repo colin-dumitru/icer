@@ -18,8 +18,6 @@
 #searchStage {
   position: relative;
   height: 450px;
-  -webkit-perspective: 0px;
-  perspective: 0px;
 }
 
 .searchTable {
@@ -27,6 +25,10 @@
   position: absolute;
   top: 0px;
   left: 0px;
+  -webkit-transform-origin: 50% 150%;
+  transform-origin: 50% 150%;
+  -webkit-transition: all 0.4s ease;
+  transition: all 0.4s ease;
 }
 
 #searchMenuCell {

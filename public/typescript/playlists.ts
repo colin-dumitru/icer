@@ -83,15 +83,15 @@ class PlaylistManager {
         }
     }
 
-    addPlaylistServer(title:String) {
+    addPlaylistServer(title:string) {
         $.ajax("/playlist/new/" + title, {
             type: "POST",
             dataType: "json",
             success: data => {
-                this.loadPlaylist(data.id, title)
+                this.loadPlaylist(<string>data.id, title)
             },
             error: function (reason) {
-                alert(reason)
+                alert(reason.toString())
             }
         });
     }

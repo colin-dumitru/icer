@@ -62,8 +62,6 @@ body {
     padding: 0px;
     height: 100%;
     -webkit-backface-visibility: hidden;
-    perspective: 100px;
-    -webkit-perspective: 100px;
 }
 
 html {
@@ -224,6 +222,22 @@ html {
 
 #sectionContainer {
     overflow-y: hidden;
+    -webkit-transition: all 0.4s ease;
+    transition: all 0.4s ease;
+}
+
+.sectionContainerContracted {
+    -webkit-transform-origin: 100% 50%;
+    transform-origin: 100% 50%;
+    -webkit-transform: perspective(100px) rotateY(-5deg);
+    transform: perspective(100px) rotateY(-5deg);
+}
+
+.sectionContainerContractedVertical {
+    -webkit-transform-origin: 50% 100%;
+    transform-origin: 50% 100%;
+    -webkit-transform: perspective(100px) rotateX(5deg);
+    transform: perspective(100px) rotateX(5deg);
 }
 
 .section {
@@ -240,15 +254,15 @@ html {
 }
 
 .itemListContainerContracted {
-    -webkit-transform: rotateY(20deg);
-    transform: rotateY(20deg);
+    -webkit-transform: perspective(100px) rotateY(20deg);
+    transform: perspective(100px) rotateY(20deg);
     width: 0px;
 }
 
 .itemListContainerExpanded {
     width: 250px;
-    -webkit-transform: rotateY(0deg);
-    transform: rotateY(0deg);
+    -webkit-transform: perspective(100px) rotateY(0deg);
+    transform: perspective(100px) rotateY(0deg);
 }
 
 #itemList {
@@ -296,8 +310,6 @@ html {
 #itemListContainerCell {
     height: 100%;
     vertical-align: top;
-    -webkit-perspective: 100px;
-    perspective: 100px;
 }
 
 #newItemInput {

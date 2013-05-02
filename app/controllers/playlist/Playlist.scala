@@ -26,7 +26,7 @@ object Playlist extends Controller {
 
   def createPlaylist(name: String) = Secured {
     (request, idUser) => {
-      val newPlaylist = new PlaylistModel(null, idUser, name);
+      val newPlaylist = new PlaylistModel(null, idUser, name)
       val mwPlaylist = new PlaylistModelView(PlaylistModel.create(newPlaylist).toString(), idUser.toString(), name); //crw extra ";" and () for toString method
       Ok(generate(mwPlaylist)).as("application/json")
     }
@@ -34,7 +34,7 @@ object Playlist extends Controller {
 
   def getSongsForPlaylist(idPlaylist: String) = Secured {
     (request, idUser) => {
-      val songsForPlaylist = Song.getSongsForPlaylist(idPlaylist.toLong);
+      val songsForPlaylist = Song.getSongsForPlaylist(idPlaylist.toLong)
       val mwSongs = songsForPlaylist.map(song => new SongModelView(song.mbid, song.title, song.artist, song.album, song.genre)).toArray
       Ok(generate(mwSongs)).as("application/json")
 
@@ -43,7 +43,7 @@ object Playlist extends Controller {
 
   def deleteSongFromPlaylist(idPlaylist: String, idSong: String) = Secured {
     (request, idUser) => {
-      PlaylistModel.deleteSongFromPlaylist(idPlaylist.toLong, idSong);
+      PlaylistModel.deleteSongFromPlaylist(idPlaylist.toLong, idSong)
       Ok("Song deleted")
 
     }
@@ -53,7 +53,14 @@ object Playlist extends Controller {
     (request, idUser) => {
       PlaylistModel.deletePlaylist(idPlaylist.toLong, idUser)
       Ok("Playlist deleted")
-
     }
   }
+
+  def addSongToPlaylist(idPlaylist: String, issong: String) = Secured {
+    (request, userId) => {
+      Ok("")
+    }
+  }
+
+
 }

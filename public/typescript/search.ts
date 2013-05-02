@@ -121,11 +121,11 @@ class SearchManager {
         this.currentIndex = this.searchSessionsQueue.indexOf(session);
         this.searchSessionsQueue.forEach((session, i) => {
             session.rootNode()
-                .transition({
-                    perspective: 100,
-                    translate3d: [0, -100 * (i - this.currentIndex), 20 * (i - this.currentIndex)],
+                .css({
+                    WebkitTransform: "perspective(100x) translateZ(" + 20 * (i - this.currentIndex) + "px)",
+                    transform: "perspective(100px)  translateZ(" + 20 * (i - this.currentIndex) + "px)",
                     opacity: (i > this.currentIndex) ? 0 : (i == this.currentIndex) ? 1 : 0.5
-                }, 400)
+                })
                 .removeClass("hidden");
         });
 
