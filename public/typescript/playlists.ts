@@ -135,21 +135,28 @@ class PlaylistManager {
             dataType: "json",
             success: data => {
 
+                //crw move to a different function
                 for (var i = 0; i < data.length; i++) {
                     var songInfo = new SongInfo(data[i].title, data[i].artist, data[i].album, data[i].genre)
-                    var song = new Song(data[i].mbid, songInfo, null)
-                    var image = buildSmallSong(song)
-                    playlist.pageManager.rootNode.find("#playlistSongContainer").append(this.buildMockImage(song, image))
-                    playlist.songs.push(song);
+                    var song = new Song(data[i].mbid, songInfo, data[i].imageUrl)
+                    this.addSongToPlaylist(song, playlist);
                 }
             },
             error: function (reason) {
+                //crw this is ugly
                 alert(reason)
             }
         });
     }
 
-    private buildMockImage(song:Song, template) {
+    addSongToPlaylist(song:Song, playlist:Playlist) {
+        var image = buildSmallSong(song)
+        this.bindSong(song, image);
+        playlist.pageManager.rootNode.find("#playlistSongContainer").append(image)
+        playlist.songs.push(song);
+    }
+
+    private bindSong(song:Song, template) {
         var detailCallback = (option:number, subOption:number) => {
             if (option == 0) {
                 this.playSong(song)
@@ -157,15 +164,11 @@ class PlaylistManager {
                 this.searchFromSong(song)
                 this.changeToSearchSection()
             } else if (option == 2) {
-                this.removeSong(song, imageContainer);
+                this.removeSong(song, template);
             }
         };
 
-        var imageContainer = $("<span></span>");
-        imageContainer.append(template);
-
-        imageContainer.addClass("inline");
-        imageContainer.click((e) => {
+        template.click((e) => {
             songDetailManager.showDetails([
                 {label: "Play Now", subOptions: []},
                 {label: "Search From Here", subOptions: []},
@@ -173,8 +176,6 @@ class PlaylistManager {
             ],
                 detailCallback, "/assets/mock/bio.html", {x: e.pageX, y: e.pageY});
         });
-
-        return imageContainer;
     }
 
     private searchFromSong(song:Song) {

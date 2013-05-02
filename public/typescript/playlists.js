@@ -124,10 +124,8 @@ var PlaylistManager = (function () {
             success: function (data) {
                 for (var i = 0; i < data.length; i++) {
                     var songInfo = new SongInfo(data[i].title, data[i].artist, data[i].album, data[i].genre);
-                    var song = new Song(data[i].mbid, songInfo, null);
-                    var image = buildSmallSong(song);
-                    playlist.pageManager.rootNode.find("#playlistSongContainer").append(_this.buildMockImage(song, image));
-                    playlist.songs.push(song);
+                    var song = new Song(data[i].mbid, songInfo, data[i].imageUrl);
+                    _this.addSongToPlaylist(song, playlist);
                 }
             },
             error: function (reason) {
@@ -135,7 +133,13 @@ var PlaylistManager = (function () {
             }
         });
     };
-    PlaylistManager.prototype.buildMockImage = function (song, template) {
+    PlaylistManager.prototype.addSongToPlaylist = function (song, playlist) {
+        var image = buildSmallSong(song);
+        this.bindSong(song, image);
+        playlist.pageManager.rootNode.find("#playlistSongContainer").append(image);
+        playlist.songs.push(song);
+    };
+    PlaylistManager.prototype.bindSong = function (song, template) {
         var _this = this;
         var detailCallback = function (option, subOption) {
             if (option == 0) {
@@ -146,15 +150,12 @@ var PlaylistManager = (function () {
                     _this.changeToSearchSection();
                 } else {
                     if (option == 2) {
-                        _this.removeSong(song, imageContainer);
+                        _this.removeSong(song, template);
                     }
                 }
             }
         };
-        var imageContainer = $("<span></span>");
-        imageContainer.append(template);
-        imageContainer.addClass("inline");
-        imageContainer.click(function (e) {
+        template.click(function (e) {
             songDetailManager.showDetails([
                 {
                     label: "Play Now",
@@ -173,7 +174,6 @@ var PlaylistManager = (function () {
                 y: e.pageY
             });
         });
-        return imageContainer;
     };
     PlaylistManager.prototype.searchFromSong = function (song) {
         searchManager.performSearch(song.info.title + " " + song.info.artist);

@@ -12,10 +12,10 @@ import modelview.SongModelView
 
 object Chart extends Controller {
 
-  def generateChart(startDate:String, endDate:String) = Secured {
+  def generateChart(startDate: String, endDate: String) = Secured {
     (request, idUser) => {
       val playback = Song.getSongsForChart(startDate, endDate)
-      val playbackView = playback.map(p => new SongModelView(p.mbid, p.title, p.artist, p.album, p.genre)).toArray
+      val playbackView = playback.map(p => new SongModelView(p.mbid, p.title, p.artist, p.album, p.genre, p.imageUrl)).toArray
       Ok(generate(playbackView)).as("application/json")
     }
   }

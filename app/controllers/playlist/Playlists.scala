@@ -36,7 +36,7 @@ object Playlists extends Controller {
   def getSongsForPlaylist(idPlaylist: String) = Secured {
     (request, idUser) => {
       val songsForPlaylist = Song.getSongsForPlaylist(idPlaylist.toLong)
-      val mwSongs = songsForPlaylist.map(song => new SongModelView(song.mbid, song.title, song.artist, song.album, song.genre)).toArray
+      val mwSongs = songsForPlaylist.map(song => new SongModelView(song.mbid, song.title, song.artist, song.album, song.genre, song.imageUrl)).toArray
       Ok(generate(mwSongs)).as("application/json")
 
     }

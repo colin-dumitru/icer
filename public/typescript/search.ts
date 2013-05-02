@@ -223,6 +223,7 @@ class SearchCallback {
             return;
         }
         var selectedPlaylist = playlistManager.getPlaylist()[playlistIndex];
+        playlistManager.addSongToPlaylist(song, selectedPlaylist);
 
         $.ajax({
             url: "/playlist/song/add/" + selectedPlaylist.id,
