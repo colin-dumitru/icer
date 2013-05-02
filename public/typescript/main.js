@@ -77,8 +77,14 @@ var SectionManager = (function () {
         binders[section.id].buildPage(section.rootNode);
         this.pagesBuild++;
         if (this.pagesBuild == this.sections.length) {
-            this.changeSection(0);
+            this.initialize();
         }
+    };
+    SectionManager.prototype.initialize = function () {
+        this.changeSection(0);
+        $("#mainLoader").fadeOut(500, function () {
+            this.remove();
+        });
     };
     SectionManager.prototype.bindMenuSelector = function () {
         var us = this;

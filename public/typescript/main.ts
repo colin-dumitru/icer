@@ -108,8 +108,15 @@ class SectionManager {
         binders[section.id].buildPage(section.rootNode);
         this.pagesBuild++;
         if (this.pagesBuild == this.sections.length) {
-            this.changeSection(0);
+            this.initialize();
         }
+    }
+
+    private initialize() {
+        this.changeSection(0);
+        $("#mainLoader").fadeOut(500, function () {
+            this.remove();
+        })
     }
 
     private bindMenuSelector() {
