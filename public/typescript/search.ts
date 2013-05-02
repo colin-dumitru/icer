@@ -213,7 +213,7 @@ class SearchCallback {
                 {label: "Search From Here", subOptions: []}
             ],
                 detailCallback,
-                "/assets/mock/bio.html",
+                song,
                 {x: e.pageX, y: e.pageY});
         });
     }

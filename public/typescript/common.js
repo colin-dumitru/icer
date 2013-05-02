@@ -25,7 +25,7 @@ var SongDetailManager = (function () {
         this.menuHeight = songDetailContainer.height();
         this.bindHover();
     };
-    SongDetailManager.prototype.showDetails = function (options, detailCallback, bioUrl, position) {
+    SongDetailManager.prototype.showDetails = function (options, detailCallback, song, position) {
         var _this = this;
         this.menuHidden = false;
         $("#songDetailMenuCell").empty();
@@ -35,7 +35,7 @@ var SongDetailManager = (function () {
         this.updateLayout(position);
         this.menuX = this.hasSpaceOnRight(position.x) ? position.x : position.x - this.menuWidth;
         this.menuY = this.hasSpaceOnBottom(position.y) ? position.y : position.y - this.menuHeight;
-        this.loadBio(bioUrl);
+        this.loadBio(song);
     };
     SongDetailManager.prototype.buildOption = function (option, optionIndex, detailCallback) {
         var container = $("<div></div>");
@@ -74,8 +74,33 @@ var SongDetailManager = (function () {
         $("#songDetailMenuCell").css(this.hasSpaceOnBottom(position.y) ? "top" : "bottom", 0).css(this.hasSpaceOnBottom(position.y) ? "bottom" : "top", "auto").css(this.hasSpaceOnRight(position.x) ? "left" : "right", 0).css(this.hasSpaceOnRight(position.x) ? "right" : "left", "auto").css("float", this.hasSpaceOnRight(position.x) ? "left" : "right");
         $("#songDetailBioCell").css("float", this.hasSpaceOnRight(position.x) ? "right" : "left");
     };
-    SongDetailManager.prototype.loadBio = function (url) {
-        $("#songDetailBioCell").load(url);
+    SongDetailManager.prototype.loadBio = function (song) {
+        var _this = this;
+        $("#songDetailBioCell").empty();
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            url: this.buildArtistUrl(song),
+            success: function (data) {
+                return _this.onArtistLoad(data, song);
+            }
+        });
+    };
+    SongDetailManager.prototype.onArtistLoad = function (data, song) {
+        var container = $("<div></div>");
+        var detailTemplate = template("#songDetailArtistTemplate", getExtraLargeImage(data["artist"]["image"]), song.info.title, song.info.artist, data["artist"]["bio"]["content"], this.getTourInfo(data));
+        container.append(detailTemplate);
+        $("#songDetailBioCell").empty().append(container);
+    };
+    SongDetailManager.prototype.getTourInfo = function (data) {
+        if (data["artist"]["ontour"] == "1") {
+            return "On tour";
+        } else {
+            return "Not on tour";
+        }
+    };
+    SongDetailManager.prototype.buildArtistUrl = function (song) {
+        return "http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=" + song.info.artist + "&format=json&api_key=" + lastFmApiKey;
     };
     SongDetailManager.prototype.bindHover = function () {
         var _this = this;

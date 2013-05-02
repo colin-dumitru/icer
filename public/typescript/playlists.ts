@@ -174,7 +174,7 @@ class PlaylistManager {
                 {label: "Search From Here", subOptions: []},
                 {label: "Remove From Playlist", subOptions: []}
             ],
-                detailCallback, "/assets/mock/bio.html", {x: e.pageX, y: e.pageY});
+                detailCallback, song, {x: e.pageX, y: e.pageY});
         });
     }
 

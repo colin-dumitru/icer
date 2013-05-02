@@ -508,6 +508,10 @@ html {
   border: none;
   padding: 5px;
 }
+#songDetailImage {
+  width: 100px;
+  height: 100px;
+}
 .songDetailMenuItem {
   font-family: 'Roboto', sans-serif;
   width: 100%;

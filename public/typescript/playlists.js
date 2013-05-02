@@ -169,7 +169,7 @@ var PlaylistManager = (function () {
                     label: "Remove From Playlist",
                     subOptions: []
                 }
-            ], detailCallback, "/assets/mock/bio.html", {
+            ], detailCallback, song, {
                 x: e.pageX,
                 y: e.pageY
             });

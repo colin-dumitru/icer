@@ -35,7 +35,7 @@ class SongDetailManager {
         this.bindHover();
     }
 
-    showDetails(options:{label:string; subOptions:string[];}[], detailCallback:DetailCallback, bioUrl, position:{x : number; y:number;}) {
+    showDetails(options:{label:string; subOptions:string[];}[], detailCallback:DetailCallback, song:Song, position:{x : number; y:number;}) {
         this.menuHidden = false;
 
         $("#songDetailMenuCell").empty();
@@ -48,7 +48,7 @@ class SongDetailManager {
         this.menuX = this.hasSpaceOnRight(position.x) ? position.x : position.x - this.menuWidth;
         this.menuY = this.hasSpaceOnBottom(position.y) ? position.y : position.y - this.menuHeight;
 
-        this.loadBio(bioUrl);
+        this.loadBio(song);
     }
 
     private buildOption(option:{label:string; subOptions:string[];}, optionIndex:number, detailCallback:DetailCallback) {
@@ -103,8 +103,39 @@ class SongDetailManager {
             .css("float", this.hasSpaceOnRight(position.x) ? "right" : "left");
     }
 
-    private loadBio(url:string) {
-        $("#songDetailBioCell").load(url);
+    private loadBio(song:Song) {
+        $("#songDetailBioCell").empty();
+
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            url: this.buildArtistUrl(song),
+            success: (data) => this.onArtistLoad(data, song)
+        })
+    }
+
+    private onArtistLoad(data, song:Song) {
+        var container = $("<div></div>");
+        var detailTemplate = template("#songDetailArtistTemplate", getExtraLargeImage(data["artist"]["image"]),
+            song.info.title, song.info.artist, data["artist"]["bio"]["content"], this.getTourInfo(data));
+
+        container.append(detailTemplate);
+
+        $("#songDetailBioCell").empty().append(container);
+    }
+
+    private getTourInfo(data):string {
+        if (data["artist"]["ontour"] == "1") {
+            return "On tour";
+        } else {
+            return "Not on tour";
+        }
+    }
+
+    private buildArtistUrl(song:Song):string {
+        return "http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=" + song.info.artist
+            + "&format=json&api_key=" + lastFmApiKey;
+
     }
 
     private bindHover() {

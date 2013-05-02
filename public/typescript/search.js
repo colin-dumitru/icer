@@ -217,7 +217,7 @@ var SearchCallback = (function () {
                     label: "Search From Here",
                     subOptions: []
                 }
-            ], detailCallback, "/assets/mock/bio.html", {
+            ], detailCallback, song, {
                 x: e.pageX,
                 y: e.pageY
             });
