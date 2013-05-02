@@ -67,6 +67,8 @@ class SectionManager {
     private sectionTable:any;
     private sectionContainer:any;
 
+    private pagesBuild = 0;
+
     constructor(private sections:Section[]) {
 
     }
@@ -104,7 +106,8 @@ class SectionManager {
 
     private onPageLoadComplete(section:Section) {
         binders[section.id].buildPage(section.rootNode);
-        if (this.sections.indexOf(section) == 0) {
+        this.pagesBuild++;
+        if (this.pagesBuild == this.sections.length) {
             this.changeSection(0);
         }
     }

@@ -2,6 +2,7 @@ var ChartsBinder = (function () {
     function ChartsBinder() {
         this.firstDisplay = true;
     }
+
     ChartsBinder.prototype.buildPage = function (rootNode) {
         this.manager = new ChartsManager(rootNode);
         this.manager.addPickerPage(new PickerPage($("#chartsSongListContainer")));
@@ -12,7 +13,7 @@ var ChartsBinder = (function () {
         this.manager.bind();
     };
     ChartsBinder.prototype.bind = function () {
-        if(this.firstDisplay) {
+        if (this.firstDisplay) {
             this.loadData();
             this.firstDisplay = false;
         }
@@ -31,24 +32,25 @@ var ChartsManager = (function () {
         this.rootNode = rootNode;
         this.pickerPages = [];
         this.longMonths = [
-            1, 
-            3, 
-            5, 
-            7, 
-            8, 
-            10, 
+            1,
+            3,
+            5,
+            7,
+            8,
+            10,
             12
         ];
         this.shortMonths = [
-            4, 
-            6, 
-            9, 
+            4,
+            6,
+            9,
             11
         ];
         this.arrowDown = template("#chartsDown");
         this.arrowUp = template("#chartsUp");
         this.arrowNoChange = template("#chartsNoChange");
     }
+
     ChartsManager.prototype.bind = function () {
         var _this = this;
         $("#chartsWhenButton").click(function () {
@@ -66,15 +68,15 @@ var ChartsManager = (function () {
                 var month = index + 1;
                 _this.startDate.month = month;
                 _this.endDate.month = month;
-                if($.inArray(month, _this.longMonths) != -1) {
+                if ($.inArray(month, _this.longMonths) != -1) {
                     _this.displayContainerValues("chartsWeekContainer", 0);
                 } else {
-                    if($.inArray(month, _this.shortMonths) != -1) {
+                    if ($.inArray(month, _this.shortMonths) != -1) {
                         _this.endDate.day = 30;
                         _this.displayContainerValues("chartsWeekContainer", 1);
                     } else {
-                        if(month == 2) {
-                            if(_this.endDate.year % 4 == 0) {
+                        if (month == 2) {
+                            if (_this.endDate.year % 4 == 0) {
                                 _this.endDate.day = 29;
                                 _this.displayContainerValues("chartsWeekContainer", 2);
                             } else {
@@ -92,32 +94,32 @@ var ChartsManager = (function () {
                 var week;
                 _this.startDate.day = parseInt(elem.childNodes[1].innerHTML.substr(1, 2));
                 _this.endDate.day = parseInt(elem.childNodes[1].innerHTML.substr(4, 2));
-                if($(elem).parent().index() == 0) {
+                if ($(elem).parent().index() == 0) {
                     week = $(elem).index() + 1;
                 } else {
-                    if($(elem).parent().index() == 1) {
+                    if ($(elem).parent().index() == 1) {
                         week = $(elem).index() + 3;
                     } else {
                         week = 5;
                     }
                 }
-                if(week < 5) {
+                if (week < 5) {
                     _this.displayContainerValues("chartsDayContainer", (week - 1));
                 } else {
-                    if(week == 5) {
-                        if(_this.endDate.month == 12) {
+                    if (week == 5) {
+                        if (_this.endDate.month == 12) {
                             _this.endDate.month = 1;
                             _this.endDate.year += 1;
                         } else {
                             _this.endDate.month += 1;
                         }
-                        if($.inArray(_this.startDate.month, _this.longMonths) != -1) {
+                        if ($.inArray(_this.startDate.month, _this.longMonths) != -1) {
                             _this.displayContainerValues("chartsDayContainer", 4);
                         } else {
-                            if($.inArray(_this.startDate.month, _this.shortMonths) != -1) {
+                            if ($.inArray(_this.startDate.month, _this.shortMonths) != -1) {
                                 _this.displayContainerValues("chartsDayContainer", 5);
                             } else {
-                                if(_this.endDate.year % 4 == 0) {
+                                if (_this.endDate.year % 4 == 0) {
                                     _this.displayContainerValues("chartsDayContainer", 6);
                                 }
                             }
@@ -131,16 +133,16 @@ var ChartsManager = (function () {
             $(elem).click(function () {
                 _this.startDate.day = parseInt(elem.childNodes[1].innerHTML.substr(1, 2));
                 _this.endDate.day = parseInt(elem.childNodes[1].innerHTML.substr(1, 2));
-                if(_this.startDate.month != _this.endDate.month) {
-                    if(_this.startDate.day < 29) {
-                        if(_this.startDate.month != 12) {
+                if (_this.startDate.month != _this.endDate.month) {
+                    if (_this.startDate.day < 29) {
+                        if (_this.startDate.month != 12) {
                             _this.startDate.month += 1;
                         } else {
                             _this.startDate.year += 1;
                             _this.startDate.month = 1;
                         }
                     }
-                    if(_this.endDate.day >= 29) {
+                    if (_this.endDate.day >= 29) {
                         _this.endDate.month -= 1;
                     }
                 }
@@ -157,8 +159,8 @@ var ChartsManager = (function () {
     ChartsManager.prototype.displayContainerValues = function (container, index) {
         var children = document.getElementById(container).children;
         var length = children.length;
-        for(var i = 0; i < length; i++) {
-            if(i != index) {
+        for (var i = 0; i < length; i++) {
+            if (i != index) {
                 $(children[i]).css("display", "none");
             } else {
                 $(children[index]).css("display", "table");
@@ -176,8 +178,8 @@ var ChartsManager = (function () {
             page.rootNode.transition({
                 perspective: 100,
                 translate3d: [
-                    0, 
-                    -100 * (i - _this.currentIndex), 
+                    0,
+                    -100 * (i - _this.currentIndex),
                     20 * (i - _this.currentIndex)
                 ],
                 opacity: (i > _this.currentIndex) ? 0 : (i == _this.currentIndex) ? 1 : 0.5
@@ -185,12 +187,12 @@ var ChartsManager = (function () {
         });
         window.setTimeout(function () {
             _this.pickerPages.forEach(function (page, index) {
-                if(index > _this.currentIndex) {
+                if (index > _this.currentIndex) {
                     $(page.rootNode).addClass("hidden");
                 }
             });
         }, 400);
-        if(index > 1) {
+        if (index > 1) {
             $("#chartsDoneButton").show("slide", {
                 direction: "left"
             }, 200);
@@ -199,7 +201,7 @@ var ChartsManager = (function () {
                 direction: "left"
             }, 200);
         }
-        if(index > 0) {
+        if (index > 0) {
             $("#chartsCancelButton").show("slide", {
                 direction: "left"
             }, 200);
@@ -218,7 +220,7 @@ var ChartsManager = (function () {
             type: "POST",
             dataType: "json",
             success: function (data) {
-                if(data.length == 0) {
+                if (data.length == 0) {
                 }
                 _this.setSongList(data);
             },
@@ -229,7 +231,7 @@ var ChartsManager = (function () {
     };
     ChartsManager.prototype.mockSongList = function () {
         var songList = [];
-        for(var i = 0; i < 99; i++) {
+        for (var i = 0; i < 99; i++) {
             var id = "chartSong" + Math.floor(Math.random() * 100000);
             songList.push(this.mockSong(id));
         }
@@ -260,19 +262,19 @@ var ChartsManager = (function () {
         return rootDiv;
     };
     ChartsManager.prototype.buildPositionIcon = function (change) {
-        if(change < 0) {
+        if (change < 0) {
             return this.arrowDown;
         }
-        if(change > 0) {
+        if (change > 0) {
             return this.arrowUp;
         }
         return this.arrowNoChange;
     };
     ChartsManager.prototype.buildPositionClass = function (change) {
-        if(change < 0) {
+        if (change < 0) {
             return "chartChangeArrowDown";
         }
-        if(change > 0) {
+        if (change > 0) {
             return "chartChangeArrowUp";
         }
         return "chartChangeArrowEqual";
@@ -283,6 +285,7 @@ var PickerPage = (function () {
     function PickerPage(rootNode) {
         this.rootNode = rootNode;
     }
+
     return PickerPage;
 })();
 var ChartSongManager = (function () {
@@ -290,6 +293,7 @@ var ChartSongManager = (function () {
         this.chartSong = chartSong;
         this.rootNode = rootNode;
     }
+
     return ChartSongManager;
 })();
 var ChartSong = (function () {
@@ -301,6 +305,7 @@ var ChartSong = (function () {
         this.title = title;
         this.artist = artist;
     }
+
     return ChartSong;
 })();
 var ChartDate = (function () {
@@ -309,6 +314,7 @@ var ChartDate = (function () {
         this.month = month;
         this.day = day;
     }
+
     ChartDate.prototype.toString = function () {
         return "'" + this.year + '-' + this.month + '-' + this.day + "'";
     };

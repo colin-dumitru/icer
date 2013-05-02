@@ -3,12 +3,13 @@ declare var searchManager;
 var playlistManager:PlaylistManager = null;
 
 class PlaylistBinder implements SectionBinder {
-    //todo CHECK
-    private firstDisplay:bool = true;
 
     buildPage(rootNode:any) {
         playlistManager = new PlaylistManager(rootNode);
+
+        itemList.popItemList("playlist");
         this.loadData();
+        itemList.pushItemList("playlist");
     }
 
     bind() {
@@ -23,13 +24,13 @@ class PlaylistBinder implements SectionBinder {
 
     private loadData() {
         this.performLoadRequest();
-        this.firstDisplay = false;
     }
 
     private performLoadRequest() {
         $.ajax("/playlist/load", {
             type: "POST",
             dataType: "json",
+            async: false,
             success: data => {
                 for (var i = 0; i < data.length; i++)
                     playlistManager.loadPlaylist(data[i].id, data[i].name);

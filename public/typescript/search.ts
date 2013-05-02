@@ -5,19 +5,17 @@ declare var playlistManager:PlaylistManager;
 var searchManager:SearchManager = null;
 
 class SearchBinder implements SectionBinder {
-    private firstDisplay = true;
-
 
     buildPage(rootNode:any) {
         searchManager = new SearchManager(rootNode);
+        itemList.popItemList("search");
+        this.loadData();
+        itemList.pushItemList("search");
     }
 
     bind() {
         itemList.popItemList("search");
         itemList.show();
-        if (this.firstDisplay) {
-            this.loadData();
-        }
         itemList.onInput = (input:string) => {
             searchManager.performSearch(input);
         };
@@ -50,7 +48,6 @@ class SearchBinder implements SectionBinder {
         searchManager.performSearch("ColdPlay");
         searchManager.performSearch("Bridgit Mendler");
         searchManager.performSearch("John Mayer");
-        this.firstDisplay = false;
     }
 
     unbind() {
