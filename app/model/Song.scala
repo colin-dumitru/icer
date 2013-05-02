@@ -11,7 +11,8 @@ import play.api.Play.current
  * Catalin Dumitru
  * Universitatea Alexandru Ioan Cuza
  */
-case class Song(mbid: String, title: String, artist: String, album: String, genre: String, imageUrl: String) {
+case class Song(mbid: String, title: String, artist: String, album: String, genre: String, imageUrl: String,
+                peek: Long, weeksOnTop: Long) {
 }
 
 object Song {
@@ -22,7 +23,9 @@ object Song {
       (jsValue \ "info" \ "artist").asOpt[String].getOrElse(null),
       (jsValue \ "info" \ "album").asOpt[String].getOrElse(null),
       (jsValue \ "info" \ "genre").asOpt[String].getOrElse(null),
-      (jsValue \ "imageUrl").asOpt[String].getOrElse(null)
+      (jsValue \ "imageUrl").asOpt[String].getOrElse(null),
+      (jsValue \ "peek").asOpt[Long].getOrElse(0),
+      (jsValue \ "weeksOnTop").asOpt[Long].getOrElse(0)
     )
   }
 
@@ -32,9 +35,11 @@ object Song {
       get[String]("artist") ~
       get[Option[String]]("album") ~
       get[Option[String]]("genre") ~
-      get[Option[String]]("imageUrl") map {
-      case mbid ~ title ~ artist ~ album ~ genre ~ imageUrl => Song(mbid.get, title, artist, album.getOrElse(null),
-        genre.getOrElse(null), imageUrl.getOrElse(null))
+      get[Option[String]]("imageurl") ~
+      get[Option[Long]]("peek") ~
+      get[Option[Long]]("weeks_on_top") map {
+      case mbid ~ title ~ artist ~ album ~ genre ~ imageUrl ~ peek ~ weeksOnTop => Song(mbid.get, title, artist,
+        album.getOrElse(null), genre.getOrElse(null), imageUrl.getOrElse(null), peek.getOrElse(0), weeksOnTop.getOrElse(0))
     }
   }
 
@@ -48,15 +53,17 @@ object Song {
   def save(song: Song) = {
     DB.withConnection {
       implicit connection =>
-        SQL("insert into songs(mbid, title, genre, album, artist, imageurl) " +
-          "select {mbid}, {title}, {genre}, {album}, {artist}, {imageUrl}" +
+        SQL("insert into songs(mbid, title, genre, album, artist, imageurl, peek, weeks_on_top) " +
+          "select {mbid}, {title}, {genre}, {album}, {artist}, {imageUrl}, {peek}, {weeksOnTop} " +
           "where not exists (select 1 from songs where mbid = {mbid})").on(
           "mbid" -> song.mbid,
           "title" -> song.title,
           "genre" -> song.genre,
           "album" -> song.album,
           "artist" -> song.artist,
-          "imageUrl" -> song.imageUrl
+          "imageUrl" -> song.imageUrl,
+          "peek" -> song.peek,
+          "weeksOnTop" -> song.weeksOnTop
         ).executeUpdate()
     }
   }

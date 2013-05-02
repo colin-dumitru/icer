@@ -137,7 +137,7 @@ class PlaylistManager {
 
                 //crw move to a different function
                 for (var i = 0; i < data.length; i++) {
-                    var songInfo = new SongInfo(data[i].title, data[i].artist, data[i].album, data[i].genre)
+                    var songInfo = new SongInfo(data[i].title, data[i].artist, data[i].album, data[i].genre, data[i].peek, data[i].weeksOnTop)
                     var song = new Song(data[i].mbid, songInfo, data[i].imageUrl)
                     this.addSongToPlaylist(song, playlist);
                 }

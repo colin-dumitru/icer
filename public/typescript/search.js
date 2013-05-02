@@ -279,7 +279,7 @@ var SearchSongCallback = (function (_super) {
     };
     SearchSongCallback.prototype.pushMainResult = function (track) {
         var id = guid(track.mbid, track.name.trim() + track.artist.trim());
-        var song = new Song(id, new SongInfo(track.name, track.artist, null, null), getExtraLargeImage(track.image));
+        var song = new Song(id, new SongInfo(track.name, track.artist, null, null, 0, 0), getExtraLargeImage(track.image));
         var itemTemplate = this.buildItemList(song);
         this.session.rootNode().find("#searchPageSongsContainer").append(itemTemplate);
         this.bindSongMenu(song, itemTemplate.find("#searchLargeImageContainer"));
@@ -311,7 +311,7 @@ var SearchSongCallback = (function (_super) {
     };
     SearchSongCallback.prototype.addSimilarSong = function (track, itemTemplate) {
         var id = guid(track.mbid, track.name.trim() + track.artist.name.trim());
-        var song = new Song(id, new SongInfo(track.name, track.artist.name, null, null), getLargeImage(track.image));
+        var song = new Song(id, new SongInfo(track.name, track.artist.name, null, null, 0, 0), getLargeImage(track.image));
         var songTemplate = buildSmallSong(song);
         songTemplate.addClass("searchSimilarSong");
         itemTemplate.find("#searchSongListContainer").append(songTemplate);
@@ -402,7 +402,7 @@ var SearchArtistCallback = (function (_super) {
     };
     SearchArtistCallback.prototype.addArtistSong = function (track, itemTemplate) {
         var id = guid(track.mbid, track.name.trim() + track.artist.name.trim());
-        var song = new Song(id, new SongInfo(track.name, track.artist.name, null, null), getLargeImage(track.image));
+        var song = new Song(id, new SongInfo(track.name, track.artist.name, null, null, 0, 0), getLargeImage(track.image));
         var songTemplate = buildSmallSong(song);
         songTemplate.addClass("searchSimilarSong");
         this.bindSongMenu(song, songTemplate);
@@ -493,7 +493,7 @@ var SearchAlbumCallback = (function (_super) {
     };
     SearchAlbumCallback.prototype.addAlbumSong = function (track, image, itemTemplate) {
         var id = guid(track.mbid, track.name.trim() + track.artist.name.trim());
-        var song = new Song(id, new SongInfo(track.name, track.artist.name, null, null), image);
+        var song = new Song(id, new SongInfo(track.name, track.artist.name, null, null, 0, 0), image);
         var songTemplate = buildSmallSong(song);
         songTemplate.addClass("searchSimilarSong");
         this.bindSongMenu(song, songTemplate);
@@ -583,7 +583,7 @@ var SearchGenreCallback = (function (_super) {
     };
     SearchGenreCallback.prototype.addGenreSong = function (track, itemTemplate) {
         var id = guid(track.mbid, track.name.trim() + track.artist.name.trim());
-        var song = new Song(id, new SongInfo(track.name, track.artist.name, null, null), getLargeImage(track.image));
+        var song = new Song(id, new SongInfo(track.name, track.artist.name, null, null, 0, 0), getLargeImage(track.image));
         var songTemplate = buildSmallSong(song);
         songTemplate.addClass("searchSimilarSong");
         this.bindSongMenu(song, songTemplate);

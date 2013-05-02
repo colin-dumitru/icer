@@ -41,7 +41,9 @@ object SongInfoService {
         song.artist,
         (json \ "track" \ "album" \ "title").asOpt[String].getOrElse(null),
         ((json \ "track" \ "toptags" \ "tag")(0) \ "name").asOpt[String].getOrElse(null),
-        song.imageUrl
+        song.imageUrl,
+        song.peek,
+        song.weeksOnTop
       ))
   }
 

@@ -277,7 +277,7 @@ class SearchSongCallback extends SearchCallback {
 
     private pushMainResult(track:any) {
         var id = guid(track.mbid, track.name.trim() + track.artist.trim());
-        var song = new Song(id, new SongInfo(track.name, track.artist, null, null), getExtraLargeImage(track.image));
+        var song = new Song(id, new SongInfo(track.name, track.artist, null, null, 0, 0), getExtraLargeImage(track.image));
 
         var itemTemplate = this.buildItemList(song);
         this.session.rootNode().find("#searchPageSongsContainer").append(itemTemplate);
@@ -312,7 +312,7 @@ class SearchSongCallback extends SearchCallback {
 
     addSimilarSong(track, itemTemplate) {
         var id = guid(track.mbid, track.name.trim() + track.artist.name.trim());
-        var song = new Song(id, new SongInfo(track.name, track.artist.name, null, null), getLargeImage(track.image));
+        var song = new Song(id, new SongInfo(track.name, track.artist.name, null, null, 0, 0), getLargeImage(track.image));
 
         var songTemplate = buildSmallSong(song);
         songTemplate.addClass("searchSimilarSong");
@@ -416,7 +416,7 @@ class SearchArtistCallback extends SearchCallback {
 
     private addArtistSong(track, itemTemplate) {
         var id = guid(track.mbid, track.name.trim() + track.artist.name.trim());
-        var song = new Song(id, new SongInfo(track.name, track.artist.name, null, null), getLargeImage(track.image));
+        var song = new Song(id, new SongInfo(track.name, track.artist.name, null, null, 0, 0), getLargeImage(track.image));
 
         var songTemplate = buildSmallSong(song);
         songTemplate.addClass("searchSimilarSong");
@@ -521,7 +521,7 @@ class SearchAlbumCallback extends SearchCallback {
 
     private addAlbumSong(track, image, itemTemplate) {
         var id = guid(track.mbid, track.name.trim() + track.artist.name.trim());
-        var song = new Song(id, new SongInfo(track.name, track.artist.name, null, null), image);
+        var song = new Song(id, new SongInfo(track.name, track.artist.name, null, null, 0, 0), image);
 
         var songTemplate = buildSmallSong(song);
         songTemplate.addClass("searchSimilarSong");
@@ -625,7 +625,7 @@ class SearchGenreCallback extends SearchCallback {
 
     private addGenreSong(track, itemTemplate) {
         var id = guid(track.mbid, track.name.trim() + track.artist.name.trim());
-        var song = new Song(id, new SongInfo(track.name, track.artist.name, null, null), getLargeImage(track.image));
+        var song = new Song(id, new SongInfo(track.name, track.artist.name, null, null, 0, 0), getLargeImage(track.image));
 
         var songTemplate = buildSmallSong(song);
         songTemplate.addClass("searchSimilarSong");

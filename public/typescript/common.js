@@ -218,11 +218,13 @@ var Song = (function () {
     return Song;
 })();
 var SongInfo = (function () {
-    function SongInfo(title, artist, album, genre) {
+    function SongInfo(title, artist, album, genre, peek, weeksOnTop) {
         this.title = title;
         this.artist = artist;
         this.album = album;
         this.genre = genre;
+        this.peek = peek;
+        this.weeksOnTop = weeksOnTop;
     }
 
     return SongInfo;
