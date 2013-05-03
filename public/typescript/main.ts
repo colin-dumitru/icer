@@ -1,3 +1,5 @@
+var mobile = isMobile();
+
 interface SectionBinder{
     buildPage(rootNode:any);
     bind();
@@ -9,9 +11,11 @@ function run() {
 
     sections.push(buildSearchSection());
     sections.push(buildPlaylistSection());
-    sections.push(buildHistorySection());
     sections.push(buildRadioSection());
-    sections.push(buildTopSection());
+    if (!mobile) {
+        sections.push(buildHistorySection());
+        sections.push(buildTopSection());
+    }
 
     sectionManager = new SectionManager(sections);
     sectionManager.build();

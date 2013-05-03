@@ -260,6 +260,13 @@ function guid(mbid, seed) {
 function isMbid(mbid) {
     return mbid.length == 36;
 }
+function isMobile() {
+    if (navigator.userAgent.match(/Android/i) || navigator.userAgent.match(/webOS/i) || navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPad/i) || navigator.userAgent.match(/iPod/i) || navigator.userAgent.match(/BlackBerry/i) || navigator.userAgent.match(/Windows Phone/i)) {
+        return true;
+    } else {
+        return false;
+    }
+}
 var Song = (function () {
     function Song(mbid, info, imageUrl) {
         this.mbid = mbid;
