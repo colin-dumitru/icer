@@ -572,7 +572,6 @@ class GlobalPlaylistManager {
     private updateOrder(reorderedItem) {
         var changedSong = this.songQueue.filter(s => s.mbid == reorderedItem.attr("songId"))[0];
         var nextSong = this.songQueue.filter(s => s.mbid == reorderedItem.next().attr("songId"))[0];
-        ;
 
         this.songQueue.splice(this.songQueue.indexOf(changedSong), 1);
         if (nextSong == null) {
@@ -582,20 +581,17 @@ class GlobalPlaylistManager {
         }
     }
 
-    private
-        changePosition(value:number) {
+    private changePosition(value:number) {
         if (this.playing) {
             playManager.seek(value);
         }
     }
 
-    private
-        changeVolume(value:number) {
+    private changeVolume(value:number) {
         playManager.changeVolume(value);
     }
 
-    private
-        disableSong(song:Song) {
+    private disableSong(song:Song) {
         var songContainer = $("#globalPlay" + song.mbid);
 
         songContainer.addClass("disabledGlobalSong");
@@ -603,8 +599,7 @@ class GlobalPlaylistManager {
         songContainer.find(".imageArtist").text(":(");
     }
 
-    private
-        playToggle() {
+    private playToggle() {
         if (this.playing) {
             this.pause();
         } else {
@@ -612,8 +607,7 @@ class GlobalPlaylistManager {
         }
     }
 
-    private
-        play() {
+    private play() {
         var currentSong = this.getCurrentSong();
         if (currentSong == null) {
             return;
@@ -621,8 +615,7 @@ class GlobalPlaylistManager {
         this.playSong(currentSong);
     }
 
-    private
-        playNext() {
+    private playNext() {
         var currentSongIndex = this.songQueue.indexOf(this.getCurrentSong()) + 1;
         if (currentSongIndex == this.songQueue.length) {
             currentSongIndex = 0;
@@ -631,8 +624,7 @@ class GlobalPlaylistManager {
         this.playSong(songToPlay);
     }
 
-    private
-        playPrevious() {
+    private playPrevious() {
         var currentSongIndex = this.songQueue.indexOf(this.getCurrentSong()) - 1;
         if (currentSongIndex < 0) {
             currentSongIndex = this.songQueue.length - 1;
@@ -641,8 +633,7 @@ class GlobalPlaylistManager {
         this.playSong(songToPlay);
     }
 
-    public
-        playSong(song:Song) {
+    playSong(song:Song) {
         if (song == null) {
             return;
         }
@@ -694,17 +685,17 @@ class GlobalPlaylistManager {
         return this.playingSong;
     }
 
-    public
-        pushSongs(songs:Song[]) {
+    pushSongs(songs:Song[]) {
         songs.forEach((song) => {
             this.pushSong(song);
         });
     }
 
-    public
-        pushSong(song:Song) {
-        this.songQueue.push(song);
-        this.addImageTemplate(song);
+    pushSong(song:Song) {
+        if (this.songQueue.filter(e => e.mbid == song.mbid).length == 0) {
+            this.songQueue.push(song);
+            this.addImageTemplate(song);
+        }
     }
 
     private
@@ -719,8 +710,7 @@ class GlobalPlaylistManager {
         $("#globalPlaylistSongContainer").append(template);
     }
 
-    public
-        clearSongs() {
+    clearSongs() {
         this.songQueue = [];
         this.playingSong = null;
         $("#globalPlaylistSongContainer").empty();

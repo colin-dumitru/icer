@@ -502,8 +502,6 @@ var GlobalPlaylistManager = (function () {
         var nextSong = this.songQueue.filter(function (s) {
             return s.mbid == reorderedItem.next().attr("songId");
         })[0];
-        ;
-        ;
         this.songQueue.splice(this.songQueue.indexOf(changedSong), 1);
         if (nextSong == null) {
             this.songQueue.push(changedSong);
@@ -600,8 +598,12 @@ var GlobalPlaylistManager = (function () {
         });
     };
     GlobalPlaylistManager.prototype.pushSong = function (song) {
-        this.songQueue.push(song);
-        this.addImageTemplate(song);
+        if (this.songQueue.filter(function (e) {
+            return e.mbid == song.mbid;
+        }).length == 0) {
+            this.songQueue.push(song);
+            this.addImageTemplate(song);
+        }
     };
     GlobalPlaylistManager.prototype.addImageTemplate = function (song) {
         var _this = this;
