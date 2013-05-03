@@ -554,6 +554,11 @@ class GlobalPlaylistManager {
             }
         });
 
+        $("#globalPlaylistSongContainer").sortable({
+            axis: "x",
+            stop: (e, ui) => this.updateOrder(ui.item)
+        });
+
         playManager.onSongError = (song) => {
             this.disableSong(song);
             this.playNext();
@@ -564,17 +569,33 @@ class GlobalPlaylistManager {
         }
     }
 
-    private changePosition(value:number) {
+    private updateOrder(reorderedItem) {
+        var changedSong = this.songQueue.filter(s => s.mbid == reorderedItem.attr("songId"))[0];
+        var nextSong = this.songQueue.filter(s => s.mbid == reorderedItem.next().attr("songId"))[0];
+        ;
+
+        this.songQueue.splice(this.songQueue.indexOf(changedSong), 1);
+        if (nextSong == null) {
+            this.songQueue.push(changedSong);
+        } else {
+            this.songQueue.splice(this.songQueue.indexOf(nextSong), 0, changedSong);
+        }
+    }
+
+    private
+        changePosition(value:number) {
         if (this.playing) {
             playManager.seek(value);
         }
     }
 
-    private changeVolume(value:number) {
+    private
+        changeVolume(value:number) {
         playManager.changeVolume(value);
     }
 
-    private disableSong(song:Song) {
+    private
+        disableSong(song:Song) {
         var songContainer = $("#globalPlay" + song.mbid);
 
         songContainer.addClass("disabledGlobalSong");
@@ -582,7 +603,8 @@ class GlobalPlaylistManager {
         songContainer.find(".imageArtist").text(":(");
     }
 
-    private playToggle() {
+    private
+        playToggle() {
         if (this.playing) {
             this.pause();
         } else {
@@ -590,7 +612,8 @@ class GlobalPlaylistManager {
         }
     }
 
-    private play() {
+    private
+        play() {
         var currentSong = this.getCurrentSong();
         if (currentSong == null) {
             return;
@@ -598,7 +621,8 @@ class GlobalPlaylistManager {
         this.playSong(currentSong);
     }
 
-    private playNext() {
+    private
+        playNext() {
         var currentSongIndex = this.songQueue.indexOf(this.getCurrentSong()) + 1;
         if (currentSongIndex == this.songQueue.length) {
             currentSongIndex = 0;
@@ -607,7 +631,8 @@ class GlobalPlaylistManager {
         this.playSong(songToPlay);
     }
 
-    private playPrevious() {
+    private
+        playPrevious() {
         var currentSongIndex = this.songQueue.indexOf(this.getCurrentSong()) - 1;
         if (currentSongIndex < 0) {
             currentSongIndex = this.songQueue.length - 1;
@@ -616,7 +641,8 @@ class GlobalPlaylistManager {
         this.playSong(songToPlay);
     }
 
-    public playSong(song:Song) {
+    public
+        playSong(song:Song) {
         if (song == null) {
             return;
         }
@@ -630,12 +656,14 @@ class GlobalPlaylistManager {
         $("#playButton").removeClass("playButtonPaused");
     }
 
-    private decorateSong(song:Song) {
+    private
+        decorateSong(song:Song) {
         var songContainer = $("#globalPlay" + song.mbid);
         songContainer.append(this.createOverlay());
     }
 
-    private unDecorateSong(song:Song) {
+    private
+        unDecorateSong(song:Song) {
         if (song == null) {
             return;
         }
@@ -644,47 +672,55 @@ class GlobalPlaylistManager {
         songContainer.remove();
     }
 
-    private createOverlay() {
+    private
+        createOverlay() {
         var elem = $("<div></div>");
         elem.addClass("playingSongOverlay");
         return elem;
     }
 
-    private pause() {
+    private
+        pause() {
         this.playing = false;
         $("#playButton").addClass("playButtonPaused");
         playManager.pause();
     }
 
-    private getCurrentSong():Song {
+    private
+        getCurrentSong():Song {
         if (this.playingSong == null) {
             return this.songQueue[0];
         }
         return this.playingSong;
     }
 
-    public pushSongs(songs:Song[]) {
+    public
+        pushSongs(songs:Song[]) {
         songs.forEach((song) => {
             this.pushSong(song);
         });
     }
 
-    public pushSong(song:Song) {
+    public
+        pushSong(song:Song) {
         this.songQueue.push(song);
         this.addImageTemplate(song);
     }
 
-    private addImageTemplate(song:Song) {
+    private
+        addImageTemplate(song:Song) {
         var template = buildSmallSong(song);
         $(template)
             .attr("id", "globalPlay" + song.mbid)
+            .attr("songId", song.mbid)
             .click(() => {
                 this.playSong(song);
             });
         $("#globalPlaylistSongContainer").append(template);
     }
 
-    public clearSongs() {
+    public
+        clearSongs() {
         this.songQueue = [];
         this.playingSong = null;
         $("#globalPlaylistSongContainer").empty();

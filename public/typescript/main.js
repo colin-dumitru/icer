@@ -481,6 +481,12 @@ var GlobalPlaylistManager = (function () {
                 _this.changePosition(ui.value);
             }
         });
+        $("#globalPlaylistSongContainer").sortable({
+            axis: "x",
+            stop: function (e, ui) {
+                return _this.updateOrder(ui.item);
+            }
+        });
         playManager.onSongError = function (song) {
             _this.disableSong(song);
             _this.playNext();
@@ -488,6 +494,22 @@ var GlobalPlaylistManager = (function () {
         playManager.onFinish = function (song) {
             _this.playNext();
         };
+    };
+    GlobalPlaylistManager.prototype.updateOrder = function (reorderedItem) {
+        var changedSong = this.songQueue.filter(function (s) {
+            return s.mbid == reorderedItem.attr("songId");
+        })[0];
+        var nextSong = this.songQueue.filter(function (s) {
+            return s.mbid == reorderedItem.next().attr("songId");
+        })[0];
+        ;
+        ;
+        this.songQueue.splice(this.songQueue.indexOf(changedSong), 1);
+        if (nextSong == null) {
+            this.songQueue.push(changedSong);
+        } else {
+            this.songQueue.splice(this.songQueue.indexOf(nextSong), 0, changedSong);
+        }
     };
     GlobalPlaylistManager.prototype.changePosition = function (value) {
         if (this.playing) {
@@ -584,7 +606,7 @@ var GlobalPlaylistManager = (function () {
     GlobalPlaylistManager.prototype.addImageTemplate = function (song) {
         var _this = this;
         var template = buildSmallSong(song);
-        $(template).attr("id", "globalPlay" + song.mbid).click(function () {
+        $(template).attr("id", "globalPlay" + song.mbid).attr("songId", song.mbid).click(function () {
             _this.playSong(song);
         });
         $("#globalPlaylistSongContainer").append(template);
