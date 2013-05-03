@@ -68,6 +68,7 @@ class SectionManager {
     private sectionContainer:any;
 
     private pagesBuild = 0;
+    private firstSection = null;
 
     constructor(private sections:Section[]) {
 
@@ -91,8 +92,8 @@ class SectionManager {
     }
 
     private buildSectionPage(section:Section) {
-        var td = $(document.createElement("td"));
-        section.rootNode = $(document.createElement("tr"));
+        var td = $("<td></td>");
+        section.rootNode = $("<tr></tr>");
         section.rootNode.addClass("section");
         section.rootNode.css("id", section.id + "Section");
         section.rootNode.append(td);
@@ -120,24 +121,23 @@ class SectionManager {
     }
 
     private bindMenuSelector() {
-        var us = this;
         this.menuSelector
             .draggable({
                 containment: "#menu",
                 axis: "y",
-                start: function () {
-                    binders[us.currentSection.id].unbind();
+                start: () => {
+                    binders[this.currentSection.id].unbind();
                 },
-                drag: function (event, ui) {
-                    us.menuSelectorBackground.css({
+                drag: (event, ui) => {
+                    this.menuSelectorBackground.css({
                         top: ui.position.top
                     });
-                    us.sectionTable.css({
-                        top: -ui.position.top * us.sections.length
+                    this.sectionTable.css({
+                        top: -ui.position.top * this.sections.length
                     });
                 },
-                stop: function (event, ui) {
-                    us.changeSection(us.closestMenuItem(ui.position.top))
+                stop: (event, ui) => {
+                    this.changeSection(this.closestMenuItem(ui.position.top))
                 }
             });
     }
@@ -176,12 +176,15 @@ class SectionManager {
             binders[this.currentSection.id].unbind();
             this.changeSection(this.sections.indexOf(section));
         });
+
+        if (this.firstSection == null) {
+            this.firstSection = $("#" + this.sections[0].id + "Menu")
+        }
     }
 
     resize() {
-        var firstSection = $("#" + this.sections[0].id + "Menu");
-        dimensions.menuItemHeight = firstSection.height();
-        dimensions.menuItemWidth = firstSection.width();
+        dimensions.menuItemHeight = this.firstSection.height();
+        dimensions.menuItemWidth = this.firstSection.width();
         dimensions.windowHeight = $(window).height();
         dimensions.windowWidth = $(window).width();
 
@@ -193,7 +196,9 @@ class SectionManager {
             height: dimensions.menuItemHeight,
             top: this.currentSectionIndex * dimensions.menuItemHeight
         });
-        this.sectionContainer.css("height", dimensions.windowHeight);
+        this.sectionContainer.css({
+            height: dimensions.windowHeight
+        });
         this.sectionTable.css({
             height: dimensions.windowHeight * this.sections.length,
             top: -this.currentSectionIndex * dimensions.windowHeight
@@ -212,15 +217,21 @@ class ItemList {
     private isCollapsed:bool = true;
     private isHidden = true;
     private itemList:Item[] = [];
+    private itemMap:{[key:string]:Item;} = {};
     private selectedItem:Item;
 
     onInput:(input:String) => any;
 
     private itemListQueue:{[key:string] : {itemList:Item[]; selectedItem:Item;};} = {};
 
+    private itemListItemContainer = null;
+    private itemListContainerTable = null;
+    private itemListContainer = null;
+    private sectionContainer = null;
+
     pushItemList(key:string) {
         this.itemListQueue[key] = {itemList: this.itemList, selectedItem: this.selectedItem};
-        $("#itemListItemContainer").empty();
+        this.itemListItemContainer.empty();
     }
 
     popItemList(key:string) {
@@ -231,10 +242,12 @@ class ItemList {
         }
 
         this.itemList = itemData.itemList;
+        this.itemMap = {};
         this.selectedItem = itemData.selectedItem;
 
         this.itemList.forEach((item) => {
-            $("#itemListItemContainer").append(item.rootNode);
+            this.itemMap[item.id] = item;
+            this.itemListItemContainer.append(item.rootNode);
             this.bindItemNode(item);
         });
     }
@@ -244,16 +257,12 @@ class ItemList {
             if (this.isHidden) {
                 return;
             }
-            if (event.clientX > (dimensions.windowWidth - 15)) {
-                if (this.isCollapsed) {
-                    this.giveFocus();
-                }
+            if (this.isCollapsed && event.clientX > (dimensions.windowWidth - 15)) {
+                this.giveFocus();
             }
 
-            if (event.clientX < (dimensions.windowWidth - 250)) {
-                if (!this.isCollapsed) {
-                    this.takeFocus();
-                }
+            if (!this.isCollapsed && event.clientX < (dimensions.windowWidth - 250)) {
+                this.takeFocus();
             }
         });
 
@@ -267,55 +276,66 @@ class ItemList {
                 this.onInput(text);
             }
         });
+
+        this.itemListItemContainer = $("#itemListItemContainer");
+        this.itemListContainerTable = $("#itemListContainerTable");
+        this.itemListContainer = $("#itemListContainer");
+        this.sectionContainer = $("#sectionContainer");
     }
 
     show() {
         this.isHidden = false;
-        $("#itemListContainerTable").show(400);
+        this.itemListContainerTable.show(400);
     }
 
     hide() {
         this.isHidden = true;
-        $("#itemListContainerTable").hide(400);
+        this.itemListContainerTable.hide(400);
     }
 
     giveFocus() {
-        $("#itemListContainer")
+        this.itemListContainer
+            .show(0)
             .addClass("itemListContainerExpanded")
             .removeClass("itemListContainerContracted");
 
-        $("#sectionContainer")
+        this.sectionContainer
             .addClass("sectionContainerContracted");
         this.isCollapsed = false;
     }
 
     takeFocus() {
-        $("#itemListContainer")
+        this.itemListContainer
             .removeClass("itemListContainerExpanded")
-            .addClass("itemListContainerContracted");
-        $("#sectionContainer")
+            .addClass("itemListContainerContracted")
+            .delay(400)
+            .hide(0);
+        this.sectionContainer
             .removeClass("sectionContainerContracted");
         this.isCollapsed = true;
     }
 
     addItem(item:Item) {
         this.itemList.push(item);
+        this.itemMap[item.id] = item;
         this.buildItemNode(item);
         this.bindItemNode(item);
     }
 
     deleteItem(id:string) {
-        var item = this.itemList.filter(item => item.id == id);
-        var indexOfItem = this.itemList.indexOf(item[0]);
+        var item = this.itemMap[id];
+        var indexOfItem = this.itemList.indexOf(item);
         this.itemList.splice(indexOfItem, 1);
+        delete this.itemMap[id];
 
-        var lItems = $("#itemListItemContainer").find("li");
+        var lItems = this.itemListItemContainer.find("li");
         lItems[indexOfItem].remove();
     }
 
     private bindItemNode(item:Item) {
         item.rootNode.click(() => {
             this.switchItem(item);
+            this.takeFocus();
             if (item.onSelect != null) {
                 item.onSelect();
             }
@@ -325,7 +345,6 @@ class ItemList {
     public switchItem(item:Item) {
         this.giveItemFocus(item);
         this.selectedItem = item;
-        this.takeFocus();
     }
 
     public giveItemFocus(item:Item) {
@@ -336,7 +355,7 @@ class ItemList {
     }
 
     public findItem(id:string):Item {
-        return this.itemList.filter(item => item.id == id)[0];
+        return this.itemMap[id];
     }
 
     private buildItemNode(item:Item) {
@@ -361,8 +380,12 @@ class PlayManager {
     public onSongError:(song:Song) => any;
     public onFinish:(song:Song) => any;
 
+    private playbackId = 0;
     private currentSong = null;
     private currentPlayer = null;
+
+    private durationText = null;
+    private seekSlider = null;
 
     public bind() {
         SC.initialize({
@@ -371,6 +394,9 @@ class PlayManager {
         window.setInterval(() => {
             this.updateElapsed();
         }, 500);
+
+        this.durationText = $("#durationText");
+        this.seekSlider = $("#seekSlider");
     }
 
     private updateElapsed() {
@@ -378,8 +404,8 @@ class PlayManager {
             var seconds = Math.floor(this.currentPlayer.position / 1000);
             var minutes = Math.floor(seconds / 60);
             var clampedSeconds = seconds % 60;
-            $("#durationText").text(this.padZeros(minutes.toString()) + ":" + this.padZeros(clampedSeconds.toString()));
-            $("#seekSlider").slider("value", Math.floor((this.currentPlayer.position / this.currentPlayer.duration) * 1000));
+            this.durationText.text(this.padZeros(minutes.toString()) + ":" + this.padZeros(clampedSeconds.toString()));
+            this.seekSlider.slider("value", Math.floor((this.currentPlayer.position / this.currentPlayer.duration) * 1000));
         }
     }
 
@@ -392,7 +418,7 @@ class PlayManager {
 
     public playSong(song:Song) {
         if (song == this.currentSong) {
-            this.currentPlayer.play();
+            this.currentPlayer.resume();
         } else {
             this.stopCurrentSong()
             this.resolveSoundUrl(song);
@@ -426,13 +452,15 @@ class PlayManager {
 
     private resolveSoundUrl(song:Song) {
         this.currentSong = song;
+        this.playbackId += 1;
+        var currentId = this.playbackId;
 
         SC.get('/tracks', { q: song.info.title + " " + song.info.artist}, (tracks:any[]) => {
             if (tracks.length == 0) {
                 this.onSongError(song);
             } else {
-                if (this.currentSong == song) {
-                    this.playResolved(this.bestTrack(tracks), song);
+                if (currentId == this.playbackId) {
+                    this.playResolved(this.bestTrack(tracks), song, currentId);
                 }
             }
         });
@@ -451,13 +479,13 @@ class PlayManager {
         return maxTrack;
     }
 
-    private playResolved(trackInfo:any, song:Song) {
+    private playResolved(trackInfo:any, song:Song, playbackId:number) {
         var trackId = trackInfo["id"];
-        this.streamSong(trackId, song);
+        this.streamSong(trackId, song, playbackId);
         this.pushSongHistory(song);
     }
 
-    private streamSong(trackId:any, song:Song) {
+    private streamSong(trackId:any, song:Song, playbackId:number) {
         SC.stream("/tracks/" + trackId,
             {
                 onfinish: () => {
@@ -465,7 +493,7 @@ class PlayManager {
                 }
             },
             (sound)  => {
-                this.switchActiveSong(sound, song);
+                this.switchActiveSong(sound, playbackId);
             });
     }
 
@@ -478,9 +506,11 @@ class PlayManager {
         });
     }
 
-    private switchActiveSong(sound:any, song:Song) {
-        this.currentPlayer = sound;
-        sound.play();
+    private switchActiveSong(sound:any, playbackId:number) {
+        if (playbackId == this.playbackId) {
+            this.currentPlayer = sound;
+            sound.play();
+        }
     }
 }
 

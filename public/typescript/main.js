@@ -43,6 +43,7 @@ var SectionManager = (function () {
     function SectionManager(sections) {
         this.sections = sections;
         this.pagesBuild = 0;
+        this.firstSection = null;
     }
 
     SectionManager.prototype.build = function () {
@@ -62,8 +63,8 @@ var SectionManager = (function () {
     };
     SectionManager.prototype.buildSectionPage = function (section) {
         var _this = this;
-        var td = $(document.createElement("td"));
-        section.rootNode = $(document.createElement("tr"));
+        var td = $("<td></td>");
+        section.rootNode = $("<tr></tr>");
         section.rootNode.addClass("section");
         section.rootNode.css("id", section.id + "Section");
         section.rootNode.append(td);
@@ -87,23 +88,23 @@ var SectionManager = (function () {
         });
     };
     SectionManager.prototype.bindMenuSelector = function () {
-        var us = this;
+        var _this = this;
         this.menuSelector.draggable({
             containment: "#menu",
             axis: "y",
             start: function () {
-                binders[us.currentSection.id].unbind();
+                binders[_this.currentSection.id].unbind();
             },
             drag: function (event, ui) {
-                us.menuSelectorBackground.css({
+                _this.menuSelectorBackground.css({
                     top: ui.position.top
                 });
-                us.sectionTable.css({
-                    top: -ui.position.top * us.sections.length
+                _this.sectionTable.css({
+                    top: -ui.position.top * _this.sections.length
                 });
             },
             stop: function (event, ui) {
-                us.changeSection(us.closestMenuItem(ui.position.top));
+                _this.changeSection(_this.closestMenuItem(ui.position.top));
             }
         });
     };
@@ -139,11 +140,13 @@ var SectionManager = (function () {
             binders[_this.currentSection.id].unbind();
             _this.changeSection(_this.sections.indexOf(section));
         });
+        if (this.firstSection == null) {
+            this.firstSection = $("#" + this.sections[0].id + "Menu");
+        }
     };
     SectionManager.prototype.resize = function () {
-        var firstSection = $("#" + this.sections[0].id + "Menu");
-        dimensions.menuItemHeight = firstSection.height();
-        dimensions.menuItemWidth = firstSection.width();
+        dimensions.menuItemHeight = this.firstSection.height();
+        dimensions.menuItemWidth = this.firstSection.width();
         dimensions.windowHeight = $(window).height();
         dimensions.windowWidth = $(window).width();
         this.menuSelector.css({
@@ -154,7 +157,9 @@ var SectionManager = (function () {
             height: dimensions.menuItemHeight,
             top: this.currentSectionIndex * dimensions.menuItemHeight
         });
-        this.sectionContainer.css("height", dimensions.windowHeight);
+        this.sectionContainer.css({
+            height: dimensions.windowHeight
+        });
         this.sectionTable.css({
             height: dimensions.windowHeight * this.sections.length,
             top: -this.currentSectionIndex * dimensions.windowHeight
@@ -176,8 +181,14 @@ var ItemList = (function () {
         this.isCollapsed = true;
         this.isHidden = true;
         this.itemList = [];
+        this.itemMap = {
+        };
         this.itemListQueue = {
         };
+        this.itemListItemContainer = null;
+        this.itemListContainerTable = null;
+        this.itemListContainer = null;
+        this.sectionContainer = null;
     }
 
     ItemList.prototype.pushItemList = function (key) {
@@ -185,7 +196,7 @@ var ItemList = (function () {
             itemList: this.itemList,
             selectedItem: this.selectedItem
         };
-        $("#itemListItemContainer").empty();
+        this.itemListItemContainer.empty();
     };
     ItemList.prototype.popItemList = function (key) {
         var _this = this;
@@ -197,9 +208,12 @@ var ItemList = (function () {
             };
         }
         this.itemList = itemData.itemList;
+        this.itemMap = {
+        };
         this.selectedItem = itemData.selectedItem;
         this.itemList.forEach(function (item) {
-            $("#itemListItemContainer").append(item.rootNode);
+            _this.itemMap[item.id] = item;
+            _this.itemListItemContainer.append(item.rootNode);
             _this.bindItemNode(item);
         });
     };
@@ -209,15 +223,11 @@ var ItemList = (function () {
             if (_this.isHidden) {
                 return;
             }
-            if (event.clientX > (dimensions.windowWidth - 15)) {
-                if (_this.isCollapsed) {
-                    _this.giveFocus();
-                }
+            if (_this.isCollapsed && event.clientX > (dimensions.windowWidth - 15)) {
+                _this.giveFocus();
             }
-            if (event.clientX < (dimensions.windowWidth - 250)) {
-                if (!_this.isCollapsed) {
-                    _this.takeFocus();
-                }
+            if (!_this.isCollapsed && event.clientX < (dimensions.windowWidth - 250)) {
+                _this.takeFocus();
             }
         });
         var input = $("#newItemInput");
@@ -231,43 +241,48 @@ var ItemList = (function () {
                 _this.onInput(text);
             }
         });
+        this.itemListItemContainer = $("#itemListItemContainer");
+        this.itemListContainerTable = $("#itemListContainerTable");
+        this.itemListContainer = $("#itemListContainer");
+        this.sectionContainer = $("#sectionContainer");
     };
     ItemList.prototype.show = function () {
         this.isHidden = false;
-        $("#itemListContainerTable").show(400);
+        this.itemListContainerTable.show(400);
     };
     ItemList.prototype.hide = function () {
         this.isHidden = true;
-        $("#itemListContainerTable").hide(400);
+        this.itemListContainerTable.hide(400);
     };
     ItemList.prototype.giveFocus = function () {
-        $("#itemListContainer").addClass("itemListContainerExpanded").removeClass("itemListContainerContracted");
-        $("#sectionContainer").addClass("sectionContainerContracted");
+        this.itemListContainer.show(0).addClass("itemListContainerExpanded").removeClass("itemListContainerContracted");
+        this.sectionContainer.addClass("sectionContainerContracted");
         this.isCollapsed = false;
     };
     ItemList.prototype.takeFocus = function () {
-        $("#itemListContainer").removeClass("itemListContainerExpanded").addClass("itemListContainerContracted");
-        $("#sectionContainer").removeClass("sectionContainerContracted");
+        this.itemListContainer.removeClass("itemListContainerExpanded").addClass("itemListContainerContracted").delay(400).hide(0);
+        this.sectionContainer.removeClass("sectionContainerContracted");
         this.isCollapsed = true;
     };
     ItemList.prototype.addItem = function (item) {
         this.itemList.push(item);
+        this.itemMap[item.id] = item;
         this.buildItemNode(item);
         this.bindItemNode(item);
     };
     ItemList.prototype.deleteItem = function (id) {
-        var item = this.itemList.filter(function (item) {
-            return item.id == id;
-        });
-        var indexOfItem = this.itemList.indexOf(item[0]);
+        var item = this.itemMap[id];
+        var indexOfItem = this.itemList.indexOf(item);
         this.itemList.splice(indexOfItem, 1);
-        var lItems = $("#itemListItemContainer").find("li");
+        delete this.itemMap[id];
+        var lItems = this.itemListItemContainer.find("li");
         lItems[indexOfItem].remove();
     };
     ItemList.prototype.bindItemNode = function (item) {
         var _this = this;
         item.rootNode.click(function () {
             _this.switchItem(item);
+            _this.takeFocus();
             if (item.onSelect != null) {
                 item.onSelect();
             }
@@ -276,7 +291,6 @@ var ItemList = (function () {
     ItemList.prototype.switchItem = function (item) {
         this.giveItemFocus(item);
         this.selectedItem = item;
-        this.takeFocus();
     };
     ItemList.prototype.giveItemFocus = function (item) {
         if (this.selectedItem != null) {
@@ -285,9 +299,7 @@ var ItemList = (function () {
         item.rootNode.addClass("itemListFocused");
     };
     ItemList.prototype.findItem = function (id) {
-        return this.itemList.filter(function (item) {
-            return item.id == id;
-        })[0];
+        return this.itemMap[id];
     };
     ItemList.prototype.buildItemNode = function (item) {
         var li = document.createElement("li");
@@ -308,8 +320,11 @@ var Item = (function () {
 var PlayManager = (function () {
     function PlayManager() {
         this.player = null;
+        this.playbackId = 0;
         this.currentSong = null;
         this.currentPlayer = null;
+        this.durationText = null;
+        this.seekSlider = null;
     }
 
     PlayManager.prototype.bind = function () {
@@ -320,14 +335,16 @@ var PlayManager = (function () {
         window.setInterval(function () {
             _this.updateElapsed();
         }, 500);
+        this.durationText = $("#durationText");
+        this.seekSlider = $("#seekSlider");
     };
     PlayManager.prototype.updateElapsed = function () {
         if (this.currentPlayer != null) {
             var seconds = Math.floor(this.currentPlayer.position / 1000);
             var minutes = Math.floor(seconds / 60);
             var clampedSeconds = seconds % 60;
-            $("#durationText").text(this.padZeros(minutes.toString()) + ":" + this.padZeros(clampedSeconds.toString()));
-            $("#seekSlider").slider("value", Math.floor((this.currentPlayer.position / this.currentPlayer.duration) * 1000));
+            this.durationText.text(this.padZeros(minutes.toString()) + ":" + this.padZeros(clampedSeconds.toString()));
+            this.seekSlider.slider("value", Math.floor((this.currentPlayer.position / this.currentPlayer.duration) * 1000));
         }
     };
     PlayManager.prototype.padZeros = function (text) {
@@ -338,7 +355,7 @@ var PlayManager = (function () {
     };
     PlayManager.prototype.playSong = function (song) {
         if (song == this.currentSong) {
-            this.currentPlayer.play();
+            this.currentPlayer.resume();
         } else {
             this.stopCurrentSong();
             this.resolveSoundUrl(song);
@@ -367,14 +384,16 @@ var PlayManager = (function () {
     PlayManager.prototype.resolveSoundUrl = function (song) {
         var _this = this;
         this.currentSong = song;
+        this.playbackId += 1;
+        var currentId = this.playbackId;
         SC.get('/tracks', {
             q: song.info.title + " " + song.info.artist
         }, function (tracks) {
             if (tracks.length == 0) {
                 _this.onSongError(song);
             } else {
-                if (_this.currentSong == song) {
-                    _this.playResolved(_this.bestTrack(tracks), song);
+                if (currentId == _this.playbackId) {
+                    _this.playResolved(_this.bestTrack(tracks), song, currentId);
                 }
             }
         });
@@ -390,19 +409,19 @@ var PlayManager = (function () {
         }
         return maxTrack;
     };
-    PlayManager.prototype.playResolved = function (trackInfo, song) {
+    PlayManager.prototype.playResolved = function (trackInfo, song, playbackId) {
         var trackId = trackInfo["id"];
-        this.streamSong(trackId, song);
+        this.streamSong(trackId, song, playbackId);
         this.pushSongHistory(song);
     };
-    PlayManager.prototype.streamSong = function (trackId, song) {
+    PlayManager.prototype.streamSong = function (trackId, song, playbackId) {
         var _this = this;
         SC.stream("/tracks/" + trackId, {
             onfinish: function () {
                 _this.onFinish(song);
             }
         }, function (sound) {
-            _this.switchActiveSong(sound, song);
+            _this.switchActiveSong(sound, playbackId);
         });
     };
     PlayManager.prototype.pushSongHistory = function (song) {
@@ -413,9 +432,11 @@ var PlayManager = (function () {
             type: "POST"
         });
     };
-    PlayManager.prototype.switchActiveSong = function (sound, song) {
-        this.currentPlayer = sound;
-        sound.play();
+    PlayManager.prototype.switchActiveSong = function (sound, playbackId) {
+        if (playbackId == this.playbackId) {
+            this.currentPlayer = sound;
+            sound.play();
+        }
     };
     return PlayManager;
 })();

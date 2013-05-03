@@ -209,6 +209,10 @@ html {
     z-index: 7;
 }
 
+.menuItem {
+    cursor: pointer;
+}
+
 .menuItem div {
     -moz-transform: rotate(90deg);
     -o-transform: rotate(90deg);
