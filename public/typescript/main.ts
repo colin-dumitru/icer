@@ -492,6 +492,8 @@ class GlobalPlaylistManager {
     private playingSong:Song;
     private playing = false;
 
+    private showSongMenu = true;
+
     bind() {
         $(window).mousemove((event) => {
             if (event.clientY > (dimensions.windowHeight - 15) &&
@@ -556,6 +558,7 @@ class GlobalPlaylistManager {
 
         $("#globalPlaylistSongContainer").sortable({
             axis: "x",
+            start: (e, ui) => this.songStartDrag(ui.item),
             stop: (e, ui) => this.updateOrder(ui.item)
         });
 
@@ -567,6 +570,10 @@ class GlobalPlaylistManager {
         playManager.onFinish = (song) => {
             this.playNext();
         }
+    }
+
+    private songStartDrag(item) {
+        this.showSongMenu = false;
     }
 
     private updateOrder(reorderedItem) {
@@ -647,14 +654,12 @@ class GlobalPlaylistManager {
         $("#playButton").removeClass("playButtonPaused");
     }
 
-    private
-        decorateSong(song:Song) {
+    private decorateSong(song:Song) {
         var songContainer = $("#globalPlay" + song.mbid);
         songContainer.append(this.createOverlay());
     }
 
-    private
-        unDecorateSong(song:Song) {
+    private unDecorateSong(song:Song) {
         if (song == null) {
             return;
         }
@@ -663,22 +668,19 @@ class GlobalPlaylistManager {
         songContainer.remove();
     }
 
-    private
-        createOverlay() {
+    private createOverlay() {
         var elem = $("<div></div>");
         elem.addClass("playingSongOverlay");
         return elem;
     }
 
-    private
-        pause() {
+    private pause() {
         this.playing = false;
         $("#playButton").addClass("playButtonPaused");
         playManager.pause();
     }
 
-    private
-        getCurrentSong():Song {
+    private getCurrentSong():Song {
         if (this.playingSong == null) {
             return this.songQueue[0];
         }
@@ -698,16 +700,40 @@ class GlobalPlaylistManager {
         }
     }
 
-    private
-        addImageTemplate(song:Song) {
+    private addImageTemplate(song:Song) {
         var template = buildSmallSong(song);
         $(template)
             .attr("id", "globalPlay" + song.mbid)
             .attr("songId", song.mbid)
             .click(() => {
+                this.showSongMenu = false;
                 this.playSong(song);
-            });
+            })
+            .mousedown((e) => this.startMenuTimer(song, e.clientX, e.clientY));
         $("#globalPlaylistSongContainer").append(template);
+    }
+
+    private startMenuTimer(song:Song, x:number, y:number) {
+        this.showSongMenu = true;
+
+        var callBack = (option:number) => {
+            if (option == 0) {
+                this.deleteSong(song);
+            } else if (option == 1) {
+                this.clearSongs();
+            }
+        };
+
+        window.setTimeout(() => {
+            if (this.showSongMenu) {
+                songMenu.show(["Delete", "Delete All"], {x: x, y: y}, callBack);
+            }
+        }, 1000);
+    }
+
+    deleteSong(song:Song) {
+        this.songQueue.splice(this.songQueue.indexOf(song), 1);
+        $("#globalPlaylistSongContainer").find("#globalPlay" + song.mbid).remove();
     }
 
     clearSongs() {

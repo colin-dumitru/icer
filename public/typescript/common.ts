@@ -21,6 +21,39 @@ interface DetailCallback {
     (optionIndex:number, subOptionIndex:number): void;
 }
 
+class SongMenu {
+    show(options:string[], position:{x:number;y:number;}, callback:(number) => void) {
+        var container = $("#songMenuContainer");
+
+        container.empty();
+        options.forEach((option, index) => container.append(this.buildOption(option, index, callback)));
+
+        container
+            .css({
+                left: position.x - 40,
+                top: position.y - 20
+            })
+            .mouseleave(function () {
+                $("#songMenuContainer").fadeOut(200);
+            })
+            .fadeIn(200);
+    }
+
+    private buildOption(option:string, index:number, callback:(number) => void) {
+        var container = $("<div></div>");
+
+        container
+            .append(option)
+            .addClass("songMenuItem")
+            .click(() => {
+                callback(index);
+            });
+
+        return container;
+    }
+
+}
+
 class SongDetailManager {
     private menuWidth:number;
     private menuHeight:number;
@@ -274,3 +307,4 @@ class Tag {
 
 var dimensions = new Dimensions();
 var songDetailManager:SongDetailManager = new SongDetailManager();
+var songMenu:SongMenu = new SongMenu();

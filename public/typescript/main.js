@@ -425,6 +425,7 @@ var GlobalPlaylistManager = (function () {
         this.isVolumeVisible = false;
         this.songQueue = [];
         this.playing = false;
+        this.showSongMenu = true;
     }
 
     GlobalPlaylistManager.prototype.bind = function () {
@@ -483,6 +484,9 @@ var GlobalPlaylistManager = (function () {
         });
         $("#globalPlaylistSongContainer").sortable({
             axis: "x",
+            start: function (e, ui) {
+                return _this.songStartDrag(ui.item);
+            },
             stop: function (e, ui) {
                 return _this.updateOrder(ui.item);
             }
@@ -494,6 +498,9 @@ var GlobalPlaylistManager = (function () {
         playManager.onFinish = function (song) {
             _this.playNext();
         };
+    };
+    GlobalPlaylistManager.prototype.songStartDrag = function (item) {
+        this.showSongMenu = false;
     };
     GlobalPlaylistManager.prototype.updateOrder = function (reorderedItem) {
         var changedSong = this.songQueue.filter(function (s) {
@@ -609,9 +616,40 @@ var GlobalPlaylistManager = (function () {
         var _this = this;
         var template = buildSmallSong(song);
         $(template).attr("id", "globalPlay" + song.mbid).attr("songId", song.mbid).click(function () {
+            _this.showSongMenu = false;
             _this.playSong(song);
-        });
+        }).mousedown(function (e) {
+                return _this.startMenuTimer(song, e.clientX, e.clientY);
+            });
         $("#globalPlaylistSongContainer").append(template);
+    };
+    GlobalPlaylistManager.prototype.startMenuTimer = function (song, x, y) {
+        var _this = this;
+        this.showSongMenu = true;
+        var callBack = function (option) {
+            if (option == 0) {
+                _this.deleteSong(song);
+            } else {
+                if (option == 1) {
+                    _this.clearSongs();
+                }
+            }
+        };
+        window.setTimeout(function () {
+            if (_this.showSongMenu) {
+                songMenu.show([
+                    "Delete",
+                    "Delete All"
+                ], {
+                    x: x,
+                    y: y
+                }, callBack);
+            }
+        }, 1000);
+    };
+    GlobalPlaylistManager.prototype.deleteSong = function (song) {
+        this.songQueue.splice(this.songQueue.indexOf(song), 1);
+        $("#globalPlaylistSongContainer").find("#globalPlay" + song.mbid).remove();
     };
     GlobalPlaylistManager.prototype.clearSongs = function () {
         this.songQueue = [];

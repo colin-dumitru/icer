@@ -2,6 +2,16 @@
     display: none;
 }
 
+.noPadding {
+    padding: 0px;
+    margin: 0px;
+}
+
+* {
+    padding: 0px;
+    margin: 0px;
+}
+
 .inline {
     display: inline-block;
 }
@@ -46,11 +56,6 @@
 
 .roundBottomRight {
     border-bottom-right-radius: 5px;
-}
-
-* {
-    padding: 0px;
-    margin: 0px;
 }
 
 table {
@@ -684,4 +689,26 @@ html {
     color: #edfffc;
     font-size: 15px;
     font-size: 11px;
+}
+
+#songMenuContainer {
+    display: none;
+    position: absolute;
+    z-index: 100;
+    width: 80px;
+    background: #82aba8;
+}
+
+.songMenuItem {
+    height: 20px;
+    font-family: 'Roboto', sans-serif;
+    color: #edfffc;
+    font-size: 15px;
+    padding-left: 5px;
+    padding-right: 5px;
+    cursor: pointer;
+}
+
+.songMenuItem:hover {
+    background: #af6b53;
 }

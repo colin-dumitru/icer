@@ -2,6 +2,16 @@
     display: none;
 }
 
+.noPadding {
+    padding: 0px;
+    margin: 0px;
+}
+
+* {
+    padding: 0px;
+    margin: 0px;
+}
+
 .inline {
     display: inline-block;
 }

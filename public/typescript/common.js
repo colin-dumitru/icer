@@ -14,6 +14,33 @@ function template(id) {
         return typeof args[number] != 'undefined' ? args[number] : match;
     });
 }
+var SongMenu = (function () {
+    function SongMenu() {
+    }
+
+    SongMenu.prototype.show = function (options, position, callback) {
+        var _this = this;
+        var container = $("#songMenuContainer");
+        container.empty();
+        options.forEach(function (option, index) {
+            return container.append(_this.buildOption(option, index, callback));
+        });
+        container.css({
+            left: position.x - 40,
+            top: position.y - 20
+        }).mouseleave(function () {
+                $("#songMenuContainer").fadeOut(200);
+            }).fadeIn(200);
+    };
+    SongMenu.prototype.buildOption = function (option, index, callback) {
+        var container = $("<div></div>");
+        container.append(option).addClass("songMenuItem").click(function () {
+            callback(index);
+        });
+        return container;
+    };
+    return SongMenu;
+})();
 var SongDetailManager = (function () {
     function SongDetailManager() {
         this.menuHidden = true;
@@ -296,4 +323,5 @@ var Tag = (function () {
 })();
 var dimensions = new Dimensions();
 var songDetailManager = new SongDetailManager();
+var songMenu = new SongMenu();
 //@ sourceMappingURL=common.js.map
