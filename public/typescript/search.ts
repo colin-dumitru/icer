@@ -279,18 +279,29 @@ class SearchSongCallback extends SearchCallback {
     }
 
     load() {
-        $.ajax({
-            url: this.buildMainSearchUrl(),
-            dataType: "json",
-            method: "POST",
-            success: (res:any) => this.onMainResult(res["results"]["trackmatches"]["track"])
-        })
+        this.loadPage(1);
     }
 
-    private onMainResult(tracks:any[]) {
+    private loadPage(page:number) {
+        $.ajax({
+            url: this.buildMainSearchUrl(page),
+            dataType: "json",
+            method: "GET",
+            success: (res:any) => this.onMainResult(res["results"]["trackmatches"]["track"], page)
+        });
+    }
+
+    private onMainResult(tracks:any[], page:number) {
         for (var i = 0; i < tracks.length; i++) {
             this.pushMainResult(tracks[i]);
         }
+        this.session.rootNode().find("#searchPageSongsContainer").find("#loadMoreHorizontal").remove();
+
+        if (tracks.length == 5) {
+            var loadMoreTemplate = this.buildLoadMoreHorizontal(page + 1);
+            this.session.rootNode().find("#searchPageSongsContainer").append(loadMoreTemplate);
+        }
+
         this.removeLoadingScreen("#searchPageLoadingContainer");
     }
 
@@ -299,34 +310,78 @@ class SearchSongCallback extends SearchCallback {
         var song = new Song(id, new SongInfo(track.name, track.artist, null, null, 0, 0), getExtraLargeImage(track.image));
 
         var itemTemplate = this.buildItemList(song);
-        this.session.rootNode().find("#searchPageSongsContainer").append(itemTemplate);
+        this.session.rootNode().find("#searchPageSongsContainer")
+            .append(itemTemplate);
 
         this.bindSongMenu(song, itemTemplate.find("#searchLargeImageContainer"));
-        this.loadSimilarSongs(song, itemTemplate);
+        this.loadSimilarSongs(song, itemTemplate, true);
     }
 
-    private loadSimilarSongs(song:Song, itemTemplate:any) {
+    private buildLoadMoreHorizontal(page:number) {
+        var container = $("<div></div>");
+        container
+            .attr("id", "loadMoreHorizontal")
+            .append("See More");
+
+        this.bindLoadMoreHorizontal(container, page);
+
+        return container;
+    }
+
+    private bindLoadMoreHorizontal(container, page:number) {
+        container.click(() => {
+            container.text("Loading..");
+            this.loadPage(page);
+        });
+    }
+
+    private loadSimilarSongs(song:Song, itemTemplate:any, firstLoad:bool) {
         $.ajax({
-            url: this.buildSimilarSearchUrl(song),
+            url: this.buildSimilarSearchUrl(song, firstLoad ? 5 : 30),
             dataType: "json",
-            method: "POST",
-            success: (res:any) => this.onSimilarResults(res, itemTemplate)
+            method: "GET",
+            success: (res:any) => this.onSimilarResults(res, song, itemTemplate, firstLoad)
         })
     }
 
-    private onSimilarResults(res, itemTemplate) {
-        if (res.error == null && Array.isArray(res["similartracks"]["track"])) {
-            this.addSimilarSongs(res["similartracks"]["track"], itemTemplate);
+    private onSimilarResults(res, song:Song, itemTemplate, firstDisplay:bool) {
+        if (res.error == null && res["similartracks"] != null && Array.isArray(res["similartracks"]["track"])) {
+            this.addSimilarSongs(res["similartracks"]["track"], song, itemTemplate, firstDisplay);
         } else {
             this.addNoSimilarSongsTemplate(itemTemplate);
         }
         this.removeSimilarLoader(itemTemplate, "#searchSimilarLoadingContainer");
     }
 
-    addSimilarSongs(tracks, itemTemplate) {
+    addSimilarSongs(tracks, song:Song, itemTemplate, firstDisplay:bool) {
+        itemTemplate.find("#searchSongListContainer").empty();
         for (var i = 0; i < tracks.length; i++) {
             this.addSimilarSong(tracks[i], itemTemplate);
         }
+
+        if (firstDisplay) {
+            var loadMoreTemplate = this.buildLoadMoreVertical(song, itemTemplate);
+            itemTemplate.find("#searchSongListContainer").append(loadMoreTemplate);
+        } else {
+            itemTemplate.find("#loadMoreVertical").remove();
+        }
+    }
+
+    private buildLoadMoreVertical(song:Song, itemTemplate) {
+        var container = $("<div></div>");
+        container
+            .attr("id", "loadMoreVertical")
+            .append("<div class='loadMoreVerticalText'>+</div>");
+
+        this.bindLoadMoreVertical(container, song, itemTemplate);
+
+        return container;
+    }
+
+    private bindLoadMoreVertical(container, song:Song, itemTemplate) {
+        container.click(() => {
+            this.loadSimilarSongs(song, itemTemplate, false);
+        });
     }
 
     addSimilarSong(track, itemTemplate) {
@@ -348,13 +403,14 @@ class SearchSongCallback extends SearchCallback {
         itemTemplate.find("#searchSongListContainer").append(container);
     }
 
-    private buildSimilarSearchUrl(song:Song):string {
+    private buildSimilarSearchUrl(song:Song, count:number):string {
         if (isMbid(song.mbid)) {
             return "http://ws.audioscrobbler.com/2.0/?method=track.getsimilar&mbid="
-                + song.mbid + "&api_key=" + lastFmApiKey + "&format=json&limit=5";
+                + song.mbid + "&api_key=" + lastFmApiKey + "&format=json&limit=" + count;
         } else {
             return "http://ws.audioscrobbler.com/2.0/?method=track.getsimilar&artist="
-                + song.info.artist + "&track=" + song.info.title + "&api_key=" + lastFmApiKey + "&format=json&limit=5";
+                + song.info.artist + "&track=" + song.info.title + "&api_key=" + lastFmApiKey
+                + "&format=json&limit=" + count;
         }
     }
 
@@ -372,9 +428,9 @@ class SearchSongCallback extends SearchCallback {
         return listContainer;
     }
 
-    buildMainSearchUrl():string {
+    buildMainSearchUrl(page:number):string {
         return "http://ws.audioscrobbler.com/2.0/?method=track.search&track="
-            + this.session.query + "&api_key=" + lastFmApiKey + "&format=json&limit=5";
+            + this.session.query + "&api_key=" + lastFmApiKey + "&format=json&limit=5&page=" + page;
     }
 }
 
@@ -384,18 +440,48 @@ class SearchArtistCallback extends SearchCallback {
     }
 
     load() {
-        $.ajax({
-            url: this.buildMainSearchUrl(),
-            dataType: "json",
-            method: "POST",
-            success: (res:any) => this.onMainResult(res["results"]["artistmatches"]["artist"])
-        })
+        this.loadPage(1);
     }
 
-    private onMainResult(artists:any[]) {
+    private loadPage(page:number) {
+        $.ajax({
+            url: this.buildMainSearchUrl(page),
+            dataType: "json",
+            method: "GET",
+            success: (res:any) => this.onMainResult(res["results"]["artistmatches"]["artist"], page)
+        });
+    }
+
+    private buildLoadMoreHorizontal(page:number) {
+        var container = $("<div></div>");
+        container
+            .attr("id", "loadMoreHorizontal")
+            .append("See More");
+
+        this.bindLoadMoreHorizontal(container, page);
+
+        return container;
+    }
+
+    private bindLoadMoreHorizontal(container, page:number) {
+        container.click(() => {
+            container.text("Loading..");
+            this.loadPage(page);
+        });
+    }
+
+    private onMainResult(artists:any[], page:number) {
         for (var i = 0; i < artists.length; i++) {
             this.pushMainResult(artists[i]);
         }
+
+        this.session.rootNode().find("#searchPageArtistContainer").find("#loadMoreHorizontal").remove();
+
+        if (artists.length == 5) {
+            var loadMoreTemplate = this.buildLoadMoreHorizontal(page + 1);
+            this.session.rootNode().find("#searchPageArtistContainer").append(loadMoreTemplate);
+        }
+
         this.removeLoadingScreen("#searchArtistLoadingContainer");
     }
 
@@ -406,31 +492,55 @@ class SearchArtistCallback extends SearchCallback {
         var itemTemplate = this.buildItemList(artistInfo);
         this.session.rootNode().find("#searchPageArtistContainer").append(itemTemplate);
 
-        this.loadArtistSongs(artistInfo, itemTemplate);
+        this.loadArtistSongs(artistInfo, itemTemplate, 1);
     }
 
-    private loadArtistSongs(artist:Artist, itemTemplate:any) {
+    private loadArtistSongs(artist:Artist, itemTemplate:any, page:number) {
         $.ajax({
-            url: this.buildArtistSearchUrl(artist),
+            url: this.buildArtistSearchUrl(artist, page),
             dataType: "json",
-            method: "POST",
-            success: (res:any) => this.onArtistResults(res, itemTemplate)
+            method: "GET",
+            success: (res:any) => this.onArtistResults(res, itemTemplate, artist, page)
         })
     }
 
-    private onArtistResults(res, itemTemplate) {
+    private onArtistResults(res, itemTemplate, artist:Artist, page:number) {
         if (res.error == null && res["toptracks"]["track"] != null) {
-            this.addArtistSongs(res["toptracks"]["track"], itemTemplate);
+            this.addArtistSongs(res["toptracks"]["track"], itemTemplate, artist, page);
         } else {
             this.addNoArtistSongsTemplate(itemTemplate);
         }
         this.removeSimilarLoader(itemTemplate, "#searchSimilarLoadingContainer");
     }
 
-    private addArtistSongs(tracks, itemTemplate) {
+    private addArtistSongs(tracks, itemTemplate, artist:Artist, page:number) {
         for (var i = 0; i < tracks.length; i++) {
             this.addArtistSong(tracks[i], itemTemplate);
         }
+
+        itemTemplate.find("#loadMoreVertical").remove();
+
+        if (tracks.length == 5) {
+            var loadMoreTemplate = this.buildLoadMoreVertical(page + 1, artist, itemTemplate);
+            itemTemplate.find("#searchSongListContainer").append(loadMoreTemplate);
+        }
+    }
+
+    private buildLoadMoreVertical(page:number, artist:Artist, itemTemplate) {
+        var container = $("<div></div>");
+        container
+            .attr("id", "loadMoreVertical")
+            .append("<div class='loadMoreVerticalText'>+</div>");
+
+        this.bindLoadMoreVertical(container, page, artist, itemTemplate);
+
+        return container;
+    }
+
+    private bindLoadMoreVertical(container, page:number, artist:Artist, itemTemplate) {
+        container.click(() => {
+            this.loadArtistSongs(artist, itemTemplate, page);
+        });
     }
 
     private addArtistSong(track, itemTemplate) {
@@ -452,13 +562,13 @@ class SearchArtistCallback extends SearchCallback {
         itemTemplate.find("#searchSongListContainer").append(container);
     }
 
-    private buildArtistSearchUrl(artist:Artist):string {
+    private buildArtistSearchUrl(artist:Artist, page:number):string {
         if (isMbid(artist.mbid)) {
             return "http://ws.audioscrobbler.com/2.0/?method=artist.gettoptracks&mbid="
-                + artist.mbid + "&api_key=" + lastFmApiKey + "&format=json&limit=5";
+                + artist.mbid + "&api_key=" + lastFmApiKey + "&format=json&limit=5&page=" + page;
         } else {
             return "http://ws.audioscrobbler.com/2.0/?method=artist.gettoptracks&artist="
-                + artist.info.name + "&api_key=" + lastFmApiKey + "&format=json&limit=5";
+                + artist.info.name + "&api_key=" + lastFmApiKey + "&format=json&limit=5&page=" + page;
         }
     }
 
@@ -475,9 +585,9 @@ class SearchArtistCallback extends SearchCallback {
         return listContainer;
     }
 
-    buildMainSearchUrl():string {
+    buildMainSearchUrl(page:number):string {
         return "http://ws.audioscrobbler.com/2.0/?method=artist.search&artist="
-            + this.session.query + "&api_key=" + lastFmApiKey + "&format=json&limit=5";
+            + this.session.query + "&api_key=" + lastFmApiKey + "&format=json&limit=5&page=" + page;
     }
 }
 
@@ -487,25 +597,37 @@ class SearchAlbumCallback extends SearchCallback {
     }
 
     load() {
+        this.loadPage(1);
+    }
+
+    private loadPage(page:number) {
         $.ajax({
-            url: this.buildMainSearchUrl(),
+            url: this.buildMainSearchUrl(page),
             dataType: "json",
-            method: "POST",
+            method: "GET",
             success: (res:any) =>
-                this.onMainResult(res["results"]["albummatches"]["album"])
+                this.onMainResult(res["results"]["albummatches"]["album"], page)
         })
     }
 
-    private onMainResult(albums:any[]) {
+    private onMainResult(albums:any[], page:number) {
         for (var i = 0; i < albums.length; i++) {
             this.pushMainResult(albums[i]);
         }
+
+        this.session.rootNode().find("#searchPageAlbumsContainer").find("#loadMoreHorizontal").remove();
+
+        if (albums.length == 5) {
+            var loadMoreTemplate = this.buildLoadMoreHorizontal(page + 1);
+            this.session.rootNode().find("#searchPageAlbumsContainer").append(loadMoreTemplate);
+        }
+
         this.removeLoadingScreen("#searchAlbumLoadingContainer");
     }
 
     private pushMainResult(albumInfo:any) {
         var id = guid(albumInfo.mbid, albumInfo.name.trim() + albumInfo.artist.trim());
-        var album = new Album(albumInfo.mbid, new AlbumInfo(albumInfo.name, albumInfo.artist), getExtraLargeImage(albumInfo.image));
+        var album = new Album(id, new AlbumInfo(albumInfo.name, albumInfo.artist), getExtraLargeImage(albumInfo.image));
 
         var itemTemplate = this.buildItemList(album);
         this.session.rootNode().find("#searchPageAlbumsContainer").append(itemTemplate);
@@ -513,11 +635,29 @@ class SearchAlbumCallback extends SearchCallback {
         this.loadAlbumSongs(album, itemTemplate);
     }
 
+    private buildLoadMoreHorizontal(page:number) {
+        var container = $("<div></div>");
+        container
+            .attr("id", "loadMoreHorizontal")
+            .append("See More");
+
+        this.bindLoadMoreHorizontal(container, page);
+
+        return container;
+    }
+
+    private bindLoadMoreHorizontal(container, page:number) {
+        container.click(() => {
+            container.text("Loading..");
+            this.loadPage(page);
+        });
+    }
+
     private loadAlbumSongs(album:Album, itemTemplate:any) {
         $.ajax({
             url: this.buildAlbumSearchUrl(album),
             dataType: "json",
-            method: "POST",
+            method: "GET",
             success: (res:any) => this.onAlbumResults(res, itemTemplate)
         })
     }
@@ -582,9 +722,9 @@ class SearchAlbumCallback extends SearchCallback {
         return listContainer;
     }
 
-    buildMainSearchUrl():string {
+    buildMainSearchUrl(page:number):string {
         return "http://ws.audioscrobbler.com/2.0/?method=album.search&album="
-            + this.session.query + "&api_key=" + lastFmApiKey + "&format=json&limit=5";
+            + this.session.query + "&api_key=" + lastFmApiKey + "&format=json&limit=5&page=" + page;
     }
 }
 
@@ -594,19 +734,48 @@ class SearchGenreCallback extends SearchCallback {
     }
 
     load() {
+        this.loadPage(1);
+    }
+
+    private loadPage(page:number) {
         $.ajax({
-            url: this.buildMainSearchUrl(),
+            url: this.buildMainSearchUrl(page),
             dataType: "json",
-            method: "POST",
-            success: (res:any) => this.onMainResult(res["results"]["tagmatches"]["tag"])
+            method: "GET",
+            success: (res:any) => this.onMainResult(res["results"]["tagmatches"]["tag"], page)
         })
     }
 
-    private onMainResult(tags:any[]) {
+    private onMainResult(tags:any[], page:number) {
         for (var i = 0; i < tags.length; i++) {
             this.pushMainResult(tags[i]);
         }
+
+        this.session.rootNode().find("#searchPageGenreContainer").find("#loadMoreHorizontal").remove();
+
+        if (tags.length == 5) {
+            var loadMoreTemplate = this.buildLoadMoreHorizontal(page + 1);
+            this.session.rootNode().find("#searchPageGenreContainer").append(loadMoreTemplate);
+        }
         this.removeLoadingScreen("#searchGenreLoadingContainer");
+    }
+
+    private buildLoadMoreHorizontal(page:number) {
+        var container = $("<div></div>");
+        container
+            .attr("id", "loadMoreHorizontal")
+            .append("See More");
+
+        this.bindLoadMoreHorizontal(container, page);
+
+        return container;
+    }
+
+    private bindLoadMoreHorizontal(container, page:number) {
+        container.click(() => {
+            container.text("Loading..");
+            this.loadPage(page);
+        });
     }
 
     private pushMainResult(tagInfo:any) {
@@ -615,31 +784,54 @@ class SearchGenreCallback extends SearchCallback {
         var itemTemplate = this.buildItemList(tag);
         this.session.rootNode().find("#searchPageGenreContainer").append(itemTemplate);
 
-        this.loadGenreSongs(tag, itemTemplate);
+        this.loadGenreSongs(tag, itemTemplate, 1);
     }
 
-    private loadGenreSongs(tag:Tag, itemTemplate:any) {
+    private loadGenreSongs(tag:Tag, itemTemplate:any, page:number) {
         $.ajax({
-            url: this.buildGenreSearchUrl(tag),
+            url: this.buildGenreSearchUrl(tag, page),
             dataType: "json",
-            method: "POST",
-            success: (res:any) => this.onGenreResults(res, itemTemplate)
+            method: "GET",
+            success: (res:any) => this.onGenreResults(res, itemTemplate, page, tag)
         })
     }
 
-    private onGenreResults(res, itemTemplate) {
+    private onGenreResults(res, itemTemplate, page:number, tag:Tag) {
         if (res.error == null && res["toptracks"]["track"] != null) {
-            this.addGenreSongs(res["toptracks"]["track"], itemTemplate);
+            this.addGenreSongs(res["toptracks"]["track"], itemTemplate, page, tag);
         } else {
             this.addNoGenreSongsTemplate(itemTemplate);
         }
         this.removeSimilarLoader(itemTemplate, "#searchGenreSimilarLoadingContainer");
     }
 
-    private addGenreSongs(tracks, itemTemplate) {
+    private addGenreSongs(tracks, itemTemplate, page:number, tag:Tag) {
         for (var i = 0; i < tracks.length; i++) {
             this.addGenreSong(tracks[i], itemTemplate);
         }
+        itemTemplate.find("#loadMoreVertical").remove();
+
+        if (tracks.length == 5) {
+            var loadMoreTemplate = this.buildLoadMoreVertical(page + 1, tag, itemTemplate);
+            itemTemplate.find("#searchGenreListContainer").append(loadMoreTemplate);
+        }
+    }
+
+    private buildLoadMoreVertical(page:number, tag:Tag, itemTemplate) {
+        var container = $("<div></div>");
+        container
+            .attr("id", "loadMoreVertical")
+            .append("<div class='loadMoreVerticalText'>+</div>");
+
+        this.bindLoadMoreVertical(container, page, tag, itemTemplate);
+
+        return container;
+    }
+
+    private bindLoadMoreVertical(container, page:number, tag:Tag, itemTemplate) {
+        container.click(() => {
+            this.loadGenreSongs(tag, itemTemplate, page);
+        });
     }
 
     private addGenreSong(track, itemTemplate) {
@@ -661,9 +853,9 @@ class SearchGenreCallback extends SearchCallback {
         itemTemplate.find("#searchSongListContainer").append(container);
     }
 
-    private buildGenreSearchUrl(tag:Tag):string {
+    private buildGenreSearchUrl(tag:Tag, page:number):string {
         return "http://ws.audioscrobbler.com/2.0/?method=tag.gettoptracks&tag="
-            + tag.name + "&api_key=" + lastFmApiKey + "&format=json&limit=5";
+            + tag.name + "&api_key=" + lastFmApiKey + "&format=json&limit=5&page=" + page;
     }
 
     private buildItemList(tag:Tag):any {
@@ -676,9 +868,9 @@ class SearchGenreCallback extends SearchCallback {
         return listContainer;
     }
 
-    buildMainSearchUrl():string {
+    buildMainSearchUrl(page:number):string {
         return "http://ws.audioscrobbler.com/2.0/?method=tag.search&tag="
-            + this.session.query + "&api_key=" + lastFmApiKey + "&format=json&limit=5";
+            + this.session.query + "&api_key=" + lastFmApiKey + "&format=json&limit=5&page=" + page;
     }
 }
 

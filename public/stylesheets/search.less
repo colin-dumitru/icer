@@ -225,3 +225,43 @@ searchGenreListContainer {
 #searchPageDelete:hover {
   background: @foreground_variant;
 }
+
+#loadMoreHorizontal {
+  width: 200px;
+  height: 15px;
+  margin: 0 auto;
+  background: @foreground_text;
+  color: @background;
+  .fontText;
+  text-align: center;
+  font-size: 10px;
+  padding-top: 5px;
+  border: 1px solid @foreground;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+#loadMoreHorizontal:hover {
+  background: lighten(@foreground, 10%);
+}
+
+#loadMoreVertical {
+  vertical-align: middle;
+  display: table-cell;
+  background: @foreground_text;
+  color: @background;
+  .fontText;
+  text-align: center;
+  font-size: 10px;
+  border: 1px solid @foreground;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+#loadMoreVertical:hover {
+  background: lighten(@foreground, 10%);
+}
+
+.loadMoreVerticalText {
+  width: 15px;
+}
