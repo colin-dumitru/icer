@@ -1,243 +1,296 @@
 .hidden {
-  display: none;
+    display: none;
 }
+
 .inline {
-  display: inline-block;
+    display: inline-block;
 }
+
 .clickable {
-  cursor: pointer;
+    cursor: pointer;
 }
+
 .zeroHeight {
-  position: relative;
-  height: 0px;
+    position: relative;
+    height: 0px;
 }
+
 .topAlign {
-  vertical-align: top;
+    vertical-align: top;
 }
+
 .fullFrame {
-  width: 100%;
-  height: 100%;
+    width: 100%;
+    height: 100%;
 }
+
 .noOverflow {
-  overflow: hidden;
+    overflow: hidden;
 }
+
 .fontMenu {
-  font-family: 'Days One', sans-serif;
+    font-family: 'Days One', sans-serif;
 }
+
 .fontMenu2 {
-  font-family: 'Noto Sans', sans-serif;
+    font-family: 'Noto Sans', sans-serif;
 }
+
 .fontText {
-  font-family: 'Roboto', sans-serif;
+    font-family: 'Roboto', sans-serif;
 }
+
 .roundTopRight {
-  border-top-right-radius: 5px;
+    border-top-right-radius: 5px;
 }
+
 .roundBottomRight {
-  border-bottom-right-radius: 5px;
+    border-bottom-right-radius: 5px;
 }
+
 #searchMainCell {
-  height: 450px;
+    height: 450px;
 }
+
 #searchCell {
-  width: 600px;
-  vertical-align: middle;
-  position: relative;
+    width: 600px;
+    vertical-align: middle;
+    position: relative;
 }
+
 #searchTableContainer {
-  position: relative;
-  height: 450px;
+    position: relative;
+    height: 450px;
 }
+
 #searchStage {
-  position: relative;
-  height: 450px;
+    position: relative;
+    height: 450px;
 }
+
 .searchTable {
-  height: 450px;
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  -webkit-transform-origin: 50% 150%;
-  transform-origin: 50% 150%;
-  -webkit-transition: all 0.4s ease;
-  transition: all 0.4s ease;
+    height: 450px;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    -webkit-transform-origin: 50% 150%;
+    transform-origin: 50% 150%;
+    -webkit-transition: all 0.4s ease;
+    transition: all 0.4s ease;
 }
+
 #searchMenuCell {
-  height: 50px;
+    height: 50px;
 }
+
 #searchMenuFooter {
-  width: 100%;
-  height: 100%;
-  height: 10px;
-  background: #82aba8;
+    width: 100%;
+    height: 100%;
+    height: 10px;
+    background: #82aba8;
 }
+
 .searchMenuSelector {
-  width: 100%;
-  height: 100%;
-  font-family: 'Days One', sans-serif;
-  color: #edfffc;
-  height: 25px;
-  padding-top: 3px;
-  text-align: center;
-  background: #346661;
-  display: inline-block;
-  list-style-type: none;
+    width: 100%;
+    height: 100%;
+    font-family: 'Days One', sans-serif;
+    color: #edfffc;
+    height: 25px;
+    padding-top: 3px;
+    text-align: center;
+    background: #346661;
+    display: inline-block;
+    list-style-type: none;
 }
+
 .searchMenuSelector input {
-  display: none;
+    display: none;
 }
+
 .searchMenuSelector:hover {
-  width: 100%;
-  height: 100%;
-  font-family: 'Days One', sans-serif;
-  color: #edfffc;
-  height: 25px;
-  padding-top: 3px;
-  text-align: center;
-  background: #346661;
-  display: inline-block;
-  list-style-type: none;
-  background: #af6b53;
+    width: 100%;
+    height: 100%;
+    font-family: 'Days One', sans-serif;
+    color: #edfffc;
+    height: 25px;
+    padding-top: 3px;
+    text-align: center;
+    background: #346661;
+    display: inline-block;
+    list-style-type: none;
+    background: #af6b53;
 }
+
 .searchMenuSelectorSelected {
-  width: 100%;
-  height: 100%;
-  font-family: 'Days One', sans-serif;
-  color: #edfffc;
-  height: 25px;
-  padding-top: 3px;
-  text-align: center;
-  background: #346661;
-  display: inline-block;
-  list-style-type: none;
-  background: #82aba8;
+    width: 100%;
+    height: 100%;
+    font-family: 'Days One', sans-serif;
+    color: #edfffc;
+    height: 25px;
+    padding-top: 3px;
+    text-align: center;
+    background: #346661;
+    display: inline-block;
+    list-style-type: none;
+    background: #82aba8;
 }
+
 #searchPageContainer {
-  width: 600px;
-  height: 100%;
-  overflow: visible;
+    width: 600px;
+    height: 100%;
+    overflow: visible;
 }
+
 #searchPageTable {
-  height: 100%;
-  position: relative;
+    height: 100%;
+    position: relative;
 }
+
 .searchPage {
-  position: relative;
-  width: 600px;
-  height: 100%;
+    position: relative;
+    width: 600px;
+    height: 100%;
 }
+
 .searchPageSongContainer {
-  position: relative;
-  height: 400px;
-  margin: 0 auto;
-  width: 580px;
-  background: #346661;
-  overflow-y: scroll;
-  overflow-x: hidden;
+    position: relative;
+    height: 400px;
+    margin: 0 auto;
+    width: 580px;
+    background: #346661;
+    overflow-y: hidden;
+    overflow-x: hidden;
 }
+
+.searchPageSongContainer:hover {
+    overflow-y: auto;
+}
+
 .searchPageSongContainerFocused {
-  position: relative;
-  height: 400px;
-  margin: 0 auto;
-  width: 580px;
-  background: #346661;
-  overflow-y: scroll;
-  overflow-x: hidden;
-  background: #82aba8;
+    position: relative;
+    height: 400px;
+    margin: 0 auto;
+    width: 580px;
+    background: #346661;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    background: #82aba8;
 }
+
 #searchSongListTable {
-  width: 570px;
-  height: 160px;
-  margin-bottom: 10px;
+    width: 570px;
+    height: 160px;
+    margin-bottom: 10px;
 }
+
 #searchLargeImageContainer {
-  position: relative;
-  width: 150px;
-  top: 15px;
+    position: relative;
+    width: 150px;
+    top: 15px;
 }
+
 #searchSongListContainerWrapper,
 #searchGenreListContainerWrapper {
-  position: relative;
-  left: 10px;
-  width: 400px;
-  height: 120px;
-  overflow-x: auto;
-  overflow-y: hidden;
-  float: left;
+    position: relative;
+    left: 10px;
+    width: 400px;
+    height: 120px;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    float: left;
 }
+
+#searchSongListContainerWrapper:hover,
+#searchGenreListContainerWrapper:hover {
+    overflow-x: auto;
+}
+
 #searchGenreListContainerWrapper {
-  width: 550px;
+    width: 550px;
 }
+
 #searchGenreSimilarLoadingContainer {
-  left: 225px;
+    left: 225px;
 }
+
 #searchSongListContainer,
 searchGenreListContainer {
-  float: left;
+    float: left;
 }
+
 #searchSongListContainer > .inline,
 #searchGenreListContainer > .inline {
-  display: table-cell;
+    display: table-cell;
 }
+
 #searchSongTitle,
 #searchGenreTitle {
-  padding-left: 10px;
-  color: #edfffc;
-  font-family: 'Roboto', sans-serif;
-  font-size: 20px;
-  height: 50px;
-  overflow: hidden;
+    padding-left: 10px;
+    color: #edfffc;
+    font-family: 'Roboto', sans-serif;
+    font-size: 20px;
+    height: 50px;
+    overflow: hidden;
 }
+
 .searchLoadingContainer {
-  position: absolute;
-  left: 0px;
-  top: 0px;
-  width: 100%;
-  height: 100%;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
 }
+
 .searchLoadingContainer img {
-  position: relative;
-  top: 100px;
-  left: 150px;
+    position: relative;
+    top: 100px;
+    left: 150px;
 }
+
 .noSimilarSongsTitle {
-  font-family: 'Roboto', sans-serif;
-  color: #b0cac8;
-  font-size: 20px;
-  float: left;
-  position: relative;
-  top: 50px;
+    font-family: 'Roboto', sans-serif;
+    color: #b0cac8;
+    font-size: 20px;
+    float: left;
+    position: relative;
+    top: 50px;
 }
+
 .noSimilarSongsSadFace {
-  font-family: 'Noto Sans', sans-serif;
-  color: #b0cac8;
-  font-size: 100px;
-  float: left;
-  position: relative;
-  top: -15px;
+    font-family: 'Noto Sans', sans-serif;
+    color: #b0cac8;
+    font-size: 100px;
+    float: left;
+    position: relative;
+    top: -15px;
 }
+
 .searchSimilarSong {
-  padding-right: 10px;
+    padding-right: 10px;
 }
+
 .searchSimilarLoadingContainer {
-  position: absolute;
-  left: 150px;
+    position: absolute;
+    left: 150px;
 }
+
 .searchSimilarLoadingContainer img {
-  width: 100px;
-  height: 100px;
+    width: 100px;
+    height: 100px;
 }
+
 #searchPageDelete {
-  position: absolute;
-  right: 10px;
-  bottom: -20px;
-  padding-left: 5px;
-  padding-right: 5px;
-  background: #af6b53;
-  font-family: 'Noto Sans', sans-serif;
-  color: #edfffc;
-  cursor: pointer;
+    position: absolute;
+    right: 10px;
+    bottom: -20px;
+    padding-left: 5px;
+    padding-right: 5px;
+    background: #af6b53;
+    font-family: 'Noto Sans', sans-serif;
+    color: #edfffc;
+    cursor: pointer;
 }
+
 #searchPageDelete:hover {
-  background: #82aba8;
+    background: #82aba8;
 }
