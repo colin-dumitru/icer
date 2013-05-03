@@ -447,27 +447,31 @@ var GlobalPlaylistManager = (function () {
         this.songQueue = [];
         this.playing = false;
         this.showSongMenu = true;
+        this.volumeSliderContainer = null;
+        this.globalPlaylistSongContainer = null;
+        this.globalPlaylistContainer = null;
     }
 
     GlobalPlaylistManager.prototype.bind = function () {
         var _this = this;
+        this.volumeSliderContainer = $("#volumeSliderContainer");
+        this.globalPlaylistSongContainer = $("#globalPlaylistSongContainer");
+        this.globalPlaylistContainer = $("#globalPlaylistContainer");
         $(window).mousemove(function (event) {
-            if (event.clientY > (dimensions.windowHeight - 15) && (event.clientX < (dimensions.windowWidth / 2 - 185) || event.clientX > (dimensions.windowWidth / 2 + 235))) {
-                if (_this.isCollapsed) {
-                    _this.giveFocus();
-                }
+            if (_this.isCollapsed && event.clientY > (dimensions.windowHeight - 15) && (event.clientX < (dimensions.windowWidth / 2 - 185) || event.clientX > (dimensions.windowWidth / 2 + 235))) {
+                _this.giveFocus();
             }
             if (event.clientY < (dimensions.windowHeight - 155)) {
                 if (!_this.isCollapsed) {
                     _this.takeFocus();
                 }
                 if (_this.isVolumeVisible) {
-                    $("#volumeSliderContainer").hide();
+                    _this.volumeSliderContainer.hide();
                     _this.isVolumeVisible = false;
                 }
             }
         });
-        $("#volumeSliderContainer").slider({
+        this.volumeSliderContainer.slider({
             orientation: "vertical",
             range: "min",
             min: 0,
@@ -478,7 +482,7 @@ var GlobalPlaylistManager = (function () {
             }
         });
         $("#volumeButton").mouseenter(function () {
-            $("#volumeSliderContainer").show();
+            _this.volumeSliderContainer.show();
             _this.isVolumeVisible = true;
         });
         $("#playButton").click(function () {
@@ -503,7 +507,7 @@ var GlobalPlaylistManager = (function () {
                 _this.changePosition(ui.value);
             }
         });
-        $("#globalPlaylistSongContainer").sortable({
+        this.globalPlaylistSongContainer.sortable({
             axis: "x",
             start: function (e, ui) {
                 return _this.songStartDrag(ui.item);
@@ -642,7 +646,7 @@ var GlobalPlaylistManager = (function () {
         }).mousedown(function (e) {
                 return _this.startMenuTimer(song, e.clientX, e.clientY);
             });
-        $("#globalPlaylistSongContainer").append(template);
+        this.globalPlaylistSongContainer.append(template);
     };
     GlobalPlaylistManager.prototype.startMenuTimer = function (song, x, y) {
         var _this = this;
@@ -670,18 +674,18 @@ var GlobalPlaylistManager = (function () {
     };
     GlobalPlaylistManager.prototype.deleteSong = function (song) {
         this.songQueue.splice(this.songQueue.indexOf(song), 1);
-        $("#globalPlaylistSongContainer").find("#globalPlay" + song.mbid).remove();
+        this.globalPlaylistSongContainer.find("#globalPlay" + song.mbid).remove();
     };
     GlobalPlaylistManager.prototype.clearSongs = function () {
         this.songQueue = [];
         this.playingSong = null;
-        $("#globalPlaylistSongContainer").empty();
+        this.globalPlaylistSongContainer.empty();
     };
     GlobalPlaylistManager.prototype.giveFocus = function () {
-        $("#globalPlaylistContainer").transition({
+        this.globalPlaylistContainer.transition({
             bottom: 120
         });
-        $("#globalPlaylistSongContainer").transition({
+        this.globalPlaylistSongContainer.transition({
             perspective: "100px",
             transformOrigin: '50% 0%',
             rotateX: 0
@@ -690,10 +694,10 @@ var GlobalPlaylistManager = (function () {
         this.isCollapsed = false;
     };
     GlobalPlaylistManager.prototype.takeFocus = function () {
-        $("#globalPlaylistContainer").transition({
+        this.globalPlaylistContainer.transition({
             bottom: 0
         });
-        $("#globalPlaylistSongContainer").transition({
+        this.globalPlaylistSongContainer.transition({
             perspective: "100px",
             transformOrigin: '50% 0%',
             rotateX: -10

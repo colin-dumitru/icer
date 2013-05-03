@@ -524,13 +524,20 @@ class GlobalPlaylistManager {
 
     private showSongMenu = true;
 
+    private volumeSliderContainer = null;
+    private globalPlaylistSongContainer = null;
+    private globalPlaylistContainer = null;
+
     bind() {
+        this.volumeSliderContainer = $("#volumeSliderContainer");
+        this.globalPlaylistSongContainer = $("#globalPlaylistSongContainer");
+        this.globalPlaylistContainer = $("#globalPlaylistContainer");
+
         $(window).mousemove((event) => {
-            if (event.clientY > (dimensions.windowHeight - 15) &&
-                (event.clientX < (dimensions.windowWidth / 2 - 185) || event.clientX > (dimensions.windowWidth / 2 + 235))) {
-                if (this.isCollapsed) {
-                    this.giveFocus();
-                }
+            if (this.isCollapsed
+                && event.clientY > (dimensions.windowHeight - 15)
+                && (event.clientX < (dimensions.windowWidth / 2 - 185) || event.clientX > (dimensions.windowWidth / 2 + 235))) {
+                this.giveFocus();
             }
 
             if (event.clientY < (dimensions.windowHeight - 155)) {
@@ -538,13 +545,13 @@ class GlobalPlaylistManager {
                     this.takeFocus();
                 }
                 if (this.isVolumeVisible) {
-                    $("#volumeSliderContainer").hide();
+                    this.volumeSliderContainer.hide();
                     this.isVolumeVisible = false;
                 }
             }
         });
 
-        $("#volumeSliderContainer").slider({
+        this.volumeSliderContainer.slider({
             orientation: "vertical",
             range: "min",
             min: 0,
@@ -556,7 +563,7 @@ class GlobalPlaylistManager {
         });
 
         $("#volumeButton").mouseenter(() => {
-            $("#volumeSliderContainer").show();
+            this.volumeSliderContainer.show();
             this.isVolumeVisible = true;
         });
 
@@ -586,7 +593,7 @@ class GlobalPlaylistManager {
             }
         });
 
-        $("#globalPlaylistSongContainer").sortable({
+        this.globalPlaylistSongContainer.sortable({
             axis: "x",
             start: (e, ui) => this.songStartDrag(ui.item),
             stop: (e, ui) => this.updateOrder(ui.item)
@@ -740,7 +747,7 @@ class GlobalPlaylistManager {
                 this.playSong(song);
             })
             .mousedown((e) => this.startMenuTimer(song, e.clientX, e.clientY));
-        $("#globalPlaylistSongContainer").append(template);
+        this.globalPlaylistSongContainer.append(template);
     }
 
     private startMenuTimer(song:Song, x:number, y:number) {
@@ -763,21 +770,21 @@ class GlobalPlaylistManager {
 
     deleteSong(song:Song) {
         this.songQueue.splice(this.songQueue.indexOf(song), 1);
-        $("#globalPlaylistSongContainer").find("#globalPlay" + song.mbid).remove();
+        this.globalPlaylistSongContainer.find("#globalPlay" + song.mbid).remove();
     }
 
     clearSongs() {
         this.songQueue = [];
         this.playingSong = null;
-        $("#globalPlaylistSongContainer").empty();
+        this.globalPlaylistSongContainer.empty();
     }
 
     giveFocus() {
-        $("#globalPlaylistContainer")
+        this.globalPlaylistContainer
             .transition({
                 bottom: 120
             });
-        $("#globalPlaylistSongContainer")
+        this.globalPlaylistSongContainer
             .transition({
                 perspective: "100px",
                 transformOrigin: '50% 0%',
@@ -789,11 +796,11 @@ class GlobalPlaylistManager {
     }
 
     takeFocus() {
-        $("#globalPlaylistContainer")
+        this.globalPlaylistContainer
             .transition({
                 bottom: 0
             });
-        $("#globalPlaylistSongContainer")
+        this.globalPlaylistSongContainer
             .transition({
                 perspective: "100px",
                 transformOrigin: '50% 0%',

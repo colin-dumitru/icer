@@ -44,13 +44,11 @@ function handleLoginSuccess() {
 
 function signInCallback(authResult) {
     if (authResult['code']) {
-        console.log(authResult);
         $.ajax("/storeToken", {
             data: JSON.stringify({
                 "access_token": authResult["access_token"],
                 "token": token
             }),
-            dataType: "json",
             contentType: 'application/json; charset=utf-8',
             type: "POST",
             error: function (reason) {
