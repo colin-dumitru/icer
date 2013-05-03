@@ -77,7 +77,7 @@
 }
 
 .radioManagerButton:hover {
-    background: #9c5b4d;
+    background: #af6b53;
 }
 
 .radioManagerButtonLarge {
@@ -93,7 +93,7 @@
 }
 
 .radioManagerButtonLarge:hover {
-    background: #9c5b4d;
+    background: #af6b53;
 }
 
 #radioBuilderTable {
@@ -115,7 +115,7 @@
 }
 
 #radioAddButtonCell:hover {
-    background: #c5948a;
+    background: #cfa799;
 }
 
 .radioCriteriaOption {
@@ -139,7 +139,7 @@
 }
 
 .radioCriteriaOption:hover {
-    background: #9c5b4d;
+    background: #af6b53;
 }
 
 #radioCriteriaContainer {
@@ -170,7 +170,7 @@
 }
 
 .radioCriteriaCloseCell {
-    background: #9c5b4d;
+    background: #af6b53;
     color: #edfffc;
     font-family: 'Roboto', sans-serif;
     font-size: 20px;
@@ -179,5 +179,5 @@
 }
 
 .radioCriteriaCloseCell:hover {
-    background: #c5948a;
+    background: #cfa799;
 }

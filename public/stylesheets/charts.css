@@ -164,7 +164,7 @@
     font-size: 30px;
     width: 45px;
     height: 100%;
-    color: #9c5b4d;
+    color: #af6b53;
 }
 
 .chartChangeArrowEqual {
@@ -219,7 +219,7 @@
 }
 
 .chartMenuButton:hover {
-    background: #9c5b4d;
+    background: #af6b53;
 }
 
 #chartsWhenButton {
@@ -238,7 +238,7 @@
 }
 
 #chartsWhenButton:hover {
-    background: #9c5b4d;
+    background: #589c9b;
 }
 
 #chartsDoneButton {
@@ -258,7 +258,7 @@
 }
 
 #chartsDoneButton:hover {
-    background: #9c5b4d;
+    background: #af6b53;
 }
 
 #chartsCancelButton {
@@ -271,14 +271,14 @@
     font-family: 'Noto Sans', sans-serif;
     width: 100px;
     height: 50px;
-    background: #9c5b4d;
+    background: #af6b53;
     color: #edfffc;
     font-size: 30px;
     cursor: pointer;
 }
 
 #chartsCancelButton:hover {
-    background: #9c5b4d;
+    background: #af6b53;
 }
 
 #chartsYearContainer {
@@ -307,7 +307,7 @@
 }
 
 #chartsYearContainer td:hover {
-    background: #9c5b4d;
+    background: #af6b53;
 }
 
 #chartsMonthContainer {
@@ -336,7 +336,7 @@
 }
 
 #chartsMonthContainer td:hover {
-    background: #9c5b4d;
+    background: #af6b53;
 }
 
 #chartsWeekContainer {
@@ -362,7 +362,7 @@
 }
 
 #chartsWeekContainer td:hover {
-    background: #9c5b4d;
+    background: #af6b53;
 }
 
 #chartsWeekContainer td span {
@@ -400,7 +400,7 @@
 }
 
 #chartsDayContainer td:hover {
-    background: #9c5b4d;
+    background: #af6b53;
 }
 
 #chartsDayContainer td span {

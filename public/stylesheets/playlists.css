@@ -74,7 +74,7 @@
 
 #playlistSongContainer {
     background: #346661;
-    border: 5px solid #589c9b;
+    border: 5px solid #82aba8;
     width: 570px;
     height: 350px;
     box-shadow: black 0px 0px 20px;
@@ -100,12 +100,12 @@
 }
 
 #playPlaylistButton:hover {
-    background: #c5948a;
+    background: #cfa799;
 }
 
 #deletePlaylistButton {
     border: none;
-    background: #9c5b4d;
+    background: #af6b53;
     color: #edfffc;
     font-size: 15px;
     height: 30px;
@@ -114,12 +114,12 @@
 }
 
 #deletePlaylistButton:hover {
-    background: #c5948a;
+    background: #cfa799;
 }
 
 #sharePlaylistButton {
     border: none;
-    background: #589c9b;
+    background: #82aba8;
     color: #edfffc;
     font-size: 15px;
     height: 30px;
@@ -128,5 +128,5 @@
 }
 
 #sharePlaylistButton:hover {
-    background: #c5948a;
+    background: #cfa799;
 }

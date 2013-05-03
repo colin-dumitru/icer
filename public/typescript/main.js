@@ -274,12 +274,20 @@ var ItemList = (function () {
         });
     };
     ItemList.prototype.switchItem = function (item) {
+        this.giveItemFocus(item);
+        this.selectedItem = item;
+        this.takeFocus();
+    };
+    ItemList.prototype.giveItemFocus = function (item) {
         if (this.selectedItem != null) {
             this.selectedItem.rootNode.removeClass("itemListFocused");
         }
         item.rootNode.addClass("itemListFocused");
-        this.selectedItem = item;
-        this.takeFocus();
+    };
+    ItemList.prototype.findItem = function (id) {
+        return this.itemList.filter(function (item) {
+            return item.id == id;
+        })[0];
     };
     ItemList.prototype.buildItemNode = function (item) {
         var li = document.createElement("li");

@@ -90,7 +90,7 @@ class SearchManager {
     }
 
     public givePreviousSessionFocus() {
-        if (this.currentIndex == 0) {
+        if (this.currentIndex <= 0) {
             return;
         }
         this.giveSessionFocus(this.searchSessionsQueue[this.currentIndex - 1]);
@@ -98,7 +98,7 @@ class SearchManager {
 
 
     public giveNextSessionFocus() {
-        if (this.currentIndex == (this.searchSessionsQueue.length - 1)) {
+        if (this.currentIndex >= (this.searchSessionsQueue.length - 1)) {
             return;
         }
         this.giveSessionFocus(this.searchSessionsQueue[this.currentIndex + 1]);
@@ -107,7 +107,6 @@ class SearchManager {
     public giveNextPageFocus() {
         var session = this.searchSessionsQueue[this.currentIndex];
         session.pageManager.nextPage();
-
     }
 
     public givePreviousPageFocus() {
@@ -134,6 +133,7 @@ class SearchManager {
                 }
             })
         }, 400);
+        itemList.switchItem(itemList.findItem(session.id));
     }
 
     private buildSessionItem(session:SearchSession) {
@@ -160,7 +160,26 @@ class SearchManager {
 
     private buildPage(session:SearchSession) {
         var htmlTemplate = template("#searchPageTemplate", session.id);
-        $("#searchTableContainer").append(htmlTemplate);
+        $("#searchTableContainer")
+            .append(htmlTemplate);
+        session.rootNode().find("#searchPageDelete").click(() => {
+            this.deleteSession(session);
+        });
+    }
+
+    private deleteSession(session:SearchSession) {
+        $(session.rootNode())
+            .fadeOut(400, function () {
+                this.remove()
+            });
+        delete this.searchSessions[session.id];
+        this.searchSessionsQueue.splice(this.searchSessionsQueue.indexOf(session), 1);
+
+        if (this.currentIndex > (this.searchSessionsQueue.length - 1)) {
+            this.currentIndex = this.searchSessionsQueue.length - 1;
+        }
+        this.giveSessionFocus(this.searchSessionsQueue[this.currentIndex]);
+        itemList.deleteItem(session.id);
     }
 }
 

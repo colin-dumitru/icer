@@ -304,7 +304,7 @@ class ItemList {
         this.bindItemNode(item);
     }
 
-    public deleteItem(id:string) {
+    deleteItem(id:string) {
         var item = this.itemList.filter(item => item.id == id);
         var indexOfItem = this.itemList.indexOf(item[0]);
         this.itemList.splice(indexOfItem, 1);
@@ -323,13 +323,20 @@ class ItemList {
     }
 
     public switchItem(item:Item) {
+        this.giveItemFocus(item);
+        this.selectedItem = item;
+        this.takeFocus();
+    }
+
+    public giveItemFocus(item:Item) {
         if (this.selectedItem != null) {
             this.selectedItem.rootNode.removeClass("itemListFocused")
         }
         item.rootNode.addClass("itemListFocused");
+    }
 
-        this.selectedItem = item;
-        this.takeFocus();
+    public findItem(id:string):Item {
+        return this.itemList.filter(item => item.id == id)[0];
     }
 
     private buildItemNode(item:Item) {
@@ -342,7 +349,7 @@ class ItemList {
 }
 
 class Item {
-    constructor(public id:String, public title:String) {
+    constructor(public id:string, public title:string) {
     }
 
     onSelect:() => any;
