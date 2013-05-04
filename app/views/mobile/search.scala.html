@@ -1,0 +1,29 @@
+@(songs: List[model.Song])
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title> Search Result </title>
+</head>
+<body>
+    <div class="searchResult">
+        @for(song <- songs) {
+            <div class="searchItemTableContainer">
+                <table class="searchItemTable">
+                    <tr>
+                        <td rowspan="2" class="searchItemImage"><img src="@song.imageUrl" /></td>
+                        <td class="searchItemTitle">@song.title</td>
+                        <td rowspan="2" class="searchItemOptionContainer"></td>
+                    </tr>
+                    <tr>
+                        <td>@song.artist</td>
+                    </tr>
+                </table>
+            </div>
+        }
+    </div>
+</body>
+</html>
+

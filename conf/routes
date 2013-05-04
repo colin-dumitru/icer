@@ -26,3 +26,8 @@ POST /playlist/delete/:idPlaylist controllers.playlist.Playlists.deletePlaylist(
 
 #Chart
 POST    /chart/generate/:startDate/:endDate             controllers.chart.Chart.generateChart(startDate:String, endDate:String)
+
+#Mobile
+GET     /mobile                      controllers.Application.mobile
+GET     /mobile/search/:query        controllers.search.Search.search(query)
+GET     /mobile/section/search      controllers.search.Search.section

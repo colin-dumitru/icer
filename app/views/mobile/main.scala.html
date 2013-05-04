@@ -1,0 +1,79 @@
+@(title: String, name: String, soundCloudId: String, lastFmApiKey: String)
+
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title> @title </title>
+
+        <link href='http://fonts.googleapis.com/css?family=Days+One' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Noto+Sans' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+
+        <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" />
+
+        <link rel="stylesheet" href="@routes.Assets.at("stylesheets/mobile/main.css")">
+        <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
+
+        <script type="text/javascript">
+            var soundCloudId =
+            @Html("\"" + soundCloudId + "\"")
+            ;
+            var lastFmApiKey =
+            @Html("\"" + lastFmApiKey + "\"")
+            ;
+        </script>
+
+        <script src="http://connect.soundcloud.com/sdk.js"></script>
+        <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+        <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
+        <script src="@routes.Assets.at("javascripts/jquery.transit_dev.js")"></script>
+        <script src="@routes.Assets.at("javascripts/md5.js")"></script>
+
+        <script src="@routes.Assets.at("typescript/mobile/main.js")"></script>
+
+    </head>
+    <body onload="run();">
+        <div id="header">
+            <select id="menuSelect">
+                <option>Search</option>
+                <option>Playlists</option>
+                <option>Radio</option>
+            </select>
+            <div id="title">
+                <span id="titleSpan">Title</span>
+                <img src="@routes.Assets.at("images/title_arrow.png")" />
+            </div>
+        </div>
+        <div id="content">
+
+        </div>
+        <div id="footer">
+            <div id="playControls">
+                <img class="playControl" src="@routes.Assets.at("images/previous.png")" />
+                <img class="playControl" src="@routes.Assets.at("images/play.png")" />
+                <img class="playControl" src="@routes.Assets.at("images/next.png")" />
+                <div class="volumeContainer">
+                    <img src="@routes.Assets.at("images/volume_button.png")" />
+                    <div id="volumeSlider"></div>
+                </div>
+            </div>
+            <div id="progressBars"></div>
+            <img id="playbackArrow" src="@routes.Assets.at("images/playback_arrow.png")" />
+
+            <div id="playbackContainer">
+                <table class="playbackTable">
+                    <tr>
+                        <td rowspan="2" style="width: 100px; height: 200px"><div style="width: 100%; height: 200px; background: red"></div></td>
+                        <td rowspan="4"><div style="width: 100%; height: 100%; background: blue"></div></td>
+                    </tr>
+                    <tr></tr>
+
+                    <tr><td><div>title</div></td></tr>
+                    <tr><td><div>artist</div></td></tr>
+                </table>
+            </div>
+        </div>
+    </body>
+</html>
+

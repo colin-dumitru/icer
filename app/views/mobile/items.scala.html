@@ -1,0 +1,29 @@
+@(content: => Html)
+
+
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title> Item List </title>
+
+        <script type="text/javascript" src="@routes.Assets.at("typescript/mobile/items.js")"></script>
+    </head>
+    <body>
+        <table id="itemTable">
+            <tr>
+                <td id="itemContentCell">
+                    <div id="itemContent">
+                    </div>
+                </td>
+                <td id="itemListCell">
+                    <div id="itemListContainer">
+                        <input id="itemInput" />
+                        <div id="itemList" class="itemList"></div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </body>
+</html>
+

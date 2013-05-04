@@ -19,6 +19,12 @@ object Application extends Controller {
         Global.soundCloudClientId, Global.lastFmApiKey))
   }
 
+  def mobile = Secured {
+    (request, userId) =>
+      Ok(views.html.mobile.main("Welcome to UPlay3D.", Auth.userInfo(request.session("access_token")).name,
+        Global.soundCloudClientId, Global.lastFmApiKey))
+  }
+
 
   def login() = Action {
     val token = MessageDigest.getInstance("MD5").digest(Random.nextString(10).getBytes).toString

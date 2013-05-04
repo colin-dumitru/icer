@@ -1,0 +1,30 @@
+@(playlists: List[model.Playlist])
+
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <link rel="stylesheet" href="@routes.Assets.at("stylesheets/mobile/search.css")">
+        <script type="text/javascript" src="@routes.Assets.at("typescript/mobile/search.js")"></script>
+        <title> Search </title>
+    </head>
+    <body>
+        @mobile.items {
+            <div>No Searches Performed</div>
+        }
+
+        <div id="searchOptionContainer">
+            <div>
+                <img class="searchOption" src="@routes.Assets.at("images/play.png")" />
+                <img class="searchOption" src="@routes.Assets.at("images/add_playing.png")" />
+                <span id="searchAddToPlaylist">Add To</span>
+                <select id="searchPlaylistList">
+                @for(playlist <- playlists) {
+                    <option value="@playlist.id">@playlist.title</option>
+                }
+                </select>
+            </div>
+        </div>
+    </body>
+</html>
+
