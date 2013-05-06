@@ -292,7 +292,7 @@ class Song {
 }
 
 class SongInfo {
-    constructor(public title:string, public artist:string, public album:string, public genre:string, public peek:number, public weeksOnTop:number) {
+    constructor(public title:string, public artist:string, public album:string, public genre:string, public peek:number, public weeksOnTop:number, public positionChange:number) {
     }
 }
 

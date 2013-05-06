@@ -12,5 +12,5 @@ import scala.beans.BeanProperty
  */
 case class SongModelView(@BeanProperty val mbid: String, @BeanProperty val title: String, @BeanProperty val artist: String,
                          @BeanProperty val album: String, @BeanProperty val genre: String, @BeanProperty val imageUrl: String,
-                         @BeanProperty val peek: Long, @BeanProperty val weeksOnTop: Long) {
+                         @BeanProperty val peek: Long, @BeanProperty val weeksOnTop: Long, @BeanProperty val positionChange: Long) {
 }

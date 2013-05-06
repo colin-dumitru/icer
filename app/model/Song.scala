@@ -76,14 +76,15 @@ object Song {
     }
   }
 
-  def getSongsForChart(startDate: String, endDate: String): Seq[Song] = {
+  def getSongsForChart(date: String, startInterval: String, endInterval: String): Seq[Song] = {
     DB.withConnection {
       implicit connection =>
         SQL("select s.* from playback_history p, songs s " +
-          "where s.mbid = p.song_id and p.play_date >= {startDate}::date and p.play_date <= {endDate}::date " +
+          "where s.mbid = p.song_id and p.play_date >= {date}::date - {startInterval}::interval and p.play_date < {date}::date + {endInterval}::interval " +
           "group by s.mbid order by count(p.*) desc limit 100;").on(
-          "startDate" -> startDate,
-          "endDate" -> endDate).as(Song.simple *)
+          "date" -> date,
+          "startInterval" -> startInterval,
+          "endInterval" -> endInterval).as(Song.simple *)
     }
   }
 }

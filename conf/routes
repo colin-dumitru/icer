@@ -25,7 +25,7 @@ POST /playlist/song/add/:idPlaylist controllers.playlist.Playlists.addSongToPlay
 POST /playlist/delete/:idPlaylist controllers.playlist.Playlists.deletePlaylist(idPlaylist: String)
 
 #Chart
-POST    /chart/generate/:startDate/:endDate             controllers.chart.Chart.generateChart(startDate:String, endDate:String)
+POST    /chart/generate/:date/:interval             controllers.chart.Chart.generateChart(date:String, interval:String)
 
 #Mobile
 GET     /mobile                      controllers.Application.mobile

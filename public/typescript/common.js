@@ -1,7 +1,5 @@
 var Dimensions = (function () {
-    function Dimensions() {
-    }
-
+    function Dimensions() { }
     return Dimensions;
 })();
 function template(id) {
@@ -15,9 +13,7 @@ function template(id) {
     });
 }
 var SongMenu = (function () {
-    function SongMenu() {
-    }
-
+    function SongMenu() { }
     SongMenu.prototype.show = function (options, position, callback) {
         var _this = this;
         var container = $("#songMenuContainer");
@@ -29,8 +25,8 @@ var SongMenu = (function () {
             left: position.x - 40,
             top: position.y - 20
         }).mouseleave(function () {
-                $("#songMenuContainer").fadeOut(200);
-            }).fadeIn(200);
+            $("#songMenuContainer").fadeOut(200);
+        }).fadeIn(200);
     };
     SongMenu.prototype.buildOption = function (option, index, callback) {
         var container = $("<div></div>");
@@ -45,7 +41,6 @@ var SongDetailManager = (function () {
     function SongDetailManager() {
         this.menuHidden = true;
     }
-
     SongDetailManager.prototype.bind = function () {
         var songDetailContainer = $("#songDetailContainer");
         this.menuWidth = songDetailContainer.width();
@@ -69,7 +64,7 @@ var SongDetailManager = (function () {
         var optionTemplate = template("#songDetailOptionTemplate", option.label);
         container.append(optionTemplate);
         $("#songDetailMenuCell").append(container);
-        if (option.subOptions.length == 0) {
+        if(option.subOptions.length == 0) {
             this.bindOptionClick(optionIndex, null, container, detailCallback);
         } else {
             this.buildSubOptions(option.subOptions, optionIndex, detailCallback, container);
@@ -120,7 +115,7 @@ var SongDetailManager = (function () {
         $("#songDetailBioCell").empty().append(container);
     };
     SongDetailManager.prototype.getTourInfo = function (data) {
-        if (data["artist"]["ontour"] == "1") {
+        if(data["artist"]["ontour"] == "1") {
             return "On tour";
         } else {
             return "Not on tour";
@@ -132,10 +127,10 @@ var SongDetailManager = (function () {
     SongDetailManager.prototype.bindHover = function () {
         var _this = this;
         $(window).mousemove(function (event) {
-            if (_this.menuHidden) {
+            if(_this.menuHidden) {
                 return;
             }
-            if (event.clientX < (_this.menuX - 10) || event.clientX > (_this.menuX + _this.menuWidth + 10) || event.clientY < (_this.menuY - 10) || event.clientY > (_this.menuY + _this.menuHeight + 10)) {
+            if(event.clientX < (_this.menuX - 10) || event.clientX > (_this.menuX + _this.menuWidth + 10) || event.clientY < (_this.menuY - 10) || event.clientY > (_this.menuY + _this.menuHeight + 10)) {
                 _this.hide();
             }
         });
@@ -157,59 +152,59 @@ function randomSongTitle() {
         {
             artist: "Bruno Mars",
             title: "When I Was Your Man"
-        },
+        }, 
         {
             artist: "Imagine Dragons",
             title: "Radioactive"
-        },
+        }, 
         {
             artist: "Justin Timberlake",
             title: "Suit and tie"
-        },
+        }, 
         {
             artist: "Jonas Brothers",
             title: "Pom Poms"
-        },
+        }, 
         {
             artist: " Demi Lovato",
             title: "Heart attack"
-        },
+        }, 
         {
             artist: "Justin Timberlake",
             title: "Mirrors"
-        },
+        }, 
         {
             artist: "Fall Out Boy",
             title: "My Songs"
-        },
+        }, 
         {
             artist: "Darius Rucker",
             title: "Wagon Wheel"
-        },
+        }, 
         {
             artist: " Drake",
             title: "Started From The Bottom"
-        },
+        }, 
         {
             artist: " Fun",
             title: "Carry On"
-        },
+        }, 
         {
             artist: "Blake Shelton",
             title: "Sure Be Cool If You Did"
-        },
+        }, 
         {
             artist: "Baauer",
             title: "Harlem Shake"
-        },
+        }, 
         {
             artist: "Taylor Swift",
             title: "22"
-        },
+        }, 
         {
             artist: "Chris Brown",
             title: "Fine China"
-        },
+        }, 
         {
             artist: "Maroon 5",
             title: "Daylight"
@@ -223,35 +218,35 @@ function buildSmallSong(song) {
     parentDiv.addClass("imageContainer");
     parentDiv.addClass("inline");
     parentDiv.append(imageTemplate);
-    if (song.imageUrl != null) {
+    if(song.imageUrl != null) {
         parentDiv.find("#songImage").attr("src", song.imageUrl);
     }
     return parentDiv;
 }
 function getLargeImage(images) {
-    if (images == null) {
+    if(images == null) {
         return "/assets/images/logo.gif";
     }
-    for (var i = 0; i < images.length; i++) {
-        if (images[i].size == "medium") {
+    for(var i = 0; i < images.length; i++) {
+        if(images[i].size == "medium") {
             return images[i]["#text"];
         }
     }
     return "/assets/images/logo.gif";
 }
 function getExtraLargeImage(images) {
-    if (images == null) {
+    if(images == null) {
         return "/assets/images/logo.gif";
     }
-    for (var i = 0; i < images.length; i++) {
-        if (images[i].size == "extralarge") {
+    for(var i = 0; i < images.length; i++) {
+        if(images[i].size == "extralarge") {
             return images[i]["#text"];
         }
     }
     return "/assets/images/logo.gif";
 }
 function guid(mbid, seed) {
-    if (mbid == null || mbid.length != 36) {
+    if(mbid == null || mbid.length != 36) {
         return md5(seed);
     } else {
         return mbid;
@@ -261,7 +256,7 @@ function isMbid(mbid) {
     return mbid.length == 36;
 }
 function isMobile() {
-    if (navigator.userAgent.match(/Android/i) || navigator.userAgent.match(/webOS/i) || navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPad/i) || navigator.userAgent.match(/iPod/i) || navigator.userAgent.match(/BlackBerry/i) || navigator.userAgent.match(/Windows Phone/i)) {
+    if(navigator.userAgent.match(/Android/i) || navigator.userAgent.match(/webOS/i) || navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPad/i) || navigator.userAgent.match(/iPod/i) || navigator.userAgent.match(/BlackBerry/i) || navigator.userAgent.match(/Windows Phone/i)) {
         return true;
     } else {
         return false;
@@ -273,19 +268,18 @@ var Song = (function () {
         this.info = info;
         this.imageUrl = imageUrl;
     }
-
     return Song;
 })();
 var SongInfo = (function () {
-    function SongInfo(title, artist, album, genre, peek, weeksOnTop) {
+    function SongInfo(title, artist, album, genre, peek, weeksOnTop, positionChange) {
         this.title = title;
         this.artist = artist;
         this.album = album;
         this.genre = genre;
         this.peek = peek;
         this.weeksOnTop = weeksOnTop;
+        this.positionChange = positionChange;
     }
-
     return SongInfo;
 })();
 var Artist = (function () {
@@ -294,14 +288,12 @@ var Artist = (function () {
         this.info = info;
         this.imageUrl = imageUrl;
     }
-
     return Artist;
 })();
 var ArtistInfo = (function () {
     function ArtistInfo(name) {
         this.name = name;
     }
-
     return ArtistInfo;
 })();
 var Album = (function () {
@@ -310,7 +302,6 @@ var Album = (function () {
         this.info = info;
         this.imageUrl = imageUrl;
     }
-
     return Album;
 })();
 var AlbumInfo = (function () {
@@ -318,14 +309,12 @@ var AlbumInfo = (function () {
         this.name = name;
         this.artist = artist;
     }
-
     return AlbumInfo;
 })();
 var Tag = (function () {
     function Tag(name) {
         this.name = name;
     }
-
     return Tag;
 })();
 var dimensions = new Dimensions();

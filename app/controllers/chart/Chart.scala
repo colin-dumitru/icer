@@ -12,10 +12,22 @@ import modelview.SongModelView
 
 object Chart extends Controller {
 
-  def generateChart(startDate: String, endDate: String) = Secured {
+  def generateChart(date: String, interval: String) = Secured {
     (request, idUser) => {
-      val playback = Song.getSongsForChart(startDate, endDate)
-      val playbackView = playback.map(p => new SongModelView(p.mbid, p.title, p.artist, p.album, p.genre, p.imageUrl, p.peek, p.weeksOnTop)).toArray
+      val currentPlayback = Song.getSongsForChart(date, "0 day", interval)
+      val previousPlayback = Song.getSongsForChart(date, interval, "0 day")
+      val playbackView = currentPlayback.zipWithIndex.map(c => {
+        var positionChange = 0
+
+        val song = previousPlayback.filter(s => s.mbid.equals(c._1.mbid))
+        if (song.isEmpty) {
+          positionChange = 100 - c._2
+        } else {
+          positionChange = previousPlayback.indexOf(song.head) - c._2
+        }
+
+        new SongModelView(c._1.mbid, c._1.title, c._1.artist, c._1.album, c._1.genre, c._1.imageUrl, c._1.peek, c._1.weeksOnTop, positionChange)
+      }).toArray
       Ok(generate(playbackView)).as("application/json")
     }
   }

@@ -1,16 +1,11 @@
 var __extends = this.__extends || function (d, b) {
-    function __() {
-        this.constructor = d;
-    }
-
+    function __() { this.constructor = d; }
     __.prototype = b.prototype;
     d.prototype = new __();
-}
+};
 var searchManager = null;
 var SearchBinder = (function () {
-    function SearchBinder() {
-    }
-
+    function SearchBinder() { }
     SearchBinder.prototype.buildPage = function (rootNode) {
         searchManager = new SearchManager(rootNode);
         itemList.popItemList("search");
@@ -26,35 +21,23 @@ var SearchBinder = (function () {
         $(window).bind("keydown", this.navigationHandler);
     };
     SearchBinder.prototype.navigationHandler = function (event) {
-        switch (event.which) {
+        switch(event.which) {
             case 37:
-            {
                 searchManager.givePreviousPageFocus();
                 event.preventDefault();
                 break;
-
-            }
             case 38:
-            {
                 searchManager.givePreviousSessionFocus();
                 event.preventDefault();
                 break;
-
-            }
             case 39:
-            {
                 searchManager.giveNextPageFocus();
                 event.preventDefault();
                 break;
-
-            }
             case 40:
-            {
                 searchManager.giveNextSessionFocus();
                 event.preventDefault();
                 break;
-
-            }
         }
     };
     SearchBinder.prototype.loadData = function () {
@@ -77,7 +60,6 @@ var SearchManager = (function () {
         this.searchSessionsQueue = [];
         this.previousSessionId = 0;
     }
-
     SearchManager.prototype.performSearch = function (query) {
         var sessionId = "search" + this.previousSessionId++;
         var session = new SearchSession(sessionId, query, query);
@@ -97,13 +79,13 @@ var SearchManager = (function () {
         this.giveSessionFocus(session);
     };
     SearchManager.prototype.givePreviousSessionFocus = function () {
-        if (this.currentIndex <= 0) {
+        if(this.currentIndex <= 0) {
             return;
         }
         this.giveSessionFocus(this.searchSessionsQueue[this.currentIndex - 1]);
     };
     SearchManager.prototype.giveNextSessionFocus = function () {
-        if (this.currentIndex >= (this.searchSessionsQueue.length - 1)) {
+        if(this.currentIndex >= (this.searchSessionsQueue.length - 1)) {
             return;
         }
         this.giveSessionFocus(this.searchSessionsQueue[this.currentIndex + 1]);
@@ -128,7 +110,7 @@ var SearchManager = (function () {
         });
         window.setTimeout(function () {
             _this.searchSessionsQueue.forEach(function (session, index) {
-                if (index > _this.currentIndex) {
+                if(index > _this.currentIndex) {
                     $(session.rootNode()).addClass("hidden");
                 }
             });
@@ -167,7 +149,7 @@ var SearchManager = (function () {
         });
         delete this.searchSessions[session.id];
         this.searchSessionsQueue.splice(this.searchSessionsQueue.indexOf(session), 1);
-        if (this.currentIndex > (this.searchSessionsQueue.length - 1)) {
+        if(this.currentIndex > (this.searchSessionsQueue.length - 1)) {
             this.currentIndex = this.searchSessionsQueue.length - 1;
         }
         this.giveSessionFocus(this.searchSessionsQueue[this.currentIndex]);
@@ -179,7 +161,6 @@ var SearchCallback = (function () {
     function SearchCallback(session) {
         this.session = session;
     }
-
     SearchCallback.prototype.removeLoadingScreen = function (loadingContainer) {
         var container = this.session.rootNode().find(loadingContainer);
         container.fadeOut(400, function () {
@@ -200,20 +181,14 @@ var SearchCallback = (function () {
     SearchCallback.prototype.bindSongMenu = function (song, template) {
         var _this = this;
         var detailCallback = function (selectedOption, selectedSubOption) {
-            if (selectedOption == 0) {
+            if(selectedOption == 0) {
                 _this.playSong(song);
-            } else {
-                if (selectedOption == 2) {
-                    _this.pushSong(song);
-                } else {
-                    if (selectedOption == 3) {
-                        _this.searchFromSong(song);
-                    } else {
-                        if (selectedOption == 1) {
-                            _this.addSongToPlaylist(song, selectedSubOption);
-                        }
-                    }
-                }
+            } else if(selectedOption == 2) {
+                _this.pushSong(song);
+            } else if(selectedOption == 3) {
+                _this.searchFromSong(song);
+            } else if(selectedOption == 1) {
+                _this.addSongToPlaylist(song, selectedSubOption);
             }
         };
         template.click(function (e) {
@@ -221,15 +196,15 @@ var SearchCallback = (function () {
                 {
                     label: "Play Now",
                     subOptions: []
-                },
+                }, 
                 {
                     label: "Add To Playlist",
                     subOptions: _this.buildPlaylistList()
-                },
+                }, 
                 {
                     label: "Add to Now Playing",
                     subOptions: []
-                },
+                }, 
                 {
                     label: "Search From Here",
                     subOptions: []
@@ -241,7 +216,7 @@ var SearchCallback = (function () {
         });
     };
     SearchCallback.prototype.addSongToPlaylist = function (song, playlistIndex) {
-        if (playlistIndex == null) {
+        if(playlistIndex == null) {
             return;
         }
         var selectedPlaylist = playlistManager.getPlaylist()[playlistIndex];
@@ -276,7 +251,6 @@ var SearchSongCallback = (function (_super) {
         _super.call(this, session);
         this.session = session;
     }
-
     SearchSongCallback.prototype.load = function () {
         this.loadPage(1);
     };
@@ -292,11 +266,11 @@ var SearchSongCallback = (function (_super) {
         });
     };
     SearchSongCallback.prototype.onMainResult = function (tracks, page) {
-        for (var i = 0; i < tracks.length; i++) {
+        for(var i = 0; i < tracks.length; i++) {
             this.pushMainResult(tracks[i]);
         }
         this.session.rootNode().find("#searchPageSongsContainer").find("#loadMoreHorizontal").remove();
-        if (tracks.length == 5) {
+        if(tracks.length == 5) {
             var loadMoreTemplate = this.buildLoadMoreHorizontal(page + 1);
             this.session.rootNode().find("#searchPageSongsContainer").append(loadMoreTemplate);
         }
@@ -304,7 +278,7 @@ var SearchSongCallback = (function (_super) {
     };
     SearchSongCallback.prototype.pushMainResult = function (track) {
         var id = guid(track.mbid, track.name.trim() + track.artist.trim());
-        var song = new Song(id, new SongInfo(track.name, track.artist, null, null, 0, 0), getExtraLargeImage(track.image));
+        var song = new Song(id, new SongInfo(track.name, track.artist, null, null, 0, 0, 0), getExtraLargeImage(track.image));
         var itemTemplate = this.buildItemList(song);
         this.session.rootNode().find("#searchPageSongsContainer").append(itemTemplate);
         this.bindSongMenu(song, itemTemplate.find("#searchLargeImageContainer"));
@@ -335,7 +309,7 @@ var SearchSongCallback = (function (_super) {
         });
     };
     SearchSongCallback.prototype.onSimilarResults = function (res, song, itemTemplate, firstDisplay) {
-        if (res.error == null && res["similartracks"] != null && Array.isArray(res["similartracks"]["track"])) {
+        if(res.error == null && res["similartracks"] != null && Array.isArray(res["similartracks"]["track"])) {
             this.addSimilarSongs(res["similartracks"]["track"], song, itemTemplate, firstDisplay);
         } else {
             this.addNoSimilarSongsTemplate(itemTemplate);
@@ -344,10 +318,10 @@ var SearchSongCallback = (function (_super) {
     };
     SearchSongCallback.prototype.addSimilarSongs = function (tracks, song, itemTemplate, firstDisplay) {
         itemTemplate.find("#searchSongListContainer").empty();
-        for (var i = 0; i < tracks.length; i++) {
+        for(var i = 0; i < tracks.length; i++) {
             this.addSimilarSong(tracks[i], itemTemplate);
         }
-        if (firstDisplay) {
+        if(firstDisplay) {
             var loadMoreTemplate = this.buildLoadMoreVertical(song, itemTemplate);
             itemTemplate.find("#searchSongListContainer").append(loadMoreTemplate);
         } else {
@@ -368,7 +342,7 @@ var SearchSongCallback = (function (_super) {
     };
     SearchSongCallback.prototype.addSimilarSong = function (track, itemTemplate) {
         var id = guid(track.mbid, track.name.trim() + track.artist.name.trim());
-        var song = new Song(id, new SongInfo(track.name, track.artist.name, null, null, 0, 0), getLargeImage(track.image));
+        var song = new Song(id, new SongInfo(track.name, track.artist.name, null, null, 0, 0, 0), getLargeImage(track.image));
         var songTemplate = buildSmallSong(song);
         songTemplate.addClass("searchSimilarSong");
         itemTemplate.find("#searchSongListContainer").append(songTemplate);
@@ -381,7 +355,7 @@ var SearchSongCallback = (function (_super) {
         itemTemplate.find("#searchSongListContainer").append(container);
     };
     SearchSongCallback.prototype.buildSimilarSearchUrl = function (song, count) {
-        if (isMbid(song.mbid)) {
+        if(isMbid(song.mbid)) {
             return "http://ws.audioscrobbler.com/2.0/?method=track.getsimilar&mbid=" + song.mbid + "&api_key=" + lastFmApiKey + "&format=json&limit=" + count;
         } else {
             return "http://ws.audioscrobbler.com/2.0/?method=track.getsimilar&artist=" + song.info.artist + "&track=" + song.info.title + "&api_key=" + lastFmApiKey + "&format=json&limit=" + count;
@@ -408,7 +382,6 @@ var SearchArtistCallback = (function (_super) {
         _super.call(this, session);
         this.session = session;
     }
-
     SearchArtistCallback.prototype.load = function () {
         this.loadPage(1);
     };
@@ -437,11 +410,11 @@ var SearchArtistCallback = (function (_super) {
         });
     };
     SearchArtistCallback.prototype.onMainResult = function (artists, page) {
-        for (var i = 0; i < artists.length; i++) {
+        for(var i = 0; i < artists.length; i++) {
             this.pushMainResult(artists[i]);
         }
         this.session.rootNode().find("#searchPageArtistContainer").find("#loadMoreHorizontal").remove();
-        if (artists.length == 5) {
+        if(artists.length == 5) {
             var loadMoreTemplate = this.buildLoadMoreHorizontal(page + 1);
             this.session.rootNode().find("#searchPageArtistContainer").append(loadMoreTemplate);
         }
@@ -466,7 +439,7 @@ var SearchArtistCallback = (function (_super) {
         });
     };
     SearchArtistCallback.prototype.onArtistResults = function (res, itemTemplate, artist, page) {
-        if (res.error == null && res["toptracks"]["track"] != null) {
+        if(res.error == null && res["toptracks"]["track"] != null) {
             this.addArtistSongs(res["toptracks"]["track"], itemTemplate, artist, page);
         } else {
             this.addNoArtistSongsTemplate(itemTemplate);
@@ -474,11 +447,11 @@ var SearchArtistCallback = (function (_super) {
         this.removeSimilarLoader(itemTemplate, "#searchSimilarLoadingContainer");
     };
     SearchArtistCallback.prototype.addArtistSongs = function (tracks, itemTemplate, artist, page) {
-        for (var i = 0; i < tracks.length; i++) {
+        for(var i = 0; i < tracks.length; i++) {
             this.addArtistSong(tracks[i], itemTemplate);
         }
         itemTemplate.find("#loadMoreVertical").remove();
-        if (tracks.length == 5) {
+        if(tracks.length == 5) {
             var loadMoreTemplate = this.buildLoadMoreVertical(page + 1, artist, itemTemplate);
             itemTemplate.find("#searchSongListContainer").append(loadMoreTemplate);
         }
@@ -497,7 +470,7 @@ var SearchArtistCallback = (function (_super) {
     };
     SearchArtistCallback.prototype.addArtistSong = function (track, itemTemplate) {
         var id = guid(track.mbid, track.name.trim() + track.artist.name.trim());
-        var song = new Song(id, new SongInfo(track.name, track.artist.name, null, null, 0, 0), getLargeImage(track.image));
+        var song = new Song(id, new SongInfo(track.name, track.artist.name, null, null, 0, 0, 0), getLargeImage(track.image));
         var songTemplate = buildSmallSong(song);
         songTemplate.addClass("searchSimilarSong");
         this.bindSongMenu(song, songTemplate);
@@ -510,7 +483,7 @@ var SearchArtistCallback = (function (_super) {
         itemTemplate.find("#searchSongListContainer").append(container);
     };
     SearchArtistCallback.prototype.buildArtistSearchUrl = function (artist, page) {
-        if (isMbid(artist.mbid)) {
+        if(isMbid(artist.mbid)) {
             return "http://ws.audioscrobbler.com/2.0/?method=artist.gettoptracks&mbid=" + artist.mbid + "&api_key=" + lastFmApiKey + "&format=json&limit=5&page=" + page;
         } else {
             return "http://ws.audioscrobbler.com/2.0/?method=artist.gettoptracks&artist=" + artist.info.name + "&api_key=" + lastFmApiKey + "&format=json&limit=5&page=" + page;
@@ -536,7 +509,6 @@ var SearchAlbumCallback = (function (_super) {
         _super.call(this, session);
         this.session = session;
     }
-
     SearchAlbumCallback.prototype.load = function () {
         this.loadPage(1);
     };
@@ -552,11 +524,11 @@ var SearchAlbumCallback = (function (_super) {
         });
     };
     SearchAlbumCallback.prototype.onMainResult = function (albums, page) {
-        for (var i = 0; i < albums.length; i++) {
+        for(var i = 0; i < albums.length; i++) {
             this.pushMainResult(albums[i]);
         }
         this.session.rootNode().find("#searchPageAlbumsContainer").find("#loadMoreHorizontal").remove();
-        if (albums.length == 5) {
+        if(albums.length == 5) {
             var loadMoreTemplate = this.buildLoadMoreHorizontal(page + 1);
             this.session.rootNode().find("#searchPageAlbumsContainer").append(loadMoreTemplate);
         }
@@ -594,7 +566,7 @@ var SearchAlbumCallback = (function (_super) {
         });
     };
     SearchAlbumCallback.prototype.onAlbumResults = function (res, itemTemplate) {
-        if (res.error == null && res["album"]["tracks"]["track"] != null) {
+        if(res.error == null && res["album"]["tracks"]["track"] != null) {
             var image = getLargeImage(res["album"]["image"]);
             this.addAlbumSongs(res["album"]["tracks"]["track"], image, itemTemplate);
         } else {
@@ -603,13 +575,13 @@ var SearchAlbumCallback = (function (_super) {
         this.removeSimilarLoader(itemTemplate, "#searchSimilarLoadingContainer");
     };
     SearchAlbumCallback.prototype.addAlbumSongs = function (tracks, image, itemTemplate) {
-        for (var i = 0; i < tracks.length; i++) {
+        for(var i = 0; i < tracks.length; i++) {
             this.addAlbumSong(tracks[i], image, itemTemplate);
         }
     };
     SearchAlbumCallback.prototype.addAlbumSong = function (track, image, itemTemplate) {
         var id = guid(track.mbid, track.name.trim() + track.artist.name.trim());
-        var song = new Song(id, new SongInfo(track.name, track.artist.name, null, null, 0, 0), image);
+        var song = new Song(id, new SongInfo(track.name, track.artist.name, null, null, 0, 0, 0), image);
         var songTemplate = buildSmallSong(song);
         songTemplate.addClass("searchSimilarSong");
         this.bindSongMenu(song, songTemplate);
@@ -622,7 +594,7 @@ var SearchAlbumCallback = (function (_super) {
         itemTemplate.find("#searchSongListContainer").append(container);
     };
     SearchAlbumCallback.prototype.buildAlbumSearchUrl = function (album) {
-        if (isMbid(album.mbid)) {
+        if(isMbid(album.mbid)) {
             "&api_key=ccb7bf48e8055843e17952fbeb6bfabd&artist=Cher&album=Believe&format=json";
             return "http://ws.audioscrobbler.com/2.0/?method=album.getinfo&mbid=" + album.mbid + "&api_key=" + lastFmApiKey + "&format=json";
         } else {
@@ -649,7 +621,6 @@ var SearchGenreCallback = (function (_super) {
         _super.call(this, session);
         this.session = session;
     }
-
     SearchGenreCallback.prototype.load = function () {
         this.loadPage(1);
     };
@@ -665,11 +636,11 @@ var SearchGenreCallback = (function (_super) {
         });
     };
     SearchGenreCallback.prototype.onMainResult = function (tags, page) {
-        for (var i = 0; i < tags.length; i++) {
+        for(var i = 0; i < tags.length; i++) {
             this.pushMainResult(tags[i]);
         }
         this.session.rootNode().find("#searchPageGenreContainer").find("#loadMoreHorizontal").remove();
-        if (tags.length == 5) {
+        if(tags.length == 5) {
             var loadMoreTemplate = this.buildLoadMoreHorizontal(page + 1);
             this.session.rootNode().find("#searchPageGenreContainer").append(loadMoreTemplate);
         }
@@ -706,7 +677,7 @@ var SearchGenreCallback = (function (_super) {
         });
     };
     SearchGenreCallback.prototype.onGenreResults = function (res, itemTemplate, page, tag) {
-        if (res.error == null && res["toptracks"]["track"] != null) {
+        if(res.error == null && res["toptracks"]["track"] != null) {
             this.addGenreSongs(res["toptracks"]["track"], itemTemplate, page, tag);
         } else {
             this.addNoGenreSongsTemplate(itemTemplate);
@@ -714,11 +685,11 @@ var SearchGenreCallback = (function (_super) {
         this.removeSimilarLoader(itemTemplate, "#searchGenreSimilarLoadingContainer");
     };
     SearchGenreCallback.prototype.addGenreSongs = function (tracks, itemTemplate, page, tag) {
-        for (var i = 0; i < tracks.length; i++) {
+        for(var i = 0; i < tracks.length; i++) {
             this.addGenreSong(tracks[i], itemTemplate);
         }
         itemTemplate.find("#loadMoreVertical").remove();
-        if (tracks.length == 5) {
+        if(tracks.length == 5) {
             var loadMoreTemplate = this.buildLoadMoreVertical(page + 1, tag, itemTemplate);
             itemTemplate.find("#searchGenreListContainer").append(loadMoreTemplate);
         }
@@ -737,7 +708,7 @@ var SearchGenreCallback = (function (_super) {
     };
     SearchGenreCallback.prototype.addGenreSong = function (track, itemTemplate) {
         var id = guid(track.mbid, track.name.trim() + track.artist.name.trim());
-        var song = new Song(id, new SongInfo(track.name, track.artist.name, null, null, 0, 0), getLargeImage(track.image));
+        var song = new Song(id, new SongInfo(track.name, track.artist.name, null, null, 0, 0, 0), getLargeImage(track.image));
         var songTemplate = buildSmallSong(song);
         songTemplate.addClass("searchSimilarSong");
         this.bindSongMenu(song, songTemplate);
@@ -769,7 +740,6 @@ var SearchPageManager = (function () {
         this.session = session;
         this.pageIndex = 0;
     }
-
     SearchPageManager.prototype.bind = function () {
         var _this = this;
         $(this.session.rootNode()).find("#searchMenuSongs").click(function () {
@@ -800,13 +770,13 @@ var SearchPageManager = (function () {
         this.getMenuItem(index).removeClass("searchMenuSelectorSelected");
     };
     SearchPageManager.prototype.nextPage = function () {
-        if (this.pageIndex > 2) {
+        if(this.pageIndex > 2) {
             return;
         }
         this.switchToPage(this.pageIndex + 1);
     };
     SearchPageManager.prototype.previousPage = function () {
-        if (this.pageIndex < 1) {
+        if(this.pageIndex < 1) {
             return;
         }
         this.switchToPage(this.pageIndex - 1);
@@ -823,51 +793,27 @@ var SearchPageManager = (function () {
         page.find(".searchPageSongContainer").removeClass("searchPageSongContainerFocused");
     };
     SearchPageManager.prototype.getMenuItem = function (index) {
-        switch (index) {
+        switch(index) {
             case 0:
-            {
                 return $(this.session.rootNode()).find("#searchMenuSongs");
-
-            }
             case 1:
-            {
                 return $(this.session.rootNode()).find("#searchMenuArtist");
-
-            }
             case 2:
-            {
                 return $(this.session.rootNode()).find("#searchMenuAlbums");
-
-            }
             case 3:
-            {
                 return $(this.session.rootNode()).find("#searchMenuGenre");
-
-            }
         }
     };
     SearchPageManager.prototype.getPage = function (index) {
-        switch (index) {
+        switch(index) {
             case 0:
-            {
                 return $(this.session.rootNode()).find("#searchPageSongs");
-
-            }
             case 1:
-            {
                 return $(this.session.rootNode()).find("#searchPageArtist");
-
-            }
             case 2:
-            {
                 return $(this.session.rootNode()).find("#searchPageAlbums");
-
-            }
             case 3:
-            {
                 return $(this.session.rootNode()).find("#searchPageGenre");
-
-            }
         }
     };
     return SearchPageManager;
@@ -878,7 +824,6 @@ var SearchSession = (function () {
         this.title = title;
         this.query = query;
     }
-
     SearchSession.prototype.rootNode = function () {
         return $("#" + this.id);
     };

@@ -25,7 +25,7 @@ class ChartsBinder implements SectionBinder {
     loadData() {
         var currentDate = new Date();
         var date = new ChartDate(currentDate.getFullYear(), (currentDate.getMonth() + 1), currentDate.getDate());
-        this.manager.loadSongList(date.toString(), date.toString());
+        this.manager.loadSongList(date.toString(), "1 day");
     }
 
     unbind() {
@@ -38,7 +38,8 @@ class ChartsManager {
     private longMonths = [1, 3, 5, 7, 8, 10, 12];
     private shortMonths = [4, 6, 9, 11];
     private startDate:ChartDate;
-    private endDate:ChartDate;
+    private interval:string;
+    private week:number;
 
     private arrowUp:any;
     private arrowDown:any;
@@ -58,7 +59,7 @@ class ChartsManager {
         $("#chartsYearContainer").find("td").each((index, elem) => {
             $(elem).click(() => {
                 this.startDate = new ChartDate(parseInt(elem.innerHTML), 1, 1);
-                this.endDate = new ChartDate(parseInt(elem.innerHTML), 12, 31);
+                this.interval = "1 year";
 
                 this.givePickerPageFocus(2);
             });
@@ -67,19 +68,16 @@ class ChartsManager {
             $(elem).click(() => {
                 var month = index + 1;
                 this.startDate.month = month;
-                this.endDate.month = month;
+                this.interval = "1 month";
 
                 if ($.inArray(month, this.longMonths) != -1) {
                     this.displayContainerValues("chartsWeekContainer", 0);
                 } else if ($.inArray(month, this.shortMonths) != -1) {
-                    this.endDate.day = 30;
                     this.displayContainerValues("chartsWeekContainer", 1);
                 } else if (month == 2) {
-                    if (this.endDate.year % 4 == 0) {
-                        this.endDate.day = 29;
+                    if (this.startDate.year % 4 == 0) {
                         this.displayContainerValues("chartsWeekContainer", 2);
                     } else {
-                        this.endDate.day = 28;
                         this.displayContainerValues("chartsWeekContainer", 3);
                     }
                 }
@@ -89,34 +87,26 @@ class ChartsManager {
         });
         $("#chartsWeekContainer").find("td").each((index, elem) => {
             $(elem).click(() => {
-                var week;
                 this.startDate.day = parseInt(elem.childNodes[1].innerHTML.substr(1, 2));
-                this.endDate.day = parseInt(elem.childNodes[1].innerHTML.substr(4, 2));
+                this.interval = "1 week";
 
                 if ($(elem).parent().index() == 0) {
-                    week = $(elem).index() + 1;
+                    this.week = $(elem).index() + 1;
                 } else if ($(elem).parent().index() == 1) {
-                    week = $(elem).index() + 3;
+                    this.week = $(elem).index() + 3;
                 } else {
-                    week = 5;
+                    this.week = 5;
                 }
 
-                if (week < 5) {
-                    this.displayContainerValues("chartsDayContainer", (week - 1));
-                } else if (week == 5) {
-                    if (this.endDate.month == 12) {
-                        this.endDate.month = 1;
-                        this.endDate.year += 1;
-                    } else {
-                        this.endDate.month += 1;
-                    }
-
+                if (this.week < 5) {
+                    this.displayContainerValues("chartsDayContainer", (this.week - 1));
+                } else if (this.week == 5) {
                     if ($.inArray(this.startDate.month, this.longMonths) != -1) {
                         this.displayContainerValues("chartsDayContainer", 4);
                     } else if ($.inArray(this.startDate.month, this.shortMonths) != -1) {
                         this.displayContainerValues("chartsDayContainer", 5);
                     } else {
-                        if (this.endDate.year % 4 == 0) {
+                        if (this.startDate.year % 4 == 0) {
                             this.displayContainerValues("chartsDayContainer", 6);
                         }
                     }
@@ -129,28 +119,17 @@ class ChartsManager {
         $("#chartsDayContainer").find("td").each((index, elem) => {
             $(elem).click(() => {
                 this.startDate.day = parseInt(elem.childNodes[1].innerHTML.substr(1, 2));
-                this.endDate.day = parseInt(elem.childNodes[1].innerHTML.substr(1, 2));
+                this.interval = "1 day";
 
-                if (this.startDate.month != this.endDate.month) {
-                    if (this.startDate.day < 29) {
-                        if (this.startDate.month != 12) {
-                            this.startDate.month += 1;
-                        } else {
-                            this.startDate.year += 1;
-                            this.startDate.month = 1;
-                        }
-                    }
-
-                    if (this.endDate.day >= 29) {
-                        this.endDate.month -= 1
-                    }
+                if (this.week == 5 && this.startDate.day < 29) {
+                    this.startDate.month += 1;
                 }
 
-                this.updateCharts(this.startDate.toString(), this.endDate.toString());
+                this.updateCharts(this.startDate.toString(), this.interval);
             });
         });
         $("#chartsDoneButton").click(() => {
-            this.updateCharts(this.startDate.toString(), this.endDate.toString());
+            this.updateCharts(this.startDate.toString(), this.interval);
         });
         $("#chartsCancelButton").click(() => {
             this.givePickerPageFocus(0);
@@ -170,11 +149,9 @@ class ChartsManager {
         }
     }
 
-    private updateCharts(startDate:string, endDate:string) {
+    private updateCharts(startDate:string, interval:string) {
         this.givePickerPageFocus(0);
-        //alert(this.startDate.toString());
-        //alert(this.endDate.toString());
-        this.loadSongList(startDate, endDate);
+        this.loadSongList(startDate, interval);
     }
 
     public givePickerPageFocus(index:number) {
@@ -220,7 +197,12 @@ class ChartsManager {
                 if (data.length == 0) {
                     //alert("No chart available for selected time span.")
                 }
-                this.setSongList(data);
+                    var songs:Song[] = [data.length];
+                    for (var i = 0, len = data.length; i < len; i++) {
+                        var songInfo = new SongInfo(data[i].title, data[i].artist, data[i].album, data[i].genre, data[i].peek, data[i].weeksOnTop, data[i].positionChange);
+                        songs[i] = new Song(data[i].mbid, songInfo, data[i].imageUrl);
+                    }
+                    this.setSongList(songs);
             },
             error: function (reason) {
                 alert(reason)
@@ -228,43 +210,28 @@ class ChartsManager {
         });
     }
 
-    mockSongList():ChartSong[] {
-        var songList:ChartSong[] = [];
-
-        for (var i = 0; i < 99; i++) {
-            var id = "chartSong" + Math.floor(Math.random() * 100000);
-            songList.push(this.mockSong(id));
-        }
-        return songList;
-    }
-
-    mockSong(id:string) {
-        var songTitle = randomSongTitle();
-        return new ChartSong(id, "", Math.floor(10 - Math.random() * 20), Math.floor(Math.random() * 100),
-            songTitle.title, songTitle.artist);
-
-    }
-
-    setSongList(songList:ChartSong[]) {
+    setSongList(songList:Song[]) {
         $("#chartsSongListContainer").empty();
-        songList.forEach((song:ChartSong, index:number) => {
+        songList.forEach((song:Song, index:number) => {
             var rootNode = this.buildSongTemplate(song, index + 1);
             var manager = new ChartSongManager(song, rootNode, index);
+            manager.bind();
             $("#chartsSongListContainer").append(manager.rootNode);
         })
     }
 
-    buildSongTemplate(song:ChartSong, index:number):any {
-        var positionChange = Math.abs(song.positionChange).toString();
-        var positionIcon = this.buildPositionIcon(song.positionChange);
-        var positionClass = this.buildPositionClass(song.positionChange);
+    buildSongTemplate(song:Song, index:number):any {
+        var positionChange = Math.abs(song.info.positionChange).toString();
+        var positionIcon = this.buildPositionIcon(song.info.positionChange);
+        var positionClass = this.buildPositionClass(song.info.positionChange);
 
-        var songTemplate = template("#chartsSongTemplate", song.title, song.artist, positionChange, positionClass, index.toString());
+        var songTemplate = template("#chartsSongTemplate", song.info.title, song.info.artist, positionChange.toString(), positionClass,
+            index.toString(), song.imageUrl, song.info.peek.toString(), song.info.weeksOnTop.toString());
         var rootDiv = $("<div></div>");
         rootDiv.append(songTemplate);
 
         rootDiv.find("#chartChangeArrowContainer").append(positionIcon);
-        rootDiv.attr("id", song.id);
+        rootDiv.attr("id", song.mbid);
 
         return rootDiv;
     }
@@ -298,15 +265,39 @@ class PickerPage {
 }
 
 class ChartSongManager {
-    constructor(public chartSong:ChartSong, public rootNode:any, index:number) {
+    constructor(public song:Song, public rootNode:any, index:number) {
 
     }
-}
 
-class ChartSong {
-    constructor(public id:string, public imageUrl:string, public positionChange:number, public peekPosition:number, public title:string, public artist:string) {
+    bind() {
+        $(this.rootNode).find("#chartPlayNow").click(() => {
+            this.playSong(this.song);
+        });
 
+        $(this.rootNode).find("#chartSearchFromHere").click(() => {
+            this.changeToSearchSection()
+            this.searchFromSong(this.song);
+        });
+
+        $(this.rootNode).find("#chartAddToPlaylist").click((e) => {
+            //TODO Add to Playlist
+        });
     }
+
+    private searchFromSong(song:Song) {
+        searchManager.performSearch(song.info.title + " " + song.info.artist);
+    }
+
+    private changeToSearchSection() {
+        binders["playlist"].unbind();
+        sectionManager.changeSection(0);
+    }
+
+    private playSong(song:Song) {
+        globalPlaylistManager.pushSong(song);
+        globalPlaylistManager.playSong(song);
+    }
+
 }
 
 class ChartDate {
