@@ -27,16 +27,21 @@ function searchCallback() {
         itemsOnLoad();
 
         itemManager.itemAddCallback = (content) => mSearchManager.onSearchInput(content);
-        itemManager.itemSelectedCallback = (id) => mSearchManager.onSearchSelected(id);
+        itemManager.itemSelectedCallback = (id, title) => mSearchManager.onSearchSelected(id);
     });
 }
 
 function playlistCallback() {
-    //todo
+    sectionManager.loadSection("/mobile/section/playlists", () => {
+        itemsOnLoad();
+
+        itemManager.itemAddCallback = (content) => mPlaylistManager.onAddPlaylistInput(content);
+        itemManager.itemSelectedCallback = (id, title) => mPlaylistManager.onPlaylistSelected(id, title);
+    });
 }
 
 function radioCallback() {
-    //too
+    //todo
 }
 
 class SectionManager {

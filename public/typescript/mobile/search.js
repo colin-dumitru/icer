@@ -4,6 +4,7 @@ var SearchManager = (function () {
         this.selectedItem = null;
         this.optionsCollapsed = true;
     }
+
     SearchManager.prototype.bind = function () {
     };
     SearchManager.prototype.onSearchInput = function (query) {
@@ -28,14 +29,14 @@ var SearchManager = (function () {
         });
     };
     SearchManager.prototype.searchItemClicked = function (item) {
-        if(item == this.selectedItem) {
+        if (item == this.selectedItem) {
             this.refocusOptions(item);
         } else {
             this.changeOptionsFocus(item);
         }
     };
     SearchManager.prototype.refocusOptions = function (item) {
-        if(this.optionsCollapsed) {
+        if (this.optionsCollapsed) {
             this.giveOptionsFocus();
         } else {
             this.takeOptionsFocus(item);
@@ -43,11 +44,11 @@ var SearchManager = (function () {
     };
     SearchManager.prototype.changeOptionsFocus = function (item) {
         $(item).addClass("searchItemOptionContainerFocused");
-        if(this.selectedItem != null) {
+        if (this.selectedItem != null) {
             $(this.selectedItem).removeClass("searchItemOptionContainerFocused");
         }
         this.selectedItem = item;
-        if(this.optionsCollapsed) {
+        if (this.optionsCollapsed) {
             this.giveOptionsFocus();
         }
     };

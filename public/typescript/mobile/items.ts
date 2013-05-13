@@ -17,7 +17,7 @@ class ItemManager {
 
     itemAddCallback:(content:string) => void = (id) => {
     };
-    itemSelectedCallback:(id:string) => void = (id) => {
+    itemSelectedCallback:(id:string, label:string) => void = (id, label) => {
     };
 
     bind() {
@@ -26,6 +26,21 @@ class ItemManager {
         this.itemListContainer = $("#itemListContainer");
         this.itemContent = $("#itemContent");
 
+        this.bindItemInput();
+        this.bindInitialItems();
+    }
+
+    private bindInitialItems() {
+        var _this = this;
+
+        $(".selectItem").each(function (index, item) {
+            var jItem = $(item);
+            _this.bindItem(jItem, jItem.attr("itemId"), jItem.text())
+
+        });
+    }
+
+    private bindItemInput() {
         var _this = this;
 
         $("#itemInput").keypress(function (e) {
@@ -72,12 +87,12 @@ class ItemManager {
         container.attr("itemId", id);
 
         this.itemList.append(container);
-        this.bindItem(container, id);
+        this.bindItem(container, id, title);
     }
 
-    private bindItem(container, id:string) {
+    private bindItem(container, id:string, label:string) {
         container.click(() => {
-            this.itemSelectedCallback(id);
+            this.itemSelectedCallback(id, label);
             this.takeFocus();
         });
     }

@@ -1,0 +1,18 @@
+@(playlists: List[model.Playlist])
+@import modelview.Item
+
+    <!DOCTYPE html>
+
+<html>
+    <head>
+        <link rel="stylesheet" href="@routes.Assets.at("stylesheets/mobile/playlists.css")">
+        <script type="text/javascript" src="@routes.Assets.at("typescript/mobile/playlists.js")"></script>
+        <title> Playlist </title>
+    </head>
+    <body>
+    @mobile.items(playlists.map(p => Item(p.id.get.toString, p.title))) {
+        <div>No PlayLists Found</div>
+    }
+    </body>
+</html>
+

@@ -3,7 +3,7 @@
 # ~~~~
 
 # Home page
-GET     /                           controllers.Application.index
+GET     /                           controllers.Application.mobile
 GET     /login                      controllers.Application.login
 POST    /storeToken                 controllers.Application.storeToken
 POST    /loginComplete              controllers.Application.loginComplete
@@ -30,4 +30,6 @@ POST    /chart/generate/:date/:interval             controllers.chart.Chart.gene
 #Mobile
 GET     /mobile                      controllers.Application.mobile
 GET     /mobile/search/:query        controllers.search.Search.search(query)
-GET     /mobile/section/search      controllers.search.Search.section
+GET     /mobile/section/search       controllers.search.Search.section
+GET     /mobile/section/playlists    controllers.playlist.Playlists.section
+GET     /mobile/playlist/:id         controllers.playlist.Playlists.playlist(id)

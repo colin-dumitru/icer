@@ -68,4 +68,16 @@ object Playlists extends Controller {
     }
   }
 
+  def section() = Secured {
+    (request, userId) => {
+      Ok(views.html.mobile.section_playlists(Playlist.findAllForUser(userId).toList))
+    }
+  }
+
+  def playlist(id: String) = Secured {
+    (request, userId) => {
+      Ok(views.html.mobile.playlist(Song.getSongsForPlaylist(id.toLong).toList))
+    }
+  }
+
 }

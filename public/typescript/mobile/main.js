@@ -19,12 +19,21 @@ function searchCallback() {
         itemManager.itemAddCallback = function (content) {
             return mSearchManager.onSearchInput(content);
         };
-        itemManager.itemSelectedCallback = function (id) {
+        itemManager.itemSelectedCallback = function (id, title) {
             return mSearchManager.onSearchSelected(id);
         };
     });
 }
 function playlistCallback() {
+    sectionManager.loadSection("/mobile/section/playlists", function () {
+        itemsOnLoad();
+        itemManager.itemAddCallback = function (content) {
+            return mPlaylistManager.onAddPlaylistInput(content);
+        };
+        itemManager.itemSelectedCallback = function (id, title) {
+            return mPlaylistManager.onPlaylistSelected(id, title);
+        };
+    });
 }
 function radioCallback() {
 }
@@ -33,6 +42,7 @@ var SectionManager = (function () {
         this.callback = {
         };
     }
+
     SectionManager.prototype.bind = function () {
         var _this = this;
         $("#menuSelect").change(function () {
@@ -49,6 +59,7 @@ var TitleManager = (function () {
         this.title = null;
         this.titleSpan = null;
     }
+
     TitleManager.prototype.bind = function () {
         this.title = $("#title");
         this.titleSpan = $("#titleSpan");
@@ -70,6 +81,7 @@ var GlobalPlaylistManager = (function () {
         this.playbackContainer = null;
         this.collapsed = true;
     }
+
     GlobalPlaylistManager.prototype.bind = function () {
         var _this = this;
         this.progressBar = $("#progressBars");
@@ -78,7 +90,7 @@ var GlobalPlaylistManager = (function () {
         this.footer = $("#footer");
         this.playbackContainer = $("#playbackContainer");
         this.playbackArrow.click(function () {
-            if(_this.collapsed) {
+            if (_this.collapsed) {
                 _this.giveFocus();
             } else {
                 _this.takeFocus();

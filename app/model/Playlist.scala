@@ -34,6 +34,13 @@ object Playlist {
     }
   }
 
+  def find(id: BigDecimal): Option[Playlist] = {
+    DB.withConnection {
+      implicit connection =>
+        SQL("select * from playlists where id = {id}").on("id" -> id).as(Playlist.simple *).headOption
+    }
+  }
+
   def create(playlist: Playlist): Pk[Long] = {
     DB.withConnection {
       implicit connection => {
