@@ -328,7 +328,7 @@ class PlaylistPageManager {
     }
 
     private closeOverlay() {
-        $(this.rootNode).find('#box').animate({'left': '-1000px'}, 0, () => {
+        $(this.rootNode).find('#box').animate({'left': '-5000px'}, 0, () => {
             $(this.rootNode).find('#overlay').fadeOut('fast');
         });
     }

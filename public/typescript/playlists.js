@@ -300,7 +300,7 @@ var PlaylistPageManager = (function () {
     PlaylistPageManager.prototype.closeOverlay = function () {
         var _this = this;
         $(this.rootNode).find('#box').animate({
-            'left': '-1000px'
+            'left': '-5000px'
         }, 0, function () {
             $(_this.rootNode).find('#overlay').fadeOut('fast');
         });
