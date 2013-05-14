@@ -43,19 +43,13 @@ var PlaylistBinder = (function () {
     PlaylistBinder.prototype.navigationHandler = function (event) {
         switch (event.which) {
             case 38:
-            {
                 playlistManager.givePreviousPlaylistFocus();
                 event.preventDefault();
                 break;
-
-            }
             case 40:
-            {
                 playlistManager.giveNextPlaylistFocus();
                 event.preventDefault();
                 break;
-
-            }
         }
     };
     return PlaylistBinder;
@@ -144,15 +138,11 @@ var PlaylistManager = (function () {
         var detailCallback = function (option, subOption) {
             if (option == 0) {
                 _this.playSong(song);
-            } else {
-                if (option == 1) {
-                    _this.changeToSearchSection();
-                    _this.searchFromSong(song);
-                } else {
-                    if (option == 2) {
-                        _this.removeSong(song, template);
-                    }
-                }
+            } else if (option == 1) {
+                _this.changeToSearchSection();
+                _this.searchFromSong(song);
+            } else if (option == 2) {
+                _this.removeSong(song, template);
             }
         };
         template.click(function (e) {
@@ -251,11 +241,34 @@ var PlaylistPageManager = (function () {
 
     PlaylistPageManager.prototype.bind = function () {
         var _this = this;
+        var newURL = 'https%3A%2F%2Fuplayed.herokuapp.com%2Fget%2F' + this.playlist.id;
         $(this.rootNode).find("#playPlaylistButton").click(function () {
             _this.playPlaylist();
         });
         $(this.rootNode).find("#deletePlaylistButton").click(function () {
             _this.deletePlaylist();
+        });
+        $(this.rootNode).find("#sharePlaylistButton").click(function () {
+            $(_this.rootNode).find('#overlay').fadeIn('fast', function () {
+                $(_this.rootNode).find('#box').animate({
+                    'left': '400px'
+                }, 0);
+            });
+            $(_this.rootNode).find('#boxclose').click(function () {
+                _this.closeOverlay();
+            });
+        });
+        $(this.rootNode).find("#facebookButton").click(function () {
+            _this.closeOverlay();
+            _this.shareOnFacebook(newURL);
+        });
+        $(this.rootNode).find("#twitterButton").click(function () {
+            _this.closeOverlay();
+            _this.shareOnTwitter(newURL);
+        });
+        $(this.rootNode).find("#googleButton").click(function () {
+            _this.closeOverlay();
+            _this.shareOnGooglePlus(newURL);
         });
     };
     PlaylistPageManager.prototype.playPlaylist = function () {
@@ -283,6 +296,23 @@ var PlaylistPageManager = (function () {
                 alert(reason);
             }
         });
+    };
+    PlaylistPageManager.prototype.closeOverlay = function () {
+        var _this = this;
+        $(this.rootNode).find('#box').animate({
+            'left': '-1000px'
+        }, 0, function () {
+            $(_this.rootNode).find('#overlay').fadeOut('fast');
+        });
+    };
+    PlaylistPageManager.prototype.shareOnFacebook = function (urlPlaylist) {
+        window.open('https://www.facebook.com/sharer/sharer.php?u=' + urlPlaylist, 'win1', 'width=500,height=400,menubar,left=100,top=100');
+    };
+    PlaylistPageManager.prototype.shareOnTwitter = function (urlPlaylist) {
+        window.open('https://twitter.com/intent/tweet?text=Currently+listening+to&url=' + urlPlaylist, 'winTwitter', 'width=500,height=400,menubar,left=100,top=100');
+    };
+    PlaylistPageManager.prototype.shareOnGooglePlus = function (urlPlaylist) {
+        window.open('https://plus.google.com/share?url=' + urlPlaylist + '&text=%7C+UPlay3D+%7C+Currently+listening+to', 'winTwitter', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=400,width=500,left=100,top=100');
     };
     return PlaylistPageManager;
 })();

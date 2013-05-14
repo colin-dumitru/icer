@@ -90,4 +90,11 @@ object Playlist {
     }
   }
 
+  def getNameForPlaylist(idPlaylist: Long): String = {
+    DB.withConnection {
+      implicit connection =>
+        SQL("select * from playlists where id = {idPlaylist}").on("idPlaylist" -> idPlaylist).as(Playlist.simple.single).title
+    }
+  }
+
 }

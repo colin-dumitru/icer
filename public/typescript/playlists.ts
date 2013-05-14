@@ -259,12 +259,38 @@ class PlaylistPageManager {
 
 
     bind() {
+
+        var newURL = 'https%3A%2F%2Fuplayed.herokuapp.com%2Fget%2F' + this.playlist.id;
+
         $(this.rootNode).find("#playPlaylistButton").click(() => {
             this.playPlaylist();
         });
 
         $(this.rootNode).find("#deletePlaylistButton").click(() => {
             this.deletePlaylist();
+        });
+        $(this.rootNode).find("#sharePlaylistButton").click(() => {
+            $(this.rootNode).find('#overlay').fadeIn('fast', () => {
+                $(this.rootNode).find('#box').animate({'left': '400px'}, 0);
+            });
+
+            $(this.rootNode).find('#boxclose').click(() => {
+                this.closeOverlay();
+            });
+        });
+
+
+        $(this.rootNode).find("#facebookButton").click(() => {
+            this.closeOverlay();
+            this.shareOnFacebook(newURL);
+        });
+        $(this.rootNode).find("#twitterButton").click(() => {
+            this.closeOverlay();
+            this.shareOnTwitter(newURL);
+        });
+        $(this.rootNode).find("#googleButton").click(() => {
+            this.closeOverlay();
+            this.shareOnGooglePlus(newURL);
         });
     }
 
@@ -299,6 +325,25 @@ class PlaylistPageManager {
                 alert(reason)
             }
         });
+    }
+
+    private closeOverlay() {
+        $(this.rootNode).find('#box').animate({'left': '-1000px'}, 0, () => {
+            $(this.rootNode).find('#overlay').fadeOut('fast');
+        });
+    }
+
+    private shareOnFacebook(urlPlaylist:String) {
+        window.open('https://www.facebook.com/sharer/sharer.php?u=' + urlPlaylist, 'win1', 'width=500,height=400,menubar,left=100,top=100');
+
+    }
+
+    private shareOnTwitter(urlPlaylist:String) {
+        window.open('https://twitter.com/intent/tweet?text=Currently+listening+to&url=' + urlPlaylist, 'winTwitter', 'width=500,height=400,menubar,left=100,top=100')
+    }
+
+    private shareOnGooglePlus(urlPlaylist:String) {
+        window.open('https://plus.google.com/share?url=' + urlPlaylist + '&text=%7C+UPlay3D+%7C+Currently+listening+to', 'winTwitter', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=400,width=500,left=100,top=100');
     }
 }
 

@@ -3,7 +3,7 @@
 # ~~~~
 
 # Home page
-GET     /                           controllers.Application.mobile
+GET     /                           controllers.Application.index
 GET     /login                      controllers.Application.login
 POST    /storeToken                 controllers.Application.storeToken
 POST    /loginComplete              controllers.Application.loginComplete
@@ -23,7 +23,7 @@ POST /playlist/songs/:idPlaylist controllers.playlist.Playlists.getSongsForPlayl
 POST /playlist/song/delete/:idPlaylist/:idSong controllers.playlist.Playlists.deleteSongFromPlaylist(idPlaylist: String, idSong: String)
 POST /playlist/song/add/:idPlaylist controllers.playlist.Playlists.addSongToPlaylist(idPlaylist: String)
 POST /playlist/delete/:idPlaylist controllers.playlist.Playlists.deletePlaylist(idPlaylist: String)
-
+GET /get/:idPlaylist controllers.playlist.Playlists.copyPlaylist(idPlaylist: String)
 #Chart
 POST    /chart/generate/:date/:interval             controllers.chart.Chart.generateChart(date:String, interval:String)
 
