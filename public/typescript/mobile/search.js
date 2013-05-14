@@ -6,6 +6,17 @@ var SearchManager = (function () {
     }
 
     SearchManager.prototype.bind = function () {
+        var _this = this;
+        $("#searchAddToPlaying").click(function () {
+            _this.addCurrentSongToNowPlaying();
+        });
+    };
+    SearchManager.prototype.addCurrentSongToNowPlaying = function () {
+        if (this.selectedItem != null) {
+            var item = $(this.selectedItem);
+            var song = new Song(item.attr("songId"), item.attr("songTitle"), item.attr("songArtist"), item.attr("songImage"));
+            globalPlaylistManager.pushSong(song);
+        }
     };
     SearchManager.prototype.onSearchInput = function (query) {
         itemManager.addItem(query, query);

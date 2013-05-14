@@ -1,8 +1,11 @@
 declare var $;
+declare var SC;
+declare var soundCloudId;
 
 var sectionManager:SectionManager;
 var titleManager:TitleManager;
 var globalPlaylistManager:GlobalPlaylistManager;
+var player:Player;
 
 function run() {
     titleManager = new TitleManager();
@@ -19,12 +22,17 @@ function run() {
 
     sectionManager.bind();
 
+    player = new Player();
+    player.bind();
+
     searchCallback();
 }
 
 function searchCallback() {
     sectionManager.loadSection("/mobile/section/search", () => {
         itemsOnLoad();
+
+        mSearchManager.bind();
 
         itemManager.itemAddCallback = (content) => mSearchManager.onSearchInput(content);
         itemManager.itemSelectedCallback = (id, title) => mSearchManager.onSearchSelected(id);
@@ -83,6 +91,7 @@ class GlobalPlaylistManager {
     private playbackArrow = null;
     private footer = null;
     private playbackContainer = null;
+    private playingSongs = null;
 
     private collapsed = true;
 
@@ -93,6 +102,7 @@ class GlobalPlaylistManager {
         this.playbackArrow = $("#playbackArrow");
         this.footer = $("#footer");
         this.playbackContainer = $("#playbackContainer");
+        this.playingSongs = $("#playingSongs");
 
         this.playbackArrow.click(() => {
             if (this.collapsed) {
@@ -150,5 +160,149 @@ class GlobalPlaylistManager {
 
     private changeVolume(position:number) {
 
+    }
+
+    public pushSong(song:Song) {
+        var item = this.convertSongToItem(song);
+        this.bindItemClick(item, song);
+        this.playingSongs.append(item);
+    }
+
+    private bindItemClick(item, song:Song) {
+        $(item).click(() => {
+            player.playSong(song);
+        });
+    }
+
+    private convertSongToItem(song:Song) {
+        var container = $("<div></div>");
+
+        container.addClass("playingSong");
+        container.text(song.title + "-" + song.artist);
+
+        return container;
+    }
+}
+
+class Player {
+    public player = null;
+    public onSongError:(song:Song) => any;
+    public onFinish:(song:Song) => any;
+
+    private playbackId = 0;
+    private currentSong = null;
+    private currentPlayer = null;
+
+    private durationText = null;
+    private seekSlider = null;
+
+    public bind() {
+        SC.initialize({
+            client_id: soundCloudId
+        });
+        window.setInterval(() => {
+            this.updateElapsed();
+        }, 500);
+
+        this.durationText = $("#durationText");
+        this.seekSlider = $("#progressBars");
+    }
+
+    private updateElapsed() {
+        if (this.currentPlayer != null) {
+            this.seekSlider.slider("value", Math.floor((this.currentPlayer.position / this.currentPlayer.duration) * 1000));
+        }
+    }
+
+    public playSong(song:Song) {
+        if (song == this.currentSong) {
+            this.currentPlayer.resume();
+        } else {
+            this.stopCurrentSong()
+            this.resolveSoundUrl(song);
+        }
+    }
+
+    private stopCurrentSong() {
+        if (this.currentPlayer != null) {
+            this.currentPlayer.stop();
+        }
+    }
+
+    public pause() {
+        if (this.currentSong != null) {
+            this.currentPlayer.pause();
+        }
+    }
+
+    public seek(percentage:number) {
+        if (this.currentPlayer != null) {
+            this.currentPlayer.setPosition(Math.floor(this.currentPlayer.duration * (percentage / 1000)));
+        }
+
+    }
+
+    public changeVolume(value:number) {
+        if (this.currentSong != null) {
+            this.currentPlayer.setVolume(value);
+        }
+    }
+
+    private resolveSoundUrl(song:Song) {
+        this.currentSong = song;
+        this.playbackId += 1;
+        var currentId = this.playbackId;
+
+        SC.get('/tracks', { q: song.title + " " + song.artist}, (tracks:any[]) => {
+            if (tracks.length == 0) {
+                this.onSongError(song);
+            } else {
+                if (currentId == this.playbackId) {
+                    this.playResolved(this.bestTrack(tracks), song, currentId);
+                }
+            }
+        });
+    }
+
+    private bestTrack(tracks:any[]) {
+        var maxPlays = tracks[0].playback_count;
+        var maxTrack = tracks[0];
+
+        for (var i = 1; i < tracks.length; i++) {
+            if (tracks[i].playback_count > maxPlays) {
+                maxPlays = tracks[i].playback_count;
+                maxTrack = tracks[i];
+            }
+        }
+        return maxTrack;
+    }
+
+    private playResolved(trackInfo:any, song:Song, playbackId:number) {
+        var trackId = trackInfo["id"];
+        this.streamSong(trackId, song, playbackId);
+    }
+
+    private streamSong(trackId:any, song:Song, playbackId:number) {
+        SC.stream("/tracks/" + trackId,
+            {
+                onfinish: () => {
+                    this.onFinish(song);
+                }
+            },
+            (sound)  => {
+                this.switchActiveSong(sound, playbackId);
+            });
+    }
+
+    private switchActiveSong(sound:any, playbackId:number) {
+        if (playbackId == this.playbackId) {
+            this.currentPlayer = sound;
+            sound.play();
+        }
+    }
+}
+
+class Song {
+    constructor(public mbid:string, public title:string, public artist:string, public imageUrl:string) {
     }
 }
