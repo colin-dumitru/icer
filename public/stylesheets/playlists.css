@@ -142,7 +142,6 @@
 }
 
 .overlay {
-    background: transparent url(/assets/images/overlay.png) repeat top left;
     position: fixed;
     top: 0px;
     bottom: 0px;
@@ -164,7 +163,7 @@
     -khtml-border-radius: 5px;
     -moz-box-shadow: 0 1px 5px #333;
     -webkit-box-shadow: 0 1px 5px #333;
-    z-index: 101;
+    z-index: 9000;
 }
 
 .box h1 {

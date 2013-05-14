@@ -270,7 +270,7 @@ class PlaylistPageManager {
             this.deletePlaylist();
         });
         $(this.rootNode).find("#sharePlaylistButton").click(() => {
-            $(this.rootNode).find('#overlay').fadeIn('fast', () => {
+            $('#overlay').fadeIn('fast', () => {
                 $(this.rootNode).find('#box').animate({'left': '400px'}, 0);
             });
 
@@ -329,7 +329,7 @@ class PlaylistPageManager {
 
     private closeOverlay() {
         $(this.rootNode).find('#box').animate({'left': '-5000px'}, 0, () => {
-            $(this.rootNode).find('#overlay').fadeOut('fast');
+            $('#overlay').fadeOut('fast');
         });
     }
 

@@ -43,19 +43,13 @@ var PlaylistBinder = (function () {
     PlaylistBinder.prototype.navigationHandler = function (event) {
         switch (event.which) {
             case 38:
-            {
                 playlistManager.givePreviousPlaylistFocus();
                 event.preventDefault();
                 break;
-
-            }
             case 40:
-            {
                 playlistManager.giveNextPlaylistFocus();
                 event.preventDefault();
                 break;
-
-            }
         }
     };
     return PlaylistBinder;
@@ -144,15 +138,11 @@ var PlaylistManager = (function () {
         var detailCallback = function (option, subOption) {
             if (option == 0) {
                 _this.playSong(song);
-            } else {
-                if (option == 1) {
-                    _this.changeToSearchSection();
-                    _this.searchFromSong(song);
-                } else {
-                    if (option == 2) {
-                        _this.removeSong(song, template);
-                    }
-                }
+            } else if (option == 1) {
+                _this.changeToSearchSection();
+                _this.searchFromSong(song);
+            } else if (option == 2) {
+                _this.removeSong(song, template);
             }
         };
         template.click(function (e) {
@@ -259,7 +249,7 @@ var PlaylistPageManager = (function () {
             _this.deletePlaylist();
         });
         $(this.rootNode).find("#sharePlaylistButton").click(function () {
-            $(_this.rootNode).find('#overlay').fadeIn('fast', function () {
+            $('#overlay').fadeIn('fast', function () {
                 $(_this.rootNode).find('#box').animate({
                     'left': '400px'
                 }, 0);
@@ -308,11 +298,10 @@ var PlaylistPageManager = (function () {
         });
     };
     PlaylistPageManager.prototype.closeOverlay = function () {
-        var _this = this;
         $(this.rootNode).find('#box').animate({
             'left': '-5000px'
         }, 0, function () {
-            $(_this.rootNode).find('#overlay').fadeOut('fast');
+            $('#overlay').fadeOut('fast');
         });
     };
     PlaylistPageManager.prototype.shareOnFacebook = function (urlPlaylist) {
