@@ -9,6 +9,18 @@ class SearchManager {
     private optionsCollapsed = true;
 
     bind() {
+        $("#searchAddToPlaying").click(() => {
+            this.addCurrentSongToNowPlaying();
+        })
+
+    }
+
+    private addCurrentSongToNowPlaying() {
+        if (this.selectedItem != null) {
+            var item = $(this.selectedItem);
+            var song = new Song(item.attr("songId"), item.attr("songTitle"), item.attr("songArtist"), item.attr("songImage"));
+            globalPlaylistManager.pushSong(song);
+        }
 
     }
 

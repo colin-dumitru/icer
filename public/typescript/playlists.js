@@ -43,13 +43,19 @@ var PlaylistBinder = (function () {
     PlaylistBinder.prototype.navigationHandler = function (event) {
         switch (event.which) {
             case 38:
+            {
                 playlistManager.givePreviousPlaylistFocus();
                 event.preventDefault();
                 break;
+
+            }
             case 40:
+            {
                 playlistManager.giveNextPlaylistFocus();
                 event.preventDefault();
                 break;
+
+            }
         }
     };
     return PlaylistBinder;
@@ -138,11 +144,15 @@ var PlaylistManager = (function () {
         var detailCallback = function (option, subOption) {
             if (option == 0) {
                 _this.playSong(song);
-            } else if (option == 1) {
-                _this.changeToSearchSection();
-                _this.searchFromSong(song);
-            } else if (option == 2) {
-                _this.removeSong(song, template);
+            } else {
+                if (option == 1) {
+                    _this.changeToSearchSection();
+                    _this.searchFromSong(song);
+                } else {
+                    if (option == 2) {
+                        _this.removeSong(song, template);
+                    }
+                }
             }
         };
         template.click(function (e) {
