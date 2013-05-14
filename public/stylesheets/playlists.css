@@ -159,9 +159,9 @@
     color: #7F7F7F;
     padding: 20px;
     border: 2px solid #ccc;
-    -moz-border-radius: 20px;
-    -webkit-border-radius: 20px;
-    -khtml-border-radius: 20px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -khtml-border-radius: 5px;
     -moz-box-shadow: 0 1px 5px #333;
     -webkit-box-shadow: 0 1px 5px #333;
     z-index: 101;
