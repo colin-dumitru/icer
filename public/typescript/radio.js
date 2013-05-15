@@ -1,7 +1,5 @@
 var RadioBinder = (function () {
-    function RadioBinder() {
-    }
-
+    function RadioBinder() { }
     RadioBinder.prototype.buildPage = function (rootNode) {
         this.radioManager = new RadioManager(rootNode);
         this.radioManager.addCriteriaInput(new RadioCriteriaInput("radioCustomCriteria", true, function () {
@@ -31,13 +29,12 @@ var RadioManager = (function () {
     function RadioManager(rootNode) {
         this.criterias = [];
     }
-
     RadioManager.prototype.addCriteriaInput = function (criteria) {
         var _this = this;
         this.criterias.push(criteria);
         $("#" + criteria.id).click(function () {
             var criteriaTitle = criteria.labelFormatter();
-            if (!criteria.repeatable) {
+            if(!criteria.repeatable) {
                 $("#" + criteria.id).hide();
             }
             _this.addCriteria(criteriaTitle, criteria);
@@ -73,7 +70,6 @@ var RadioCriteriaInput = (function () {
         this.repeatable = repeatable;
         this.labelFormatter = labelFormatter;
     }
-
     return RadioCriteriaInput;
 })();
 //@ sourceMappingURL=radio.js.map

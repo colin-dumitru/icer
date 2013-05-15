@@ -46,7 +46,6 @@ var SectionManager = (function () {
         this.callback = {
         };
     }
-
     SectionManager.prototype.bind = function () {
         var _this = this;
         $("#menuSelect").change(function () {
@@ -63,7 +62,6 @@ var TitleManager = (function () {
         this.title = null;
         this.titleSpan = null;
     }
-
     TitleManager.prototype.bind = function () {
         this.title = $("#title");
         this.titleSpan = $("#titleSpan");
@@ -86,7 +84,6 @@ var GlobalPlaylistManager = (function () {
         this.playingSongs = null;
         this.collapsed = true;
     }
-
     GlobalPlaylistManager.prototype.bind = function () {
         var _this = this;
         this.progressBar = $("#progressBars");
@@ -96,7 +93,7 @@ var GlobalPlaylistManager = (function () {
         this.playbackContainer = $("#playbackContainer");
         this.playingSongs = $("#playingSongs");
         this.playbackArrow.click(function () {
-            if (_this.collapsed) {
+            if(_this.collapsed) {
                 _this.giveFocus();
             } else {
                 _this.takeFocus();
@@ -166,7 +163,6 @@ var Player = (function () {
         this.durationText = null;
         this.seekSlider = null;
     }
-
     Player.prototype.bind = function () {
         var _this = this;
         SC.initialize({
@@ -179,12 +175,12 @@ var Player = (function () {
         this.seekSlider = $("#progressBars");
     };
     Player.prototype.updateElapsed = function () {
-        if (this.currentPlayer != null) {
+        if(this.currentPlayer != null) {
             this.seekSlider.slider("value", Math.floor((this.currentPlayer.position / this.currentPlayer.duration) * 1000));
         }
     };
     Player.prototype.playSong = function (song) {
-        if (song == this.currentSong) {
+        if(song == this.currentSong) {
             this.currentPlayer.resume();
         } else {
             this.stopCurrentSong();
@@ -192,22 +188,22 @@ var Player = (function () {
         }
     };
     Player.prototype.stopCurrentSong = function () {
-        if (this.currentPlayer != null) {
+        if(this.currentPlayer != null) {
             this.currentPlayer.stop();
         }
     };
     Player.prototype.pause = function () {
-        if (this.currentSong != null) {
+        if(this.currentSong != null) {
             this.currentPlayer.pause();
         }
     };
     Player.prototype.seek = function (percentage) {
-        if (this.currentPlayer != null) {
+        if(this.currentPlayer != null) {
             this.currentPlayer.setPosition(Math.floor(this.currentPlayer.duration * (percentage / 1000)));
         }
     };
     Player.prototype.changeVolume = function (value) {
-        if (this.currentSong != null) {
+        if(this.currentSong != null) {
             this.currentPlayer.setVolume(value);
         }
     };
@@ -219,10 +215,10 @@ var Player = (function () {
         SC.get('/tracks', {
             q: song.title + " " + song.artist
         }, function (tracks) {
-            if (tracks.length == 0) {
+            if(tracks.length == 0) {
                 _this.onSongError(song);
             } else {
-                if (currentId == _this.playbackId) {
+                if(currentId == _this.playbackId) {
                     _this.playResolved(_this.bestTrack(tracks), song, currentId);
                 }
             }
@@ -231,8 +227,8 @@ var Player = (function () {
     Player.prototype.bestTrack = function (tracks) {
         var maxPlays = tracks[0].playback_count;
         var maxTrack = tracks[0];
-        for (var i = 1; i < tracks.length; i++) {
-            if (tracks[i].playback_count > maxPlays) {
+        for(var i = 1; i < tracks.length; i++) {
+            if(tracks[i].playback_count > maxPlays) {
                 maxPlays = tracks[i].playback_count;
                 maxTrack = tracks[i];
             }
@@ -254,7 +250,7 @@ var Player = (function () {
         });
     };
     Player.prototype.switchActiveSong = function (sound, playbackId) {
-        if (playbackId == this.playbackId) {
+        if(playbackId == this.playbackId) {
             this.currentPlayer = sound;
             sound.play();
         }
@@ -268,7 +264,6 @@ var Song = (function () {
         this.artist = artist;
         this.imageUrl = imageUrl;
     }
-
     return Song;
 })();
 //@ sourceMappingURL=main.js.map
