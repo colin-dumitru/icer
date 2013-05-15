@@ -141,30 +141,21 @@
     background: #cfa799;
 }
 
-.overlay {
-    background: transparent url(/assets/images/overlay.png) repeat top left;
-    position: fixed;
-    top: 0px;
-    bottom: 0px;
-    left: 0px;
-    right: 0px;
-    z-index: 100;
-}
-
 .box {
-    position: fixed;
-    left: -5000px;
+    position: absolute;
+    top: 350px;
+    left: 450px;
     width: 100px;
     background-color: rgba(0, 0, 0, .5);
     color: #7F7F7F;
     padding: 20px;
     border: 2px solid #ccc;
-    -moz-border-radius: 20px;
-    -webkit-border-radius: 20px;
-    -khtml-border-radius: 20px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -khtml-border-radius: 5px;
     -moz-box-shadow: 0 1px 5px #333;
     -webkit-box-shadow: 0 1px 5px #333;
-    z-index: 101;
+    z-index: 100;
 }
 
 .box h1 {
