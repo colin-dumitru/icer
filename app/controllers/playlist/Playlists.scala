@@ -82,9 +82,12 @@ object Playlists extends Controller {
 
   def copyPlaylist(idPlaylist: String) = Secured {
     (request, userId) => {
-      val newPlaylist = new Playlist(null, userId, Playlist.getNameForPlaylist(idPlaylist.toLong));
-      val id = Playlist.create(newPlaylist);
-      Song.getSongsForPlaylist(idPlaylist.toLong) foreach (song => Playlist.addSongToPlaylist(id.get, song.mbid, userId));
+      val playlistName = Playlist.getNameForPlaylist(idPlaylist.toLong);
+      if (!playlistName.equals("")) {
+        val newPlaylist = new Playlist(null, userId, playlistName);
+        val id = Playlist.create(newPlaylist);
+        Song.getSongsForPlaylist(idPlaylist.toLong) foreach (song => Playlist.addSongToPlaylist(id.get, song.mbid, userId));
+      }
       Redirect(controllers.routes.Application.index().url)
     }
   }
