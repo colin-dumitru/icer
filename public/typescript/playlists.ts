@@ -270,9 +270,7 @@ class PlaylistPageManager {
             this.deletePlaylist();
         });
         $(this.rootNode).find("#sharePlaylistButton").click(() => {
-            $('#overlay').fadeIn('fast', () => {
-                $(this.rootNode).find('#box').animate({'left': '400px'}, 0);
-            });
+            $(this.rootNode).find('#box').fadeIn('fast');
 
             $(this.rootNode).find('#boxclose').click(() => {
                 this.closeOverlay();
@@ -328,9 +326,7 @@ class PlaylistPageManager {
     }
 
     private closeOverlay() {
-        $(this.rootNode).find('#box').animate({'left': '-5000px'}, 0, () => {
-            $('#overlay').fadeOut('fast');
-        });
+        $(this.rootNode).find('#box').fadeOut('fast');
     }
 
     private shareOnFacebook(urlPlaylist:String) {

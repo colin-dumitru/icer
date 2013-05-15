@@ -249,11 +249,7 @@ var PlaylistPageManager = (function () {
             _this.deletePlaylist();
         });
         $(this.rootNode).find("#sharePlaylistButton").click(function () {
-            $('#overlay').fadeIn('fast', function () {
-                $(_this.rootNode).find('#box').animate({
-                    'left': '400px'
-                }, 0);
-            });
+            $(_this.rootNode).find('#box').fadeIn('fast');
             $(_this.rootNode).find('#boxclose').click(function () {
                 _this.closeOverlay();
             });
@@ -298,11 +294,7 @@ var PlaylistPageManager = (function () {
         });
     };
     PlaylistPageManager.prototype.closeOverlay = function () {
-        $(this.rootNode).find('#box').animate({
-            'left': '-5000px'
-        }, 0, function () {
-            $('#overlay').fadeOut('fast');
-        });
+        $(this.rootNode).find('#box').fadeOut('fast');
     };
     PlaylistPageManager.prototype.shareOnFacebook = function (urlPlaylist) {
         window.open('https://www.facebook.com/sharer/sharer.php?u=' + urlPlaylist, 'win1', 'width=500,height=400,menubar,left=100,top=100');
