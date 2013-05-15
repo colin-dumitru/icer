@@ -259,7 +259,7 @@ var ItemList = (function () {
     };
     ItemList.prototype.giveFocus = function () {
         this.itemListContainer.show(0).addClass("itemListContainerExpanded").removeClass("itemListContainerContracted");
-        this.sectionContainer.addClass("sectionContainerContracted");
+        this.sectionContainer.css("-webkit-transform-origin", "100% 50%").css("transform-origin", "100% 50%").addClass("sectionContainerContracted");
         this.isCollapsed = false;
     };
     ItemList.prototype.takeFocus = function () {
@@ -691,7 +691,7 @@ var GlobalPlaylistManager = (function () {
             transformOrigin: '50% 0%',
             rotateX: 0
         });
-        $("#sectionContainer").addClass("sectionContainerContractedVertical");
+        $("#sectionContainer").css("-webkit-transform-origin", "50% 100%").css("transform-origin", "50% 100%").addClass("sectionContainerContractedVertical");
         this.isCollapsed = false;
     };
     GlobalPlaylistManager.prototype.takeFocus = function () {

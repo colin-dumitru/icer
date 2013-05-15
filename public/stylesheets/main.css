@@ -254,16 +254,17 @@ html {
     transition: all 0.4s ease;
 }
 
+.sectionContainer {
+    -webkit-transform: perspective(100px) rotateX(0deg);
+    transform: perspective(100px) rotateX(0deg);
+}
+
 .sectionContainerContracted {
-    -webkit-transform-origin: 100% 50%;
-    transform-origin: 100% 50%;
     -webkit-transform: perspective(100px) rotateY(-5deg);
     transform: perspective(100px) rotateY(-5deg);
 }
 
 .sectionContainerContractedVertical {
-    -webkit-transform-origin: 50% 100%;
-    transform-origin: 50% 100%;
     -webkit-transform: perspective(100px) rotateX(5deg);
     transform: perspective(100px) rotateX(5deg);
 }
@@ -716,4 +717,3 @@ html {
 .songMenuItem:hover {
     background: #af6b53;
 }
-

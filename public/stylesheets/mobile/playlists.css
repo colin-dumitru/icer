@@ -1,0 +1,112 @@
+.hidden {
+    display: none;
+}
+
+.noPadding {
+    padding: 0px;
+    margin: 0px;
+}
+
+* {
+    padding: 0px;
+    margin: 0px;
+}
+
+.inline {
+    display: inline-block;
+}
+
+.clickable {
+    cursor: pointer;
+}
+
+.zeroHeight {
+    position: relative;
+    height: 0px;
+}
+
+.topAlign {
+    vertical-align: top;
+}
+
+.fullFrame {
+    width: 100%;
+    height: 100%;
+}
+
+.noOverflow {
+    overflow: hidden;
+}
+
+.fontMenu {
+    font-family: 'Days One', sans-serif;
+}
+
+.fontMenu2 {
+    font-family: 'Noto Sans', sans-serif;
+}
+
+.fontText {
+    font-family: 'Roboto', sans-serif;
+}
+
+.roundTopRight {
+    border-top-right-radius: 5px;
+}
+
+.roundBottomRight {
+    border-bottom-right-radius: 5px;
+}
+
+.playlistResult {
+    background: #346661;
+    width: 100%;
+}
+
+.playlistItemTableContainer {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 5px 10px 5px 10px;
+}
+
+.playlistItemTable {
+    position: relative;
+    width: 100%;
+    height: 100px;
+    table-layout: fixed;
+    background: #edfffc;
+    color: #0f2423;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1em;
+    border-collapse: collapse;
+    border: 1px solid #589c9b;
+}
+
+.playlistItemTable td {
+    vertical-align: middle;
+    text-align: center;
+}
+
+.playlistItemImage {
+    width: 100px;
+}
+
+.playlistItemImage img {
+    width: 100px;
+    height: 100px;
+}
+
+.playlistItemOptionContainer {
+    width: 50px;
+    background: #82aba8;
+    color: #edfffc;
+    cursor: pointer;
+}
+
+.playlistItemOptionContainerFocused {
+    background: #af6b53;
+}
+
+.playlistItemTitle {
+    height: 50px;
+}

@@ -241,7 +241,7 @@ var PlaylistPageManager = (function () {
 
     PlaylistPageManager.prototype.bind = function () {
         var _this = this;
-        var newURL = 'https%3A%2F%2Fuplayed.herokuapp.com%2Fget%2F' + this.playlist.id;
+        var newURL = 'http%3A%2F%2Fuplayed.herokuapp.com%2Fget%2F' + this.playlist.id;
         $(this.rootNode).find("#playPlaylistButton").click(function () {
             _this.playPlaylist();
         });

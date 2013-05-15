@@ -304,6 +304,8 @@ class ItemList {
             .removeClass("itemListContainerContracted");
 
         this.sectionContainer
+            .css("-webkit-transform-origin", "100% 50%")
+            .css("transform-origin", "100% 50%")
             .addClass("sectionContainerContracted");
         this.isCollapsed = false;
     }
@@ -795,6 +797,8 @@ class GlobalPlaylistManager {
                 rotateX: 0
             });
         $("#sectionContainer")
+            .css("-webkit-transform-origin", "50% 100%")
+            .css("transform-origin", "50% 100%")
             .addClass("sectionContainerContractedVertical");
         this.isCollapsed = false;
     }
