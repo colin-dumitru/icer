@@ -1,0 +1,310 @@
+.hidden {
+    display: none;
+}
+
+.noPadding {
+    padding: 0px;
+    margin: 0px;
+}
+
+* {
+    padding: 0px;
+    margin: 0px;
+}
+
+.inline {
+    display: inline-block;
+}
+
+.clickable {
+    cursor: pointer;
+}
+
+.zeroHeight {
+    position: relative;
+    height: 0px;
+}
+
+.topAlign {
+    vertical-align: top;
+}
+
+.fullFrame {
+    width: 100%;
+    height: 100%;
+}
+
+.noOverflow {
+    overflow: hidden;
+}
+
+.fontMenu {
+    font-family: 'Days One', sans-serif;
+}
+
+.fontMenu2 {
+    font-family: 'Noto Sans', sans-serif;
+}
+
+.fontText {
+    font-family: 'Roboto', sans-serif;
+}
+
+.roundTopRight {
+    border-top-right-radius: 5px;
+}
+
+.roundBottomRight {
+    border-bottom-right-radius: 5px;
+}
+
+#tutorialOverlay {
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    bottom: 0px;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+#tutorialExclamationMark {
+    position: absolute;
+    left: -80px;
+    top: 50%;
+    margin-top: -150px;
+    color: #e8e8e8;
+    font-family: 'Noto Sans', sans-serif;
+    font-size: 200px;
+}
+
+#tutorialInfoContainer {
+    box-shadow: black 0px 0px 20px;
+    padding: 5px;
+    background: #e8e8e8;
+    border-radius: 2px;
+    border: 1px solid #3f3f3f;
+    transition: all 0.4s;
+    -wekbit-transition: all 0.4s;
+}
+
+.relaxedInfoContainer {
+    position: absolute;
+    width: 400px;
+    height: 150px;
+    margin-left: -200px;
+    margin-top: -100px;
+    top: 50%;
+    left: 50%;
+}
+
+.initialTutorialSection {
+    position: absolute;
+    width: 400px;
+    height: 150px;
+    margin-left: -200px;
+    margin-top: -100px;
+    top: 50%;
+    left: 50%;
+}
+
+#tutorialContent {
+    color: #0f2423;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.2em;
+}
+
+#tutorialButtons {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    height: 40px;
+}
+
+.tutorialButton {
+    margin: 2px;
+    padding: 5px;
+    float: right;
+    border-radius: 2px;
+    border: 1px solid #3f3f3f;
+    font-family: 'Noto Sans', sans-serif;
+    font-size: 1em;
+    color: #0f2423;
+    cursor: pointer;
+    transition: box-shadow 0.2s;
+    -wekbit-transition: box-shadow 0.2s;
+}
+
+.tutorialButton:hover {
+    box-shadow: black 0px 0px 10px inset;
+}
+
+#tutorialButtonFinish {
+    border-color: #3f3f3f;
+    color: #0f2423;
+    background-image: linear-gradient(bottom, #d9d9d9 0%, #e6e6e6 100%);
+    background-image: -o-linear-gradient(bottom, #d9d9d9 0%, #e6e6e6 100%);
+    background-image: -moz-linear-gradient(bottom, #d9d9d9 0%, #e6e6e6 100%);
+    background-image: -webkit-linear-gradient(bottom, #d9d9d9 0%, #e6e6e6 100%);
+    background-image: -ms-linear-gradient(bottom, #d9d9d9 0%, #e6e6e6 100%);
+}
+
+#tutorialButtonNext {
+    border-color: #418440;
+    color: #edfffc;
+    background-image: linear-gradient(bottom, #4d804f 0%, #72b36f 100%);
+    background-image: -o-linear-gradient(bottom, #4d804f 0%, #72b36f 100%);
+    background-image: -moz-linear-gradient(bottom, #4d804f 0%, #72b36f 100%);
+    background-image: -webkit-linear-gradient(bottom, #4d804f 0%, #72b36f 100%);
+    background-image: -ms-linear-gradient(bottom, #4d804f 0%, #72b36f 100%);
+}
+
+#tutorialAccent {
+    background: rgba(175, 107, 83, 0.5);
+    box-shadow: #ff0000 0px 0px 20px;
+    transition: box-shadow 0.4s;
+    -wekbit-transition: box-shadow 0.4s;
+}
+
+.tutorialAccentHidden {
+    display: none;
+}
+
+.menuBarTutorialContent {
+    position: absolute;
+    width: 400px;
+    height: 150px;
+    margin-left: 200px;
+    margin-top: -100px;
+    top: 50%;
+    left: 0%;
+}
+
+.menuBarTutorialAccent {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    width: 50px;
+}
+
+.itemBarTutorialContent {
+    position: absolute;
+    width: 400px;
+    height: 150px;
+    margin-left: -500px;
+    margin-top: -100px;
+    top: 50%;
+    left: 100%;
+}
+
+.itemBarTutorialAccent {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: auto;
+    width: 15px;
+}
+
+.itemBarTutorialOpenedContent {
+    position: absolute;
+    width: 400px;
+    height: 150px;
+    margin-left: -760px;
+    margin-top: -100px;
+    top: 50%;
+    left: 100%;
+}
+
+.itemBarTutorialOpenedAccent {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: auto;
+    width: 260px;
+}
+
+.itemBarTutorialEnterAccent {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    left: auto;
+    height: 30px;
+    width: 245px;
+}
+
+.searchFinishedTutorialContent {
+    position: absolute;
+    width: 400px;
+    height: 150px;
+    margin-left: -460px;
+    margin-top: -250px;
+    top: 100%;
+    left: 100%;
+}
+
+.searchFinishedTutorialAccent {
+    position: absolute;
+    top: 0px;
+    bottom: 15px;
+    left: 50px;
+    right: 15px;
+}
+
+.navigationTutorialContent {
+    position: absolute;
+    width: 400px;
+    height: 150px;
+    margin-left: -460px;
+    margin-top: 100px;
+    top: 0%;
+    left: 100%;
+}
+
+.navigationTutorialAccent {
+    position: absolute;
+    top: 0px;
+    bottom: 15px;
+    left: 50px;
+    right: 15px;
+}
+
+.playbackTutorialContent {
+    position: absolute;
+    width: 400px;
+    height: 150px;
+    margin-left: -200px;
+    margin-top: -250px;
+    top: 100%;
+    left: 50%;
+}
+
+.playbackTutorialAccent {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-top: -50px;
+    margin-left: -170px;
+    height: 35px;
+    width: 400px;
+}
+
+.globalPlaylistTutorialContent {
+    position: absolute;
+    width: 400px;
+    height: 150px;
+    margin-left: -200px;
+    margin-top: -450px;
+    top: 100%;
+    left: 50%;
+}
+
+.globalPlaylistTutorialAccent {
+    position: absolute;
+    top: 100%;
+    left: 0px;
+    right: 0px;
+    margin-top: -135px;
+    bottom: 0px;
+}
