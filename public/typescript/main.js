@@ -1,13 +1,12 @@
 var mobile = isMobile();
+var disableUserAction = false;
 function run() {
     var sections = [];
     sections.push(buildSearchSection());
     sections.push(buildPlaylistSection());
     sections.push(buildRadioSection());
-    if (!mobile) {
-        sections.push(buildHistorySection());
-        sections.push(buildTopSection());
-    }
+    sections.push(buildHistorySection());
+    sections.push(buildTopSection());
     sectionManager = new SectionManager(sections);
     sectionManager.build();
     sectionManager.resize();
@@ -26,6 +25,24 @@ function run() {
         new Song("0196b4cc-66ec-4ad4-acad-2fe852a4ccd5", new SongInfo("I'm a Believer", "The Monkees", null, null, 0, 0, 0), "http://userserve-ak.last.fm/serve/300x300/77468760.png"),
         new Song("076ed98f-f3e9-44c8-b9b7-66624de9b9f0", new SongInfo("Believe", "The Bravery", null, null, 0, 0, 0), "http://userserve-ak.last.fm/serve/300x300/9723711.jpg")
     ]);
+    checkForTutorial();
+}
+function checkForTutorial() {
+    if (readCookie("tutorial") == null) {
+        showTutorial();
+        disableTutorial();
+    } else {
+        $("#tutorialContainer").remove();
+    }
+}
+function disableTutorial() {
+    createCookie("tutorial", "true", 365);
+}
+function showTutorial() {
+    $("#tutorialContainer").load("/assets/sections/tutorial.html", function () {
+        var tutorial = new Tutorial();
+        tutorial.start();
+    });
 }
 function buildSearchSection() {
     return new Section("Search", "search", "/assets/sections/search.html");
@@ -223,7 +240,7 @@ var ItemList = (function () {
     ItemList.prototype.bind = function () {
         var _this = this;
         $(window).mousemove(function (event) {
-            if (_this.isHidden) {
+            if (disableUserAction || _this.isHidden) {
                 return;
             }
             if (_this.isCollapsed && event.clientX > (dimensions.windowWidth - 15)) {
@@ -461,6 +478,9 @@ var GlobalPlaylistManager = (function () {
         this.globalPlaylistSongContainer = $("#globalPlaylistSongContainer");
         this.globalPlaylistContainer = $("#globalPlaylistContainer");
         $(window).mousemove(function (event) {
+            if (disableUserAction) {
+                return;
+            }
             if (_this.isCollapsed && event.clientY > (dimensions.windowHeight - 15) && (event.clientX < (dimensions.windowWidth / 2 - 185) || event.clientX > (dimensions.windowWidth / 2 + 235))) {
                 _this.giveFocus();
             }
@@ -657,8 +677,10 @@ var GlobalPlaylistManager = (function () {
         var callBack = function (option) {
             if (option == 0) {
                 _this.deleteSong(song);
-            } else if (option == 1) {
-                _this.clearSongs();
+            } else {
+                if (option == 1) {
+                    _this.clearSongs();
+                }
             }
         };
         window.setTimeout(function () {

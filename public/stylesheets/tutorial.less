@@ -1,0 +1,258 @@
+@import "common";
+
+@tutorial_overlay_background: fade(black, 50%);
+@tutorial_background: fade(black, 50%);
+@tutorial_accent: #3f3f3f;
+@tutorial_accent_focus: red;
+@tutorial_foreground: #e8e8e8;
+
+#tutorialOverlay {
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  top: 0px;
+  bottom: 0px;
+  background: @tutorial_overlay_background;
+}
+
+#tutorialExclamationMark {
+  position: absolute;
+  left: -80px;
+  top: 50%;
+  margin-top: -150px;
+  color: @tutorial_foreground;
+  .fontMenu2;
+  font-size: 200px;
+}
+
+#tutorialInfoContainer {
+  box-shadow: black 0px 0px 20px;
+  padding: 5px;
+  background: @tutorial_foreground;
+  border-radius: 2px;
+  border: 1px solid @tutorial_accent;
+  transition: all 0.4s;
+  -wekbit-transition: all 0.4s;
+}
+
+.relaxedInfoContainer {
+  position: absolute;
+  width: 400px;
+  height: 150px;
+  margin-left: -200px;
+  margin-top: -100px;
+  top: 50%;
+  left: 50%;
+}
+
+.initialTutorialSection {
+  position: absolute;
+  width: 400px;
+  height: 150px;
+  margin-left: -200px;
+  margin-top: -100px;
+  top: 50%;
+  left: 50%;
+}
+
+#tutorialContent {
+  color: @background;
+  .fontText;
+  font-size: 1.2em;
+}
+
+#tutorialButtons {
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  height: 40px;
+}
+
+.tutorialButton {
+  margin: 2px;
+  padding: 5px;
+  float: right;
+  border-radius: 2px;
+  border: 1px solid @tutorial_accent;
+  .fontMenu2;
+  font-size: 1em;
+  color: @background;
+  cursor: pointer;
+  transition: box-shadow 0.2s;
+  -wekbit-transition: box-shadow 0.2s;
+}
+
+.tutorialButton:hover {
+  box-shadow: black 0px 0px 10px inset;
+}
+
+#tutorialButtonFinish {
+  border-color: @tutorial_accent;
+  color: @background;
+  background-image: linear-gradient(bottom, rgb(217, 217, 217) 0%, rgb(230, 230, 230) 100%);
+  background-image: -o-linear-gradient(bottom, rgb(217, 217, 217) 0%, rgb(230, 230, 230) 100%);
+  background-image: -moz-linear-gradient(bottom, rgb(217, 217, 217) 0%, rgb(230, 230, 230) 100%);
+  background-image: -webkit-linear-gradient(bottom, rgb(217, 217, 217) 0%, rgb(230, 230, 230) 100%);
+  background-image: -ms-linear-gradient(bottom, rgb(217, 217, 217) 0%, rgb(230, 230, 230) 100%);
+}
+
+#tutorialButtonNext {
+  border-color: @playButton;
+  color: @foreground_text;
+  background-image: linear-gradient(bottom, rgb(77, 128, 79) 0%, rgb(114, 179, 111) 100%);
+  background-image: -o-linear-gradient(bottom, rgb(77, 128, 79) 0%, rgb(114, 179, 111) 100%);
+  background-image: -moz-linear-gradient(bottom, rgb(77, 128, 79) 0%, rgb(114, 179, 111) 100%);
+  background-image: -webkit-linear-gradient(bottom, rgb(77, 128, 79) 0%, rgb(114, 179, 111) 100%);
+  background-image: -ms-linear-gradient(bottom, rgb(77, 128, 79) 0%, rgb(114, 179, 111) 100%);
+}
+
+#tutorialAccent {
+  background: fade(@foreground_focus, 50%);
+  box-shadow: @tutorial_accent_focus 0px 0px 20px;
+  transition: box-shadow 0.4s;
+  -wekbit-transition: box-shadow 0.4s;
+}
+
+.tutorialAccentHidden {
+  display: none;
+}
+
+.menuBarTutorialContent {
+  position: absolute;
+  width: 400px;
+  height: 150px;
+  margin-left: 200px;
+  margin-top: -100px;
+  top: 50%;
+  left: 0%;
+}
+
+.menuBarTutorialAccent {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  bottom: 0px;
+  width: 50px;
+}
+
+.itemBarTutorialContent {
+  position: absolute;
+  width: 400px;
+  height: 150px;
+  margin-left: -500px;
+  margin-top: -100px;
+  top: 50%;
+  left: 100%;
+}
+
+.itemBarTutorialAccent {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: auto;
+  width: 15px;
+}
+
+.itemBarTutorialOpenedContent {
+  position: absolute;
+  width: 400px;
+  height: 150px;
+  margin-left: -760px;
+  margin-top: -100px;
+  top: 50%;
+  left: 100%;
+}
+
+.itemBarTutorialOpenedAccent {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: auto;
+  width: 260px;
+}
+
+.itemBarTutorialEnterAccent {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  left: auto;
+  height: 30px;
+  width: 245px;
+}
+
+.searchFinishedTutorialContent {
+  position: absolute;
+  width: 400px;
+  height: 150px;
+  margin-left: -460px;
+  margin-top: -250px;
+  top: 100%;
+  left: 100%;
+}
+
+.searchFinishedTutorialAccent {
+  position: absolute;
+  top: 0px;
+  bottom: 15px;
+  left: 50px;
+  right: 15px;
+}
+
+.navigationTutorialContent {
+  position: absolute;
+  width: 400px;
+  height: 150px;
+  margin-left: -460px;
+  margin-top: 100px;
+  top: 0%;
+  left: 100%;
+}
+
+.navigationTutorialAccent {
+  position: absolute;
+  top: 0px;
+  bottom: 15px;
+  left: 50px;
+  right: 15px;
+}
+
+.playbackTutorialContent {
+  position: absolute;
+  width: 400px;
+  height: 150px;
+  margin-left: -200px;
+  margin-top: -250px;
+  top: 100%;
+  left: 50%;
+}
+
+.playbackTutorialAccent {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-top: -50px;
+  margin-left: -170px;
+  height: 35px;
+  width: 400px;
+}
+
+.globalPlaylistTutorialContent {
+  position: absolute;
+  width: 400px;
+  height: 150px;
+  margin-left: -200px;
+  margin-top: -450px;
+  top: 100%;
+  left: 50%;
+}
+
+.globalPlaylistTutorialAccent {
+  position: absolute;
+  top: 100%;
+  left: 0px;
+  right: 0px;
+  margin-top: -135px;
+  bottom: 0px;
+}

@@ -169,7 +169,7 @@ html {
     left: 0px;
     right: 0px;
     background: #0f2423;
-    z-index: 1000;
+    z-index: 200;
 }
 
 #mainLoader img {
@@ -716,4 +716,13 @@ html {
 
 .songMenuItem:hover {
     background: #af6b53;
+}
+
+#tutorialContainer {
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    bottom: 0px;
+    z-index: 200;
 }
