@@ -1,5 +1,7 @@
 var PlaylistManager = (function () {
-    function PlaylistManager() { }
+    function PlaylistManager() {
+    }
+
     PlaylistManager.prototype.bind = function () {
     };
     PlaylistManager.prototype.onAddPlaylistInput = function (query) {
