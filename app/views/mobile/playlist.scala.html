@@ -8,6 +8,18 @@
         <title> Search Result </title>
     </head>
     <body>
+        <div class="playlistOptions">
+            <span role="button" id="mobilePlayButton" > Play </span>
+            <span role="button" id="mobileShareButton"> Share</span>
+            <span role="button" id="mobileDeleteButton"> Delete</span>
+        </div>
+        <div class="box" id="box" style="display:none;">
+            <button id="facebookButton"><img id="facebookPic" src="/assets/images/facebook.png"/> Facebook
+            </button>
+            <button id="twitterButton"><img id="twitterPic" src="/assets/images/twitter.png"/> Twitter
+            </button>
+            <button id="googleButton"><img id="googlePic" src="/assets/images/google.png"/> Google+</button>
+        </div>
         <div class="playlistResult">
             @for(song <- songs) {
                 <div class="playlistItemTableContainer">
@@ -15,7 +27,7 @@
                         <tr>
                             <td rowspan="2" class="playlistItemImage"><img src="@song.imageUrl" /></td>
                             <td class="playlistItemTitle">@song.title</td>
-                            <td rowspan="2" class="playlistItemOptionContainer"></td>
+                            <td rowspan="2" class="playlistItemOptionContainer" songId="@song.mbid" songTitle="@song.title" songArtist="@song.artist" songImage="@song.imageUrl"></td>
                         </tr>
                         <tr>
                             <td>@song.artist</td>

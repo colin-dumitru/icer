@@ -10,9 +10,17 @@
         <title> Playlist </title>
     </head>
     <body>
-    @mobile.items(playlists.map(p => Item(p.id.get.toString, p.title))) {
-        <div>No PlayLists Found</div>
-    }
+        @mobile.items(playlists.map(p => Item(p.id.get.toString, p.title))) {
+            <div>No PlayLists Found</div>
+        }
+        <div id="playlistOptionContainer">
+            <div>
+                <img class="searchOption" id="playNow" src="@routes.Assets.at("images/play.png")" />
+                <img id="searchFromHere" class="searchOption" src="@routes.Assets.at("images/search.png")" />
+                <img id="deleteSong" class="searchOption" src="@routes.Assets.at("images/delete.png")" />
+            </div>
+        </div>
+
     </body>
 </html>
 

@@ -90,6 +90,10 @@ class ItemManager {
         this.bindItem(container, id, title);
     }
 
+    public deleteItem(id:string) {
+        $('.selectItem[itemId=' + id + ']').remove()
+    }
+
     private bindItem(container, id:string, label:string) {
         container.click(() => {
             this.itemSelectedCallback(id, label);

@@ -39,9 +39,24 @@ function searchCallback() {
     });
 }
 
+function searchCallbackFromPlaylist(query:string) {
+    sectionManager.loadSection("/mobile/section/search", () => {
+        itemsOnLoad();
+
+        mSearchManager.bind();
+
+        itemManager.itemAddCallback = (content) => mSearchManager.onSearchInput(content);
+        itemManager.itemSelectedCallback = (id, title) => mSearchManager.onSearchSelected(id);
+        $("#menuSelect").val(0);
+        mSearchManager.onSearchInput(query);
+    });
+}
+
 function playlistCallback() {
     sectionManager.loadSection("/mobile/section/playlists", () => {
         itemsOnLoad();
+
+        mPlaylistManager.bind();
 
         itemManager.itemAddCallback = (content) => mPlaylistManager.onAddPlaylistInput(content);
         itemManager.itemSelectedCallback = (id, title) => mPlaylistManager.onPlaylistSelected(id, title);
@@ -166,6 +181,10 @@ class GlobalPlaylistManager {
         var item = this.convertSongToItem(song);
         this.bindItemClick(item, song);
         this.playingSongs.append(item);
+    }
+
+    public clearSongs() {
+        this.playingSongs.empty();
     }
 
     private bindItemClick(item, song:Song) {

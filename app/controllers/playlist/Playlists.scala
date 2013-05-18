@@ -92,4 +92,19 @@ object Playlists extends Controller {
     }
   }
 
+  def mobileDeletePlaylist(idPlaylist: String) = Secured {
+    (request, idUser) => {
+      Playlist.deletePlaylist(idPlaylist.toLong, idUser)
+      Ok(views.html.mobile.section_playlists(Playlist.findAllForUser(idUser).toList))
+    }
+  }
+
+  def mobileDeleteSongFromPlaylist(idPlaylist: String, idSong: String) = Secured {
+    (request, idUser) => {
+      Playlist.deleteSongFromPlaylist(idPlaylist.toLong, idSong)
+      Ok(views.html.mobile.playlist(Song.getSongsForPlaylist(idPlaylist.toLong).toList))
+
+    }
+  }
+
 }

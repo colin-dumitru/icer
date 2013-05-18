@@ -15,6 +15,7 @@ var ItemManager = (function () {
         this.itemSelectedCallback = function (id, label) {
         };
     }
+
     ItemManager.prototype.bind = function () {
         this.itemTable = $("#itemTable");
         this.itemList = $("#itemList");
@@ -33,7 +34,7 @@ var ItemManager = (function () {
     ItemManager.prototype.bindItemInput = function () {
         var _this = this;
         $("#itemInput").keypress(function (e) {
-            if(e.which == 13) {
+            if (e.which == 13) {
                 _this.itemAddCallback($(this).val());
                 $(this).val("");
                 _this.takeFocus();
@@ -41,7 +42,7 @@ var ItemManager = (function () {
         });
     };
     ItemManager.prototype.toggle = function () {
-        if(this.collapsed) {
+        if (this.collapsed) {
             this.giveFocus();
         } else {
             this.takeFocus();
@@ -68,6 +69,9 @@ var ItemManager = (function () {
         container.attr("itemId", id);
         this.itemList.append(container);
         this.bindItem(container, id, title);
+    };
+    ItemManager.prototype.deleteItem = function (id) {
+        $('.selectItem[itemId=' + id + ']').remove();
     };
     ItemManager.prototype.bindItem = function (container, id, label) {
         var _this = this;
