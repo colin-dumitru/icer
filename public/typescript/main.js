@@ -214,15 +214,17 @@ var SectionManager = (function () {
             top: this.currentSectionIndex * dimensions.windowHeight
         });
         this.menuSelectorBackground.css({
-            height: dimensions.menuItemHeight,
-            top: this.currentSectionIndex * dimensions.menuItemHeight
+            top: this.currentSectionIndex * dimensions.menuItemHeight,
+            WebkitTransform: "translate3d(0, " + this.currentSectionIndex * dimensions.menuItemHeight + "px, 0)",
+            transform: "translate3d(0, " + this.currentSectionIndex * dimensions.menuItemHeight + "px, 0)"
         });
         this.sectionContainer.css({
             height: dimensions.windowHeight
         });
         this.sectionTable.css({
             height: dimensions.windowHeight * this.sections.length,
-            top: -this.currentSectionIndex * dimensions.windowHeight
+            WebkitTransform: "translate3d(0, " + -this.currentSectionIndex * dimensions.windowHeight + "px, 0)",
+            transform: "translate3d(0, " + -this.currentSectionIndex * dimensions.windowHeight + "px, 0)"
         });
     };
     return SectionManager;
