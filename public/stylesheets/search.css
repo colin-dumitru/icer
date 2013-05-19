@@ -157,6 +157,10 @@
 #searchPageTable {
     height: 100%;
     position: relative;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -webkit-transition: all 0.4s ease;
+    transition: all 0.4s ease;
 }
 
 .searchPage {

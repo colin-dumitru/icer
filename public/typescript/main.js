@@ -1,5 +1,5 @@
-var mobile = isMobile();
 var disableUserAction = false;
+var use3DAcceleration = true;
 function run() {
     var sections = [];
     sections.push(buildSearchSection());
@@ -114,16 +114,42 @@ var SectionManager = (function () {
             axis: "y",
             start: function () {
                 binders[_this.currentSection.id].unbind();
+                _this.sectionTable.css({
+                    WebkitTransition: "",
+                    transition: ""
+                });
+                _this.menuSelector.css({
+                    WebkitTransition: "",
+                    transition: ""
+                });
+                _this.menuSelectorBackground.css({
+                    WebkitTransition: "",
+                    transition: ""
+                });
             },
             drag: function (event, ui) {
                 _this.menuSelectorBackground.css({
-                    top: ui.position.top
+                    WebkitTransform: "translate3d(0, " + ui.position.top + "px, 0)",
+                    transform: "translate3d(0, " + ui.position.top + "px, 0)"
                 });
                 _this.sectionTable.css({
-                    top: -ui.position.top * _this.sections.length
+                    WebkitTransform: "translate3d(0, " + -ui.position.top * _this.sections.length + "px, 0)",
+                    transform: "translate3d(0, " + -ui.position.top * _this.sections.length + "px, 0)"
                 });
             },
             stop: function (event, ui) {
+                _this.sectionTable.css({
+                    WebkitTransition: "-webkit-transform 0.4s ease",
+                    transition: "transform 0.4s ease"
+                });
+                _this.menuSelector.css({
+                    WebkitTransition: "top 0.4s ease",
+                    transition: "top 0.4s ease"
+                });
+                _this.menuSelectorBackground.css({
+                    WebkitTransition: "-webkit-transform 0.4s ease",
+                    transition: "transform 0.4s ease"
+                });
                 _this.changeSection(_this.closestMenuItem(ui.position.top));
             }
         });
@@ -131,14 +157,16 @@ var SectionManager = (function () {
     SectionManager.prototype.changeSection = function (index) {
         this.currentSection = this.sections[index];
         this.currentSectionIndex = index;
-        this.menuSelector.animate({
+        this.menuSelector.css({
             top: index * dimensions.menuItemHeight
         });
-        this.menuSelectorBackground.animate({
-            top: index * dimensions.menuItemHeight
+        this.menuSelectorBackground.css({
+            WebkitTransform: "translate3d(0, " + index * dimensions.menuItemHeight + "px, 0)",
+            transform: "translate3d(0, " + index * dimensions.menuItemHeight + "px, 0)"
         });
-        this.sectionTable.animate({
-            top: -index * dimensions.windowHeight
+        this.sectionTable.css({
+            WebkitTransform: "translate3d(0, " + -index * dimensions.windowHeight + "px, 0)",
+            transform: "translate3d(0, " + -index * dimensions.windowHeight + "px, 0)"
         });
         binders[this.currentSection.id].bind();
     };
@@ -158,6 +186,18 @@ var SectionManager = (function () {
         $("#menuTable").append(sectionTemplate);
         $("#menuTable #" + section.id + "Menu").click(function () {
             binders[_this.currentSection.id].unbind();
+            _this.sectionTable.css({
+                WebkitTransition: "-webkit-transform 0.4s ease",
+                transition: "transform 0.4s ease"
+            });
+            _this.menuSelector.css({
+                WebkitTransition: "top 0.4s ease",
+                transition: "top 0.4s ease"
+            });
+            _this.menuSelectorBackground.css({
+                WebkitTransition: "-webkit-transform 0.4s ease",
+                transition: "transform 0.4s ease"
+            });
             _this.changeSection(_this.sections.indexOf(section));
         });
         if (this.firstSection == null) {
@@ -208,7 +248,9 @@ var ItemList = (function () {
         this.itemListItemContainer = null;
         this.itemListContainerTable = null;
         this.itemListContainer = null;
+        this.itemListCell = null;
         this.sectionContainer = null;
+        this.itemListDivider = null;
     }
 
     ItemList.prototype.pushItemList = function (key) {
@@ -265,22 +307,26 @@ var ItemList = (function () {
         this.itemListContainerTable = $("#itemListContainerTable");
         this.itemListContainer = $("#itemListContainer");
         this.sectionContainer = $("#sectionContainer");
+        this.itemListCell = $("#itemListCell");
+        this.itemListDivider = $("#itemListDivider");
     };
     ItemList.prototype.show = function () {
         this.isHidden = false;
-        this.itemListContainerTable.show(400);
+        this.itemListDivider.fadeIn(400);
     };
     ItemList.prototype.hide = function () {
         this.isHidden = true;
-        this.itemListContainerTable.hide(400);
+        this.itemListDivider.fadeOut(400);
     };
     ItemList.prototype.giveFocus = function () {
-        this.itemListContainer.show(0).addClass("itemListContainerExpanded").removeClass("itemListContainerContracted");
+        this.itemListCell.addClass("itemListCellExpanded");
+        this.itemListContainer.addClass("itemListContainerExpanded");
         this.sectionContainer.css("-webkit-transform-origin", "100% 50%").css("transform-origin", "100% 50%").addClass("sectionContainerContracted");
         this.isCollapsed = false;
     };
     ItemList.prototype.takeFocus = function () {
-        this.itemListContainer.removeClass("itemListContainerExpanded").addClass("itemListContainerContracted").delay(400).hide(0);
+        this.itemListCell.removeClass("itemListCellExpanded");
+        this.itemListContainer.removeClass("itemListContainerExpanded");
         this.sectionContainer.removeClass("sectionContainerContracted");
         this.isCollapsed = true;
     };
@@ -677,8 +723,10 @@ var GlobalPlaylistManager = (function () {
         var callBack = function (option) {
             if (option == 0) {
                 _this.deleteSong(song);
-            } else if (option == 1) {
-                _this.clearSongs();
+            } else {
+                if (option == 1) {
+                    _this.clearSongs();
+                }
             }
         };
         window.setTimeout(function () {
@@ -703,26 +751,14 @@ var GlobalPlaylistManager = (function () {
         this.globalPlaylistSongContainer.empty();
     };
     GlobalPlaylistManager.prototype.giveFocus = function () {
-        this.globalPlaylistContainer.transition({
-            bottom: 120
-        });
-        this.globalPlaylistSongContainer.transition({
-            perspective: "100px",
-            transformOrigin: '50% 0%',
-            rotateX: 0
-        });
+        this.globalPlaylistContainer.addClass("globalPlaylistContainerExpanded");
+        this.globalPlaylistSongContainer.addClass("globalPlaylistSongContainerExpanded");
         $("#sectionContainer").css("-webkit-transform-origin", "50% 100%").css("transform-origin", "50% 100%").addClass("sectionContainerContractedVertical");
         this.isCollapsed = false;
     };
     GlobalPlaylistManager.prototype.takeFocus = function () {
-        this.globalPlaylistContainer.transition({
-            bottom: 0
-        });
-        this.globalPlaylistSongContainer.transition({
-            perspective: "100px",
-            transformOrigin: '50% 0%',
-            rotateX: -10
-        });
+        this.globalPlaylistContainer.removeClass("globalPlaylistContainerExpanded");
+        this.globalPlaylistSongContainer.removeClass("globalPlaylistSongContainerExpanded");
         $("#sectionContainer").removeClass("sectionContainerContractedVertical");
         this.isCollapsed = true;
     };

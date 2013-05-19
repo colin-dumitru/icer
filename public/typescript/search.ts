@@ -119,8 +119,8 @@ class SearchManager {
         this.searchSessionsQueue.forEach((session, i) => {
             session.rootNode()
                 .css({
-                    WebkitTransform: "perspective(100x) translateZ(" + 20 * (i - this.currentIndex) + "px)",
-                    transform: "perspective(100px)  translateZ(" + 20 * (i - this.currentIndex) + "px)",
+                    WebkitTransform: "perspective(100px) translate3d(0px, 0px, " + 20 * (i - this.currentIndex) + "px)",
+                    transform: "perspective(100px)  translate3d(0px, 0px, " + 20 * (i - this.currentIndex) + "px)",
                     opacity: (i > this.currentIndex) ? 0 : (i == this.currentIndex) ? 1 : 0.5
                 })
                 .removeClass("hidden");
@@ -932,10 +932,19 @@ class SearchPageManager {
     giveFocusPage(index:number) {
         var page = this.getPage(index);
 
-        $(this.session.rootNode()).find("#searchPageTable")
-            .transition({
-                left: -index * page.width()
-            });
+        if (use3DAcceleration) {
+            $(this.session.rootNode()).find("#searchPageTable")
+                .css({
+                    WebkitTransform: "translate3d(" + -index * page.width() + "px, 0px, 0px)",
+                    transform: "translate3d(" + -index * page.width() + "px, 0px, 0px)"
+                });
+        } else {
+            $(this.session.rootNode()).find("#searchPageTable")
+                .transition({
+                    left: -index * page.width()
+                });
+        }
+
         page.find(".searchPageSongContainer").addClass("searchPageSongContainerFocused");
     }
 

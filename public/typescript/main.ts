@@ -1,5 +1,5 @@
-var mobile = isMobile();
 var disableUserAction = false;
+var use3DAcceleration = true;
 
 interface SectionBinder{
     buildPage(rootNode:any);
@@ -152,16 +152,42 @@ class SectionManager {
                 axis: "y",
                 start: () => {
                     binders[this.currentSection.id].unbind();
+                    this.sectionTable.css({
+                        WebkitTransition: "",
+                        transition: ""
+                    });
+                    this.menuSelector.css({
+                        WebkitTransition: "",
+                        transition: ""
+                    });
+                    this.menuSelectorBackground.css({
+                        WebkitTransition: "",
+                        transition: ""
+                    });
                 },
                 drag: (event, ui) => {
                     this.menuSelectorBackground.css({
-                        top: ui.position.top
+                        WebkitTransform: "translate3d(0, " + ui.position.top + "px, 0)",
+                        transform: "translate3d(0, " + ui.position.top + "px, 0)"
                     });
                     this.sectionTable.css({
-                        top: -ui.position.top * this.sections.length
+                        WebkitTransform: "translate3d(0, " + -ui.position.top * this.sections.length + "px, 0)",
+                        transform: "translate3d(0, " + -ui.position.top * this.sections.length + "px, 0)"
                     });
                 },
                 stop: (event, ui) => {
+                    this.sectionTable.css({
+                        WebkitTransition: "-webkit-transform 0.4s ease",
+                        transition: "transform 0.4s ease"
+                    });
+                    this.menuSelector.css({
+                        WebkitTransition: "top 0.4s ease",
+                        transition: "top 0.4s ease"
+                    });
+                    this.menuSelectorBackground.css({
+                        WebkitTransition: "-webkit-transform 0.4s ease",
+                        transition: "transform 0.4s ease"
+                    });
                     this.changeSection(this.closestMenuItem(ui.position.top))
                 }
             });
@@ -171,14 +197,16 @@ class SectionManager {
         this.currentSection = this.sections[index];
         this.currentSectionIndex = index;
 
-        this.menuSelector.animate({
+        this.menuSelector.css({
             top: index * dimensions.menuItemHeight
         });
-        this.menuSelectorBackground.animate({
-            top: index * dimensions.menuItemHeight
+        this.menuSelectorBackground.css({
+            WebkitTransform: "translate3d(0, " + index * dimensions.menuItemHeight + "px, 0)",
+            transform: "translate3d(0, " + index * dimensions.menuItemHeight + "px, 0)"
         });
-        this.sectionTable.animate({
-            top: -index * dimensions.windowHeight
+        this.sectionTable.css({
+            WebkitTransform: "translate3d(0, " + -index * dimensions.windowHeight + "px, 0)",
+            transform: "translate3d(0, " + -index * dimensions.windowHeight + "px, 0)"
         });
         binders[this.currentSection.id].bind();
     }
@@ -199,6 +227,18 @@ class SectionManager {
         $("#menuTable").append(sectionTemplate);
         $("#menuTable #" + section.id + "Menu").click(() => {
             binders[this.currentSection.id].unbind();
+            this.sectionTable.css({
+                WebkitTransition: "-webkit-transform 0.4s ease",
+                transition: "transform 0.4s ease"
+            });
+            this.menuSelector.css({
+                WebkitTransition: "top 0.4s ease",
+                transition: "top 0.4s ease"
+            });
+            this.menuSelectorBackground.css({
+                WebkitTransition: "-webkit-transform 0.4s ease",
+                transition: "transform 0.4s ease"
+            });
             this.changeSection(this.sections.indexOf(section));
         });
 
@@ -252,7 +292,9 @@ class ItemList {
     private itemListItemContainer = null;
     private itemListContainerTable = null;
     private itemListContainer = null;
+    private itemListCell = null;
     private sectionContainer = null;
+    private itemListDivider = null;
 
     pushItemList(key:string) {
         this.itemListQueue[key] = {itemList: this.itemList, selectedItem: this.selectedItem};
@@ -306,24 +348,25 @@ class ItemList {
         this.itemListContainerTable = $("#itemListContainerTable");
         this.itemListContainer = $("#itemListContainer");
         this.sectionContainer = $("#sectionContainer");
+        this.itemListCell = $("#itemListCell");
+        this.itemListDivider = $("#itemListDivider");
     }
 
     show() {
         this.isHidden = false;
-        this.itemListContainerTable.show(400);
+        this.itemListDivider.fadeIn(400);
     }
 
     hide() {
         this.isHidden = true;
-        this.itemListContainerTable.hide(400);
+        this.itemListDivider.fadeOut(400);
     }
 
     giveFocus() {
+        this.itemListCell
+            .addClass("itemListCellExpanded");
         this.itemListContainer
-            .show(0)
-            .addClass("itemListContainerExpanded")
-            .removeClass("itemListContainerContracted");
-
+            .addClass("itemListContainerExpanded");
         this.sectionContainer
             .css("-webkit-transform-origin", "100% 50%")
             .css("transform-origin", "100% 50%")
@@ -332,11 +375,10 @@ class ItemList {
     }
 
     takeFocus() {
+        this.itemListCell
+            .removeClass("itemListCellExpanded");
         this.itemListContainer
-            .removeClass("itemListContainerExpanded")
-            .addClass("itemListContainerContracted")
-            .delay(400)
-            .hide(0);
+            .removeClass("itemListContainerExpanded");
         this.sectionContainer
             .removeClass("sectionContainerContracted");
         this.isCollapsed = true;
@@ -811,15 +853,9 @@ class GlobalPlaylistManager {
 
     giveFocus() {
         this.globalPlaylistContainer
-            .transition({
-                bottom: 120
-            });
+            .addClass("globalPlaylistContainerExpanded");
         this.globalPlaylistSongContainer
-            .transition({
-                perspective: "100px",
-                transformOrigin: '50% 0%',
-                rotateX: 0
-            });
+            .addClass("globalPlaylistSongContainerExpanded");
         $("#sectionContainer")
             .css("-webkit-transform-origin", "50% 100%")
             .css("transform-origin", "50% 100%")
@@ -829,15 +865,9 @@ class GlobalPlaylistManager {
 
     takeFocus() {
         this.globalPlaylistContainer
-            .transition({
-                bottom: 0
-            });
+            .removeClass("globalPlaylistContainerExpanded");
         this.globalPlaylistSongContainer
-            .transition({
-                perspective: "100px",
-                transformOrigin: '50% 0%',
-                rotateX: -10
-            });
+            .removeClass("globalPlaylistSongContainerExpanded");
         $("#sectionContainer")
             .removeClass("sectionContainerContractedVertical");
         this.isCollapsed = true;

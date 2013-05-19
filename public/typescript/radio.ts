@@ -80,12 +80,11 @@ class RadioManager {
             dataType: "json",
             success: data =>this.onSongResult(data)
         });
-     }
+    }
 
-    public onSongResult(data)
-    {
+    public onSongResult(data) {
         for (var i = 0; i < data.length; i++) {
-            var songInfo = new SongInfo(data[i].title, data[i].artist, data[i].album, data[i].genre);
+            var songInfo = new SongInfo(data[i].title, data[i].artist, data[i].album, data[i].genre, 0, 0, 0);
             var song = new Song(data[i].mbid, songInfo, data[i].imageUrl);
             this.globalPlayer.push(song);
         }
@@ -111,7 +110,7 @@ class RadioManager {
 
     private pushMainResult(track:any) {
         var id = guid(track.mbid, track.name.trim() + track.artist.trim());
-        var song = new Song(id, new SongInfo(track.name, track.artist, null, null), track.imageUrl);
+        var song = new Song(id, new SongInfo(track.name, track.artist, null, null, 0, 0, 0), track.imageUrl);
         this.globalPlayer.push(song);
         this.globalPlayer = this.shuffle(this.globalPlayer);
         globalPlaylistManager.clearSongs();
@@ -160,10 +159,12 @@ class RadioManager {
         }
     }
 
-    shuffle(o){
-        for(var j, x, i = o.length; i; j = parseInt(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+    shuffle(o) {
+        for (var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
         return o;
-    };
+    }
+
+;
 
     bind() {
         $("#radioAddButtonCell").click(() => {
@@ -180,7 +181,6 @@ class RadioManager {
         });
 
 
-
         $("#radioManagerPlayButton").click(() => {
 
             globalPlaylistManager.clearSongs();
@@ -191,8 +191,7 @@ class RadioManager {
 
             for (var i in this.selectedCriterias) {
                 var selected = this.selectedCriterias[i].id;
-                switch(selected)
-                {
+                switch (selected) {
                     case "radioCustomCriteria":
                     {
                         this.loadCustomSearchSongs();

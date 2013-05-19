@@ -255,13 +255,13 @@ html {
 }
 
 .sectionContainer {
-    -webkit-transform: perspective(100px) rotateX(0deg);
-    transform: perspective(100px) rotateX(0deg);
+    -webkit-transform: perspective(100px) translate3d(0px, 0px, 0px) rotateX(0deg);
+    transform: perspective(100px) translate3d(0px, 0px, 0px) rotateX(0deg);
 }
 
 .sectionContainerContracted {
-    -webkit-transform: perspective(100px) rotateY(-5deg);
-    transform: perspective(100px) rotateY(-5deg);
+    -webkit-transform: perspective(100px) translate3d(-250px, 0px, 0px) rotateY(-5deg);
+    transform: perspective(100px) translate3d(-250px, 0px, 0px) rotateY(-5deg);
 }
 
 .sectionContainerContractedVertical {
@@ -273,25 +273,42 @@ html {
     width: 100%;
 }
 
-#itemListContainer {
-    height: 100%;
-    background: #346661;
+#itemListCell {
     -webkit-transition: all 0.4s ease;
-    -webkit-transform-origin: 0% 50%;
-    transform-origin: 0% 50%;
     transition: all 0.4s ease;
 }
 
-.itemListContainerContracted {
-    -webkit-transform: perspective(100px) rotateY(20deg);
-    transform: perspective(100px) rotateY(20deg);
-    width: 0px;
+.itemListCell {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+}
+
+.itemListCellExpanded {
+    -webkit-transform: translate3d(-250px, 0, 0);
+    transform: translate3d(-250px, 0, 0);
+}
+
+#itemListContainer {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    width: 250px;
+    height: 100%;
+    background: #346661;
+    -webkit-transition: all 0.4s ease;
+    transition: all 0.4s ease;
+    -webkit-transform-origin: 0% 50%;
+    transform-origin: 0% 50%;
+}
+
+.itemListContainer {
+    -webkit-transform: perspective(100px) translate3d(250px, 0, 0) rotateY(20deg);
+    transform: perspective(100px) translate3d(250px, 0, 0) rotateY(20deg);
 }
 
 .itemListContainerExpanded {
-    width: 250px;
-    -webkit-transform: perspective(100px) rotateY(0deg);
-    transform: perspective(100px) rotateY(0deg);
+    -webkit-transform: perspective(100px) translate3d(250px, 0, 0) rotateY(0deg);
+    transform: perspective(100px) translate3d(250px, 0, 0) rotateY(0deg);
 }
 
 #itemList {
@@ -336,11 +353,6 @@ html {
     background: #82aba8;
 }
 
-#itemListContainerCell {
-    height: 100%;
-    vertical-align: top;
-}
-
 #newItemInput {
     width: 100%;
     height: 25px;
@@ -350,18 +362,7 @@ html {
 #itemListDivider {
     width: 15px;
     height: 100%;
-}
-
-#itemListDivider div {
-    width: 15px;
-    height: 100%;
     background: #589c9b;
-}
-
-#itemListContainerTable {
-    height: 100%;
-    vertical-align: top;
-    box-shadow: #111 0px 0px 20px 5px;
 }
 
 #globalPlaylistContainer {
@@ -369,6 +370,18 @@ html {
     height: 50px;
     position: absolute;
     bottom: 0px;
+    -webkit-transition: -webkit-transform 0.4s ease;
+    transition: transform 0.4s ease;
+}
+
+.globalPlaylistContainer {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+}
+
+.globalPlaylistContainerExpanded {
+    -webkit-transform: translate3d(0, -120px, 0);
+    transform: translate3d(0, -120px, 0);
 }
 
 #bottomPlayBar {
@@ -509,6 +522,18 @@ html {
     overflow-x: scroll;
     overflow-y: hidden;
     white-space: nowrap;
+    -webkit-transition: -webkit-transform 0.4s ease;
+    transition: transform 0.4s ease;
+}
+
+.globalPlaylistSongContainer {
+    -webkit-transform: perspective(100px) translateY(5px) rotateX(-10deg);
+    transform: perspective(100px) translateY(5px) rotateX(-10deg);
+}
+
+.globalPlaylistSongContainerExpanded {
+    -webkit-transform: perspective(100px) rotateX(0deg);
+    transform: perspective(100px) rotateX(0deg);
 }
 
 #globalPlaylistSongContainer img {
@@ -667,10 +692,10 @@ html {
 }
 
 .imageInfo {
-    position: absolute;
+    position: relative;
     height: 40px;
     width: 100px;
-    bottom: 0px;
+    bottom: 45px;
     left: 0px;
     background: rgba(15, 36, 35, 0.5);
 }

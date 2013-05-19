@@ -1,5 +1,7 @@
 var RadioBinder = (function () {
-    function RadioBinder() { }
+    function RadioBinder() {
+    }
+
     RadioBinder.prototype.buildPage = function (rootNode) {
         this.radioManager = new RadioManager(rootNode);
         this.criteriaSongs = new RadioCriteriaInput("radioRecentSongsCriteria", false, function () {
@@ -28,7 +30,7 @@ var RadioBinder = (function () {
         var _this = this;
         $("#radioManagerResetButton").click(function () {
             $("#radioCriteriaTableBody").empty();
-            for(var i in _this.radioManager.selectedCriterias) {
+            for (var i in _this.radioManager.selectedCriterias) {
                 $("#" + _this.radioManager.selectedCriterias[i].id).show();
             }
             _this.radioManager.selectedCriterias = [];
@@ -46,6 +48,7 @@ var RadioManager = (function () {
         this.globalPlayer = [];
         this.selectedCriterias = [];
     }
+
     RadioManager.prototype.buildSearchUrl = function (tag) {
         return "http://ws.audioscrobbler.com/2.0/?method=track.search&track=" + tag + "&api_key=" + lastFmApiKey + "&format=json&limit=20";
     };
@@ -60,8 +63,8 @@ var RadioManager = (function () {
         });
     };
     RadioManager.prototype.onSongResult = function (data) {
-        for(var i = 0; i < data.length; i++) {
-            var songInfo = new SongInfo(data[i].title, data[i].artist, data[i].album, data[i].genre);
+        for (var i = 0; i < data.length; i++) {
+            var songInfo = new SongInfo(data[i].title, data[i].artist, data[i].album, data[i].genre, 0, 0, 0);
             var song = new Song(data[i].mbid, songInfo, data[i].imageUrl);
             this.globalPlayer.push(song);
         }
@@ -81,13 +84,13 @@ var RadioManager = (function () {
         });
     };
     RadioManager.prototype.onMainResult = function (tracks) {
-        for(var i = 0; i < tracks.length; i++) {
+        for (var i = 0; i < tracks.length; i++) {
             this.pushMainResult(tracks[i]);
         }
     };
     RadioManager.prototype.pushMainResult = function (track) {
         var id = guid(track.mbid, track.name.trim() + track.artist.trim());
-        var song = new Song(id, new SongInfo(track.name, track.artist, null, null), track.imageUrl);
+        var song = new Song(id, new SongInfo(track.name, track.artist, null, null, 0, 0, 0), track.imageUrl);
         this.globalPlayer.push(song);
         this.globalPlayer = this.shuffle(this.globalPlayer);
         globalPlaylistManager.clearSongs();
@@ -98,7 +101,7 @@ var RadioManager = (function () {
         this.criterias.push(criteria);
         $("#" + criteria.id).click(function () {
             var criteriaTitle = criteria.labelFormatter();
-            if(!criteria.repeatable) {
+            if (!criteria.repeatable) {
                 $("#" + criteria.id).hide();
             }
             _this.addCriteria(criteriaTitle, criteria);
@@ -124,12 +127,13 @@ var RadioManager = (function () {
     };
     RadioManager.prototype.deleteCriteria = function (criteriaInput) {
         var index = this.selectedCriterias.indexOf(criteriaInput, 0);
-        if(index != undefined) {
+        if (index != undefined) {
             this.selectedCriterias.splice(index, 1);
         }
     };
     RadioManager.prototype.shuffle = function (o) {
-        for(var j, x, i = o.length; i; j = parseInt(Math.random() * i) , x = o[--i] , o[i] = o[j] , o[j] = x) {
+        for (var j, x, i = o.length; i; j = Math.floor(Math.random() * i) , x = o[--i] , o[i] = o[j] , o[j] = x) {
+            ;
             ;
         }
         return o;
@@ -143,7 +147,7 @@ var RadioManager = (function () {
             $("#radioCriteriaTableBody").empty();
             _this.criterias.forEach(function (criteria) {
                 $("#" + criteria.id).show();
-                for(var i in _this.selectedCriterias) {
+                for (var i in _this.selectedCriterias) {
                     _this.deleteCriteria(_this.selectedCriterias[i]);
                 }
             });
@@ -151,32 +155,42 @@ var RadioManager = (function () {
         $("#radioManagerPlayButton").click(function () {
             globalPlaylistManager.clearSongs();
             _this.globalPlayer = [];
-            if(_this.selectedCriterias.length == 0) {
+            if (_this.selectedCriterias.length == 0) {
                 globalPlaylistManager.clearSongs();
             }
-            for(var i in _this.selectedCriterias) {
+            for (var i in _this.selectedCriterias) {
                 var selected = _this.selectedCriterias[i].id;
-                switch(selected) {
-                    case "radioCustomCriteria": {
+                switch (selected) {
+                    case "radioCustomCriteria":
+                    {
                         _this.loadCustomSearchSongs();
                         break;
                     }
-                    case "radioRecentSongsCriteria": {
+
+                    case "radioRecentSongsCriteria":
+                    {
                         _this.loadSimilarSongs("/radio/songs/");
                         break;
                     }
-                    case "radioRecentGenresCriteria": {
+
+                    case "radioRecentGenresCriteria":
+                    {
                         _this.loadSimilarSongs("/radio/genre/");
                         break;
                     }
-                    case "radioRecentAlbumsCriteria": {
+
+                    case "radioRecentAlbumsCriteria":
+                    {
                         _this.loadSimilarSongs("/radio/album/");
                         break;
                     }
-                    default: {
+
+                    default:
+                    {
                         globalPlaylistManager.clearSongs();
                         break;
                     }
+
                 }
             }
         });
@@ -189,6 +203,7 @@ var RadioCriteriaInput = (function () {
         this.repeatable = repeatable;
         this.labelFormatter = labelFormatter;
     }
+
     return RadioCriteriaInput;
 })();
 //@ sourceMappingURL=radio.js.map
