@@ -6,6 +6,7 @@ import play.api.db.DB
 import anorm.~
 import play.api.libs.json.JsValue
 import play.api.Play.current
+import java.math.BigDecimal
 
 /**
  * Catalin Dumitru
@@ -87,4 +88,35 @@ object Song {
           "endInterval" -> endInterval).as(Song.simple *)
     }
   }
+
+    def getRecentSongs(userId: BigDecimal): Seq[Song] = {
+      DB.withConnection {
+        implicit connection =>
+          SQL("select * from songs s, playback_history h where h.song_id = s.mbid and h.userid = {userId} limit 20")
+            .on("userId" -> userId).as(Song.simple *)
+      }
+    }
+
+    def getSongsFromRecentGenres(userId: BigDecimal): Seq[Song] = {
+      DB.withConnection {
+        implicit connection =>
+          SQL("select * from songs s where s.genre in (select s_inner.genre from songs s_inner, playback_history h " +
+            "where s_inner.mbid = h.song_id and h.userid = {userId} and s.mbid != s_inner.mbid " +
+            "group by genre order by max(h.play_date) " +
+            "desc limit 5) limit 20")
+            .on("userId" -> userId).as(Song.simple *)
+      }
+    }
+
+    def getSongsFromRecentAlbums(userId: BigDecimal): Seq[Song] = {
+      DB.withConnection {
+        implicit connection =>
+          SQL("select * from songs s where s.album in (select s_inner.album from songs s_inner, playback_history h " +
+            "where s_inner.mbid = h.song_id and h.userid = {userId} and s.mbid != s_inner.mbid " +
+            "group by album order by max(h.play_date) " +
+            "desc limit 5) limit 20")
+            .on("userId" -> userId).as(Song.simple *)
+      }
+    }
+
 }

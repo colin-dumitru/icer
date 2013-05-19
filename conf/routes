@@ -27,6 +27,11 @@ GET /get/:idPlaylist controllers.playlist.Playlists.copyPlaylist(idPlaylist: Str
 #Chart
 POST    /chart/generate/:date/:interval             controllers.chart.Chart.generateChart(date:String, interval:String)
 
+#Radio
+POST /radio/songs/ controllers.radio.Radio.getRecentSongs
+POST /radio/genre/ controllers.radio.Radio.getSongsFromRecentGenres
+POST /radio/album/ controllers.radio.Radio.getSongsFromRecentAlbums
+
 #Mobile
 GET     /mobile                                             controllers.Application.mobile
 GET     /mobile/search/:query                               controllers.search.Search.search(query)
@@ -36,3 +41,4 @@ GET     /mobile/playlist/:id                                controllers.playlist
 GET     /mobile/playlist/add/:name                          controllers.playlist.Playlists.createPlaylist(name)
 GET     /mobile/playlist/delete/:id                         controllers.playlist.Playlists.mobileDeletePlaylist(id)
 GET     /mobile/playlist/song/delete/:idPlaylist/:idSong    controllers.playlist.Playlists.mobileDeleteSongFromPlaylist(idPlaylist,idSong)
+
