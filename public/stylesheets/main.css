@@ -221,14 +221,6 @@ html {
     color: #edfffc;
 }
 
-#menuSelectorBackground {
-    position: absolute;
-    width: 50px;
-    height: 100px;
-    background: #589c9b;
-    z-index: 0;
-}
-
 #menuSelector {
     position: absolute;
     width: 50px;

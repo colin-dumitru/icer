@@ -88,7 +88,6 @@ class SectionManager {
     private currentSectionIndex:number;
 
     private menuSelector:any;
-    private menuSelectorBackground:any;
     private sectionTable:any;
     private sectionContainer:any;
 
@@ -101,7 +100,6 @@ class SectionManager {
 
     build() {
         this.menuSelector = $("#menuSelector");
-        this.menuSelectorBackground = $("#menuSelectorBackground");
         this.sectionTable = $("#sectionTable");
         this.sectionContainer = $("#sectionContainer");
 
@@ -160,16 +158,8 @@ class SectionManager {
                         WebkitTransition: "",
                         transition: ""
                     });
-                    this.menuSelectorBackground.css({
-                        WebkitTransition: "",
-                        transition: ""
-                    });
                 },
                 drag: (event, ui) => {
-                    this.menuSelectorBackground.css({
-                        WebkitTransform: "translate3d(0, " + ui.position.top + "px, 0)",
-                        transform: "translate3d(0, " + ui.position.top + "px, 0)"
-                    });
                     this.sectionTable.css({
                         WebkitTransform: "translate3d(0, " + -ui.position.top * this.sections.length + "px, 0)",
                         transform: "translate3d(0, " + -ui.position.top * this.sections.length + "px, 0)"
@@ -184,10 +174,6 @@ class SectionManager {
                         WebkitTransition: "top 0.4s ease",
                         transition: "top 0.4s ease"
                     });
-                    this.menuSelectorBackground.css({
-                        WebkitTransition: "-webkit-transform 0.4s ease",
-                        transition: "transform 0.4s ease"
-                    });
                     this.changeSection(this.closestMenuItem(ui.position.top))
                 }
             });
@@ -199,10 +185,6 @@ class SectionManager {
 
         this.menuSelector.css({
             top: index * dimensions.menuItemHeight
-        });
-        this.menuSelectorBackground.css({
-            WebkitTransform: "translate3d(0, " + index * dimensions.menuItemHeight + "px, 0)",
-            transform: "translate3d(0, " + index * dimensions.menuItemHeight + "px, 0)"
         });
         this.sectionTable.css({
             WebkitTransform: "translate3d(0, " + -index * dimensions.windowHeight + "px, 0)",
@@ -235,10 +217,6 @@ class SectionManager {
                 WebkitTransition: "top 0.4s ease",
                 transition: "top 0.4s ease"
             });
-            this.menuSelectorBackground.css({
-                WebkitTransition: "-webkit-transform 0.4s ease",
-                transition: "transform 0.4s ease"
-            });
             this.changeSection(this.sections.indexOf(section));
         });
 
@@ -248,19 +226,15 @@ class SectionManager {
     }
 
     resize() {
-        dimensions.menuItemHeight = this.firstSection.height();
-        dimensions.menuItemWidth = this.firstSection.width();
+
         dimensions.windowHeight = $(window).height();
         dimensions.windowWidth = $(window).width();
+        dimensions.menuItemHeight = Math.floor(dimensions.windowHeight / this.sections.length);
+        dimensions.menuItemWidth = this.firstSection.width();
 
         this.menuSelector.css({
             height: dimensions.menuItemHeight,
-            top: this.currentSectionIndex * dimensions.windowHeight
-        });
-        this.menuSelectorBackground.css({
-            top: this.currentSectionIndex * dimensions.menuItemHeight,
-            WebkitTransform: "translate3d(0, " + this.currentSectionIndex * dimensions.menuItemHeight + "px, 0)",
-            transform: "translate3d(0, " + this.currentSectionIndex * dimensions.menuItemHeight + "px, 0)"
+            top: this.currentSectionIndex * dimensions.menuItemHeight
         });
         this.sectionContainer.css({
             height: dimensions.windowHeight

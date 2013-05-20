@@ -68,7 +68,6 @@ var SectionManager = (function () {
 
     SectionManager.prototype.build = function () {
         this.menuSelector = $("#menuSelector");
-        this.menuSelectorBackground = $("#menuSelectorBackground");
         this.sectionTable = $("#sectionTable");
         this.sectionContainer = $("#sectionContainer");
         this.bindMenuSelector();
@@ -122,16 +121,8 @@ var SectionManager = (function () {
                     WebkitTransition: "",
                     transition: ""
                 });
-                _this.menuSelectorBackground.css({
-                    WebkitTransition: "",
-                    transition: ""
-                });
             },
             drag: function (event, ui) {
-                _this.menuSelectorBackground.css({
-                    WebkitTransform: "translate3d(0, " + ui.position.top + "px, 0)",
-                    transform: "translate3d(0, " + ui.position.top + "px, 0)"
-                });
                 _this.sectionTable.css({
                     WebkitTransform: "translate3d(0, " + -ui.position.top * _this.sections.length + "px, 0)",
                     transform: "translate3d(0, " + -ui.position.top * _this.sections.length + "px, 0)"
@@ -146,10 +137,6 @@ var SectionManager = (function () {
                     WebkitTransition: "top 0.4s ease",
                     transition: "top 0.4s ease"
                 });
-                _this.menuSelectorBackground.css({
-                    WebkitTransition: "-webkit-transform 0.4s ease",
-                    transition: "transform 0.4s ease"
-                });
                 _this.changeSection(_this.closestMenuItem(ui.position.top));
             }
         });
@@ -159,10 +146,6 @@ var SectionManager = (function () {
         this.currentSectionIndex = index;
         this.menuSelector.css({
             top: index * dimensions.menuItemHeight
-        });
-        this.menuSelectorBackground.css({
-            WebkitTransform: "translate3d(0, " + index * dimensions.menuItemHeight + "px, 0)",
-            transform: "translate3d(0, " + index * dimensions.menuItemHeight + "px, 0)"
         });
         this.sectionTable.css({
             WebkitTransform: "translate3d(0, " + -index * dimensions.windowHeight + "px, 0)",
@@ -194,10 +177,6 @@ var SectionManager = (function () {
                 WebkitTransition: "top 0.4s ease",
                 transition: "top 0.4s ease"
             });
-            _this.menuSelectorBackground.css({
-                WebkitTransition: "-webkit-transform 0.4s ease",
-                transition: "transform 0.4s ease"
-            });
             _this.changeSection(_this.sections.indexOf(section));
         });
         if (this.firstSection == null) {
@@ -205,18 +184,13 @@ var SectionManager = (function () {
         }
     };
     SectionManager.prototype.resize = function () {
-        dimensions.menuItemHeight = this.firstSection.height();
-        dimensions.menuItemWidth = this.firstSection.width();
         dimensions.windowHeight = $(window).height();
         dimensions.windowWidth = $(window).width();
+        dimensions.menuItemHeight = Math.floor(dimensions.windowHeight / this.sections.length);
+        dimensions.menuItemWidth = this.firstSection.width();
         this.menuSelector.css({
             height: dimensions.menuItemHeight,
-            top: this.currentSectionIndex * dimensions.windowHeight
-        });
-        this.menuSelectorBackground.css({
-            top: this.currentSectionIndex * dimensions.menuItemHeight,
-            WebkitTransform: "translate3d(0, " + this.currentSectionIndex * dimensions.menuItemHeight + "px, 0)",
-            transform: "translate3d(0, " + this.currentSectionIndex * dimensions.menuItemHeight + "px, 0)"
+            top: this.currentSectionIndex * dimensions.menuItemHeight
         });
         this.sectionContainer.css({
             height: dimensions.windowHeight
