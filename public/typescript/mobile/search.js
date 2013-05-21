@@ -1,14 +1,73 @@
 var SearchManager = (function () {
     function SearchManager() {
         this.optionsContainer = null;
+        this.searchPlaylistOptionContainer = null;
         this.selectedItem = null;
         this.optionsCollapsed = true;
+        this.playlistsCollapsed = true;
     }
 
     SearchManager.prototype.bind = function () {
         var _this = this;
+        this.searchPlaylistOptionContainer = $("#searchPlaylistOptionContainer");
+        this.bindPlaylists();
         $("#searchAddToPlaying").click(function () {
             _this.addCurrentSongToNowPlaying();
+        });
+        $("#searchPlaySong").click(function () {
+            _this.playCurrentSong();
+        });
+        $("#searchAddToPlaylist").click(function () {
+            _this.togglePlaylist();
+        });
+    };
+    SearchManager.prototype.bindPlaylists = function () {
+        var _this = this;
+        $(".searchPlaylistItem").click(function () {
+            _this.addCurrentSongToPlaylist($(this).attr("playlistId"));
+            _this.takeOptionsFocus(_this.selectedItem);
+        });
+    };
+    SearchManager.prototype.playCurrentSong = function () {
+        var item = $(this.selectedItem);
+        var song = new Song(item.attr("songId"), item.attr("songTitle"), item.attr("songArtist"), item.attr("songImage"));
+        globalPlaylistManager.pushSong(song);
+        player.playSong(song);
+    };
+    SearchManager.prototype.addCurrentSongToPlaylist = function (playlistId) {
+        var item = $(this.selectedItem);
+        var song = new Song(item.attr("songId"), item.attr("songTitle"), item.attr("songArtist"), item.attr("songImage"));
+        $.ajax({
+            url: "/playlist/song/add/" + playlistId,
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify({
+                mbid: song.mbid,
+                info: {
+                    title: song.title,
+                    artist: song.artist
+                },
+                imageUrl: song.imageUrl
+            })
+        });
+    };
+    SearchManager.prototype.togglePlaylist = function () {
+        if (this.playlistsCollapsed) {
+            this.givePlaylistFocus();
+        } else {
+            this.takePlaylistsFocus();
+        }
+    };
+    SearchManager.prototype.takePlaylistsFocus = function () {
+        this.playlistsCollapsed = true;
+        this.searchPlaylistOptionContainer.css({
+            opacity: 0
+        });
+    };
+    SearchManager.prototype.givePlaylistFocus = function () {
+        this.playlistsCollapsed = false;
+        this.searchPlaylistOptionContainer.css({
+            opacity: 1
         });
     };
     SearchManager.prototype.addCurrentSongToNowPlaying = function () {
@@ -65,12 +124,17 @@ var SearchManager = (function () {
     };
     SearchManager.prototype.giveOptionsFocus = function () {
         this.optionsCollapsed = false;
-        this.optionsContainer.fadeIn(400);
+        this.optionsContainer.css({
+            opacity: 1
+        });
     };
     SearchManager.prototype.takeOptionsFocus = function (item) {
         $(item).removeClass("searchItemOptionContainerFocused");
         this.optionsCollapsed = true;
-        this.optionsContainer.fadeOut(400);
+        this.optionsContainer.css({
+            opacity: 0
+        });
+        this.takePlaylistsFocus();
     };
     return SearchManager;
 })();

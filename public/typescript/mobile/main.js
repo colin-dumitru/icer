@@ -99,6 +99,7 @@ var GlobalPlaylistManager = (function () {
         this.footer = null;
         this.playbackContainer = null;
         this.playingSongs = null;
+        this.playButton = null;
         this.collapsed = true;
     }
 
@@ -110,6 +111,7 @@ var GlobalPlaylistManager = (function () {
         this.footer = $("#footer");
         this.playbackContainer = $("#playbackContainer");
         this.playingSongs = $("#playingSongs");
+        this.playButton = $("#playButton");
         this.playbackArrow.click(function () {
             if (_this.collapsed) {
                 _this.giveFocus();
@@ -135,6 +137,11 @@ var GlobalPlaylistManager = (function () {
                 _this.changeVolume(ui.value);
             }
         });
+        this.playButton.click(function () {
+            _this.playToggle();
+        });
+    };
+    GlobalPlaylistManager.prototype.playToggle = function () {
     };
     GlobalPlaylistManager.prototype.giveFocus = function () {
         this.collapsed = false;
@@ -151,8 +158,10 @@ var GlobalPlaylistManager = (function () {
         this.playbackContainer.delay(400).hide(0);
     };
     GlobalPlaylistManager.prototype.changePosition = function (position) {
+        player.seek(position);
     };
     GlobalPlaylistManager.prototype.changeVolume = function (position) {
+        player.changeVolume(position);
     };
     GlobalPlaylistManager.prototype.pushSong = function (song) {
         var item = this.convertSongToItem(song);
@@ -183,6 +192,9 @@ var Player = (function () {
         this.currentPlayer = null;
         this.durationText = null;
         this.seekSlider = null;
+        this.playingSongTitle = null;
+        this.playingSongArtist = null;
+        this.playingSongImage = null;
     }
 
     Player.prototype.bind = function () {
@@ -195,6 +207,9 @@ var Player = (function () {
         }, 500);
         this.durationText = $("#durationText");
         this.seekSlider = $("#progressBars");
+        this.playingSongTitle = $("#playingSongTitle");
+        this.playingSongArtist = $("#playingSongArtist");
+        this.playingSongImage = $("#playingSongImage");
     };
     Player.prototype.updateElapsed = function () {
         if (this.currentPlayer != null) {
@@ -207,7 +222,13 @@ var Player = (function () {
         } else {
             this.stopCurrentSong();
             this.resolveSoundUrl(song);
+            this.updateSongInfo(song);
         }
+    };
+    Player.prototype.updateSongInfo = function (song) {
+        this.playingSongTitle.text(song.title);
+        this.playingSongArtist.text(song.artist);
+        this.playingSongImage.attr("src", song.imageUrl);
     };
     Player.prototype.stopCurrentSong = function () {
         if (this.currentPlayer != null) {

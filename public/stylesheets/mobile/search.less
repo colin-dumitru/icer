@@ -54,16 +54,62 @@
 }
 
 #searchOptionContainer {
-  display: none;
+  opacity: 0;
   position: absolute;
   padding: 5px;
   left: 50%;;
   bottom: 60px;
   height: 35px;
   background: @background_variant;
-  margin-left: -375 / 2px;
+  margin-left: -150 / 2px;
   border-radius: 3px;
   border: 1px solid @foreground;
+
+  -webkit-transition: opacity 0.4s ease;
+  transition: opacity 0.4s ease;
+}
+
+#searchPlaylistOptionContainer {
+  opacity: 0;
+  position: absolute;
+  bottom: 55px;
+  width: 200px;
+  height: 200px;
+  overflow-y: auto;
+  left: -45px;
+  background: @background_variant;
+
+  -webkit-transition: opacity 0.4s ease;
+  transition: opacity 0.4s ease;
+}
+
+#searchPlaylistOptionContainer hr {
+  color: @background_variant;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  width: 180px;
+  margin-left: 10px;
+}
+
+#searchNewPlaylistInput {
+  height: 20px;
+  .fontText;
+  border: none;
+  border-radius: 2px;
+  margin: 5px;
+  width: 190px;
+}
+
+.searchPlaylistItem {
+  .fontText;
+  color: @foreground_text;
+  font-size: 1em;
+  padding: 3px;
+  cursor: pointer;
+}
+
+.searchPlaylistItem:hover {
+  background: @foreground_focus;
 }
 
 .searchOption {

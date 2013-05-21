@@ -107,6 +107,7 @@ class GlobalPlaylistManager {
     private footer = null;
     private playbackContainer = null;
     private playingSongs = null;
+    private playButton = null;
 
     private collapsed = true;
 
@@ -118,6 +119,7 @@ class GlobalPlaylistManager {
         this.footer = $("#footer");
         this.playbackContainer = $("#playbackContainer");
         this.playingSongs = $("#playingSongs");
+        this.playButton = $("#playButton");
 
         this.playbackArrow.click(() => {
             if (this.collapsed) {
@@ -147,6 +149,13 @@ class GlobalPlaylistManager {
             }
         });
 
+        this.playButton.click(() => {
+            this.playToggle();
+        });
+    }
+
+    private playToggle() {
+
     }
 
     private giveFocus() {
@@ -170,11 +179,11 @@ class GlobalPlaylistManager {
     }
 
     private changePosition(position:number) {
-
+        player.seek(position);
     }
 
     private changeVolume(position:number) {
-
+        player.changeVolume(position);
     }
 
     public pushSong(song:Song) {
@@ -214,6 +223,9 @@ class Player {
 
     private durationText = null;
     private seekSlider = null;
+    private playingSongTitle = null;
+    private playingSongArtist = null;
+    private playingSongImage = null;
 
     public bind() {
         SC.initialize({
@@ -225,6 +237,9 @@ class Player {
 
         this.durationText = $("#durationText");
         this.seekSlider = $("#progressBars");
+        this.playingSongTitle = $("#playingSongTitle");
+        this.playingSongArtist = $("#playingSongArtist");
+        this.playingSongImage = $("#playingSongImage");
     }
 
     private updateElapsed() {
@@ -237,9 +252,16 @@ class Player {
         if (song == this.currentSong) {
             this.currentPlayer.resume();
         } else {
-            this.stopCurrentSong()
+            this.stopCurrentSong();
             this.resolveSoundUrl(song);
+            this.updateSongInfo(song);
         }
+    }
+
+    private updateSongInfo(song:Song) {
+        this.playingSongTitle.text(song.title);
+        this.playingSongArtist.text(song.artist);
+        this.playingSongImage.attr("src", song.imageUrl);
     }
 
     private stopCurrentSong() {

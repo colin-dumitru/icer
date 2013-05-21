@@ -15,14 +15,16 @@
 
         <div id="searchOptionContainer">
             <div>
-                <img class="searchOption" src="@routes.Assets.at("images/play.png")" />
+                <img id="searchPlaySong" class="searchOption" src="@routes.Assets.at("images/play.png")" />
                 <img id="searchAddToPlaying" class="searchOption" src="@routes.Assets.at("images/add_playing.png")" />
-                <span id="searchAddToPlaylist">Add To</span>
-                <select id="searchPlaylistList">
+                <img id="searchAddToPlaylist" class="searchOption" src="@routes.Assets.at("images/add_playlist.png")" />
+            </div>
+            <div id="searchPlaylistOptionContainer">
+                <input id="searchNewPlaylistInput" />
+                <hr />
                 @for(playlist <- playlists) {
-                    <option value="@playlist.id">@playlist.title</option>
+                    <div class="searchPlaylistItem" playlistId="@playlist.id">@playlist.title</div>
                 }
-                </select>
             </div>
         </div>
     </body>
