@@ -39,19 +39,6 @@ function searchCallback() {
     });
 }
 
-function searchCallbackFromPlaylist(query:string) {
-    sectionManager.loadSection("/mobile/section/search", () => {
-        itemsOnLoad();
-
-        mSearchManager.bind();
-
-        itemManager.itemAddCallback = (content) => mSearchManager.onSearchInput(content);
-        itemManager.itemSelectedCallback = (id, title) => mSearchManager.onSearchSelected(id);
-        $("#menuSelect").val(0);
-        mSearchManager.onSearchInput(query);
-    });
-}
-
 function playlistCallback() {
     sectionManager.loadSection("/mobile/section/playlists", () => {
         itemsOnLoad();
@@ -65,6 +52,19 @@ function playlistCallback() {
 
 function radioCallback() {
     //todo
+}
+
+function performSearch(query:string) {
+    sectionManager.loadSection("/mobile/section/search", () => {
+        itemsOnLoad();
+
+        mSearchManager.bind();
+
+        itemManager.itemAddCallback = (content) => mSearchManager.onSearchInput(content);
+        itemManager.itemSelectedCallback = (id, title) => mSearchManager.onSearchSelected(id);
+        $("#menuSelect").val(0);
+        mSearchManager.onSearchInput(query);
+    });
 }
 
 class SectionManager {

@@ -15,7 +15,7 @@ var PlaylistManager = (function () {
         $("#searchFromHere").on("click", function (e) {
             var selectedSong = $(".playlistItemOptionContainerFocused");
             var query = selectedSong.attr("songtitle") + " " + selectedSong.attr("songartist");
-            searchCallbackFromPlaylist(query);
+            performSearch(query);
         });
         $("#deleteSong").on("click", function (e) {
             var selectedSong = $(".playlistItemOptionContainerFocused");

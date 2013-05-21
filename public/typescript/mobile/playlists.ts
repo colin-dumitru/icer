@@ -17,13 +17,13 @@ class PlaylistManager {
         });
 
         $("#searchFromHere").on("click", function (e) {
-            var selectedSong = $(".playlistItemOptionContainerFocused")
+            var selectedSong = $(".playlistItemOptionContainerFocused");
             var query = selectedSong.attr("songtitle") + " " + selectedSong.attr("songartist");
-            searchCallbackFromPlaylist(query);
+            performSearch(query);
         });
 
         $("#deleteSong").on("click", function (e) {
-            var selectedSong = $(".playlistItemOptionContainerFocused")
+            var selectedSong = $(".playlistItemOptionContainerFocused");
             var songId = selectedSong.attr("songid");
             mPlaylistManager.deleteSongFromPlaylist(songId);
         });
@@ -64,6 +64,8 @@ class PlaylistManager {
 
         this.optionsContainer = $("#playlistOptionContainer");
 
+        //crw on("click") should only be used when dealing wih collections of JQuery items as it binds a single
+        //event delegator for the entire collection. You should use click() as it is more optimised for your use case
         var _this = this;
         $(".playlistItemOptionContainer").on("click", function (e) {
             _this.searchItemClicked(this);
@@ -80,7 +82,6 @@ class PlaylistManager {
 
         $("#mobileDeleteButton").on("click", () => {
             this.deletePlaylist();
-
         });
 
         $("#facebookButton").on("click", () => {
@@ -139,6 +140,7 @@ class PlaylistManager {
         });
     }
 
+    //crw search?
     private searchItemClicked(item) {
         if (item == this.selectedItem) {
             this.refocusOptions(item);
