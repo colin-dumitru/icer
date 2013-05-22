@@ -62,20 +62,18 @@ class RadioBinder implements SectionBinder {
 
 class RadioManager {
     private criterias:RadioCriteriaInput[] = [];
-    private globalPlayer:Song[] = [];
     public selectedCriterias:RadioCriteriaInput[] = [];
 
+    private recentSongs:Song[] = [];
+    public static globalPlayer:Song[] = [];
+
+
     constructor(rootNode:any) {
-
+        this.loadRecentSongs();
     }
 
-    buildSearchUrl(tag:string):string {
-        return "http://ws.audioscrobbler.com/2.0/?method=track.search&track="
-            + tag + "&api_key=" + lastFmApiKey + "&format=json&limit=20";
-    }
-
-    public loadSimilarSongs(path:String) {
-        $.ajax(path, {
+    public loadRecentSongs() {
+        $.ajax("/radio/songs/", {
             type: "POST",
             dataType: "json",
             success: data =>this.onSongResult(data)
@@ -83,38 +81,21 @@ class RadioManager {
     }
 
     public onSongResult(data) {
+        this.recentSongs = [];
         for (var i = 0; i < data.length; i++) {
             var songInfo = new SongInfo(data[i].title, data[i].artist, data[i].album, data[i].genre, 0, 0, 0);
             var song = new Song(data[i].mbid, songInfo, data[i].imageUrl);
-            this.globalPlayer.push(song);
-        }
-        this.globalPlayer = this.shuffle(this.globalPlayer);
-        globalPlaylistManager.clearSongs();
-        globalPlaylistManager.pushSongs(this.globalPlayer);
-    }
-
-    loadCustomSearchSongs() {
-        $.ajax({
-            url: this.buildSearchUrl($("#customCriteriaInput").val()),
-            dataType: "json",
-            method: "POST",
-            success: (res:any) => this.onMainResult(res["results"]["trackmatches"]["track"])
-        })
-    }
-
-    private onMainResult(tracks:any[]) {
-        for (var i = 0; i < tracks.length; i++) {
-            this.pushMainResult(tracks[i]);
+            this.recentSongs.push(song);
         }
     }
 
-    private pushMainResult(track:any) {
-        var id = guid(track.mbid, track.name.trim() + track.artist.trim());
-        var song = new Song(id, new SongInfo(track.name, track.artist, null, null, 0, 0, 0), track.imageUrl);
-        this.globalPlayer.push(song);
-        this.globalPlayer = this.shuffle(this.globalPlayer);
+    public static addToGlobalPlayer(song:Song){
+
+        RadioManager.globalPlayer.push(song);
+        RadioManager.globalPlayer = RadioManager.shuffle(RadioManager.globalPlayer);
         globalPlaylistManager.clearSongs();
-        globalPlaylistManager.pushSongs(this.globalPlayer);
+        globalPlaylistManager.pushSongs(RadioManager.globalPlayer);
+
     }
 
     addCriteriaInput(criteria:RadioCriteriaInput) {
@@ -146,7 +127,7 @@ class RadioManager {
         })
     }
 
-    public addCriteriaToReset(criteria:RadioCriteriaInput) {
+    addCriteriaToReset(criteria:RadioCriteriaInput) {
         $("#" + criteria.id).hide();
         var criteriaTitle = criteria.labelFormatter();
         this.addCriteria(criteriaTitle, criteria);
@@ -159,7 +140,7 @@ class RadioManager {
         }
     }
 
-    shuffle(o) {
+    public static shuffle(o) {
         for (var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
         return o;
     }
@@ -183,33 +164,45 @@ class RadioManager {
 
         $("#radioManagerPlayButton").click(() => {
 
+
+            //this.loadRecentSongs();
+
             globalPlaylistManager.clearSongs();
-            this.globalPlayer = [];
+            RadioManager.globalPlayer = [];
 
             if (this.selectedCriterias.length == 0)
                 globalPlaylistManager.clearSongs();
+
 
             for (var i in this.selectedCriterias) {
                 var selected = this.selectedCriterias[i].id;
                 switch (selected) {
                     case "radioCustomCriteria":
                     {
-                        this.loadCustomSearchSongs();
+                        new SearchCustom().loadCustomSearchSongs();
                         break;
                     }
                     case "radioRecentSongsCriteria":
                     {
-                        this.loadSimilarSongs("/radio/songs/");
+                        for (var i = 0; i < this.recentSongs.length; i++) {
+                            new SearchSimilarSongs().loadSimilarSongs(this.recentSongs[i].info.title);
+                        }
                         break;
                     }
                     case  "radioRecentGenresCriteria":
                     {
-                        this.loadSimilarSongs("/radio/genre/");
+                        for (var i = 0; i < this.recentSongs.length; i++) {
+                            if (this.recentSongs[i].info.genre!=null)
+                                new SearchSimilarGenre().loadSimilarGenreSongs(this.recentSongs[i].info.genre);
+                        }
+
                         break;
                     }
                     case  "radioRecentAlbumsCriteria":
                     {
-                        this.loadSimilarSongs("/radio/album/");
+                        for (var i = 0; i < this.recentSongs.length; i++) {
+                            new SearchSimilarAlbum().loadSimilarAlbumSongs(this.recentSongs[i].info.artist);
+                        }
                         break;
                     }
                     default:
@@ -228,5 +221,239 @@ class RadioManager {
 class RadioCriteriaInput {
     constructor(public id:string, public repeatable:bool, public labelFormatter:() => string) {
 
+    }
+}
+
+class SearchSimilarSongs {
+    loadSimilarSongs(song:string) {
+        $.ajax({
+            url: this.buildSearchUrl(song),
+            dataType: "json",
+            method: "GET",
+            success: (res:any) => this.onMainResult(res["results"]["trackmatches"]["track"])
+        });
+    }
+
+    private onMainResult(tracks:any[]) {
+        for (var i = 0; i < tracks.length; i++) {
+            this.pushMainResult(tracks[i]);
+        }
+
+    }
+
+    private pushMainResult(track:any) {
+        var id = guid(track.mbid, track.name.trim() + track.artist.trim());
+        var song = new Song(id, new SongInfo(track.name, track.artist, null, null, 0, 0, 0), getExtraLargeImage(track.image));
+        this.loadSimilar(song);
+    }
+
+
+    private loadSimilar(song:Song) {
+        $.ajax({
+            url: this.buildSimilarSongsSearchUrl(song),
+            dataType: "json",
+            method: "GET",
+            success: (res:any) =>{
+                this.onSimilarResults(res, song)
+            }
+        })
+    }
+
+    private onSimilarResults(res, song:Song) {
+        if (res.error == null && res["similartracks"] != null && Array.isArray(res["similartracks"]["track"])) {
+            this.addSimilarSongs(res["similartracks"]["track"], song);
+        }
+    }
+
+    private addSimilarSongs(tracks, song:Song) {
+        for (var i = 0; i < tracks.length; i++) {
+            this.addSimilarSong(tracks[i]);
+        }
+
+    }
+
+    private addSimilarSong(track) {
+        var id = guid(track.mbid, track.name.trim() + track.artist.name.trim());
+        var song = new Song(id, new SongInfo(track.name, track.artist.name, null, null, 0, 0, 0), getLargeImage(track.image));
+
+        RadioManager.addToGlobalPlayer(song);
+    }
+
+
+    private buildSimilarSongsSearchUrl(song:Song):string {
+        return "http://ws.audioscrobbler.com/2.0/?method=track.getsimilar&artist="
+            + song.info.artist + "&track=" + song.info.title + "&api_key=" + lastFmApiKey
+            + "&format=json&limit=3";
+
+    }
+
+    private buildSearchUrl(song:string):string {
+        return "http://ws.audioscrobbler.com/2.0/?method=track.search&track="
+            + song + "&api_key=" + lastFmApiKey + "&format=json&limit=2";
+    }
+
+}
+
+class SearchSimilarGenre{
+
+    loadSimilarGenreSongs(genre:string) {
+        $.ajax({
+            url: this.buildSearchUrl(genre),
+            dataType: "json",
+            method: "GET",
+            success: (res:any) => this.onMainResult(res["results"]["tagmatches"]["tag"])
+        })
+    }
+
+    private onMainResult(tags:any[]) {
+        for (var i = 0; i < tags.length; i++) {
+            this.pushMainResult(tags[i]);
+        }
+    }
+
+    private pushMainResult(tagInfo:any) {
+        var tag = new Tag(tagInfo.name);
+        this.loadGenreSongs(tag);
+    }
+
+    private loadGenreSongs(tag:Tag) {
+        $.ajax({
+            url: this.buildGenreSearchUrl(tag),
+            dataType: "json",
+            method: "GET",
+            success: (res:any) =>
+                this.onGenreResults(res, tag)
+        })
+    }
+
+    private onGenreResults(res, tag:Tag) {
+        this.addGenreSongs(res["toptracks"]["track"], tag);
+    }
+
+    private addGenreSongs(tracks, tag:Tag) {
+        for (var i = 0; i < tracks.length; i++) {
+            this.addGenreSong(tracks[i]);
+        }
+    }
+
+    private addGenreSong(track) {
+        var id = guid(track.mbid, track.name.trim() + track.artist.name.trim());
+        var song = new Song(id, new SongInfo(track.name, track.artist.name, null, null, 0, 0, 0), getLargeImage(track.image));
+
+        RadioManager.addToGlobalPlayer(song);
+    }
+
+    private buildGenreSearchUrl(tag:Tag):string {
+        return "http://ws.audioscrobbler.com/2.0/?method=tag.gettoptracks&tag="
+            + tag.name + "&api_key=" + lastFmApiKey + "&format=json&limit=3";
+    }
+
+    private buildSearchUrl(genre:string):string {
+        return "http://ws.audioscrobbler.com/2.0/?method=tag.search&tag="
+            + genre + "&api_key=" + lastFmApiKey + "&format=json&limit=2";
+    }
+}
+
+class SearchSimilarAlbum{
+
+    loadSimilarAlbumSongs(artist:string) {
+        $.ajax({
+            url: this.buildSearchUrl(artist),
+            dataType: "json",
+            method: "GET",
+            success: (res:any) =>
+                this.onMainResult(res["topalbums"]["album"], artist)
+        })
+    }
+
+    private onMainResult(albums:any[], artist) {
+        for (var i = 0; i < albums.length; i++) {
+            this.pushMainResult(albums[i], artist);
+        }
+
+    }
+
+    private pushMainResult(albumInfo:any, artist) {
+        var id = guid(albumInfo.mbid, albumInfo.name.trim());
+        var album = new Album(id, new AlbumInfo(albumInfo.name, artist), getExtraLargeImage(albumInfo.image));
+        this.loadAlbumSongs(album);
+    }
+
+
+    private loadAlbumSongs(album:Album) {
+        $.ajax({
+            url: this.buildAlbumSearchUrl(album),
+            dataType: "json",
+            method: "GET",
+            success: (res:any) => {
+                this.onAlbumResults(res)
+            }
+        })
+    }
+
+    private onAlbumResults(res) {
+        if (res.error == null && res["album"]["tracks"]["track"] != null) {
+            var image = getLargeImage(res["album"]["image"]);
+            this.addAlbumSongs(res["album"]["tracks"]["track"], image);
+        }
+
+    }
+
+    private addAlbumSongs(tracks, image) {
+        for (var i = 0; i < 3; i++) {
+            this.addAlbumSong(tracks[Math.floor(Math.random()*tracks.length)], image);
+        }
+    }
+
+    private addAlbumSong(track, image) {
+        var id = guid(track.mbid, track.name.trim() + track.artist.name.trim());
+        var song = new Song(id, new SongInfo(track.name, track.artist.name, null, null, 0, 0, 0), image);
+
+        RadioManager.addToGlobalPlayer(song);
+    }
+
+
+    private buildAlbumSearchUrl(album:Album):string {
+        return "http://ws.audioscrobbler.com/2.0/?method=album.getinfo&artist="
+            + album.info.artist + "&album=" + album.info.name + "&api_key=" + lastFmApiKey + "&format=json";
+
+    }
+
+    private buildSearchUrl(artist:string):string {
+        return "http://ws.audioscrobbler.com/2.0/?method=artist.getTopAlbums&artist="
+            + artist + "&api_key=" + lastFmApiKey + "&format=json&limit=2";
+
+    }
+
+}
+
+class SearchCustom {
+
+    loadCustomSearchSongs() {
+        $.ajax({
+            url: this.buildSearchUrl($("#customCriteriaInput").val()),
+            dataType: "json",
+            method: "POST",
+            success: (res:any) =>this.onMainResult(res["results"]["trackmatches"]["track"])
+
+        })
+    }
+
+    buildSearchUrl(tag:string):string {
+        return "http://ws.audioscrobbler.com/2.0/?method=track.search&track="
+            + tag + "&api_key=" + lastFmApiKey + "&format=json&limit=15";
+    }
+
+    private onMainResult(tracks:any[]) {
+        for (var i = 0; i < tracks.length; i++) {
+            this.pushMainResult(tracks[i]);
+        }
+    }
+
+    private pushMainResult(track:any) {
+        var id = guid(track.mbid, track.name.trim() + track.artist.trim());
+        var song = new Song(id, new SongInfo(track.name, track.artist, null, null, 0, 0, 0), getLargeImage(track.image));
+
+        RadioManager.addToGlobalPlayer(song);
     }
 }

@@ -26,22 +26,5 @@ object Radio extends Controller{
     }
   }
 
-  def getSongsFromRecentGenres() = Secured {
-    (request, idUser) => {
-      val songsForGenre = Song.getSongsFromRecentGenres(idUser)
-      val mwSongs = songsForGenre.map(song => new SongModelView(song.mbid, song.title, song.artist, song.album, song.genre, song.imageUrl, song.peek, song.weeksOnTop, 0)).toArray
-      Ok(generate(mwSongs)).as("application/json")
-
-    }
-  }
-
-  def getSongsFromRecentAlbums() = Secured {
-    (request, idUser) => {
-      val songsForAlbum = Song.getSongsFromRecentAlbums(idUser)
-      val mwSongs = songsForAlbum.map(song => new SongModelView(song.mbid, song.title, song.artist, song.album, song.genre, song.imageUrl, song.peek, song.weeksOnTop, 0)).toArray
-      Ok(generate(mwSongs)).as("application/json")
-
-    }
-  }
 
 }

@@ -29,8 +29,7 @@ POST    /chart/generate/:date/:interval             controllers.chart.Chart.gene
 
 #Radio
 POST /radio/songs/ controllers.radio.Radio.getRecentSongs
-POST /radio/genre/ controllers.radio.Radio.getSongsFromRecentGenres
-POST /radio/album/ controllers.radio.Radio.getSongsFromRecentAlbums
+
 
 #Mobile
 GET     /mobile                                             controllers.Application.mobile
