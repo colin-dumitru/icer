@@ -139,7 +139,7 @@ html {
 #menu {
   width: 50px;
   height: 100%;
-  background: desaturate(@background_variant, 10%);
+  background: desaturate(@foreground, 10%);
 }
 
 #menuTable {
@@ -167,7 +167,7 @@ html {
   position: absolute;
   width: 50px;
   height: 100px;
-  background: @debug;
+  background: fade(@foreground_focus, 50%);
   z-index: 10;
   cursor: move;
 }

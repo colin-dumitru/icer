@@ -79,38 +79,38 @@
 
 .radioManagerButton {
     font-family: 'Noto Sans', sans-serif;
-    border: 1px solid #96c4c3;
-    background: #589c9b;
-    color: #edfffc;
+    border: 1px solid #ffffff;
+    background: #ffffff;
+    color: #343434;
     font-size: 15px;
     width: 100%;
 }
 
 .radioManagerButton:hover {
-    background: #af6b53;
+    background: #c14543;
 }
 
 .radioManagerButtonLarge {
     font-family: 'Noto Sans', sans-serif;
-    border: 1px solid #96c4c3;
-    background: #589c9b;
-    color: #edfffc;
+    border: 1px solid #ffffff;
+    background: #ffffff;
+    color: #343434;
     font-size: 15px;
     width: 100%;
     color: #418440;
-    background: #edfffc;
+    background: #343434;
     font-size: 40px;
 }
 
 .radioManagerButtonLarge:hover {
-    background: #af6b53;
+    background: #c14543;
 }
 
 #radioBuilderTable {
     width: 100%;
     height: 100%;
-    background: #346661;
-    border: 5px solid #346661;
+    background: #d8d8d8;
+    border: 5px solid #d8d8d8;
     box-shadow: #000 0px 0px 20px inset;
 }
 
@@ -121,11 +121,11 @@
     height: 30px;
     color: #418440;
     text-align: center;
-    background: #edfffc;
+    background: #343434;
 }
 
 #radioAddButtonCell:hover {
-    background: #cfa799;
+    background: #da9190;
 }
 
 .radioCriteriaOption {
@@ -134,8 +134,8 @@
     font-size: 20px;
     text-align: center;
     height: 30px;
-    color: #edfffc;
-    background: rgba(88, 156, 155, 0.5);
+    color: #343434;
+    background: rgba(255, 255, 255, 0.5);
     box-shadow: #000 0px 0px 4px;
 }
 
@@ -149,7 +149,7 @@
 }
 
 .radioCriteriaOption:hover {
-    background: #af6b53;
+    background: #c14543;
 }
 
 #radioCriteriaContainer {
@@ -172,16 +172,16 @@
 
 .radioCriteriaCell {
     font-family: 'Roboto', sans-serif;
-    color: #edfffc;
+    color: #343434;
     font-size: 15px;
     text-align: center;
-    background: #589c9b;
+    background: #ffffff;
     height: 30px;
 }
 
 .radioCriteriaCloseCell {
-    background: #af6b53;
-    color: #edfffc;
+    background: #c14543;
+    color: #343434;
     font-family: 'Roboto', sans-serif;
     font-size: 20px;
     width: 50px;
@@ -189,5 +189,5 @@
 }
 
 .radioCriteriaCloseCell:hover {
-    background: #cfa799;
+    background: #da9190;
 }
