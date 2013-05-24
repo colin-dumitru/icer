@@ -80,7 +80,7 @@
 .radioManagerButton {
     font-family: 'Noto Sans', sans-serif;
     border: 1px solid #ffffff;
-    background: #ffffff;
+    background: #f0fcff;
     color: #343434;
     font-size: 15px;
     width: 100%;
@@ -93,7 +93,7 @@
 .radioManagerButtonLarge {
     font-family: 'Noto Sans', sans-serif;
     border: 1px solid #ffffff;
-    background: #ffffff;
+    background: #f0fcff;
     color: #343434;
     font-size: 15px;
     width: 100%;
@@ -109,8 +109,8 @@
 #radioBuilderTable {
     width: 100%;
     height: 100%;
-    background: #d8d8d8;
-    border: 5px solid #d8d8d8;
+    background: #374955;
+    border: 5px solid #374955;
     box-shadow: #000 0px 0px 20px inset;
 }
 
@@ -135,7 +135,7 @@
     text-align: center;
     height: 30px;
     color: #343434;
-    background: rgba(255, 255, 255, 0.5);
+    background: rgba(240, 252, 255, 0.5);
     box-shadow: #000 0px 0px 4px;
 }
 
@@ -175,7 +175,7 @@
     color: #343434;
     font-size: 15px;
     text-align: center;
-    background: #ffffff;
+    background: #f0fcff;
     height: 30px;
 }
 

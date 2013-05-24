@@ -83,8 +83,8 @@
 }
 
 #playlistSongContainer {
-    background: #d8d8d8;
-    border: 5px solid #cfcfcf;
+    background: #374955;
+    border: 5px solid #c14543;
     width: 570px;
     height: 350px;
     box-shadow: black 0px 0px 20px;
@@ -129,7 +129,7 @@
 
 #sharePlaylistButton {
     border: none;
-    background: #cfcfcf;
+    background: #c14543;
     color: #343434;
     font-size: 15px;
     height: 30px;

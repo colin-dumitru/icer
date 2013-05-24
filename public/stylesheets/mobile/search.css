@@ -59,11 +59,12 @@
 }
 
 .searchResult {
-    background: #d8d8d8;
+    background: #374955;
     width: 100%;
 }
 
 .searchItemTableContainer {
+    position: relative;
     box-sizing: border-box;
     width: 100%;
     padding: 5px 10px 5px 10px;
@@ -75,11 +76,12 @@
     height: 100px;
     table-layout: fixed;
     background: #343434;
-    color: #e5e5e5;
+    color: #192227;
     font-family: 'Roboto', sans-serif;
     font-size: 1em;
     border-collapse: collapse;
-    border: 1px solid #ffffff;
+    border: 1px solid #f0fcff;
+    z-index: 10;
 }
 
 .searchItemTable td {
@@ -98,7 +100,7 @@
 
 .searchItemOptionContainer {
     width: 50px;
-    background: #cfcfcf;
+    background: #c14543;
     color: #343434;
     cursor: pointer;
 }
@@ -112,35 +114,33 @@
 }
 
 #searchOptionContainer {
-    opacity: 0;
+    display: none;
     position: absolute;
-    padding: 5px;
-    left: 50%;
-    bottom: 60px;
-    height: 35px;
-    background: #d8d8d8;
-    margin-left: -75px;
-    border-radius: 3px;
-    border: 1px solid #ffffff;
+    right: 20px;
+    top: 0px;
+    height: 100px;
+    width: 250px;
+    margin-top: 5px;
     -webkit-transition: opacity 0.4s ease;
     transition: opacity 0.4s ease;
+}
+
+#searchOptionButtonContainer {
+    height: 100%;
+    width: 50px;
+    float: right;
 }
 
 #searchPlaylistOptionContainer {
-    opacity: 0;
-    position: absolute;
-    bottom: 55px;
+    float: right;
     width: 200px;
-    height: 200px;
+    height: 100px;
     overflow-y: auto;
-    left: -45px;
-    background: #d8d8d8;
-    -webkit-transition: opacity 0.4s ease;
-    transition: opacity 0.4s ease;
+    background: #374955;
 }
 
 #searchPlaylistOptionContainer hr {
-    color: #d8d8d8;
+    color: #374955;
     margin-top: 5px;
     margin-bottom: 5px;
     width: 180px;
@@ -169,8 +169,8 @@
 }
 
 .searchOption {
-    width: 35px;
-    height: 35px;
+    width: 50px;
+    height: 50px;
     float: left;
     cursor: pointer;
 }
@@ -196,10 +196,10 @@
     width: 200px;
     font-family: 'Roboto', sans-serif;
     font-size: 1.5em;
-    background: #ffffff;
+    background: #f0fcff;
     color: #343434;
 }
 
 #searchPlaylistList option {
-    background: #ffffff;
+    background: #f0fcff;
 }

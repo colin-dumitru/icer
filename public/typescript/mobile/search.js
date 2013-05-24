@@ -94,9 +94,42 @@ var SearchManager = (function () {
     SearchManager.prototype.bindItems = function () {
         this.optionsContainer = $("#searchOptionContainer");
         var _this = this;
-        $(".searchItemOptionContainer").on("click", function (e) {
-            _this.searchItemClicked(this);
+        $(".searchItemTable").draggable({
+            axis: "x",
+            handle: ".searchItemOptionContainer",
+            start: function () {
+                _this.startMoveOption($(this));
+            },
+            stop: function () {
+                _this.stopMoveOption($(this));
+            }
         });
+    };
+    SearchManager.prototype.stopMoveOption = function (item) {
+        if (item.position().left < -100) {
+            item.css({
+                WebkitTransition: "-webkit-transform 0.4s ease",
+                transition: "transform 0.4s ease",
+                WebkitTransform: "translate3d(-270,0,0)",
+                transform: "translate3d(-270,0,0)"
+            });
+        } else {
+            item.css({
+                WebkitTransition: "-webkit-transform 0.4s ease",
+                transition: "transform 0.4s ease",
+                WebkitTransform: "translate3d(0,0,0)",
+                transform: "translate3d(0,0,0)"
+            });
+        }
+    };
+    SearchManager.prototype.startMoveOption = function (item) {
+        item.css({
+            WebkitTransition: "",
+            transition: ""
+        });
+        this.optionsContainer.remove();
+        item.parent().append(this.optionsContainer);
+        this.giveOptionsFocus();
     };
     SearchManager.prototype.searchItemClicked = function (item) {
         if (item == this.selectedItem) {
@@ -124,9 +157,7 @@ var SearchManager = (function () {
     };
     SearchManager.prototype.giveOptionsFocus = function () {
         this.optionsCollapsed = false;
-        this.optionsContainer.css({
-            opacity: 1
-        });
+        this.optionsContainer.show(0);
     };
     SearchManager.prototype.takeOptionsFocus = function (item) {
         $(item).removeClass("searchItemOptionContainerFocused");
