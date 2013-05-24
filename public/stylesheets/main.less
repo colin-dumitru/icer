@@ -139,7 +139,7 @@ html {
 #menu {
   width: 50px;
   height: 100%;
-  background: desaturate(@background_variant, 10%);
+  background: desaturate(@foreground, 10%);
 }
 
 #menuTable {
@@ -167,12 +167,13 @@ html {
   position: absolute;
   width: 50px;
   height: 100px;
-  background: @debug;
+  background: fade(@foreground_focus, 50%);
   z-index: 10;
   cursor: move;
 }
 
 #content {
+  position: relative;
   background: @background;
 }
 
@@ -285,7 +286,7 @@ html {
 #itemListDivider {
   width: 15px;
   height: 100%;
-  background: @foreground;
+  background: @background_variant;
 }
 
 #globalPlaylistContainer {
@@ -308,7 +309,7 @@ html {
 }
 
 #bottomPlayBar {
-  background: @foreground;
+  background: @background_variant;
   height: 15px;
   width: 100%;
   position: absolute;
@@ -352,7 +353,7 @@ html {
 .navigationButton {
   width: 15px;
   height: 40px;
-  background: @foreground;
+  background: @background_variant;
   position: absolute;
   .fontMenu2;
   color: @foreground_text;
@@ -385,7 +386,7 @@ html {
 }
 
 #playButton {
-  background: @foreground_text;
+  background: @foreground;
   height: 40px;
   width: 150px;
   margin: 0 auto;

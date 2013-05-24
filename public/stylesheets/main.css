@@ -79,7 +79,7 @@ html {
 }
 
 .fullFrameBody {
-    background: #0f2423;
+    background: #192227;
 }
 
 #loaderOverlay {
@@ -87,7 +87,7 @@ html {
     position: absolute;
     width: 100%;
     height: 100%;
-    background: rgba(15, 36, 35, 0.9);
+    background: rgba(25, 34, 39, 0.9);
     vertical-align: middle;
     z-index: 10;
 }
@@ -101,30 +101,30 @@ html {
 
 #sadSmiley {
     font-family: 'Noto Sans', sans-serif;
-    color: #af6b53;
+    color: #c14543;
     font-size: 100px;
 }
 
 #attentionSign {
     font-family: 'Noto Sans', sans-serif;
-    color: #edfffc;
+    color: #343434;
     font-size: 200px;
 }
 
 #loginMessage {
     width: 400px;
     font-family: 'Roboto', sans-serif;
-    color: #edfffc;
+    color: #343434;
     font-size: 20px;
     box-shadow: black 0px 0px 20px;
     padding: 10px;
-    background: #346661;
+    background: #374955;
     text-align: center;
 }
 
 #loginErrorMessage {
     font-family: 'Roboto', sans-serif;
-    color: #af6b53;
+    color: #c14543;
     padding: 10px;
     font-size: 25px;
     text-align: center;
@@ -144,7 +144,7 @@ html {
 #errorMessage {
     width: 500px;
     font-family: 'Roboto', sans-serif;
-    color: #edfffc;
+    color: #343434;
     font-size: 20px;
 }
 
@@ -153,8 +153,8 @@ html {
     right: 0px;
     display: block;
     font-family: 'Roboto', sans-serif;
-    color: #edfffc;
-    background: #346661;
+    color: #343434;
+    background: #374955;
     box-shadow: #000000 0px 0px 20px;
     border-bottom-left-radius: 5px;
     padding: 5px;
@@ -168,7 +168,7 @@ html {
     position: absolute;
     left: 0px;
     right: 0px;
-    background: #0f2423;
+    background: #192227;
     z-index: 200;
 }
 
@@ -197,7 +197,7 @@ html {
 #menu {
     width: 50px;
     height: 100%;
-    background: #3c5e5b;
+    background: #f1fcfe;
 }
 
 #menuTable {
@@ -218,20 +218,21 @@ html {
     -o-transform: rotate(90deg);
     -webkit-transform: rotate(90deg);
     font-family: 'Days One', sans-serif;
-    color: #edfffc;
+    color: #343434;
 }
 
 #menuSelector {
     position: absolute;
     width: 50px;
     height: 100px;
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(193, 69, 67, 0.5);
     z-index: 10;
     cursor: move;
 }
 
 #content {
-    background: #0f2423;
+    position: relative;
+    background: #192227;
 }
 
 #sectionTable {
@@ -286,7 +287,7 @@ html {
     top: 0px;
     width: 250px;
     height: 100%;
-    background: #346661;
+    background: #374955;
     -webkit-transition: all 0.4s ease;
     transition: all 0.4s ease;
     -webkit-transform-origin: 0% 50%;
@@ -312,7 +313,7 @@ html {
     padding: 2px;
     padding-left: 5px;
     font-family: 'Noto Sans', sans-serif;
-    color: #edfffc;
+    color: #343434;
     cursor: pointer;
 }
 
@@ -321,7 +322,7 @@ html {
     padding: 2px;
     padding-left: 5px;
     font-family: 'Noto Sans', sans-serif;
-    color: #edfffc;
+    color: #343434;
     cursor: pointer;
 }
 
@@ -330,9 +331,9 @@ html {
     padding: 2px;
     padding-left: 5px;
     font-family: 'Noto Sans', sans-serif;
-    color: #edfffc;
+    color: #343434;
     cursor: pointer;
-    background: #af6b53;
+    background: #c14543;
 }
 
 .itemListFocused {
@@ -340,9 +341,9 @@ html {
     padding: 2px;
     padding-left: 5px;
     font-family: 'Noto Sans', sans-serif;
-    color: #edfffc;
+    color: #343434;
     cursor: pointer;
-    background: #82aba8;
+    background: #c14543;
 }
 
 #newItemInput {
@@ -354,7 +355,7 @@ html {
 #itemListDivider {
     width: 15px;
     height: 100%;
-    background: #589c9b;
+    background: #374955;
 }
 
 #globalPlaylistContainer {
@@ -377,7 +378,7 @@ html {
 }
 
 #bottomPlayBar {
-    background: #589c9b;
+    background: #374955;
     height: 15px;
     width: 100%;
     position: absolute;
@@ -415,16 +416,16 @@ html {
     height: 10px;
     top: 0px;
     margin-left: -5px;
-    background: #edfffc;
+    background: #343434;
 }
 
 .navigationButton {
     width: 15px;
     height: 40px;
-    background: #589c9b;
+    background: #374955;
     position: absolute;
     font-family: 'Noto Sans', sans-serif;
-    color: #edfffc;
+    color: #343434;
     vertical-align: middle;
     font-size: 30px;
     padding: 5px;
@@ -436,10 +437,10 @@ html {
 #previousButton {
     width: 15px;
     height: 40px;
-    background: #589c9b;
+    background: #374955;
     position: absolute;
     font-family: 'Noto Sans', sans-serif;
-    color: #edfffc;
+    color: #343434;
     vertical-align: middle;
     font-size: 30px;
     padding: 5px;
@@ -451,16 +452,16 @@ html {
 }
 
 #previousButton:hover {
-    background: #af6b53;
+    background: #c14543;
 }
 
 #nextButton {
     width: 15px;
     height: 40px;
-    background: #589c9b;
+    background: #374955;
     position: absolute;
     font-family: 'Noto Sans', sans-serif;
-    color: #edfffc;
+    color: #343434;
     vertical-align: middle;
     font-size: 30px;
     padding: 5px;
@@ -472,11 +473,11 @@ html {
 }
 
 #nextButton:hover {
-    background: #af6b53;
+    background: #c14543;
 }
 
 #playButton {
-    background: #edfffc;
+    background: #f0fcff;
     height: 40px;
     width: 150px;
     margin: 0 auto;
@@ -494,7 +495,7 @@ html {
 }
 
 #playButton:hover {
-    background: #edfffc;
+    background: #f0fcff;
     height: 40px;
     width: 150px;
     margin: 0 auto;
@@ -505,12 +506,12 @@ html {
     color: #418440;
     box-shadow: #000 0px 0px 20px;
     cursor: pointer;
-    background: #cfa799;
+    background: #da9190;
 }
 
 #globalPlaylistSongContainer {
     height: 120px;
-    background: #346661;
+    background: #374955;
     overflow-x: scroll;
     overflow-y: hidden;
     white-space: nowrap;
@@ -531,7 +532,7 @@ html {
 #globalPlaylistSongContainer img {
     display: inline-block;
     position: relative;
-    background: #346661;
+    background: #374955;
 }
 
 #globalPlaylistSongContainer img:nth-of-type(1) {
@@ -544,9 +545,9 @@ html {
     left: -100px;
     width: 400px;
     height: 45px;
-    background: #346661;
+    background: #374955;
     border-radius: 5px 5px 0px 0px;
-    border: 1px solid #589c9b;
+    border: 1px solid #f0fcff;
     box-shadow: #000 0px 0px 20px inset;
 }
 
@@ -561,7 +562,7 @@ html {
     top: -100px;
     right: 45px;
     height: 100px;
-    background: #346661;
+    background: #374955;
     display: none;
 }
 
@@ -570,7 +571,7 @@ html {
     top: 5px;
     left: 30px;
     font-family: 'Roboto', sans-serif;
-    color: #edfffc;
+    color: #343434;
 }
 
 .songImage {
@@ -597,10 +598,10 @@ html {
 #songDetailBioCell {
     font-family: 'Roboto', sans-serif;
     padding: 5px;
-    color: #edfffc;
+    color: #343434;
     width: 300px;
     height: 100%;
-    background: #346661;
+    background: #374955;
     text-align: justify;
     float: right;
     overflow-y: auto;
@@ -625,8 +626,8 @@ html {
 .songDetailMenuItem {
     font-family: 'Roboto', sans-serif;
     width: 100%;
-    background: #82aba8;
-    color: #edfffc;
+    background: #c14543;
+    color: #343434;
     font-size: 15px;
     text-align: center;
     cursor: pointer;
@@ -636,7 +637,7 @@ html {
 
 .songDetailMenuItem:hover {
     font-family: 'Roboto', sans-serif;
-    background: #af6b53;
+    background: #c14543;
 }
 
 .songDetailSubOptionsContainer {
@@ -646,22 +647,22 @@ html {
     margin: 0 auto;
     overflow-y: auto;
     max-height: 200px;
-    background: #649692;
+    background: #9d3634;
     box-shadow: black 0px 0px 20px inset;
-    border: 1px solid #82aba8;
+    border: 1px solid #c14543;
 }
 
 #songDetailSubOptionsList li {
     font-family: 'Noto Sans', sans-serif;
     font-size: 15px;
-    color: #edfffc;
+    color: #343434;
     padding-left: 5px;
     padding-right: 5px;
     cursor: pointer;
 }
 
 #songDetailSubOptionsList li:hover {
-    background: #af6b53;
+    background: #c14543;
 }
 
 .imageContainer {
@@ -680,7 +681,7 @@ html {
     top: 0px;
     width: 100px;
     height: 100px;
-    background: rgba(175, 107, 83, 0.5);
+    background: rgba(193, 69, 67, 0.5);
 }
 
 .imageInfo {
@@ -689,7 +690,7 @@ html {
     width: 100px;
     bottom: 45px;
     left: 0px;
-    background: rgba(15, 36, 35, 0.5);
+    background: rgba(25, 34, 39, 0.5);
 }
 
 .imageTitle {
@@ -698,7 +699,7 @@ html {
     overflow: hidden;
     text-align: center;
     font-family: 'Roboto', sans-serif;
-    color: #edfffc;
+    color: #343434;
     font-size: 15px;
 }
 
@@ -708,7 +709,7 @@ html {
     overflow: hidden;
     text-align: center;
     font-family: 'Roboto', sans-serif;
-    color: #edfffc;
+    color: #343434;
     font-size: 15px;
     font-size: 11px;
 }
@@ -718,13 +719,13 @@ html {
     position: absolute;
     z-index: 100;
     width: 80px;
-    background: #82aba8;
+    background: #c14543;
 }
 
 .songMenuItem {
     height: 20px;
     font-family: 'Roboto', sans-serif;
-    color: #edfffc;
+    color: #343434;
     font-size: 15px;
     padding-left: 5px;
     padding-right: 5px;
@@ -732,7 +733,7 @@ html {
 }
 
 .songMenuItem:hover {
-    background: #af6b53;
+    background: #c14543;
 }
 
 #tutorialContainer {

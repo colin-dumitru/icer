@@ -77,14 +77,14 @@
 
 .playListsHeaderCell {
     font-family: 'Noto Sans', sans-serif;
-    color: #edfffc;
+    color: #343434;
     font-size: 30px;
     height: 50px;
 }
 
 #playlistSongContainer {
-    background: #346661;
-    border: 5px solid #82aba8;
+    background: #374955;
+    border: 5px solid #c14543;
     width: 570px;
     height: 350px;
     box-shadow: black 0px 0px 20px;
@@ -101,7 +101,7 @@
 
 #playPlaylistButton {
     border: none;
-    background: #edfffc;
+    background: #343434;
     color: #418440;
     font-size: 30px;
     height: 50px;
@@ -110,13 +110,13 @@
 }
 
 #playPlaylistButton:hover {
-    background: #cfa799;
+    background: #da9190;
 }
 
 #deletePlaylistButton {
     border: none;
-    background: #af6b53;
-    color: #edfffc;
+    background: #c14543;
+    color: #343434;
     font-size: 15px;
     height: 30px;
     width: 50px;
@@ -124,13 +124,13 @@
 }
 
 #deletePlaylistButton:hover {
-    background: #cfa799;
+    background: #da9190;
 }
 
 #sharePlaylistButton {
     border: none;
-    background: #82aba8;
-    color: #edfffc;
+    background: #c14543;
+    color: #343434;
     font-size: 15px;
     height: 30px;
     width: 50px;
@@ -138,5 +138,5 @@
 }
 
 #sharePlaylistButton:hover {
-    background: #cfa799;
+    background: #da9190;
 }

@@ -73,7 +73,7 @@
     height: 450px;
     margin: 0 auto;
     overflow-y: auto;
-    background: #589c9b;
+    background: #f0fcff;
     box-shadow: black 0px 0px 20px;
 }
 
@@ -86,7 +86,7 @@
     width: 100%;
     height: 150px;
     margin-bottom: 10px;
-    border-bottom: 1px solid #edfffc;
+    border-bottom: 1px solid #343434;
 }
 
 #chartSongImageContainer {
@@ -120,7 +120,7 @@
     bottom: 0px;
     display: inline-block;
     font-family: 'Roboto', sans-serif;
-    color: #edfffc;
+    color: #343434;
     font-size: 40px;
     vertical-align: middle;
     text-align: center;
@@ -134,7 +134,7 @@
     bottom: 0px;
     display: inline-block;
     font-family: 'Roboto', sans-serif;
-    color: #edfffc;
+    color: #343434;
     font-size: 40px;
     vertical-align: middle;
     text-align: center;
@@ -147,7 +147,7 @@
     bottom: 0px;
     right: 0px;
     font-family: 'Roboto', sans-serif;
-    color: #edfffc;
+    color: #343434;
     display: inline-block;
     font-size: 15px;
     vertical-align: bottom;
@@ -174,7 +174,7 @@
     font-size: 30px;
     width: 45px;
     height: 100%;
-    color: #af6b53;
+    color: #c14543;
 }
 
 .chartChangeArrowEqual {
@@ -185,12 +185,12 @@
     font-size: 30px;
     width: 45px;
     height: 100%;
-    color: #edfffc;
+    color: #343434;
 }
 
 #chartTitleContainer {
     font-family: 'Roboto', sans-serif;
-    color: #edfffc;
+    color: #343434;
     font-size: 25px;
     text-align: center;
     width: 300px;
@@ -200,7 +200,7 @@
 
 #chartArtistContainer {
     font-family: 'Roboto', sans-serif;
-    color: #bafff4;
+    color: #1a1a1a;
     font-size: 20px;
     text-align: center;
     overflow: hidden;
@@ -212,7 +212,7 @@
 }
 
 #rankContainerCell div {
-    color: #edfffc;
+    color: #343434;
     font-family: 'Roboto', sans-serif;
     font-size: 20px;
     text-align: center;
@@ -223,13 +223,13 @@
 .chartMenuButton {
     text-align: center;
     font-family: 'Noto Sans', sans-serif;
-    color: #edfffc;
+    color: #343434;
     font-size: 15px;
     cursor: pointer;
 }
 
 .chartMenuButton:hover {
-    background: #af6b53;
+    background: #c14543;
 }
 
 #chartsWhenButton {
@@ -241,14 +241,14 @@
     font-family: 'Noto Sans', sans-serif;
     width: 100px;
     height: 50px;
-    background: #589c9b;
-    color: #edfffc;
+    background: #f0fcff;
+    color: #343434;
     font-size: 30px;
     cursor: pointer;
 }
 
 #chartsWhenButton:hover {
-    background: #589c9b;
+    background: #f0fcff;
 }
 
 #chartsDoneButton {
@@ -262,13 +262,13 @@
     width: 100px;
     height: 50px;
     background: #418440;
-    color: #edfffc;
+    color: #343434;
     font-size: 30px;
     cursor: pointer;
 }
 
 #chartsDoneButton:hover {
-    background: #af6b53;
+    background: #c14543;
 }
 
 #chartsCancelButton {
@@ -281,14 +281,14 @@
     font-family: 'Noto Sans', sans-serif;
     width: 100px;
     height: 50px;
-    background: #af6b53;
-    color: #edfffc;
+    background: #c14543;
+    color: #343434;
     font-size: 30px;
     cursor: pointer;
 }
 
 #chartsCancelButton:hover {
-    background: #af6b53;
+    background: #c14543;
 }
 
 #chartsYearContainer {
@@ -298,7 +298,7 @@
     margin: 0 auto;
     width: 100%;
     height: 100%;
-    background: rgba(88, 156, 155, 0.5);
+    background: rgba(240, 252, 255, 0.5);
 }
 
 #chartsYearContainer table {
@@ -310,14 +310,14 @@
     text-align: center;
     width: 50%;
     height: 50%;
-    color: #edfffc;
+    color: #343434;
     font-family: 'Roboto', sans-serif;
     font-size: 50px;
     cursor: pointer;
 }
 
 #chartsYearContainer td:hover {
-    background: #af6b53;
+    background: #c14543;
 }
 
 #chartsMonthContainer {
@@ -327,7 +327,7 @@
     margin: 0 auto;
     width: 100%;
     height: 100%;
-    background: rgba(88, 156, 155, 0.5);
+    background: rgba(240, 252, 255, 0.5);
 }
 
 #chartsMonthContainer table {
@@ -339,14 +339,14 @@
     text-align: center;
     width: 33%;
     height: 25%;
-    color: #edfffc;
+    color: #343434;
     font-family: 'Roboto', sans-serif;
     font-size: 30px;
     cursor: pointer;
 }
 
 #chartsMonthContainer td:hover {
-    background: #af6b53;
+    background: #c14543;
 }
 
 #chartsWeekContainer {
@@ -356,7 +356,7 @@
     margin: 0 auto;
     width: 100%;
     height: 100%;
-    background: rgba(88, 156, 155, 0.5);
+    background: rgba(240, 252, 255, 0.5);
 }
 
 #chartsWeekContainer table {
@@ -372,17 +372,17 @@
 }
 
 #chartsWeekContainer td:hover {
-    background: #af6b53;
+    background: #c14543;
 }
 
 #chartsWeekContainer td span {
-    color: #87ffeb;
+    color: #010101;
     font-family: 'Roboto', sans-serif;
     font-size: 20px;
 }
 
 #chartsWeekContainer td span:first-child {
-    color: #edfffc;
+    color: #343434;
     display: block;
     font-size: 30px;
 }
@@ -394,7 +394,7 @@
     margin: 0 auto;
     width: 100%;
     height: 100%;
-    background: rgba(88, 156, 155, 0.5);
+    background: rgba(240, 252, 255, 0.5);
 }
 
 #chartsDayContainer table {
@@ -410,17 +410,17 @@
 }
 
 #chartsDayContainer td:hover {
-    background: #af6b53;
+    background: #c14543;
 }
 
 #chartsDayContainer td span {
-    color: #87ffeb;
+    color: #010101;
     font-family: 'Roboto', sans-serif;
     font-size: 20px;
 }
 
 #chartsDayContainer td span:first-child {
-    color: #edfffc;
+    color: #343434;
     display: block;
     font-size: 30px;
 }
