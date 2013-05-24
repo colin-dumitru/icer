@@ -123,24 +123,44 @@ class SearchManager {
 
     private stopMoveOption(item) {
         if (item.position().left < -100) {
-            item.css({
-                WebkitTransition: "-webkit-transform 0.4s ease",
-                transition: "transform 0.4s ease",
-                WebkitTransform: "translate3d(-270,0,0)",
-                transform: "translate3d(-270,0,0)"
-            });
+            this.moveOptionsToItem(item);
         } else {
-            item.css({
-                WebkitTransition: "-webkit-transform 0.4s ease",
-                transition: "transform 0.4s ease",
-                WebkitTransform: "translate3d(0,0,0)",
-                transform: "translate3d(0,0,0)"
+            this.cancelMoveOptionsToItem(item);
+        }
+    }
+
+    private cancelMoveOptionsToItem(item) {
+        item.css({
+            WebkitTransition: "-webkit-transform 0.4s ease",
+            transition: "transform 0.4s ease",
+            WebkitTransform: "translate3d(0,0,0)",
+            transform: "translate3d(0,0,0)"
+        });
+    }
+
+    private moveOptionsToItem(item) {
+        this.selectedItem = item;
+        item.css({
+            WebkitTransition: "-webkit-transform 0.4s ease",
+            transition: "transform 0.4s ease",
+            WebkitTransform: "translate3d(-270,0,0)",
+            transform: "translate3d(-270,0,0)"
+        });
+    }
+
+    private hidePreviousOption() {
+        if (this.selectedItem != null) {
+            this.selectedItem.css({
+                WebkitTransition: "",
+                transition: "",
+                WebkitTransform: "translate3d(-0,0,0)",
+                transform: "translate3d(-0,0,0)"
             });
         }
-
     }
 
     private startMoveOption(item) {
+        this.hidePreviousOption();
         item.css({
             WebkitTransition: "",
             transition: ""

@@ -107,22 +107,40 @@ var SearchManager = (function () {
     };
     SearchManager.prototype.stopMoveOption = function (item) {
         if (item.position().left < -100) {
-            item.css({
-                WebkitTransition: "-webkit-transform 0.4s ease",
-                transition: "transform 0.4s ease",
-                WebkitTransform: "translate3d(-270,0,0)",
-                transform: "translate3d(-270,0,0)"
-            });
+            this.moveOptionsToItem(item);
         } else {
-            item.css({
-                WebkitTransition: "-webkit-transform 0.4s ease",
-                transition: "transform 0.4s ease",
-                WebkitTransform: "translate3d(0,0,0)",
-                transform: "translate3d(0,0,0)"
+            this.cancelMoveOptionsToItem(item);
+        }
+    };
+    SearchManager.prototype.cancelMoveOptionsToItem = function (item) {
+        item.css({
+            WebkitTransition: "-webkit-transform 0.4s ease",
+            transition: "transform 0.4s ease",
+            WebkitTransform: "translate3d(0,0,0)",
+            transform: "translate3d(0,0,0)"
+        });
+    };
+    SearchManager.prototype.moveOptionsToItem = function (item) {
+        this.selectedItem = item;
+        item.css({
+            WebkitTransition: "-webkit-transform 0.4s ease",
+            transition: "transform 0.4s ease",
+            WebkitTransform: "translate3d(-270,0,0)",
+            transform: "translate3d(-270,0,0)"
+        });
+    };
+    SearchManager.prototype.hidePreviousOption = function () {
+        if (this.selectedItem != null) {
+            this.selectedItem.css({
+                WebkitTransition: "",
+                transition: "",
+                WebkitTransform: "translate3d(-0,0,0)",
+                transform: "translate3d(-0,0,0)"
             });
         }
     };
     SearchManager.prototype.startMoveOption = function (item) {
+        this.hidePreviousOption();
         item.css({
             WebkitTransition: "",
             transition: ""
