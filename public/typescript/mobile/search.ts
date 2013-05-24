@@ -165,7 +165,7 @@ class SearchManager {
             transition: ""
         });
         this.optionsContainer.remove();
-        item.parent().append(this.optionsContainer);
+        item.parent().prepend(this.optionsContainer);
         this.giveOptionsFocus();
     }
 

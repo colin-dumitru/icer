@@ -150,7 +150,7 @@ var SearchManager = (function () {
             transition: ""
         });
         this.optionsContainer.remove();
-        item.parent().append(this.optionsContainer);
+        item.parent().prepend(this.optionsContainer);
         this.giveOptionsFocus();
     };
     SearchManager.prototype.giveOptionsFocus = function () {
