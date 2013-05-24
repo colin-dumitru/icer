@@ -5,37 +5,36 @@ class SearchManager {
 
     private optionsContainer = null;
     private searchPlaylistOptionContainer = null;
+    private searchAddToPlaying = null;
+    private searchPlaySong = null;
+    private searchPlaylistItems = null;
 
     private selectedItem = null;
-    private optionsCollapsed = true;
     private playlistsCollapsed = true;
 
     bind() {
         this.searchPlaylistOptionContainer = $("#searchPlaylistOptionContainer");
-
-        this.bindPlaylists();
-
-        $("#searchAddToPlaying").click(() => {
-            this.addCurrentSongToNowPlaying();
-        });
-        $("#searchPlaySong").click(() => {
-            this.playCurrentSong();
-        });
-        $("#searchAddToPlaylist").click(() => {
-            this.togglePlaylist();
-        });
+        this.searchAddToPlaying = $("#searchAddToPlaying");
+        this.searchPlaySong = $("#searchPlaySong");
+        this.searchPlaylistItems = $(".searchPlaylistItem");
     }
 
-    private bindPlaylists() {
+    private bindControlls() {
         var _this = this;
-        $(".searchPlaylistItem").click(function () {
+
+        this.searchAddToPlaying.click(() => {
+            this.addCurrentSongToNowPlaying();
+        });
+        this.searchPlaySong.click(() => {
+            this.playCurrentSong();
+        });
+        this.searchPlaylistItems.click(function () {
             _this.addCurrentSongToPlaylist($(this).attr("playlistId"));
-            _this.takeOptionsFocus(_this.selectedItem);
         });
     }
 
     private playCurrentSong() {
-        var item = $(this.selectedItem);
+        var item = this.selectedItem;
         var song = new Song(item.attr("songId"), item.attr("songTitle"), item.attr("songArtist"), item.attr("songImage"));
         globalPlaylistManager.pushSong(song);
         player.playSong(song);
@@ -59,25 +58,10 @@ class SearchManager {
         });
     }
 
-    private togglePlaylist() {
-        if (this.playlistsCollapsed) {
-            this.givePlaylistFocus();
-        } else {
-            this.takePlaylistsFocus();
-        }
-    }
-
     private takePlaylistsFocus() {
         this.playlistsCollapsed = true;
         this.searchPlaylistOptionContainer.css({
             opacity: 0
-        });
-    }
-
-    private givePlaylistFocus() {
-        this.playlistsCollapsed = false;
-        this.searchPlaylistOptionContainer.css({
-            opacity: 1
         });
     }
 
@@ -140,6 +124,7 @@ class SearchManager {
 
     private moveOptionsToItem(item) {
         this.selectedItem = item;
+        this.bindControlls();
         item.css({
             WebkitTransition: "-webkit-transform 0.4s ease",
             transition: "transform 0.4s ease",
@@ -148,8 +133,8 @@ class SearchManager {
         });
     }
 
-    private hidePreviousOption() {
-        if (this.selectedItem != null) {
+    private hidePreviousOption(currentItem) {
+        if (this.selectedItem != null && this.selectedItem != currentItem) {
             this.selectedItem.css({
                 WebkitTransition: "",
                 transition: "",
@@ -160,7 +145,7 @@ class SearchManager {
     }
 
     private startMoveOption(item) {
-        this.hidePreviousOption();
+        this.hidePreviousOption(item);
         item.css({
             WebkitTransition: "",
             transition: ""
@@ -170,46 +155,8 @@ class SearchManager {
         this.giveOptionsFocus();
     }
 
-    private searchItemClicked(item) {
-        if (item == this.selectedItem) {
-            this.refocusOptions(item);
-        } else {
-            this.changeOptionsFocus(item);
-        }
-    }
-
-    private refocusOptions(item) {
-        if (this.optionsCollapsed) {
-            this.giveOptionsFocus();
-        } else {
-            this.takeOptionsFocus(item);
-        }
-    }
-
-    private changeOptionsFocus(item) {
-        $(item).addClass("searchItemOptionContainerFocused");
-        if (this.selectedItem != null) {
-            $(this.selectedItem).removeClass("searchItemOptionContainerFocused");
-        }
-
-        this.selectedItem = item;
-        if (this.optionsCollapsed) {
-            this.giveOptionsFocus();
-        }
-    }
-
     private giveOptionsFocus() {
-        this.optionsCollapsed = false;
         this.optionsContainer.show(0);
-    }
-
-    private takeOptionsFocus(item) {
-        $(item).removeClass("searchItemOptionContainerFocused");
-        this.optionsCollapsed = true;
-        this.optionsContainer.css({
-            opacity: 0
-        });
-        this.takePlaylistsFocus();
     }
 }
 var mSearchManager = new SearchManager();

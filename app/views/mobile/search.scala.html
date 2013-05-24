@@ -11,12 +11,11 @@
         <div class="searchResult">
             @for(song <- songs) {
                 <div class="searchItemTableContainer">
-                    <table class="searchItemTable">
+                    <table class="searchItemTable" songId="@song.mbid" songTitle="@song.title" songArtist="@song.artist" songImage="@song.imageUrl">
                         <tr>
                             <td rowspan="2" class="searchItemImage"><img src="@song.imageUrl" /></td>
                             <td class="searchItemTitle">@song.title</td>
-                            <td rowspan="2" class="searchItemOptionContainer"
-                            songId="@song.mbid" songTitle="@song.title" songArtist="@song.artist" songImage="@song.imageUrl"></td>
+                            <td rowspan="2" class="searchItemOptionContainer"></td>
                         </tr>
                         <tr>
                             <td>@song.artist</td>
