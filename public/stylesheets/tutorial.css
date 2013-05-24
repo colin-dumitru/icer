@@ -1,3 +1,30 @@
+/*
+@background: #5E9FA3;
+@background_variant: #7ea9a5;
+@foreground: #FAB87F;
+@foreground_variant: #F87E7B;
+@foreground_focus: #f98c62;
+@foreground_text: #343434;
+*/
+/*@background: #BED2D9;
+@background_variant: #CBDBE0;
+@foreground: #F7F9FE;
+@foreground_variant: #ECF1F2;
+@foreground_focus: #542437;
+@foreground_text: #343434;
+*/
+/*@background: #69D2E7;
+@background_variant: #61b2b0;
+@foreground: #c7fffc;
+@foreground_variant: #F38630;
+@foreground_focus: #542437;
+@foreground_text: #343434;*/
+/*@background: #425c5f;
+@background_variant: #4a7174;
+@foreground: #92d8db;
+@foreground_variant: #C02942;
+@foreground_focus: #542437;
+@foreground_text: #343434;*/
 .hidden {
     display: none;
 }
@@ -108,7 +135,7 @@
 }
 
 #tutorialContent {
-    color: #192227;
+    color: #2c3136;
     font-family: 'Roboto', sans-serif;
     font-size: 1.2em;
 }
@@ -128,7 +155,7 @@
     border: 1px solid #3f3f3f;
     font-family: 'Noto Sans', sans-serif;
     font-size: 1em;
-    color: #192227;
+    color: #2c3136;
     cursor: pointer;
     transition: box-shadow 0.2s;
     -wekbit-transition: box-shadow 0.2s;
@@ -140,7 +167,7 @@
 
 #tutorialButtonFinish {
     border-color: #3f3f3f;
-    color: #192227;
+    color: #2c3136;
     background-image: linear-gradient(bottom, #d9d9d9 0%, #e6e6e6 100%);
     background-image: -o-linear-gradient(bottom, #d9d9d9 0%, #e6e6e6 100%);
     background-image: -moz-linear-gradient(bottom, #d9d9d9 0%, #e6e6e6 100%);
@@ -150,7 +177,7 @@
 
 #tutorialButtonNext {
     border-color: #418440;
-    color: #343434;
+    color: #414850;
     background-image: linear-gradient(bottom, #4d804f 0%, #72b36f 100%);
     background-image: -o-linear-gradient(bottom, #4d804f 0%, #72b36f 100%);
     background-image: -moz-linear-gradient(bottom, #4d804f 0%, #72b36f 100%);
@@ -159,7 +186,7 @@
 }
 
 #tutorialAccent {
-    background: rgba(193, 69, 67, 0.5);
+    background: rgba(223, 236, 230, 0.5);
     box-shadow: #ff0000 0px 0px 20px;
     transition: box-shadow 0.4s;
     -wekbit-transition: box-shadow 0.4s;

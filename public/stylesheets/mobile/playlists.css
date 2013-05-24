@@ -1,3 +1,30 @@
+/*
+@background: #5E9FA3;
+@background_variant: #7ea9a5;
+@foreground: #FAB87F;
+@foreground_variant: #F87E7B;
+@foreground_focus: #f98c62;
+@foreground_text: #343434;
+*/
+/*@background: #BED2D9;
+@background_variant: #CBDBE0;
+@foreground: #F7F9FE;
+@foreground_variant: #ECF1F2;
+@foreground_focus: #542437;
+@foreground_text: #343434;
+*/
+/*@background: #69D2E7;
+@background_variant: #61b2b0;
+@foreground: #c7fffc;
+@foreground_variant: #F38630;
+@foreground_focus: #542437;
+@foreground_text: #343434;*/
+/*@background: #425c5f;
+@background_variant: #4a7174;
+@foreground: #92d8db;
+@foreground_variant: #C02942;
+@foreground_focus: #542437;
+@foreground_text: #343434;*/
 .hidden {
     display: none;
 }
@@ -59,7 +86,7 @@
 }
 
 .playlistResult {
-    background: #374955;
+    background: #4b535d;
     width: 100%;
 }
 
@@ -74,12 +101,12 @@
     width: 100%;
     height: 100px;
     table-layout: fixed;
-    background: #343434;
-    color: #192227;
+    background: #414850;
+    color: #2c3136;
     font-family: 'Roboto', sans-serif;
     font-size: 1em;
     border-collapse: collapse;
-    border: 1px solid #f0fcff;
+    border: 1px solid #b3c6dc;
 }
 
 .playlistItemTable td {
@@ -98,13 +125,13 @@
 
 .playlistItemOptionContainer {
     width: 50px;
-    background: #c14543;
-    color: #343434;
+    background: #7f8d9c;
+    color: #414850;
     cursor: pointer;
 }
 
 .playlistItemOptionContainerFocused {
-    background: #c14543;
+    background: #dfece6;
 }
 
 .playlistItemTitle {
