@@ -8,18 +8,20 @@ class SearchManager {
     private searchAddToPlaying = null;
     private searchPlaySong = null;
     private searchPlaylistItems = null;
+    private searchNewPlaylistInput = null;
 
     private selectedItem = null;
-    private playlistsCollapsed = true;
 
     bind() {
         this.searchPlaylistOptionContainer = $("#searchPlaylistOptionContainer");
         this.searchAddToPlaying = $("#searchAddToPlaying");
         this.searchPlaySong = $("#searchPlaySong");
+        this.searchNewPlaylistInput = $("#searchNewPlaylistInput");
         this.searchPlaylistItems = $(".searchPlaylistItem");
+        this.optionsContainer = $("#searchOptionContainer");
     }
 
-    private bindControlls() {
+    private bindControls() {
         var _this = this;
 
         this.searchAddToPlaying.click(() => {
@@ -31,6 +33,22 @@ class SearchManager {
         this.searchPlaylistItems.click(function () {
             _this.addCurrentSongToPlaylist($(this).attr("playlistId"));
         });
+        this.searchNewPlaylistInput.keypress(function (e) {
+            if (e.which == 13) {
+                _this.addSongToNewPlaylist($(this).val());
+            }
+        });
+    }
+
+    private addSongToNewPlaylist(playlistLabel:string) {
+        $.ajax("/playlist/new/" + playlistLabel, {
+            type: "POST",
+            dataType: "json",
+            success: data => {
+                this.addCurrentSongToPlaylist(<string>data.id);
+                this.cancelMoveOptionsToItem(this.selectedItem);
+            }
+        });
     }
 
     private playCurrentSong() {
@@ -38,6 +56,7 @@ class SearchManager {
         var song = new Song(item.attr("songId"), item.attr("songTitle"), item.attr("songArtist"), item.attr("songImage"));
         globalPlaylistManager.pushSong(song);
         player.playSong(song);
+        this.cancelMoveOptionsToItem(this.selectedItem);
     }
 
     private addCurrentSongToPlaylist(playlistId) {
@@ -56,13 +75,7 @@ class SearchManager {
                 imageUrl: song.imageUrl
             })
         });
-    }
-
-    private takePlaylistsFocus() {
-        this.playlistsCollapsed = true;
-        this.searchPlaylistOptionContainer.css({
-            opacity: 0
-        });
+        this.cancelMoveOptionsToItem(this.selectedItem);
     }
 
     private addCurrentSongToNowPlaying() {
@@ -70,6 +83,7 @@ class SearchManager {
             var item = $(this.selectedItem);
             var song = new Song(item.attr("songId"), item.attr("songTitle"), item.attr("songArtist"), item.attr("songImage"));
             globalPlaylistManager.pushSong(song);
+            this.cancelMoveOptionsToItem(this.selectedItem);
         }
     }
 
@@ -86,12 +100,12 @@ class SearchManager {
         titleManager.setTitle(query);
         itemManager.loadContent("/mobile/search/" + encodeURIComponent(query), () => {
             this.bindItems();
+            this.bind();
+            this.bindControls();
         });
     }
 
     private bindItems() {
-        this.optionsContainer = $("#searchOptionContainer");
-
         var _this = this;
         $(".searchItemTable").draggable({
             axis: "x",
@@ -124,7 +138,7 @@ class SearchManager {
 
     private moveOptionsToItem(item) {
         this.selectedItem = item;
-        this.bindControlls();
+        this.bindControls();
         item.css({
             WebkitTransition: "-webkit-transform 0.4s ease",
             transition: "transform 0.4s ease",

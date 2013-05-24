@@ -1,4 +1,4 @@
-@(songs: List[model.Song])
+@(songs: List[model.Song], playlists: List[model.Playlist])
 
 
 <!DOCTYPE html>
@@ -23,6 +23,21 @@
                     </table>
                 </div>
             }
+        </div>
+
+        <div id="searchOptionContainer">
+            <div id="searchOptionButtonContainer">
+                <img id="searchPlaySong" class="searchOption" src="@routes.Assets.at("images/play.png")" />
+                <hr />
+                <img id="searchAddToPlaying" class="searchOption" src="@routes.Assets.at("images/add_playing.png")" />
+            </div>
+            <div id="searchPlaylistOptionContainer">
+                <input id="searchNewPlaylistInput" />
+                <hr />
+                @for(playlist <- playlists) {
+                    <div class="searchPlaylistItem" playlistId="@playlist.id">@playlist.title</div>
+                }
+            </div>
         </div>
     </body>
 </html>

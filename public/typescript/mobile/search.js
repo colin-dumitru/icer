@@ -5,17 +5,19 @@ var SearchManager = (function () {
         this.searchAddToPlaying = null;
         this.searchPlaySong = null;
         this.searchPlaylistItems = null;
+        this.searchNewPlaylistInput = null;
         this.selectedItem = null;
-        this.playlistsCollapsed = true;
     }
 
     SearchManager.prototype.bind = function () {
         this.searchPlaylistOptionContainer = $("#searchPlaylistOptionContainer");
         this.searchAddToPlaying = $("#searchAddToPlaying");
         this.searchPlaySong = $("#searchPlaySong");
+        this.searchNewPlaylistInput = $("#searchNewPlaylistInput");
         this.searchPlaylistItems = $(".searchPlaylistItem");
+        this.optionsContainer = $("#searchOptionContainer");
     };
-    SearchManager.prototype.bindControlls = function () {
+    SearchManager.prototype.bindControls = function () {
         var _this = this;
         var _this = this;
         this.searchAddToPlaying.click(function () {
@@ -27,12 +29,29 @@ var SearchManager = (function () {
         this.searchPlaylistItems.click(function () {
             _this.addCurrentSongToPlaylist($(this).attr("playlistId"));
         });
+        this.searchNewPlaylistInput.keypress(function (e) {
+            if (e.which == 13) {
+                _this.addSongToNewPlaylist($(this).val());
+            }
+        });
+    };
+    SearchManager.prototype.addSongToNewPlaylist = function (playlistLabel) {
+        var _this = this;
+        $.ajax("/playlist/new/" + playlistLabel, {
+            type: "POST",
+            dataType: "json",
+            success: function (data) {
+                _this.addCurrentSongToPlaylist(data.id);
+                _this.cancelMoveOptionsToItem(_this.selectedItem);
+            }
+        });
     };
     SearchManager.prototype.playCurrentSong = function () {
         var item = this.selectedItem;
         var song = new Song(item.attr("songId"), item.attr("songTitle"), item.attr("songArtist"), item.attr("songImage"));
         globalPlaylistManager.pushSong(song);
         player.playSong(song);
+        this.cancelMoveOptionsToItem(this.selectedItem);
     };
     SearchManager.prototype.addCurrentSongToPlaylist = function (playlistId) {
         var item = $(this.selectedItem);
@@ -50,18 +69,14 @@ var SearchManager = (function () {
                 imageUrl: song.imageUrl
             })
         });
-    };
-    SearchManager.prototype.takePlaylistsFocus = function () {
-        this.playlistsCollapsed = true;
-        this.searchPlaylistOptionContainer.css({
-            opacity: 0
-        });
+        this.cancelMoveOptionsToItem(this.selectedItem);
     };
     SearchManager.prototype.addCurrentSongToNowPlaying = function () {
         if (this.selectedItem != null) {
             var item = $(this.selectedItem);
             var song = new Song(item.attr("songId"), item.attr("songTitle"), item.attr("songArtist"), item.attr("songImage"));
             globalPlaylistManager.pushSong(song);
+            this.cancelMoveOptionsToItem(this.selectedItem);
         }
     };
     SearchManager.prototype.onSearchInput = function (query) {
@@ -76,10 +91,11 @@ var SearchManager = (function () {
         titleManager.setTitle(query);
         itemManager.loadContent("/mobile/search/" + encodeURIComponent(query), function () {
             _this.bindItems();
+            _this.bind();
+            _this.bindControls();
         });
     };
     SearchManager.prototype.bindItems = function () {
-        this.optionsContainer = $("#searchOptionContainer");
         var _this = this;
         $(".searchItemTable").draggable({
             axis: "x",
@@ -109,7 +125,7 @@ var SearchManager = (function () {
     };
     SearchManager.prototype.moveOptionsToItem = function (item) {
         this.selectedItem = item;
-        this.bindControlls();
+        this.bindControls();
         item.css({
             WebkitTransition: "-webkit-transform 0.4s ease",
             transition: "transform 0.4s ease",

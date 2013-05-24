@@ -10,6 +10,7 @@ import scala.concurrent.duration._
 import ExecutionContext.Implicits.global
 import play.api.libs.json.JsArray
 import java.net.URLEncoder
+import java.math.BigDecimal
 
 /**
  * Catalin Dumitru
@@ -23,17 +24,19 @@ object Search extends Controller {
   }
 
   def search(query: String) = Secured {
-    val encodedUrl = URLEncoder.encode(query, "UTF-8")
-    val url = s"http://ws.audioscrobbler.com/2.0/?method=track.search&track=${encodedUrl}&api_key=${Global.lastFmApiKey}&format=json"
+    (req, userId) => {
+      val encodedUrl = URLEncoder.encode(query, "UTF-8")
+      val url = s"http://ws.audioscrobbler.com/2.0/?method=track.search&track=${encodedUrl}&api_key=${Global.lastFmApiKey}&format=json"
 
-    val parsedResult = WS.url(url).get().map {
-      response => this.parseSearchResult(response)
+      val parsedResult = WS.url(url).get().map {
+        response => this.parseSearchResult(response, userId)
+      }
+
+      Await.result(parsedResult, 10 seconds)
     }
-
-    Await.result(parsedResult, 10 seconds)
   }
 
-  private def parseSearchResult(response: Response): PlainResult = {
+  private def parseSearchResult(response: Response, userId: BigDecimal): PlainResult = {
     val songs = (response.json \ "results" \ "trackmatches" \ "track").asOpt[JsArray] match {
       case Some(tracks) => tracks.as[JsArray].value.map(track => {
         new Song(
@@ -49,7 +52,7 @@ object Search extends Controller {
       })
       case _ => List()
     }
-    Ok(views.html.mobile.search(List() ++ songs))
+    Ok(views.html.mobile.search(List() ++ songs, Playlist.findAllForUser(userId).toList))
   }
 
   private def getLargeImage(imageArray: Option[JsArray]): String = imageArray match {
