@@ -79,7 +79,7 @@ html {
 }
 
 .fullFrameBody {
-    background: #354753;
+    background: #3e4b53;
 }
 
 #loaderOverlay {
@@ -87,7 +87,7 @@ html {
     position: absolute;
     width: 100%;
     height: 100%;
-    background: rgba(53, 71, 83, 0.9);
+    background: rgba(62, 75, 83, 0.9);
     vertical-align: middle;
     z-index: 10;
 }
@@ -107,7 +107,7 @@ html {
 
 #attentionSign {
     font-family: 'Noto Sans', sans-serif;
-    color: #414850;
+    color: #ddefff;
     font-size: 200px;
 }
 
@@ -118,7 +118,7 @@ html {
     font-size: 20px;
     box-shadow: black 0px 0px 20px;
     padding: 10px;
-    background: #7b8791;
+    background: #e1f1ff;
     text-align: center;
 }
 
@@ -168,7 +168,7 @@ html {
     position: absolute;
     left: 0px;
     right: 0px;
-    background: #354753;
+    background: #3e4b53;
     z-index: 200;
 }
 
@@ -225,14 +225,14 @@ html {
     position: absolute;
     width: 50px;
     height: 100px;
-    background: rgba(223, 236, 230, 0.5);
+    background: rgba(220, 221, 177, 0.5);
     z-index: 10;
     cursor: move;
 }
 
 #content {
     position: relative;
-    background: #354753;
+    background: #3e4b53;
 }
 
 #sectionTable {
@@ -343,7 +343,7 @@ html {
     font-family: 'Noto Sans', sans-serif;
     color: #414850;
     cursor: pointer;
-    background: #eff3d3;
+    background: #dcddb1;
 }
 
 #newItemInput {
@@ -420,32 +420,28 @@ html {
 }
 
 .navigationButton {
-    width: 15px;
+    width: 23px;
     height: 40px;
-    background: #7b8791;
+    background: #e1f1ff;
     position: absolute;
     font-family: 'Noto Sans', sans-serif;
     color: #414850;
     vertical-align: middle;
     font-size: 30px;
-    padding: 5px;
-    padding-top: 0px;
-    padding-bottom: 0px;
+    padding-left: 2px;
     cursor: pointer;
 }
 
 #previousButton {
-    width: 15px;
+    width: 23px;
     height: 40px;
-    background: #7b8791;
+    background: #e1f1ff;
     position: absolute;
     font-family: 'Noto Sans', sans-serif;
     color: #414850;
     vertical-align: middle;
     font-size: 30px;
-    padding: 5px;
-    padding-top: 0px;
-    padding-bottom: 0px;
+    padding-left: 2px;
     cursor: pointer;
     left: 0px;
     top: 0px;
@@ -456,17 +452,15 @@ html {
 }
 
 #nextButton {
-    width: 15px;
+    width: 23px;
     height: 40px;
-    background: #7b8791;
+    background: #e1f1ff;
     position: absolute;
     font-family: 'Noto Sans', sans-serif;
     color: #414850;
     vertical-align: middle;
     font-size: 30px;
-    padding: 5px;
-    padding-top: 0px;
-    padding-bottom: 0px;
+    padding-left: 2px;
     cursor: pointer;
     right: 0px;
     top: 0px;
@@ -571,7 +565,7 @@ html {
     top: 5px;
     left: 30px;
     font-family: 'Roboto', sans-serif;
-    color: #414850;
+    color: #ddefff;
 }
 
 .songImage {
@@ -626,7 +620,7 @@ html {
 .songDetailMenuItem {
     font-family: 'Roboto', sans-serif;
     width: 100%;
-    background: #eff3d3;
+    background: #dcddb1;
     color: #414850;
     font-size: 15px;
     text-align: center;
@@ -647,9 +641,9 @@ html {
     margin: 0 auto;
     overflow-y: auto;
     max-height: 200px;
-    background: #e0e8ab;
+    background: #ccce8d;
     box-shadow: black 0px 0px 20px inset;
-    border: 1px solid #eff3d3;
+    border: 1px solid #dcddb1;
 }
 
 #songDetailSubOptionsList li {
@@ -690,7 +684,7 @@ html {
     width: 100px;
     bottom: 45px;
     left: 0px;
-    background: rgba(53, 71, 83, 0.5);
+    background: rgba(62, 75, 83, 0.5);
 }
 
 .imageTitle {
@@ -699,7 +693,7 @@ html {
     overflow: hidden;
     text-align: center;
     font-family: 'Roboto', sans-serif;
-    color: #414850;
+    color: #ddefff;
     font-size: 15px;
 }
 
@@ -709,7 +703,7 @@ html {
     overflow: hidden;
     text-align: center;
     font-family: 'Roboto', sans-serif;
-    color: #414850;
+    color: #ddefff;
     font-size: 15px;
     font-size: 11px;
 }
@@ -719,7 +713,7 @@ html {
     position: absolute;
     z-index: 100;
     width: 80px;
-    background: #eff3d3;
+    background: #dcddb1;
 }
 
 .songMenuItem {

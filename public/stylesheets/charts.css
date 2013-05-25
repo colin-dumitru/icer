@@ -262,13 +262,14 @@
     width: 100px;
     height: 50px;
     background: #418440;
-    color: #414850;
+    color: #ddefff;
     font-size: 30px;
     cursor: pointer;
 }
 
 #chartsDoneButton:hover {
     background: #dfece6;
+    color: #414850;
 }
 
 #chartsCancelButton {

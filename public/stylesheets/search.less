@@ -45,7 +45,7 @@
   .fullFrame;
   .fontMenu;
   margin: 0px;
-  color: @foreground_text;
+  color: @background_text;
   height: 25px;
   padding-top: 3px;
   text-align: center;
@@ -59,13 +59,13 @@
 }
 
 .searchMenuSelector:hover {
-  .searchMenuSelector;
   background: @foreground_focus;
+  color: @foreground_text;
 }
 
 .searchMenuSelectorSelected {
-  .searchMenuSelector;
   background: @foreground_variant;
+  color: @foreground_text;
 }
 
 #searchPageContainer {
@@ -97,9 +97,9 @@
   background: @background_variant;
   overflow-y: hidden;
   overflow-x: hidden;
-  border: 1px solid @background_variant;
+  border: 1px solid @foreground_focus;
   border-radius: 2px;
-  box-shadow: 0px 0px 5px @background;
+  box-shadow: 0px 0px 5px black;
 }
 
 .searchPageSongContainer:hover {
@@ -221,7 +221,7 @@ searchGenreListContainer {
 
 .noSimilarSongsTitle {
   .fontText;
-  color: lighten(@foreground_variant, 15%);
+  color: darken(@foreground, 15%);
   font-size: 20px;
   float: left;
   position: relative;
@@ -230,7 +230,7 @@ searchGenreListContainer {
 
 .noSimilarSongsSadFace {
   .fontMenu2;
-  color: lighten(@foreground_variant, 15%);
+  color: darken(@foreground, 15%);
   font-size: 100px;
   float: left;
   position: relative;

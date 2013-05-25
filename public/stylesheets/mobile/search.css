@@ -76,7 +76,7 @@
     height: 100px;
     table-layout: fixed;
     background: #414850;
-    color: #354753;
+    color: #3e4b53;
     font-family: 'Roboto', sans-serif;
     font-size: 1em;
     border-collapse: collapse;
@@ -99,7 +99,7 @@
 
 .searchItemOptionContainer {
     width: 50px;
-    background: #eff3d3;
+    background: #dcddb1;
     color: #414850;
     cursor: pointer;
 }
@@ -130,7 +130,7 @@
     float: right;
     border: 1px solid #e1f1ff;
     border-radius: 2px;
-    background: #eff3d3;
+    background: #dcddb1;
     padding: 2px;
     margin-left: 3px;
 }

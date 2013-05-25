@@ -51,7 +51,7 @@ html {
 
 #attentionSign {
   .fontMenu2;
-  color: @foreground_text;
+  color: @background_text;
   font-size: 200px;
 }
 
@@ -62,7 +62,7 @@ html {
   font-size: 20px;
   box-shadow: black 0px 0px 20px;
   padding: 10px;
-  background: @background_variant;
+  background: @foreground;
   text-align: center;
 }
 
@@ -167,7 +167,7 @@ html {
   position: absolute;
   width: 50px;
   height: 100px;
-  background: fade(@foreground_focus, 50%);
+  background: fade(@foreground_variant, 50%);
   z-index: 10;
   cursor: move;
 }
@@ -351,17 +351,15 @@ html {
 }
 
 .navigationButton {
-  width: 15px;
+  width: 23px;
   height: 40px;
-  background: @background_variant;
+  background: @foreground;
   position: absolute;
   .fontMenu2;
   color: @foreground_text;
   vertical-align: middle;
   font-size: 30px;
-  padding: 5px;
-  padding-top: 0px;
-  padding-bottom: 0px;
+  padding-left: 2px;
   cursor: pointer;
 }
 
@@ -470,7 +468,7 @@ html {
   top: 5px;
   left: 30px;
   .fontText;
-  color: @foreground_text;
+  color: @background_text;
 }
 
 .songImage {
@@ -601,7 +599,7 @@ html {
   overflow: hidden;
   text-align: center;
   .fontText;
-  color: @foreground_text;
+  color: @background_text;
   font-size: 15px;
 }
 

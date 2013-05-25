@@ -98,7 +98,7 @@
     font-size: 15px;
     width: 100%;
     color: #418440;
-    background: #414850;
+    background: #dcddb1;
     font-size: 40px;
 }
 
@@ -109,9 +109,10 @@
 #radioBuilderTable {
     width: 100%;
     height: 100%;
-    background: #7b8791;
-    border: 5px solid #7b8791;
-    box-shadow: #000 0px 0px 20px inset;
+    background: #e1f1ff;
+    border: 1px solid #dfece6;
+    border-radius: 2px;
+    box-shadow: 0px 0px 5px black;
 }
 
 #radioAddButtonCell {
@@ -121,7 +122,7 @@
     height: 30px;
     color: #418440;
     text-align: center;
-    background: #414850;
+    background: #7b8791;
 }
 
 #radioAddButtonCell:hover {
@@ -136,7 +137,7 @@
     height: 30px;
     color: #414850;
     background: rgba(225, 241, 255, 0.5);
-    box-shadow: #000 0px 0px 4px;
+    border-bottom: 1px solid #3e4b53;
 }
 
 .radioCriteriaOption input {
@@ -145,7 +146,6 @@
     border-radius: 5px;
     height: 15px;
     width: 250px;
-    box-shadow: #000 0px 0px 5px;
 }
 
 .radioCriteriaOption:hover {
@@ -162,7 +162,7 @@
 
 #radioCriteriaTable {
     width: 100%;
-    box-shadow: #222 0px 10px 10px;
+    box-shadow: #3e4b53 0px 5px 5px;
 }
 
 .radioCriteriaTableCell {
