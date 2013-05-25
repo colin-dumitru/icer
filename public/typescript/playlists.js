@@ -29,9 +29,6 @@ var PlaylistBinder = (function () {
                 for (var i = 0; i < data.length; i++) {
                     playlistManager.loadPlaylist(data[i].id, data[i].name);
                 }
-            },
-            error: function (reason) {
-                alert(reason);
             }
         });
     };
@@ -89,9 +86,6 @@ var PlaylistManager = (function () {
             dataType: "json",
             success: function (data) {
                 _this.loadPlaylist(data.id, title);
-            },
-            error: function (reason) {
-                alert(reason.toString());
             }
         });
     };
@@ -127,9 +121,6 @@ var PlaylistManager = (function () {
                     var song = new Song(data[i].mbid, songInfo, data[i].imageUrl);
                     _this.addSongToPlaylist(song, playlist);
                 }
-            },
-            error: function (reason) {
-                alert(reason);
             }
         });
     };
@@ -297,10 +288,7 @@ var PlaylistPageManager = (function () {
     };
     PlaylistPageManager.prototype.deletePlaylistServer = function () {
         $.ajax("/playlist/delete/" + this.playlist.id, {
-            type: "POST",
-            error: function (reason) {
-                alert(reason);
-            }
+            type: "POST"
         });
     };
     PlaylistPageManager.prototype.closeOverlay = function () {

@@ -292,6 +292,7 @@ var SearchSongCallback = (function (_super) {
         });
     };
     SearchSongCallback.prototype.onMainResult = function (tracks, page) {
+        console.log(tracks);
         for (var i = 0; i < tracks.length; i++) {
             this.pushMainResult(tracks[i]);
         }

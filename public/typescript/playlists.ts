@@ -34,9 +34,6 @@ class PlaylistBinder implements SectionBinder {
             success: data => {
                 for (var i = 0; i < data.length; i++)
                     playlistManager.loadPlaylist(data[i].id, data[i].name);
-            },
-            error: function (reason) {
-                alert(reason)
             }
         });
     }
@@ -95,9 +92,6 @@ class PlaylistManager {
             dataType: "json",
             success: data => {
                 this.loadPlaylist(<string>data.id, title)
-            },
-            error: function (reason) {
-                alert(reason.toString())
             }
         });
     }
@@ -141,10 +135,6 @@ class PlaylistManager {
                     var song = new Song(data[i].mbid, songInfo, data[i].imageUrl)
                     this.addSongToPlaylist(song, playlist);
                 }
-            },
-            error: function (reason) {
-                //crw this is ugly
-                alert(reason)
             }
         });
     }
@@ -318,10 +308,7 @@ class PlaylistPageManager {
 
     private deletePlaylistServer() {
         $.ajax("/playlist/delete/" + this.playlist.id, {
-            type: "POST",
-            error: function (reason) {
-                alert(reason)
-            }
+            type: "POST"
         });
     }
 
