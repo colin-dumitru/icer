@@ -445,6 +445,7 @@ html {
     cursor: pointer;
     left: 0px;
     top: 0px;
+    border-radius: 3px 0px 0px 0px;
 }
 
 #previousButton:hover {
@@ -462,6 +463,7 @@ html {
     font-size: 30px;
     padding-left: 2px;
     cursor: pointer;
+    border-radius: 0px 3px 0px 0px;
     right: 0px;
     top: 0px;
 }
@@ -480,8 +482,9 @@ html {
     vertical-align: middle;
     font-size: 40px;
     color: #418440;
-    box-shadow: #000 0px 0px 20px;
     cursor: pointer;
+    border-right: 1px solid #7b8791;
+    border-left: 1px solid #7b8791;
 }
 
 .playButtonPaused {
@@ -498,8 +501,9 @@ html {
     vertical-align: middle;
     font-size: 40px;
     color: #418440;
-    box-shadow: #000 0px 0px 20px;
     cursor: pointer;
+    border-right: 1px solid #7b8791;
+    border-left: 1px solid #7b8791;
     background: #ffffff;
 }
 
