@@ -18,7 +18,7 @@ body {
   width: 100%;
   top: 0px;
   left: 0px;
-  background: @foreground_variant;
+  background: @background_variant;
 }
 
 #footer {
@@ -26,7 +26,7 @@ body {
   width: 100%;
   bottom: 0px;
   left: 0px;
-  background: @foreground_variant;
+  background: @background_variant;
   position: absolute;
   -webkit-transition: -webkit-transform 0.4s ease;
   transition: transform 0.4s ease;
@@ -48,6 +48,7 @@ body {
   float: right;
   position: relative;
   .fontMenu2;
+  color: @foreground_text;
   font-size: 2em;
   height: 100%;
   background: none;
@@ -61,13 +62,19 @@ body {
 #titleSpan {
   float: left;
   margin-top: 5px;
+  text-align: right;
+  width: 250px;
+  height: 50px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 #menuSelect {
   .fontMenu2;
   font-size: 2em;
   height: 100%;
-  background: @foreground_variant;
+  background: @background_variant;
   border: none;
   color: @foreground_text;
 }
@@ -124,7 +131,7 @@ body {
   height: 30px;
   font-size: 20px;
   .fontText;
-  color: @background;
+  color: @background_text;
   border: 1px solid @foreground_text;
   margin: 5px;
   background: @foreground_text;
