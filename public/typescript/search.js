@@ -194,7 +194,7 @@ var SearchCallback = (function () {
     };
     SearchCallback.prototype.buildLargeImageTemplate = function (url) {
         var img = $("<img />");
-        img.attr("src", url).attr("width", 150).attr("height", 150);
+        img.attr("src", url).attr("width", 120).attr("height", 120);
         return img;
     };
     SearchCallback.prototype.bindSongMenu = function (song, template) {
@@ -267,6 +267,30 @@ var SearchCallback = (function () {
     };
     SearchCallback.prototype.pushSong = function (song) {
         globalPlaylistManager.pushSong(song);
+    };
+    SearchCallback.prototype.bindItemList = function (item) {
+        var _this = this;
+        item.hover(function () {
+            _this.expandSimilarSongs(item);
+        }, function () {
+            _this.collapseSimilarSongs(item);
+        });
+    };
+    SearchCallback.prototype.expandSimilarSongs = function (item) {
+        item.find("#searchSongTitle").css({
+            transform: "translate3d(0, 0, 0)"
+        });
+        item.find("#searchSongListContainerWrapper").css({
+            transform: "translate3d(0, 0, 0)"
+        });
+    };
+    SearchCallback.prototype.collapseSimilarSongs = function (item) {
+        item.find("#searchSongTitle").css({
+            transform: "translate3d(0, 60px, 0)"
+        });
+        item.find("#searchSongListContainerWrapper").css({
+            transform: "translate3d(0, 120px, 0)"
+        });
     };
     return SearchCallback;
 })();
@@ -390,12 +414,13 @@ var SearchSongCallback = (function (_super) {
     };
     SearchSongCallback.prototype.buildItemList = function (song) {
         var listContainer = $("<div></div>");
-        var listTemplate = template("#searchSongListTemplate");
+        var listTemplate = template("#searchSongListTemplate", "similar");
         var imageTemplate = this.buildLargeImageTemplate(song.imageUrl);
         imageTemplate.addClass("clickable");
         listContainer.append(listTemplate);
         listContainer.find("#searchSongTitle").text(song.info.title + " - " + song.info.artist);
         listContainer.find("#searchLargeImageContainer").append(imageTemplate);
+        this.bindItemList(listContainer);
         return listContainer;
     };
     SearchSongCallback.prototype.buildMainSearchUrl = function (page) {
@@ -519,11 +544,12 @@ var SearchArtistCallback = (function (_super) {
     };
     SearchArtistCallback.prototype.buildItemList = function (artist) {
         var listContainer = $("<div></div>");
-        var listTemplate = template("#searchSongListTemplate");
+        var listTemplate = template("#searchSongListTemplate", "tracks");
         var imageTemplate = this.buildLargeImageTemplate(artist.imageUrl);
         listContainer.append(listTemplate);
         listContainer.find("#searchSongTitle").text(artist.info.name);
         listContainer.find("#searchLargeImageContainer").append(imageTemplate);
+        this.bindItemList(listContainer);
         return listContainer;
     };
     SearchArtistCallback.prototype.buildMainSearchUrl = function (page) {
@@ -632,11 +658,12 @@ var SearchAlbumCallback = (function (_super) {
     };
     SearchAlbumCallback.prototype.buildItemList = function (album) {
         var listContainer = $("<div></div>");
-        var listTemplate = template("#searchSongListTemplate");
+        var listTemplate = template("#searchSongListTemplate", "tracks");
         var imageTemplate = this.buildLargeImageTemplate(album.imageUrl);
         listContainer.append(listTemplate);
         listContainer.find("#searchSongTitle").text(album.info.artist + "-" + album.info.name);
         listContainer.find("#searchLargeImageContainer").append(imageTemplate);
+        this.bindItemList(listContainer);
         return listContainer;
     };
     SearchAlbumCallback.prototype.buildMainSearchUrl = function (page) {

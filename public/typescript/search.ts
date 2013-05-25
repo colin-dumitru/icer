@@ -206,8 +206,8 @@ class SearchCallback {
         var img = $("<img />");
         img
             .attr("src", url)
-            .attr("width", 150)
-            .attr("height", 150);
+            .attr("width", 120)
+            .attr("height", 120);
         return img;
     }
 
@@ -260,16 +260,41 @@ class SearchCallback {
         searchManager.performSearch(song.info.title + " " + song.info.artist);
     }
 
-    private
-        playSong(song:Song) {
+    private playSong(song:Song) {
         globalPlaylistManager.pushSong(song);
         globalPlaylistManager.playSong(song);
     }
 
-    private
-        pushSong(song:Song) {
+    private pushSong(song:Song) {
         globalPlaylistManager.pushSong(song);
 
+    }
+
+    bindItemList(item) {
+        item
+            .hover(() => {
+                this.expandSimilarSongs(item);
+            }, () => {
+                this.collapseSimilarSongs(item);
+            });
+    }
+
+    private expandSimilarSongs(item) {
+        item.find("#searchSongTitle").css({
+            transform: "translate3d(0, 0, 0)"
+        });
+        item.find("#searchSongListContainerWrapper").css({
+            transform: "translate3d(0, 0, 0)"
+        });
+    }
+
+    private collapseSimilarSongs(item) {
+        item.find("#searchSongTitle").css({
+            transform: "translate3d(0, 60px, 0)"
+        });
+        item.find("#searchSongListContainerWrapper").css({
+            transform: "translate3d(0, 120px, 0)"
+        });
     }
 }
 
@@ -417,7 +442,7 @@ class SearchSongCallback extends SearchCallback {
 
     private buildItemList(song:Song):any {
         var listContainer = $("<div></div>");
-        var listTemplate = template("#searchSongListTemplate");
+        var listTemplate = template("#searchSongListTemplate", "similar");
 
         var imageTemplate = this.buildLargeImageTemplate(song.imageUrl);
         imageTemplate.addClass("clickable");
@@ -425,6 +450,8 @@ class SearchSongCallback extends SearchCallback {
         listContainer.append(listTemplate);
         listContainer.find("#searchSongTitle").text(song.info.title + " - " + song.info.artist);
         listContainer.find("#searchLargeImageContainer").append(imageTemplate);
+
+        this.bindItemList(listContainer);
 
         return listContainer;
     }
@@ -575,13 +602,15 @@ class SearchArtistCallback extends SearchCallback {
 
     private buildItemList(artist:Artist):any {
         var listContainer = $("<div></div>");
-        var listTemplate = template("#searchSongListTemplate");
+        var listTemplate = template("#searchSongListTemplate", "tracks");
 
         var imageTemplate = this.buildLargeImageTemplate(artist.imageUrl);
 
         listContainer.append(listTemplate);
         listContainer.find("#searchSongTitle").text(artist.info.name);
         listContainer.find("#searchLargeImageContainer").append(imageTemplate);
+
+        this.bindItemList(listContainer);
 
         return listContainer;
     }
@@ -712,13 +741,15 @@ class SearchAlbumCallback extends SearchCallback {
 
     private buildItemList(album:Album):any {
         var listContainer = $("<div></div>");
-        var listTemplate = template("#searchSongListTemplate");
+        var listTemplate = template("#searchSongListTemplate", "tracks");
 
         var imageTemplate = this.buildLargeImageTemplate(album.imageUrl);
 
         listContainer.append(listTemplate);
         listContainer.find("#searchSongTitle").text(album.info.artist + "-" + album.info.name);
         listContainer.find("#searchLargeImageContainer").append(imageTemplate);
+
+        this.bindItemList(listContainer);
 
         return listContainer;
     }

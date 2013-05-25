@@ -229,13 +229,14 @@
 
 #searchSongListTable {
     width: 570px;
-    height: 160px;
+    height: 150px;
     margin-bottom: 10px;
+    overflow: hidden;
 }
 
 #searchLargeImageContainer {
     position: relative;
-    width: 150px;
+    width: 135px;
     top: 15px;
 }
 
@@ -248,6 +249,15 @@
     overflow-x: hidden;
     overflow-y: hidden;
     float: left;
+}
+
+#searchSongListContainerWrapper {
+    -webkit-transform: translate3d(0, 120px, 0);
+    transform: translate3d(0, 120px, 0);
+    -webkit-transition: -webkit-transform 0.4s ease;
+    transition: -webkit-transform 0.4s ease;
+    transition-delay: 0.4s;
+    -webkit-transition-delay: 0.4s;
 }
 
 #searchSongListContainerWrapper:hover,
@@ -268,6 +278,21 @@ searchGenreListContainer {
     float: left;
 }
 
+#searchSongListContainer {
+    margin-left: 20px;
+}
+
+#searchSongListInfo {
+    position: absolute;
+    left: -20px;
+    top: 40px;
+    -webkit-transform: rotateZ(270deg);
+    transform: rotateZ(270deg);
+    color: #58616c;
+    font-family: 'Noto Sans', sans-serif;
+    font-size: 1em;
+}
+
 #searchSongListContainer > .inline,
 #searchGenreListContainer > .inline {
     display: table-cell;
@@ -279,8 +304,17 @@ searchGenreListContainer {
     color: #414850;
     font-family: 'Roboto', sans-serif;
     font-size: 20px;
-    height: 50px;
+    height: 30px;
     overflow: hidden;
+}
+
+#searchSongTitle {
+    -webkit-transform: translate3d(0, 60px, 0);
+    transform: translate3d(0, 60px, 0);
+    -webkit-transition: -webkit-transform 0.4s ease;
+    transition: -webkit-transform 0.4s ease;
+    transition-delay: 0.4s;
+    -webkit-transition-delay: 0.4s;
 }
 
 .searchLoadingContainer {
