@@ -287,7 +287,7 @@ body {
     display: none;
     height: 200px;
     width: 100%;
-    background: #dcddb1;
+    background: #7b8791;
     position: absolute;
     top: 50px;
     left: 0px;
@@ -329,7 +329,9 @@ body {
     bottom: 10px;
     left: 10px;
     right: 10px;
-    background: #7b8791;
+    background: #636d76;
+    border-radius: 2px;
+    border: 1px solid #e1f1ff;
     overflow-y: auto;
 }
 
