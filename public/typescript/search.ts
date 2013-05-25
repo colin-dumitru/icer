@@ -292,6 +292,7 @@ class SearchSongCallback extends SearchCallback {
     }
 
     private onMainResult(tracks:any[], page:number) {
+        console.log(tracks);
         for (var i = 0; i < tracks.length; i++) {
             this.pushMainResult(tracks[i]);
         }

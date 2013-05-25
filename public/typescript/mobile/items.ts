@@ -63,7 +63,7 @@ class ItemManager {
     private takeFocus() {
         this.collapsed = true;
         this.itemTable.css({
-            marginLeft: 0
+            transform: "translate3d(0,0,0)"
         });
         this.itemListContainer
             .delay(400)
@@ -73,7 +73,7 @@ class ItemManager {
     private giveFocus() {
         this.collapsed = false;
         this.itemTable.css({
-            marginLeft: -200
+            transform: "translate3d(-200,0,0)"
         });
         this.itemListContainer
             .show(0);

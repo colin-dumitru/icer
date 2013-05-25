@@ -148,17 +148,17 @@ var RadioManager = (function () {
 
                     case "radioRecentSongsCriteria":
                     {
-                        for (var i = 0; i < _this.recentSongs.length; i++) {
-                            new SearchSimilarSongs().loadSimilarSongs(_this.recentSongs[i].info.title);
+                        for (var j = 0; j < _this.recentSongs.length; j++) {
+                            new SearchSimilarSongs().loadSimilarSongs(_this.recentSongs[j].info.title);
                         }
                         break;
                     }
 
                     case "radioRecentGenresCriteria":
                     {
-                        for (var i = 0; i < _this.recentSongs.length; i++) {
-                            if (_this.recentSongs[i].info.genre != null) {
-                                new SearchSimilarGenre().loadSimilarGenreSongs(_this.recentSongs[i].info.genre);
+                        for (var j = 0; j < _this.recentSongs.length; j++) {
+                            if (_this.recentSongs[j].info.genre != null) {
+                                new SearchSimilarGenre().loadSimilarGenreSongs(_this.recentSongs[j].info.genre);
                             }
                         }
                         break;
@@ -166,8 +166,8 @@ var RadioManager = (function () {
 
                     case "radioRecentAlbumsCriteria":
                     {
-                        for (var i = 0; i < _this.recentSongs.length; i++) {
-                            new SearchSimilarAlbum().loadSimilarAlbumSongs(_this.recentSongs[i].info.artist);
+                        for (var j = 0; j < _this.recentSongs.length; j++) {
+                            new SearchSimilarAlbum().loadSimilarAlbumSongs(_this.recentSongs[j].info.artist);
                         }
                         break;
                     }

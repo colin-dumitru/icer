@@ -161,7 +161,7 @@ class GlobalPlaylistManager {
     private giveFocus() {
         this.collapsed = false;
         this.footer.css({
-            marginBottom: 200
+            transform: "translate3d(0, -200px, 0)"
         });
         this.playbackContainer
             .show(0);
@@ -171,7 +171,7 @@ class GlobalPlaylistManager {
     private takeFocus() {
         this.collapsed = true;
         this.footer.css({
-            marginBottom: 0
+            transform: "translate3d(0, 0px, 0)"
         });
         this.playbackContainer
             .delay(400)

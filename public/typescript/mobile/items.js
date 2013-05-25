@@ -51,14 +51,14 @@ var ItemManager = (function () {
     ItemManager.prototype.takeFocus = function () {
         this.collapsed = true;
         this.itemTable.css({
-            marginLeft: 0
+            transform: "translate3d(0,0,0)"
         });
         this.itemListContainer.delay(400).hide(0);
     };
     ItemManager.prototype.giveFocus = function () {
         this.collapsed = false;
         this.itemTable.css({
-            marginLeft: -200
+            transform: "translate3d(-200,0,0)"
         });
         this.itemListContainer.show(0);
     };

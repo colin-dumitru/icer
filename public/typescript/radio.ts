@@ -89,7 +89,7 @@ class RadioManager {
         }
     }
 
-    public static addToGlobalPlayer(song:Song){
+    public static addToGlobalPlayer(song:Song) {
 
         RadioManager.globalPlayer.push(song);
         RadioManager.globalPlayer = RadioManager.shuffle(RadioManager.globalPlayer);
@@ -184,24 +184,24 @@ class RadioManager {
                     }
                     case "radioRecentSongsCriteria":
                     {
-                        for (var i = 0; i < this.recentSongs.length; i++) {
-                            new SearchSimilarSongs().loadSimilarSongs(this.recentSongs[i].info.title);
+                        for (var j = 0; j < this.recentSongs.length; j++) {
+                            new SearchSimilarSongs().loadSimilarSongs(this.recentSongs[j].info.title);
                         }
                         break;
                     }
                     case  "radioRecentGenresCriteria":
                     {
-                        for (var i = 0; i < this.recentSongs.length; i++) {
-                            if (this.recentSongs[i].info.genre!=null)
-                                new SearchSimilarGenre().loadSimilarGenreSongs(this.recentSongs[i].info.genre);
+                        for (var j = 0; j < this.recentSongs.length; j++) {
+                            if (this.recentSongs[j].info.genre != null)
+                                new SearchSimilarGenre().loadSimilarGenreSongs(this.recentSongs[j].info.genre);
                         }
 
                         break;
                     }
                     case  "radioRecentAlbumsCriteria":
                     {
-                        for (var i = 0; i < this.recentSongs.length; i++) {
-                            new SearchSimilarAlbum().loadSimilarAlbumSongs(this.recentSongs[i].info.artist);
+                        for (var j = 0; j < this.recentSongs.length; j++) {
+                            new SearchSimilarAlbum().loadSimilarAlbumSongs(this.recentSongs[j].info.artist);
                         }
                         break;
                     }
@@ -253,7 +253,7 @@ class SearchSimilarSongs {
             url: this.buildSimilarSongsSearchUrl(song),
             dataType: "json",
             method: "GET",
-            success: (res:any) =>{
+            success: (res:any) => {
                 this.onSimilarResults(res, song)
             }
         })
@@ -294,7 +294,7 @@ class SearchSimilarSongs {
 
 }
 
-class SearchSimilarGenre{
+class SearchSimilarGenre {
 
     loadSimilarGenreSongs(genre:string) {
         $.ajax({
@@ -354,7 +354,7 @@ class SearchSimilarGenre{
     }
 }
 
-class SearchSimilarAlbum{
+class SearchSimilarAlbum {
 
     loadSimilarAlbumSongs(artist:string) {
         $.ajax({
@@ -401,7 +401,7 @@ class SearchSimilarAlbum{
 
     private addAlbumSongs(tracks, image) {
         for (var i = 0; i < 3; i++) {
-            this.addAlbumSong(tracks[Math.floor(Math.random()*tracks.length)], image);
+            this.addAlbumSong(tracks[Math.floor(Math.random() * tracks.length)], image);
         }
     }
 

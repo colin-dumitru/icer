@@ -113,8 +113,8 @@ body {
     left: 0px;
     background: #7f8d9c;
     position: absolute;
-    -webkit-transition: margin 0.4s ease;
-    transition: margin 0.4s ease;
+    -webkit-transition: -webkit-transform 0.4s ease;
+    transition: transform 0.4s ease;
     z-index: 10;
 }
 
@@ -174,8 +174,8 @@ body {
     margin: 0px;
     margin-left: 0px;
     border-collapse: collapse;
-    -webkit-transition: margin 0.4s ease;
-    transition: margin 0.4s ease;
+    -webkit-transition: -webkit-transform 0.4s ease;
+    transition: transform 0.4s ease;
 }
 
 #itemContent {

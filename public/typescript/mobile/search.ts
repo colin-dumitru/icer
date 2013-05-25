@@ -131,7 +131,6 @@ class SearchManager {
         item.css({
             WebkitTransition: "-webkit-transform 0.4s ease",
             transition: "transform 0.4s ease",
-            WebkitTransform: "translate3d(0,0,0)",
             transform: "translate3d(0,0,0)"
         });
     }
@@ -142,7 +141,6 @@ class SearchManager {
         item.css({
             WebkitTransition: "-webkit-transform 0.4s ease",
             transition: "transform 0.4s ease",
-            WebkitTransform: "translate3d(-270,0,0)",
             transform: "translate3d(-270,0,0)"
         });
     }
