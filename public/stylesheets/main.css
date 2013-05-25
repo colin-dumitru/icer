@@ -1,30 +1,3 @@
-/*
-@background: #5E9FA3;
-@background_variant: #7ea9a5;
-@foreground: #FAB87F;
-@foreground_variant: #F87E7B;
-@foreground_focus: #f98c62;
-@foreground_text: #343434;
-*/
-/*@background: #BED2D9;
-@background_variant: #CBDBE0;
-@foreground: #F7F9FE;
-@foreground_variant: #ECF1F2;
-@foreground_focus: #542437;
-@foreground_text: #343434;
-*/
-/*@background: #69D2E7;
-@background_variant: #61b2b0;
-@foreground: #c7fffc;
-@foreground_variant: #F38630;
-@foreground_focus: #542437;
-@foreground_text: #343434;*/
-/*@background: #425c5f;
-@background_variant: #4a7174;
-@foreground: #92d8db;
-@foreground_variant: #C02942;
-@foreground_focus: #542437;
-@foreground_text: #343434;*/
 .hidden {
     display: none;
 }
@@ -106,7 +79,7 @@ html {
 }
 
 .fullFrameBody {
-    background: #2c3136;
+    background: #354753;
 }
 
 #loaderOverlay {
@@ -114,7 +87,7 @@ html {
     position: absolute;
     width: 100%;
     height: 100%;
-    background: rgba(44, 49, 54, 0.9);
+    background: rgba(53, 71, 83, 0.9);
     vertical-align: middle;
     z-index: 10;
 }
@@ -145,7 +118,7 @@ html {
     font-size: 20px;
     box-shadow: black 0px 0px 20px;
     padding: 10px;
-    background: #4b535d;
+    background: #7b8791;
     text-align: center;
 }
 
@@ -181,7 +154,7 @@ html {
     display: block;
     font-family: 'Roboto', sans-serif;
     color: #414850;
-    background: #4b535d;
+    background: #7b8791;
     box-shadow: #000000 0px 0px 20px;
     border-bottom-left-radius: 5px;
     padding: 5px;
@@ -195,7 +168,7 @@ html {
     position: absolute;
     left: 0px;
     right: 0px;
-    background: #2c3136;
+    background: #354753;
     z-index: 200;
 }
 
@@ -224,7 +197,7 @@ html {
 #menu {
     width: 50px;
     height: 100%;
-    background: #b9c6d6;
+    background: #e2f1fe;
 }
 
 #menuTable {
@@ -259,7 +232,7 @@ html {
 
 #content {
     position: relative;
-    background: #2c3136;
+    background: #354753;
 }
 
 #sectionTable {
@@ -314,7 +287,7 @@ html {
     top: 0px;
     width: 250px;
     height: 100%;
-    background: #4b535d;
+    background: #7b8791;
     -webkit-transition: all 0.4s ease;
     transition: all 0.4s ease;
     -webkit-transform-origin: 0% 50%;
@@ -370,7 +343,7 @@ html {
     font-family: 'Noto Sans', sans-serif;
     color: #414850;
     cursor: pointer;
-    background: #7f8d9c;
+    background: #eff3d3;
 }
 
 #newItemInput {
@@ -382,7 +355,7 @@ html {
 #itemListDivider {
     width: 15px;
     height: 100%;
-    background: #b3c6dc;
+    background: #e1f1ff;
 }
 
 #globalPlaylistContainer {
@@ -405,7 +378,7 @@ html {
 }
 
 #bottomPlayBar {
-    background: #b3c6dc;
+    background: #e1f1ff;
     height: 15px;
     width: 100%;
     position: absolute;
@@ -449,7 +422,7 @@ html {
 .navigationButton {
     width: 15px;
     height: 40px;
-    background: #4b535d;
+    background: #7b8791;
     position: absolute;
     font-family: 'Noto Sans', sans-serif;
     color: #414850;
@@ -464,7 +437,7 @@ html {
 #previousButton {
     width: 15px;
     height: 40px;
-    background: #4b535d;
+    background: #7b8791;
     position: absolute;
     font-family: 'Noto Sans', sans-serif;
     color: #414850;
@@ -485,7 +458,7 @@ html {
 #nextButton {
     width: 15px;
     height: 40px;
-    background: #4b535d;
+    background: #7b8791;
     position: absolute;
     font-family: 'Noto Sans', sans-serif;
     color: #414850;
@@ -504,7 +477,7 @@ html {
 }
 
 #playButton {
-    background: #b3c6dc;
+    background: #e1f1ff;
     height: 40px;
     width: 150px;
     margin: 0 auto;
@@ -522,7 +495,7 @@ html {
 }
 
 #playButton:hover {
-    background: #b3c6dc;
+    background: #e1f1ff;
     height: 40px;
     width: 150px;
     margin: 0 auto;
@@ -538,7 +511,7 @@ html {
 
 #globalPlaylistSongContainer {
     height: 120px;
-    background: #4b535d;
+    background: #7b8791;
     overflow-x: scroll;
     overflow-y: hidden;
     white-space: nowrap;
@@ -559,7 +532,7 @@ html {
 #globalPlaylistSongContainer img {
     display: inline-block;
     position: relative;
-    background: #4b535d;
+    background: #7b8791;
 }
 
 #globalPlaylistSongContainer img:nth-of-type(1) {
@@ -572,9 +545,9 @@ html {
     left: -100px;
     width: 400px;
     height: 45px;
-    background: #4b535d;
+    background: #7b8791;
     border-radius: 5px 5px 0px 0px;
-    border: 1px solid #b3c6dc;
+    border: 1px solid #e1f1ff;
     box-shadow: #000 0px 0px 20px inset;
 }
 
@@ -589,7 +562,7 @@ html {
     top: -100px;
     right: 45px;
     height: 100px;
-    background: #4b535d;
+    background: #7b8791;
     display: none;
 }
 
@@ -628,7 +601,7 @@ html {
     color: #414850;
     width: 300px;
     height: 100%;
-    background: #4b535d;
+    background: #7b8791;
     text-align: justify;
     float: right;
     overflow-y: auto;
@@ -653,7 +626,7 @@ html {
 .songDetailMenuItem {
     font-family: 'Roboto', sans-serif;
     width: 100%;
-    background: #7f8d9c;
+    background: #eff3d3;
     color: #414850;
     font-size: 15px;
     text-align: center;
@@ -674,9 +647,9 @@ html {
     margin: 0 auto;
     overflow-y: auto;
     max-height: 200px;
-    background: #657383;
+    background: #e0e8ab;
     box-shadow: black 0px 0px 20px inset;
-    border: 1px solid #7f8d9c;
+    border: 1px solid #eff3d3;
 }
 
 #songDetailSubOptionsList li {
@@ -717,7 +690,7 @@ html {
     width: 100px;
     bottom: 45px;
     left: 0px;
-    background: rgba(44, 49, 54, 0.5);
+    background: rgba(53, 71, 83, 0.5);
 }
 
 .imageTitle {
@@ -746,7 +719,7 @@ html {
     position: absolute;
     z-index: 100;
     width: 80px;
-    background: #7f8d9c;
+    background: #eff3d3;
 }
 
 .songMenuItem {
