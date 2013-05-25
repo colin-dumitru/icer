@@ -212,7 +212,7 @@ class SearchCallback {
     }
 
     bindSongMenu(song:Song, template) {
-        var detailCallback = (selectedOption:number, selectedSubOption:number) => {
+        var detailCallback = (selectedOption:number, selectedSubOption:number, subOptionTitle:string) => {
             if (selectedOption == 0) {
                 this.playSong(song);
             } else if (selectedOption == 2) {
@@ -220,7 +220,7 @@ class SearchCallback {
             } else if (selectedOption == 3) {
                 this.searchFromSong(song);
             } else if (selectedOption == 1) {
-                this.addSongToPlaylist(song, selectedSubOption);
+                this.addSongToPlaylist(song, selectedSubOption, subOptionTitle);
             }
         };
 
@@ -237,15 +237,31 @@ class SearchCallback {
         });
     }
 
-    private addSongToPlaylist(song:Song, playlistIndex) {
+    private addSongToPlaylist(song:Song, playlistIndex, title:string) {
         if (playlistIndex == null) {
-            return;
+            this.addSongToNewPlaylist(song, title);
+        } else {
+            var selectedPlaylist = playlistManager.getPlaylist()[playlistIndex];
+            playlistManager.addSongToPlaylist(song, selectedPlaylist);
+            this.pushSongToPlaylist(song, selectedPlaylist.id);
         }
-        var selectedPlaylist = playlistManager.getPlaylist()[playlistIndex];
-        playlistManager.addSongToPlaylist(song, selectedPlaylist);
+    }
 
+    private addSongToNewPlaylist(song:Song, title:string) {
+        $.ajax("/playlist/new/" + title, {
+            type: "POST",
+            dataType: "json",
+            success: data => {
+                this.pushSongToPlaylist(song, <string>data.id);
+                playlistManager.loadPlaylist(<string>data.id, title)
+                playlistManager.addSongToPlaylist(song, playlistManager.getPlaylistMap[<string>data.id]);
+            }
+        });
+    }
+
+    private pushSongToPlaylist(song:Song, playlistId:string) {
         $.ajax({
-            url: "/playlist/song/add/" + selectedPlaylist.id,
+            url: "/playlist/song/add/" + playlistId,
             type: "POST",
             contentType: "application/json; charset=utf-8",
             data: JSON.stringify(song)
@@ -317,7 +333,6 @@ class SearchSongCallback extends SearchCallback {
     }
 
     private onMainResult(tracks:any[], page:number) {
-        console.log(tracks);
         for (var i = 0; i < tracks.length; i++) {
             this.pushMainResult(tracks[i]);
         }

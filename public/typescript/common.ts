@@ -18,7 +18,7 @@ function template(id, ...args:String[]):String {
 }
 
 interface DetailCallback {
-    (optionIndex:number, subOptionIndex:number): void;
+    (optionIndex:number, subOptionIndex:number, subOptionText:string): void;
 }
 
 class SongMenu {
@@ -100,9 +100,19 @@ class SongDetailManager {
     private buildSubOptions(subOptions:string[], optionIndex:number, detailCallback:DetailCallback, parentTemplate) {
         var listContainer = parentTemplate.find("#songDetailSubOptionsContainer");
         var container = parentTemplate.find("#songDetailSubOptionsList");
+        var _this = this;
 
         parentTemplate.find("#songDetailMenuItem").click(() => {
             listContainer.slideToggle(400);
+        });
+
+        listContainer.find("#songDetailPlaylistInput").keypress(function (event) {
+            if (event.which == 13) {
+                var text = this.value;
+                this.value = "";
+                detailCallback(optionIndex, null, text);
+                _this.hide();
+            }
         });
 
         subOptions.forEach((sopt, index) => {
@@ -115,7 +125,7 @@ class SongDetailManager {
 
     private bindOptionClick(option:number, subOption:number, template, detailCallback:DetailCallback) {
         template.click(() => {
-            detailCallback(option, subOption);
+            detailCallback(option, subOption, null);
             this.hide();
         });
     }

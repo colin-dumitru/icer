@@ -73,6 +73,10 @@ class PlaylistManager {
         return this.playListsQueue;
     }
 
+    public getPlaylistMap():{[key:string] : Playlist;}[] {
+        return this.playLists;
+    }
+
     public deleteCurrentPlaylist() {
 
         this.playLists.splice(this.currentIndex, 1);

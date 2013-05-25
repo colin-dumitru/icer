@@ -68,6 +68,9 @@ var PlaylistManager = (function () {
     PlaylistManager.prototype.getPlaylist = function () {
         return this.playListsQueue;
     };
+    PlaylistManager.prototype.getPlaylistMap = function () {
+        return this.playLists;
+    };
     PlaylistManager.prototype.deleteCurrentPlaylist = function () {
         this.playLists.splice(this.currentIndex, 1);
         this.playListsQueue.splice(this.currentIndex, 1);

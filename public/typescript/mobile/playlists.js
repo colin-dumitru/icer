@@ -1,15 +1,15 @@
-var PlaylistManager = (function () {
-    function PlaylistManager() {
+var MobilePlaylistManager = (function () {
+    function MobilePlaylistManager() {
         this.optionsContainer = null;
         this.selectedItem = null;
         this.optionsCollapsed = true;
         this.selectedPlaylist = null;
     }
 
-    PlaylistManager.prototype.bind = function () {
+    MobilePlaylistManager.prototype.bind = function () {
         $("#playNow").on("click", function (e) {
             var selectedSong = $(".playlistItemOptionContainerFocused");
-            var songToPlay = new Song(selectedSong.attr("songid"), selectedSong.attr("songtitle"), selectedSong.attr("songartist"), selectedSong.attr("songimage"));
+            var songToPlay = new MSong(selectedSong.attr("songid"), selectedSong.attr("songtitle"), selectedSong.attr("songartist"), selectedSong.attr("songimage"));
             mPlaylistManager.playSong(songToPlay);
         });
         $("#searchFromHere").on("click", function (e) {
@@ -23,21 +23,21 @@ var PlaylistManager = (function () {
             mPlaylistManager.deleteSongFromPlaylist(songId);
         });
     };
-    PlaylistManager.prototype.onAddPlaylistInput = function (query) {
+    MobilePlaylistManager.prototype.onAddPlaylistInput = function (query) {
         this.addPlaylist(query);
     };
-    PlaylistManager.prototype.onPlaylistSelected = function (id, title) {
+    MobilePlaylistManager.prototype.onPlaylistSelected = function (id, title) {
         this.selectedPlaylist = id;
         this.loadPlaylist(id, title);
     };
-    PlaylistManager.prototype.loadPlaylist = function (id, title) {
+    MobilePlaylistManager.prototype.loadPlaylist = function (id, title) {
         var _this = this;
         titleManager.setTitle(title);
         itemManager.loadContent("/mobile/playlist/" + encodeURIComponent(id), function () {
             _this.bindItems();
         });
     };
-    PlaylistManager.prototype.addPlaylist = function (query) {
+    MobilePlaylistManager.prototype.addPlaylist = function (query) {
         var _this = this;
         $.ajax("/mobile/playlist/add/" + encodeURIComponent(query), {
             type: "GET",
@@ -51,7 +51,7 @@ var PlaylistManager = (function () {
             }
         });
     };
-    PlaylistManager.prototype.bindItems = function () {
+    MobilePlaylistManager.prototype.bindItems = function () {
         var _this = this;
         var newURL = 'http%3A%2F%2Fuplayed.herokuapp.com%2Fget%2F' + this.selectedPlaylist;
         this.optionsContainer = $("#playlistOptionContainer");
@@ -80,34 +80,34 @@ var PlaylistManager = (function () {
         });
         this.closeOverlay();
     };
-    PlaylistManager.prototype.playPlaylist = function () {
+    MobilePlaylistManager.prototype.playPlaylist = function () {
         var songs = $(".playlistItemOptionContainer");
         globalPlaylistManager.clearSongs();
         for (var i = 0; i < songs.length; i++) {
-            var song = new Song(songs[i].getAttribute("songId"), songs[i].getAttribute("songTitle"), songs[i].getAttribute("songArtist"), songs[i].getAttribute("songImage"));
+            var song = new MSong(songs[i].getAttribute("songId"), songs[i].getAttribute("songTitle"), songs[i].getAttribute("songArtist"), songs[i].getAttribute("songImage"));
             globalPlaylistManager.pushSong(song);
         }
     };
-    PlaylistManager.prototype.sharePlaylist = function () {
+    MobilePlaylistManager.prototype.sharePlaylist = function () {
         $('#box').fadeIn('fast');
     };
-    PlaylistManager.prototype.shareOnFacebook = function (urlPlaylist) {
+    MobilePlaylistManager.prototype.shareOnFacebook = function (urlPlaylist) {
         window.open('https://www.facebook.com/sharer/sharer.php?u=' + urlPlaylist, 'win1', 'width=500,height=400,menubar,left=100,top=100');
     };
-    PlaylistManager.prototype.shareOnTwitter = function (urlPlaylist) {
+    MobilePlaylistManager.prototype.shareOnTwitter = function (urlPlaylist) {
         window.open('https://twitter.com/intent/tweet?text=Currently+listening+to&url=' + urlPlaylist, 'winTwitter', 'width=500,height=400,menubar,left=100,top=100');
     };
-    PlaylistManager.prototype.shareOnGooglePlus = function (urlPlaylist) {
+    MobilePlaylistManager.prototype.shareOnGooglePlus = function (urlPlaylist) {
         window.open('https://plus.google.com/share?url=' + urlPlaylist + '&text=%7C+UPlay3D+%7C+Currently+listening+to', 'winTwitter', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=400,width=500,left=100,top=100');
     };
-    PlaylistManager.prototype.closeOverlay = function () {
+    MobilePlaylistManager.prototype.closeOverlay = function () {
         $(document).click(function (e) {
             if (e.target.id != "#box") {
                 $('#box').fadeOut('fast');
             }
         });
     };
-    PlaylistManager.prototype.deletePlaylist = function () {
+    MobilePlaylistManager.prototype.deletePlaylist = function () {
         var _this = this;
         titleManager.setTitle("Select An Item");
         itemManager.deleteItem(this.selectedPlaylist);
@@ -115,21 +115,21 @@ var PlaylistManager = (function () {
             _this.bindItems();
         });
     };
-    PlaylistManager.prototype.searchItemClicked = function (item) {
+    MobilePlaylistManager.prototype.searchItemClicked = function (item) {
         if (item == this.selectedItem) {
             this.refocusOptions(item);
         } else {
             this.changeOptionsFocus(item);
         }
     };
-    PlaylistManager.prototype.refocusOptions = function (item) {
+    MobilePlaylistManager.prototype.refocusOptions = function (item) {
         if (this.optionsCollapsed) {
             this.giveOptionsFocus();
         } else {
             this.takeOptionsFocus(item);
         }
     };
-    PlaylistManager.prototype.changeOptionsFocus = function (item) {
+    MobilePlaylistManager.prototype.changeOptionsFocus = function (item) {
         $(item).addClass("playlistItemOptionContainerFocused");
         if (this.selectedItem != null) {
             $(this.selectedItem).removeClass("playlistItemOptionContainerFocused");
@@ -139,27 +139,27 @@ var PlaylistManager = (function () {
             this.giveOptionsFocus();
         }
     };
-    PlaylistManager.prototype.giveOptionsFocus = function () {
+    MobilePlaylistManager.prototype.giveOptionsFocus = function () {
         this.optionsCollapsed = false;
         this.optionsContainer.fadeIn(400);
     };
-    PlaylistManager.prototype.takeOptionsFocus = function (item) {
+    MobilePlaylistManager.prototype.takeOptionsFocus = function (item) {
         $(item).removeClass("playlistItemOptionContainerFocused");
         this.optionsCollapsed = true;
         this.optionsContainer.fadeOut(400);
     };
-    PlaylistManager.prototype.deleteSongFromPlaylist = function (songId) {
+    MobilePlaylistManager.prototype.deleteSongFromPlaylist = function (songId) {
         var _this = this;
         this.optionsContainer.fadeOut(400);
         itemManager.loadContent("/mobile/playlist/song/delete/" + encodeURIComponent(this.selectedPlaylist) + "/" + encodeURIComponent(songId), function () {
             _this.bindItems();
         });
     };
-    PlaylistManager.prototype.playSong = function (song) {
+    MobilePlaylistManager.prototype.playSong = function (song) {
         this.optionsContainer.fadeOut(400);
         globalPlaylistManager.pushSong(song);
     };
-    return PlaylistManager;
+    return MobilePlaylistManager;
 })();
-var mPlaylistManager = new PlaylistManager();
+var mPlaylistManager = new MobilePlaylistManager();
 //@ sourceMappingURL=playlists.js.map

@@ -1,7 +1,7 @@
 declare var $;
 
 
-class PlaylistManager {
+class MobilePlaylistManager {
 
     private optionsContainer = null;
 
@@ -12,7 +12,7 @@ class PlaylistManager {
     bind() {
         $("#playNow").on("click", function (e) {
             var selectedSong = $(".playlistItemOptionContainerFocused");
-            var songToPlay = new Song(selectedSong.attr("songid"), selectedSong.attr("songtitle"), selectedSong.attr("songartist"), selectedSong.attr("songimage"));
+            var songToPlay = new MSong(selectedSong.attr("songid"), selectedSong.attr("songtitle"), selectedSong.attr("songartist"), selectedSong.attr("songimage"));
             mPlaylistManager.playSong(songToPlay);
         });
 
@@ -103,7 +103,7 @@ class PlaylistManager {
         var songs = $(".playlistItemOptionContainer");
         globalPlaylistManager.clearSongs();
         for (var i = 0; i < songs.length; i++) {
-            var song = new Song(songs[i].getAttribute("songId"), songs[i].getAttribute("songTitle"), songs[i].getAttribute("songArtist"), songs[i].getAttribute("songImage"));
+            var song = new MSong(songs[i].getAttribute("songId"), songs[i].getAttribute("songTitle"), songs[i].getAttribute("songArtist"), songs[i].getAttribute("songImage"));
             globalPlaylistManager.pushSong(song);
         }
     }
@@ -188,11 +188,11 @@ class PlaylistManager {
         });
     }
 
-    private playSong(song:Song) {
+    private playSong(song:MSong) {
         this.optionsContainer.fadeOut(400);
         globalPlaylistManager.pushSong(song);
         //to do
         //player.playSong(song);
     }
 }
-var mPlaylistManager = new PlaylistManager();
+var mPlaylistManager = new MobilePlaylistManager();

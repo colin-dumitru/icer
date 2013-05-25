@@ -199,7 +199,7 @@ var SearchCallback = (function () {
     };
     SearchCallback.prototype.bindSongMenu = function (song, template) {
         var _this = this;
-        var detailCallback = function (selectedOption, selectedSubOption) {
+        var detailCallback = function (selectedOption, selectedSubOption, subOptionTitle) {
             if (selectedOption == 0) {
                 _this.playSong(song);
             } else {
@@ -210,7 +210,7 @@ var SearchCallback = (function () {
                         _this.searchFromSong(song);
                     } else {
                         if (selectedOption == 1) {
-                            _this.addSongToPlaylist(song, selectedSubOption);
+                            _this.addSongToPlaylist(song, selectedSubOption, subOptionTitle);
                         }
                     }
                 }
@@ -240,14 +240,30 @@ var SearchCallback = (function () {
             });
         });
     };
-    SearchCallback.prototype.addSongToPlaylist = function (song, playlistIndex) {
+    SearchCallback.prototype.addSongToPlaylist = function (song, playlistIndex, title) {
         if (playlistIndex == null) {
-            return;
+            this.addSongToNewPlaylist(song, title);
+        } else {
+            var selectedPlaylist = playlistManager.getPlaylist()[playlistIndex];
+            playlistManager.addSongToPlaylist(song, selectedPlaylist);
+            this.pushSongToPlaylist(song, selectedPlaylist.id);
         }
-        var selectedPlaylist = playlistManager.getPlaylist()[playlistIndex];
-        playlistManager.addSongToPlaylist(song, selectedPlaylist);
+    };
+    SearchCallback.prototype.addSongToNewPlaylist = function (song, title) {
+        var _this = this;
+        $.ajax("/playlist/new/" + title, {
+            type: "POST",
+            dataType: "json",
+            success: function (data) {
+                _this.pushSongToPlaylist(song, data.id);
+                playlistManager.loadPlaylist(data.id, title);
+                playlistManager.addSongToPlaylist(song, playlistManager.getPlaylistMap[data.id]);
+            }
+        });
+    };
+    SearchCallback.prototype.pushSongToPlaylist = function (song, playlistId) {
         $.ajax({
-            url: "/playlist/song/add/" + selectedPlaylist.id,
+            url: "/playlist/song/add/" + playlistId,
             type: "POST",
             contentType: "application/json; charset=utf-8",
             data: JSON.stringify(song)
@@ -316,7 +332,6 @@ var SearchSongCallback = (function (_super) {
         });
     };
     SearchSongCallback.prototype.onMainResult = function (tracks, page) {
-        console.log(tracks);
         for (var i = 0; i < tracks.length; i++) {
             this.pushMainResult(tracks[i]);
         }

@@ -300,14 +300,14 @@ var Player = (function () {
     };
     return Player;
 })();
-var Song = (function () {
-    function Song(mbid, title, artist, imageUrl) {
+var MSong = (function () {
+    function MSong(mbid, title, artist, imageUrl) {
         this.mbid = mbid;
         this.title = title;
         this.artist = artist;
         this.imageUrl = imageUrl;
     }
 
-    return Song;
+    return MSong;
 })();
 //@ sourceMappingURL=main.js.map

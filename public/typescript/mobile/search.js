@@ -48,14 +48,14 @@ var SearchManager = (function () {
     };
     SearchManager.prototype.playCurrentSong = function () {
         var item = this.selectedItem;
-        var song = new Song(item.attr("songId"), item.attr("songTitle"), item.attr("songArtist"), item.attr("songImage"));
+        var song = new MSong(item.attr("songId"), item.attr("songTitle"), item.attr("songArtist"), item.attr("songImage"));
         globalPlaylistManager.pushSong(song);
         player.playSong(song);
         this.cancelMoveOptionsToItem(this.selectedItem);
     };
     SearchManager.prototype.addCurrentSongToPlaylist = function (playlistId) {
         var item = $(this.selectedItem);
-        var song = new Song(item.attr("songId"), item.attr("songTitle"), item.attr("songArtist"), item.attr("songImage"));
+        var song = new MSong(item.attr("songId"), item.attr("songTitle"), item.attr("songArtist"), item.attr("songImage"));
         $.ajax({
             url: "/playlist/song/add/" + playlistId,
             type: "POST",
@@ -74,7 +74,7 @@ var SearchManager = (function () {
     SearchManager.prototype.addCurrentSongToNowPlaying = function () {
         if (this.selectedItem != null) {
             var item = $(this.selectedItem);
-            var song = new Song(item.attr("songId"), item.attr("songTitle"), item.attr("songArtist"), item.attr("songImage"));
+            var song = new MSong(item.attr("songId"), item.attr("songTitle"), item.attr("songArtist"), item.attr("songImage"));
             globalPlaylistManager.pushSong(song);
             this.cancelMoveOptionsToItem(this.selectedItem);
         }

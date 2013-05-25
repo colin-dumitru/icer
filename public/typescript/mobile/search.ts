@@ -53,7 +53,7 @@ class SearchManager {
 
     private playCurrentSong() {
         var item = this.selectedItem;
-        var song = new Song(item.attr("songId"), item.attr("songTitle"), item.attr("songArtist"), item.attr("songImage"));
+        var song = new MSong(item.attr("songId"), item.attr("songTitle"), item.attr("songArtist"), item.attr("songImage"));
         globalPlaylistManager.pushSong(song);
         player.playSong(song);
         this.cancelMoveOptionsToItem(this.selectedItem);
@@ -61,7 +61,7 @@ class SearchManager {
 
     private addCurrentSongToPlaylist(playlistId) {
         var item = $(this.selectedItem);
-        var song = new Song(item.attr("songId"), item.attr("songTitle"), item.attr("songArtist"), item.attr("songImage"));
+        var song = new MSong(item.attr("songId"), item.attr("songTitle"), item.attr("songArtist"), item.attr("songImage"));
         $.ajax({
             url: "/playlist/song/add/" + playlistId,
             type: "POST",
@@ -81,7 +81,7 @@ class SearchManager {
     private addCurrentSongToNowPlaying() {
         if (this.selectedItem != null) {
             var item = $(this.selectedItem);
-            var song = new Song(item.attr("songId"), item.attr("songTitle"), item.attr("songArtist"), item.attr("songImage"));
+            var song = new MSong(item.attr("songId"), item.attr("songTitle"), item.attr("songArtist"), item.attr("songImage"));
             globalPlaylistManager.pushSong(song);
             this.cancelMoveOptionsToItem(this.selectedItem);
         }

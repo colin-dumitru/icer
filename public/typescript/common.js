@@ -79,8 +79,17 @@ var SongDetailManager = (function () {
         var _this = this;
         var listContainer = parentTemplate.find("#songDetailSubOptionsContainer");
         var container = parentTemplate.find("#songDetailSubOptionsList");
+        var _this = this;
         parentTemplate.find("#songDetailMenuItem").click(function () {
             listContainer.slideToggle(400);
+        });
+        listContainer.find("#songDetailPlaylistInput").keypress(function (event) {
+            if (event.which == 13) {
+                var text = this.value;
+                this.value = "";
+                detailCallback(optionIndex, null, text);
+                _this.hide();
+            }
         });
         subOptions.forEach(function (sopt, index) {
             var li = $("<li></li>");
@@ -92,7 +101,7 @@ var SongDetailManager = (function () {
     SongDetailManager.prototype.bindOptionClick = function (option, subOption, template, detailCallback) {
         var _this = this;
         template.click(function () {
-            detailCallback(option, subOption);
+            detailCallback(option, subOption, null);
             _this.hide();
         });
     };

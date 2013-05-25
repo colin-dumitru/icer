@@ -186,7 +186,7 @@ class GlobalPlaylistManager {
         player.changeVolume(position);
     }
 
-    public pushSong(song:Song) {
+    public pushSong(song:MSong) {
         var item = this.convertSongToItem(song);
         this.bindItemClick(item, song);
         this.playingSongs.append(item);
@@ -196,13 +196,13 @@ class GlobalPlaylistManager {
         this.playingSongs.empty();
     }
 
-    private bindItemClick(item, song:Song) {
+    private bindItemClick(item, song:MSong) {
         $(item).click(() => {
             player.playSong(song);
         });
     }
 
-    private convertSongToItem(song:Song) {
+    private convertSongToItem(song:MSong) {
         var container = $("<div></div>");
 
         container.addClass("playingSong");
@@ -214,8 +214,8 @@ class GlobalPlaylistManager {
 
 class Player {
     public player = null;
-    public onSongError:(song:Song) => any;
-    public onFinish:(song:Song) => any;
+    public onSongError:(song:MSong) => any;
+    public onFinish:(song:MSong) => any;
 
     private playbackId = 0;
     private currentSong = null;
@@ -248,7 +248,7 @@ class Player {
         }
     }
 
-    public playSong(song:Song) {
+    public playSong(song:MSong) {
         if (song == this.currentSong) {
             this.currentPlayer.resume();
         } else {
@@ -258,7 +258,7 @@ class Player {
         }
     }
 
-    private updateSongInfo(song:Song) {
+    private updateSongInfo(song:MSong) {
         this.playingSongTitle.text(song.title);
         this.playingSongArtist.text(song.artist);
         this.playingSongImage.attr("src", song.imageUrl);
@@ -289,7 +289,7 @@ class Player {
         }
     }
 
-    private resolveSoundUrl(song:Song) {
+    private resolveSoundUrl(song:MSong) {
         this.currentSong = song;
         this.playbackId += 1;
         var currentId = this.playbackId;
@@ -318,12 +318,12 @@ class Player {
         return maxTrack;
     }
 
-    private playResolved(trackInfo:any, song:Song, playbackId:number) {
+    private playResolved(trackInfo:any, song:MSong, playbackId:number) {
         var trackId = trackInfo["id"];
         this.streamSong(trackId, song, playbackId);
     }
 
-    private streamSong(trackId:any, song:Song, playbackId:number) {
+    private streamSong(trackId:any, song:MSong, playbackId:number) {
         SC.stream("/tracks/" + trackId,
             {
                 onfinish: () => {
@@ -343,7 +343,7 @@ class Player {
     }
 }
 
-class Song {
+class MSong {
     constructor(public mbid:string, public title:string, public artist:string, public imageUrl:string) {
     }
 }
