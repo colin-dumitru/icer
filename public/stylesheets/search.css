@@ -330,8 +330,8 @@ searchGenreListContainer {
     width: 200px;
     height: 15px;
     margin: 0 auto;
-    background: #414850;
-    color: #3e4b53;
+    background: #7b8791;
+    color: #ddefff;
     font-family: 'Roboto', sans-serif;
     text-align: center;
     font-size: 10px;
@@ -342,14 +342,14 @@ searchGenreListContainer {
 }
 
 #loadMoreHorizontal:hover {
-    background: #ffffff;
+    background: #97a0a8;
 }
 
 #loadMoreVertical {
     vertical-align: middle;
     display: table-cell;
-    background: #414850;
-    color: #3e4b53;
+    background: #7b8791;
+    color: #ddefff;
     font-family: 'Roboto', sans-serif;
     text-align: center;
     font-size: 10px;
@@ -359,7 +359,7 @@ searchGenreListContainer {
 }
 
 #loadMoreVertical:hover {
-    background: #ffffff;
+    background: #97a0a8;
 }
 
 .loadMoreVerticalText {

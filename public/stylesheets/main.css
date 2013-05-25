@@ -79,7 +79,7 @@ html {
 }
 
 .fullFrameBody {
-    background: #3e4b53;
+    background: #3b4953;
 }
 
 #loaderOverlay {
@@ -87,7 +87,7 @@ html {
     position: absolute;
     width: 100%;
     height: 100%;
-    background: rgba(62, 75, 83, 0.9);
+    background: rgba(59, 73, 83, 0.9);
     vertical-align: middle;
     z-index: 10;
 }
@@ -168,7 +168,7 @@ html {
     position: absolute;
     left: 0px;
     right: 0px;
-    background: #3e4b53;
+    background: #3b4953;
     z-index: 200;
 }
 
@@ -232,7 +232,7 @@ html {
 
 #content {
     position: relative;
-    background: #3e4b53;
+    background: #3b4953;
 }
 
 #sectionTable {
@@ -313,7 +313,6 @@ html {
     padding: 2px;
     padding-left: 5px;
     font-family: 'Noto Sans', sans-serif;
-    color: #414850;
     cursor: pointer;
 }
 
@@ -322,8 +321,8 @@ html {
     padding: 2px;
     padding-left: 5px;
     font-family: 'Noto Sans', sans-serif;
-    color: #414850;
     cursor: pointer;
+    color: #ddefff;
 }
 
 #itemList ul li:hover {
@@ -331,25 +330,33 @@ html {
     padding: 2px;
     padding-left: 5px;
     font-family: 'Noto Sans', sans-serif;
-    color: #414850;
     cursor: pointer;
     background: #dfece6;
+    color: #414850;
+}
+
+#itemList hr {
+    width: 230px;
+    margin-left: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    color: #e1f1ff;
 }
 
 .itemListFocused {
-    list-style-type: none;
-    padding: 2px;
-    padding-left: 5px;
-    font-family: 'Noto Sans', sans-serif;
-    color: #414850;
-    cursor: pointer;
     background: #dcddb1;
+    color: #414850;
 }
 
 #newItemInput {
-    width: 100%;
+    width: 230px;
+    margin-left: 10px;
+    margin-top: 3px;
     height: 25px;
-    border-radius: 5px;
+    border-radius: 3px;
+    background: #97a0a8;
+    border: none;
+    color: #ddefff;
 }
 
 #itemListDivider {
@@ -697,7 +704,7 @@ html {
     width: 100px;
     bottom: 45px;
     left: 0px;
-    background: rgba(62, 75, 83, 0.5);
+    background: rgba(59, 73, 83, 0.5);
 }
 
 .imageTitle {

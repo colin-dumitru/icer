@@ -137,7 +137,7 @@
     height: 30px;
     color: #414850;
     background: rgba(225, 241, 255, 0.5);
-    border-bottom: 1px solid #3e4b53;
+    border-bottom: 1px solid #3b4953;
 }
 
 .radioCriteriaOption input {
@@ -162,7 +162,7 @@
 
 #radioCriteriaTable {
     width: 100%;
-    box-shadow: #3e4b53 0px 5px 5px;
+    box-shadow: #3b4953 0px 5px 5px;
 }
 
 .radioCriteriaTableCell {

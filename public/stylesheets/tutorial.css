@@ -108,7 +108,7 @@
 }
 
 #tutorialContent {
-    color: #3e4b53;
+    color: #3b4953;
     font-family: 'Roboto', sans-serif;
     font-size: 1.2em;
 }
@@ -128,7 +128,7 @@
     border: 1px solid #3f3f3f;
     font-family: 'Noto Sans', sans-serif;
     font-size: 1em;
-    color: #3e4b53;
+    color: #3b4953;
     cursor: pointer;
     transition: box-shadow 0.2s;
     -wekbit-transition: box-shadow 0.2s;
@@ -140,7 +140,7 @@
 
 #tutorialButtonFinish {
     border-color: #3f3f3f;
-    color: #3e4b53;
+    color: #3b4953;
     background-image: linear-gradient(bottom, #d9d9d9 0%, #e6e6e6 100%);
     background-image: -o-linear-gradient(bottom, #d9d9d9 0%, #e6e6e6 100%);
     background-image: -moz-linear-gradient(bottom, #d9d9d9 0%, #e6e6e6 100%);
@@ -150,7 +150,7 @@
 
 #tutorialButtonNext {
     border-color: #418440;
-    color: #414850;
+    color: #ddefff;
     background-image: linear-gradient(bottom, #4d804f 0%, #72b36f 100%);
     background-image: -o-linear-gradient(bottom, #4d804f 0%, #72b36f 100%);
     background-image: -moz-linear-gradient(bottom, #4d804f 0%, #72b36f 100%);
@@ -159,7 +159,7 @@
 }
 
 #tutorialAccent {
-    background: rgba(223, 236, 230, 0.5);
+    background: rgba(255, 0, 0, 0.5);
     box-shadow: #ff0000 0px 0px 20px;
     transition: box-shadow 0.4s;
     -wekbit-transition: box-shadow 0.4s;

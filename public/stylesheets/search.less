@@ -106,10 +106,6 @@
   overflow-y: auto;
 }
 
-.searchPageSongContainer img {
-
-}
-
 .searchPageSongContainerFocused {
   .searchPageSongContainer;
   background: @foreground;
@@ -265,8 +261,8 @@ searchGenreListContainer {
   width: 200px;
   height: 15px;
   margin: 0 auto;
-  background: @foreground_text;
-  color: @background;
+  background: @background_variant;
+  color: @background_text;
   .fontText;
   text-align: center;
   font-size: 10px;
@@ -277,14 +273,14 @@ searchGenreListContainer {
 }
 
 #loadMoreHorizontal:hover {
-  background: lighten(@foreground, 10%);
+  background: lighten(@background_variant, 10%);
 }
 
 #loadMoreVertical {
   vertical-align: middle;
   display: table-cell;
-  background: @foreground_text;
-  color: @background;
+  background: @background_variant;
+  color: @background_text;
   .fontText;
   text-align: center;
   font-size: 10px;
@@ -294,7 +290,7 @@ searchGenreListContainer {
 }
 
 #loadMoreVertical:hover {
-  background: lighten(@foreground, 10%);
+  background: lighten(@background_variant, 10%);
 }
 
 .loadMoreVerticalText {

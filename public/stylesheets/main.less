@@ -251,36 +251,48 @@ html {
   width: 250px;
 }
 
-#itemList ul {
-}
-
 .selectItem {
   list-style-type: none;
   padding: 2px;
   padding-left: 5px;
   .fontMenu2;
-  color: @foreground_text;
   cursor: pointer;
 }
 
 #itemList ul li {
-  .selectItem
+  .selectItem;
+  color: @background_text;
 }
 
 #itemList ul li:hover {
   .selectItem;
   background: @foreground_focus;
+  color: @foreground_text;
+}
+
+#itemList hr {
+  width: 230px;
+  margin-left: 10px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  color: @foreground;
+
 }
 
 .itemListFocused {
-  .selectItem;
   background: @foreground_variant;
+  color: @foreground_text;
 }
 
 #newItemInput {
-  width: 100%;
+  width: 230px;
+  margin-left: 10px;
+  margin-top: 3px;
   height: 25px;
-  border-radius: 5px;
+  border-radius: 3px;
+  background: lighten(@background_variant, 10px);
+  border: none;
+  color: @background_text;
 }
 
 #itemListDivider {
