@@ -318,18 +318,12 @@ searchGenreListContainer {
 
 #searchPageDelete {
     position: absolute;
-    right: 10px;
-    bottom: -20px;
-    padding-left: 5px;
-    padding-right: 5px;
-    background: #dfece6;
-    font-family: 'Noto Sans', sans-serif;
-    color: #414850;
+    right: -35px;
+    top: 10px;
+    background: url("/assets/images/delete.png");
+    width: 32px;
+    height: 32px;
     cursor: pointer;
-}
-
-#searchPageDelete:hover {
-    background: #dcddb1;
 }
 
 #loadMoreHorizontal {

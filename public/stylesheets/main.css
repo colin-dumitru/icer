@@ -690,6 +690,8 @@ html {
 .imageTitle {
     height: 20px;
     width: 100px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
     overflow: hidden;
     text-align: center;
     font-family: 'Roboto', sans-serif;
@@ -700,6 +702,8 @@ html {
 .imageArtist {
     height: 20px;
     width: 100px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
     overflow: hidden;
     text-align: center;
     font-family: 'Roboto', sans-serif;

@@ -18,7 +18,7 @@
 
 .playListsHeaderCell {
   .fontMenu2;
-  color: @foreground_text;
+  color: @background_text;
   font-size: 30px;
   height: 50px;
 }
@@ -44,7 +44,7 @@
 #playPlaylistButton {
   border: none;
   background: @foreground_variant;
-  color: @playButton;
+  color: @foreground_text;
   font-size: 30px;
   height: 50px;
   width: 100px;
@@ -56,27 +56,23 @@
 }
 
 #deletePlaylistButton {
-  border: none;
-  background: @foreground_focus;
-  color: @foreground_text;
-  font-size: 15px;
-  height: 30px;
-  width: 50px;
-  float: right;
-}
-
-#deletePlaylistButton:hover {
-  background: lighten(@foreground_focus, 20%);
+  position: absolute;
+  right: -35px;
+  top: 50px;
+  background: url("/assets/images/delete.png");
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
 }
 
 #sharePlaylistButton {
-  border: none;
+  .fontMenu2;
+  padding: 3px;
   background: @foreground_variant;
   color: @foreground_text;
   font-size: 15px;
-  height: 30px;
-  width: 50px;
   float: right;
+  cursor: pointer;
 }
 
 #sharePlaylistButton:hover {
