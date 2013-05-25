@@ -1,649 +1,753 @@
 .hidden {
-  display: none;
+    display: none;
 }
+
 .noPadding {
-  padding: 0px;
-  margin: 0px;
+    padding: 0px;
+    margin: 0px;
 }
+
 * {
-  padding: 0px;
-  margin: 0px;
+    padding: 0px;
+    margin: 0px;
 }
+
 .inline {
-  display: inline-block;
+    display: inline-block;
 }
+
 .clickable {
-  cursor: pointer;
+    cursor: pointer;
 }
+
 .zeroHeight {
-  position: relative;
-  height: 0px;
+    position: relative;
+    height: 0px;
 }
+
 .topAlign {
-  vertical-align: top;
+    vertical-align: top;
 }
+
 .fullFrame {
-  width: 100%;
-  height: 100%;
+    width: 100%;
+    height: 100%;
 }
+
 .noOverflow {
-  overflow: hidden;
+    overflow: hidden;
 }
+
 .fontMenu {
-  font-family: 'Days One', sans-serif;
+    font-family: 'Days One', sans-serif;
 }
+
 .fontMenu2 {
-  font-family: 'Noto Sans', sans-serif;
+    font-family: 'Noto Sans', sans-serif;
 }
+
 .fontText {
-  font-family: 'Roboto', sans-serif;
+    font-family: 'Roboto', sans-serif;
 }
+
 .roundTopRight {
-  border-top-right-radius: 5px;
+    border-top-right-radius: 5px;
 }
+
 .roundBottomRight {
-  border-bottom-right-radius: 5px;
+    border-bottom-right-radius: 5px;
 }
+
 table {
-  border-collapse: collapse;
+    border-collapse: collapse;
 }
+
 body {
-  margin: 0px;
-  padding: 0px;
-  height: 100%;
-  -webkit-backface-visibility: hidden;
+    margin: 0px;
+    padding: 0px;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
 }
+
 html {
-  margin: 0px;
-  padding: 0px;
-  height: 100%;
-  min-height: 600px;
-  min-width: 800px;
-  overflow: hidden;
+    margin: 0px;
+    padding: 0px;
+    height: 100%;
+    min-height: 600px;
+    min-width: 800px;
+    overflow: hidden;
 }
+
 .fullFrameBody {
-  background: #3e4b53;
+    background: #3e4b53;
 }
+
 #loaderOverlay {
-  display: none;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: rgba(62, 75, 83, 0.9);
-  vertical-align: middle;
-  z-index: 10;
+    display: none;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(62, 75, 83, 0.9);
+    vertical-align: middle;
+    z-index: 10;
 }
+
 #loaderOverlay img {
-  top: 200px;
-  display: block;
-  position: relative;
-  margin: 0 auto;
+    top: 200px;
+    display: block;
+    position: relative;
+    margin: 0 auto;
 }
+
 #sadSmiley {
-  font-family: 'Noto Sans', sans-serif;
-  color: #dfece6;
-  font-size: 100px;
+    font-family: 'Noto Sans', sans-serif;
+    color: #dfece6;
+    font-size: 100px;
 }
+
 #attentionSign {
-  font-family: 'Noto Sans', sans-serif;
-  color: #ddefff;
-  font-size: 200px;
+    font-family: 'Noto Sans', sans-serif;
+    color: #ddefff;
+    font-size: 200px;
 }
+
 #loginMessage {
-  width: 400px;
-  font-family: 'Roboto', sans-serif;
-  color: #414850;
-  font-size: 20px;
-  box-shadow: black 0px 0px 20px;
-  padding: 10px;
-  background: #e1f1ff;
-  text-align: center;
+    width: 400px;
+    font-family: 'Roboto', sans-serif;
+    color: #414850;
+    font-size: 20px;
+    box-shadow: black 0px 0px 20px;
+    padding: 10px;
+    background: #e1f1ff;
+    text-align: center;
 }
+
 #loginErrorMessage {
-  font-family: 'Roboto', sans-serif;
-  color: #dfece6;
-  padding: 10px;
-  font-size: 25px;
-  text-align: center;
+    font-family: 'Roboto', sans-serif;
+    color: #dfece6;
+    padding: 10px;
+    font-size: 25px;
+    text-align: center;
 }
+
 .centeredTable {
-  position: relative;
-  top: 100px;
-  width: 500px;
-  margin: 0 auto;
+    position: relative;
+    top: 100px;
+    width: 500px;
+    margin: 0 auto;
 }
+
 #gConnect {
-  margin-top: 20px;
+    margin-top: 20px;
 }
+
 #errorMessage {
-  width: 500px;
-  font-family: 'Roboto', sans-serif;
-  color: #414850;
-  font-size: 20px;
+    width: 500px;
+    font-family: 'Roboto', sans-serif;
+    color: #414850;
+    font-size: 20px;
 }
+
 #nameContainer {
-  position: absolute;
-  right: 0px;
-  display: block;
-  font-family: 'Roboto', sans-serif;
-  color: #414850;
-  background: #7b8791;
-  box-shadow: #000000 0px 0px 20px;
-  border-bottom-left-radius: 5px;
-  padding: 5px;
-  padding-right: 30px;
-  font-size: 15px;
+    position: absolute;
+    right: 0px;
+    display: block;
+    font-family: 'Roboto', sans-serif;
+    color: #414850;
+    background: #7b8791;
+    box-shadow: #000000 0px 0px 20px;
+    border-bottom-left-radius: 5px;
+    padding: 5px;
+    padding-right: 30px;
+    font-size: 15px;
 }
+
 #mainLoader {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  left: 0px;
-  right: 0px;
-  background: #3e4b53;
-  z-index: 200;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    background: #3e4b53;
+    z-index: 200;
 }
+
 #mainLoader img {
-  width: 250px;
-  height: 150px;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  margin: -75px 0 0 -125px;
+    width: 250px;
+    height: 150px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin: -75px 0 0 -125px;
 }
+
 #magic {
-  height: 100%;
-  width: 100%;
-  table-layout: fixed;
+    height: 100%;
+    width: 100%;
+    table-layout: fixed;
 }
+
 #magic,
 #magic tr,
 #magic td {
-  border: none;
-  border-collapse: collapse;
+    border: none;
+    border-collapse: collapse;
 }
+
 #menu {
-  width: 50px;
-  height: 100%;
-  background: #e2f1fe;
+    width: 50px;
+    height: 100%;
+    background: #e2f1fe;
 }
+
 #menuTable {
-  height: 100%;
-  width: 100%;
-  border: none;
-  border-collapse: collapse;
-  table-layout: fixed;
-  z-index: 7;
+    height: 100%;
+    width: 100%;
+    border: none;
+    border-collapse: collapse;
+    table-layout: fixed;
+    z-index: 7;
 }
+
 .menuItem {
-  cursor: pointer;
+    cursor: pointer;
 }
+
 .menuItem div {
-  -moz-transform: rotate(90deg);
-  -o-transform: rotate(90deg);
-  -webkit-transform: rotate(90deg);
-  font-family: 'Days One', sans-serif;
-  color: #414850;
+    -moz-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    font-family: 'Days One', sans-serif;
+    color: #414850;
 }
+
 #menuSelector {
-  position: absolute;
-  width: 50px;
-  height: 100px;
-  background: rgba(220, 221, 177, 0.5);
-  z-index: 10;
-  cursor: move;
+    position: absolute;
+    width: 50px;
+    height: 100px;
+    background: rgba(220, 221, 177, 0.5);
+    z-index: 10;
+    cursor: move;
 }
+
 #content {
-  position: relative;
-  background: #3e4b53;
+    position: relative;
+    background: #3e4b53;
 }
+
 #sectionTable {
-  width: 100%;
-  table-layout: fixed;
-  position: relative;
+    width: 100%;
+    table-layout: fixed;
+    position: relative;
 }
+
 #sectionContainer {
-  overflow-y: hidden;
-  -webkit-transition: all 0.4s ease;
-  transition: all 0.4s ease;
+    overflow-y: hidden;
+    -webkit-transition: all 0.4s ease;
+    transition: all 0.4s ease;
 }
+
 .sectionContainer {
-  -webkit-transform: perspective(100px) translate3d(0px, 0px, 0px) rotateX(0deg);
-  transform: perspective(100px) translate3d(0px, 0px, 0px) rotateX(0deg);
+    -webkit-transform: perspective(100px) translate3d(0px, 0px, 0px) rotateX(0deg);
+    transform: perspective(100px) translate3d(0px, 0px, 0px) rotateX(0deg);
 }
+
 .sectionContainerContracted {
-  -webkit-transform: perspective(100px) translate3d(-250px, 0px, 0px) rotateY(-5deg);
-  transform: perspective(100px) translate3d(-250px, 0px, 0px) rotateY(-5deg);
+    -webkit-transform: perspective(100px) translate3d(-250px, 0px, 0px) rotateY(-5deg);
+    transform: perspective(100px) translate3d(-250px, 0px, 0px) rotateY(-5deg);
 }
+
 .sectionContainerContractedVertical {
-  -webkit-transform: perspective(100px) rotateX(5deg);
-  transform: perspective(100px) rotateX(5deg);
+    -webkit-transform: perspective(100px) rotateX(5deg);
+    transform: perspective(100px) rotateX(5deg);
 }
+
 .section {
-  width: 100%;
+    width: 100%;
 }
+
 #itemListCell {
-  -webkit-transition: all 0.4s ease;
-  transition: all 0.4s ease;
+    -webkit-transition: all 0.4s ease;
+    transition: all 0.4s ease;
 }
+
 .itemListCell {
-  -webkit-transform: translate3d(0, 0, 0);
-  transform: translate3d(0, 0, 0);
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
 }
+
 .itemListCellExpanded {
-  -webkit-transform: translate3d(-250px, 0, 0);
-  transform: translate3d(-250px, 0, 0);
+    -webkit-transform: translate3d(-250px, 0, 0);
+    transform: translate3d(-250px, 0, 0);
 }
+
 #itemListContainer {
-  position: absolute;
-  right: 0px;
-  top: 0px;
-  width: 250px;
-  height: 100%;
-  background: #7b8791;
-  -webkit-transition: all 0.4s ease;
-  transition: all 0.4s ease;
-  -webkit-transform-origin: 0% 50%;
-  transform-origin: 0% 50%;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    width: 250px;
+    height: 100%;
+    background: #7b8791;
+    -webkit-transition: all 0.4s ease;
+    transition: all 0.4s ease;
+    -webkit-transform-origin: 0% 50%;
+    transform-origin: 0% 50%;
 }
+
 .itemListContainer {
-  -webkit-transform: perspective(100px) translate3d(250px, 0, 0) rotateY(20deg);
-  transform: perspective(100px) translate3d(250px, 0, 0) rotateY(20deg);
+    -webkit-transform: perspective(100px) translate3d(250px, 0, 0) rotateY(20deg);
+    transform: perspective(100px) translate3d(250px, 0, 0) rotateY(20deg);
 }
+
 .itemListContainerExpanded {
-  -webkit-transform: perspective(100px) translate3d(250px, 0, 0) rotateY(0deg);
-  transform: perspective(100px) translate3d(250px, 0, 0) rotateY(0deg);
+    -webkit-transform: perspective(100px) translate3d(250px, 0, 0) rotateY(0deg);
+    transform: perspective(100px) translate3d(250px, 0, 0) rotateY(0deg);
 }
+
 #itemList {
-  width: 250px;
+    width: 250px;
 }
+
 .selectItem {
-  list-style-type: none;
-  padding: 2px;
-  padding-left: 5px;
-  font-family: 'Noto Sans', sans-serif;
-  color: #414850;
-  cursor: pointer;
+    list-style-type: none;
+    padding: 2px;
+    padding-left: 5px;
+    font-family: 'Noto Sans', sans-serif;
+    color: #414850;
+    cursor: pointer;
 }
+
 #itemList ul li {
-  list-style-type: none;
-  padding: 2px;
-  padding-left: 5px;
-  font-family: 'Noto Sans', sans-serif;
-  color: #414850;
-  cursor: pointer;
+    list-style-type: none;
+    padding: 2px;
+    padding-left: 5px;
+    font-family: 'Noto Sans', sans-serif;
+    color: #414850;
+    cursor: pointer;
 }
+
 #itemList ul li:hover {
-  list-style-type: none;
-  padding: 2px;
-  padding-left: 5px;
-  font-family: 'Noto Sans', sans-serif;
-  color: #414850;
-  cursor: pointer;
-  background: #dfece6;
+    list-style-type: none;
+    padding: 2px;
+    padding-left: 5px;
+    font-family: 'Noto Sans', sans-serif;
+    color: #414850;
+    cursor: pointer;
+    background: #dfece6;
 }
+
 .itemListFocused {
-  list-style-type: none;
-  padding: 2px;
-  padding-left: 5px;
-  font-family: 'Noto Sans', sans-serif;
-  color: #414850;
-  cursor: pointer;
-  background: #dcddb1;
+    list-style-type: none;
+    padding: 2px;
+    padding-left: 5px;
+    font-family: 'Noto Sans', sans-serif;
+    color: #414850;
+    cursor: pointer;
+    background: #dcddb1;
 }
+
 #newItemInput {
-  width: 100%;
-  height: 25px;
-  border-radius: 5px;
+    width: 100%;
+    height: 25px;
+    border-radius: 5px;
 }
+
 #itemListDivider {
-  width: 15px;
-  height: 100%;
-  background: #e1f1ff;
+    width: 15px;
+    height: 100%;
+    background: #e1f1ff;
 }
+
 #globalPlaylistContainer {
-  width: 100%;
-  height: 50px;
-  position: absolute;
-  bottom: 0px;
-  -webkit-transition: -webkit-transform 0.4s ease;
-  transition: transform 0.4s ease;
+    width: 100%;
+    height: 50px;
+    position: absolute;
+    bottom: 0px;
+    -webkit-transition: -webkit-transform 0.4s ease;
+    transition: transform 0.4s ease;
 }
+
 .globalPlaylistContainer {
-  -webkit-transform: translate3d(0, 0, 0);
-  transform: translate3d(0, 0, 0);
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
 }
+
 .globalPlaylistContainerExpanded {
-  -webkit-transform: translate3d(0, -120px, 0);
-  transform: translate3d(0, -120px, 0);
+    -webkit-transform: translate3d(0, -120px, 0);
+    transform: translate3d(0, -120px, 0);
 }
+
 #bottomPlayBar {
-  background: #e1f1ff;
-  height: 15px;
-  width: 100%;
-  position: absolute;
-  top: 35px;
-  z-index: 0;
-  box-shadow: #000 0px 0px 20px;
+    background: #e1f1ff;
+    height: 15px;
+    width: 100%;
+    position: absolute;
+    top: 35px;
+    z-index: 0;
+    box-shadow: #000 0px 0px 20px;
 }
+
 #playButtonContainer {
-  width: 150px;
-  margin: 0 auto;
-  position: relative;
+    width: 150px;
+    margin: 0 auto;
+    position: relative;
 }
+
 #playControllsContainer {
-  position: relative;
-  margin: 0 auto;
-  width: 200px;
-  height: 50px;
-  z-index: 50;
-  box-shadow: 0px 0px 20px black;
+    position: relative;
+    margin: 0 auto;
+    width: 200px;
+    height: 50px;
+    z-index: 50;
+    box-shadow: 0px 0px 20px black;
 }
+
 #seekSlider {
-  box-shadow: 0px 0px 20px black;
-  position: absolute;
-  left: -100px;
-  width: 400px;
-  height: 10px;
-  bottom: 0px;
+    box-shadow: 0px 0px 20px black;
+    position: absolute;
+    left: -100px;
+    width: 400px;
+    height: 10px;
+    bottom: 0px;
 }
+
 #seekSlider .ui-slider-handle {
-  width: 10px;
-  height: 10px;
-  top: 0px;
-  margin-left: -5px;
-  background: #414850;
+    width: 10px;
+    height: 10px;
+    top: 0px;
+    margin-left: -5px;
+    background: #414850;
 }
+
 .navigationButton {
-  width: 23px;
-  height: 40px;
-  background: #e1f1ff;
-  position: absolute;
-  font-family: 'Noto Sans', sans-serif;
-  color: #414850;
-  vertical-align: middle;
-  font-size: 30px;
-  padding-left: 2px;
-  cursor: pointer;
+    width: 23px;
+    height: 40px;
+    background: #e1f1ff;
+    position: absolute;
+    font-family: 'Noto Sans', sans-serif;
+    color: #414850;
+    vertical-align: middle;
+    font-size: 30px;
+    padding-left: 2px;
+    cursor: pointer;
 }
+
 #previousButton {
-  width: 23px;
-  height: 40px;
-  background: #e1f1ff;
-  position: absolute;
-  font-family: 'Noto Sans', sans-serif;
-  color: #414850;
-  vertical-align: middle;
-  font-size: 30px;
-  padding-left: 2px;
-  cursor: pointer;
-  left: 0px;
-  top: 0px;
+    width: 23px;
+    height: 40px;
+    background: #e1f1ff;
+    position: absolute;
+    font-family: 'Noto Sans', sans-serif;
+    color: #414850;
+    vertical-align: middle;
+    font-size: 30px;
+    padding-left: 2px;
+    cursor: pointer;
+    left: 0px;
+    top: 0px;
 }
+
 #previousButton:hover {
-  background: #dfece6;
+    background: #dfece6;
 }
+
 #nextButton {
-  width: 23px;
-  height: 40px;
-  background: #e1f1ff;
-  position: absolute;
-  font-family: 'Noto Sans', sans-serif;
-  color: #414850;
-  vertical-align: middle;
-  font-size: 30px;
-  padding-left: 2px;
-  cursor: pointer;
-  right: 0px;
-  top: 0px;
+    width: 23px;
+    height: 40px;
+    background: #e1f1ff;
+    position: absolute;
+    font-family: 'Noto Sans', sans-serif;
+    color: #414850;
+    vertical-align: middle;
+    font-size: 30px;
+    padding-left: 2px;
+    cursor: pointer;
+    right: 0px;
+    top: 0px;
 }
+
 #nextButton:hover {
-  background: #dfece6;
+    background: #dfece6;
 }
+
 #playButton {
-  background: #e1f1ff;
-  height: 40px;
-  width: 150px;
-  margin: 0 auto;
-  position: relative;
-  text-align: center;
-  vertical-align: middle;
-  font-size: 40px;
-  color: #418440;
-  box-shadow: #000 0px 0px 20px;
-  cursor: pointer;
+    background: #e1f1ff;
+    height: 40px;
+    width: 150px;
+    margin: 0 auto;
+    position: relative;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 40px;
+    color: #418440;
+    box-shadow: #000 0px 0px 20px;
+    cursor: pointer;
 }
+
 .playButtonPaused {
-  opacity: 0.5;
+    opacity: 0.5;
 }
+
 #playButton:hover {
-  background: #e1f1ff;
-  height: 40px;
-  width: 150px;
-  margin: 0 auto;
-  position: relative;
-  text-align: center;
-  vertical-align: middle;
-  font-size: 40px;
-  color: #418440;
-  box-shadow: #000 0px 0px 20px;
-  cursor: pointer;
-  background: #ffffff;
+    background: #e1f1ff;
+    height: 40px;
+    width: 150px;
+    margin: 0 auto;
+    position: relative;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 40px;
+    color: #418440;
+    box-shadow: #000 0px 0px 20px;
+    cursor: pointer;
+    background: #ffffff;
 }
+
 #globalPlaylistSongContainer {
-  height: 120px;
-  background: #7b8791;
-  overflow-x: scroll;
-  overflow-y: hidden;
-  white-space: nowrap;
-  -webkit-transition: -webkit-transform 0.4s ease;
-  transition: transform 0.4s ease;
+    height: 120px;
+    background: #7b8791;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
+    -webkit-transition: -webkit-transform 0.4s ease;
+    transition: transform 0.4s ease;
 }
+
 .globalPlaylistSongContainer {
-  -webkit-transform: perspective(100px) translateY(5px) rotateX(-10deg);
-  transform: perspective(100px) translateY(5px) rotateX(-10deg);
+    -webkit-transform: perspective(100px) translateY(5px) rotateX(-10deg);
+    transform: perspective(100px) translateY(5px) rotateX(-10deg);
 }
+
 .globalPlaylistSongContainerExpanded {
-  -webkit-transform: perspective(100px) rotateX(0deg);
-  transform: perspective(100px) rotateX(0deg);
+    -webkit-transform: perspective(100px) rotateX(0deg);
+    transform: perspective(100px) rotateX(0deg);
 }
+
 #globalPlaylistSongContainer img {
-  display: inline-block;
-  position: relative;
-  background: #7b8791;
+    display: inline-block;
+    position: relative;
+    background: #7b8791;
 }
+
 #globalPlaylistSongContainer img:nth-of-type(1) {
-  -webkit-filter: brightness(120%);
+    -webkit-filter: brightness(120%);
 }
+
 #globalPlaylistHeader {
-  position: absolute;
-  top: 5px;
-  left: -100px;
-  width: 400px;
-  height: 45px;
-  background: #7b8791;
-  border-radius: 5px 5px 0px 0px;
-  border: 1px solid #e1f1ff;
-  box-shadow: #000 0px 0px 20px inset;
+    position: absolute;
+    top: 5px;
+    left: -100px;
+    width: 400px;
+    height: 45px;
+    background: #7b8791;
+    border-radius: 5px 5px 0px 0px;
+    border: 1px solid #e1f1ff;
+    box-shadow: #000 0px 0px 20px inset;
 }
+
 #volumeButton {
-  position: absolute;
-  top: 0px;
-  right: 35px;
+    position: absolute;
+    top: 0px;
+    right: 35px;
 }
+
 #volumeSliderContainer {
-  position: absolute;
-  top: -100px;
-  right: 45px;
-  height: 100px;
-  background: #7b8791;
-  display: none;
+    position: absolute;
+    top: -100px;
+    right: 45px;
+    height: 100px;
+    background: #7b8791;
+    display: none;
 }
+
 #durationText {
-  position: absolute;
-  top: 5px;
-  left: 30px;
-  font-family: 'Roboto', sans-serif;
-  color: #ddefff;
+    position: absolute;
+    top: 5px;
+    left: 30px;
+    font-family: 'Roboto', sans-serif;
+    color: #ddefff;
 }
+
 .songImage {
-  position: relative;
-  cursor: pointer;
+    position: relative;
+    cursor: pointer;
 }
+
 #songDetailContainer {
-  display: none;
-  position: absolute;
-  left: 0px;
-  top: 0px;
-  width: 450px;
-  height: 400px;
-  z-index: 50;
+    display: none;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 450px;
+    height: 400px;
+    z-index: 50;
 }
+
 #songDetailMenuCell {
-  position: absolute;
-  width: 150px;
-  float: left;
+    position: absolute;
+    width: 150px;
+    float: left;
 }
+
 #songDetailBioCell {
-  font-family: 'Roboto', sans-serif;
-  padding: 5px;
-  color: #ddefff;
-  width: 300px;
-  height: 100%;
-  background: #7b8791;
-  text-align: justify;
-  float: right;
-  overflow-y: auto;
-  font-size: 12px;
+    font-family: 'Roboto', sans-serif;
+    padding: 5px;
+    color: #ddefff;
+    width: 300px;
+    height: 100%;
+    background: #7b8791;
+    text-align: justify;
+    float: right;
+    overflow-y: auto;
+    font-size: 12px;
 }
+
 #songDetailBioCell table {
-  border: none;
-  padding: 5px;
+    border: none;
+    padding: 5px;
 }
+
 #songDetailBioCell td {
-  border: none;
-  padding: 5px;
+    border: none;
+    padding: 5px;
 }
+
 #songDetailImage {
-  width: 100px;
-  height: 100px;
+    width: 100px;
+    height: 100px;
 }
+
 .songDetailMenuItem {
-  font-family: 'Roboto', sans-serif;
-  width: 100%;
-  background: #dcddb1;
-  color: #414850;
-  font-size: 15px;
-  text-align: center;
-  cursor: pointer;
-  z-index: 100;
-  position: relative;
+    font-family: 'Roboto', sans-serif;
+    width: 100%;
+    background: #dcddb1;
+    color: #414850;
+    font-size: 15px;
+    text-align: center;
+    cursor: pointer;
+    z-index: 100;
+    position: relative;
 }
+
 .songDetailMenuItem:hover {
-  font-family: 'Roboto', sans-serif;
-  background: #dfece6;
+    font-family: 'Roboto', sans-serif;
+    background: #dfece6;
 }
+
 .songDetailSubOptionsContainer {
-  display: none;
-  width: 90%;
-  position: relative;
-  margin: 0 auto;
-  overflow-y: auto;
-  max-height: 200px;
-  background: #ccce8d;
-  box-shadow: black 0px 0px 20px inset;
-  border: 1px solid #dcddb1;
+    display: none;
+    width: 90%;
+    position: relative;
+    margin: 0 auto;
+    overflow-y: auto;
+    max-height: 200px;
+    background: #ccce8d;
+    box-shadow: black 0px 0px 20px inset;
+    border: 1px solid #dcddb1;
 }
+
 #songDetailSubOptionsList li {
-  font-family: 'Noto Sans', sans-serif;
-  font-size: 15px;
-  color: #414850;
-  padding-left: 5px;
-  padding-right: 5px;
-  cursor: pointer;
+    font-family: 'Noto Sans', sans-serif;
+    font-size: 15px;
+    color: #414850;
+    padding-left: 5px;
+    padding-right: 5px;
+    cursor: pointer;
 }
+
 #songDetailSubOptionsList li:hover {
-  background: #dfece6;
+    background: #dfece6;
 }
+
 #songDetailPlaylistInput {
-  border: none;
-  border-bottom: 1px solid #ddefff;
-  width: 100%;
-  background: #7b8791;
-  color: #ddefff;
-  font-family: 'Roboto', sans-serif;
+    border: none;
+    border-bottom: 1px solid #ddefff;
+    width: 100%;
+    background: #7b8791;
+    color: #ddefff;
+    font-family: 'Roboto', sans-serif;
 }
+
 .imageContainer {
-  position: relative;
-  width: 110px;
-  height: 100px;
+    position: relative;
+    width: 110px;
+    height: 100px;
 }
+
 .disabledGlobalSong {
-  opacity: 0.5;
+    opacity: 0.5;
 }
+
 .playingSongOverlay {
-  position: absolute;
-  left: 0px;
-  top: 0px;
-  width: 100px;
-  height: 100px;
-  background: rgba(223, 236, 230, 0.5);
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100px;
+    height: 100px;
+    background: rgba(223, 236, 230, 0.5);
 }
+
 .imageInfo {
-  position: relative;
-  height: 40px;
-  width: 100px;
-  bottom: 45px;
-  left: 0px;
-  background: rgba(62, 75, 83, 0.5);
+    position: relative;
+    height: 40px;
+    width: 100px;
+    bottom: 45px;
+    left: 0px;
+    background: rgba(62, 75, 83, 0.5);
 }
+
 .imageTitle {
-  height: 20px;
-  width: 100px;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  text-align: center;
-  font-family: 'Roboto', sans-serif;
-  color: #ddefff;
-  font-size: 15px;
+    height: 20px;
+    width: 100px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+    color: #ddefff;
+    font-size: 15px;
 }
+
 .imageArtist {
-  height: 20px;
-  width: 100px;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  text-align: center;
-  font-family: 'Roboto', sans-serif;
-  color: #ddefff;
-  font-size: 15px;
-  font-size: 11px;
+    height: 20px;
+    width: 100px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+    color: #ddefff;
+    font-size: 15px;
+    font-size: 11px;
 }
+
 #songMenuContainer {
-  display: none;
-  position: absolute;
-  z-index: 100;
-  width: 80px;
-  background: #dcddb1;
+    display: none;
+    position: absolute;
+    z-index: 100;
+    width: 80px;
+    background: #dcddb1;
 }
+
 .songMenuItem {
-  height: 20px;
-  font-family: 'Roboto', sans-serif;
-  color: #414850;
-  font-size: 15px;
-  padding-left: 5px;
-  padding-right: 5px;
-  cursor: pointer;
+    height: 20px;
+    font-family: 'Roboto', sans-serif;
+    color: #414850;
+    font-size: 15px;
+    padding-left: 5px;
+    padding-right: 5px;
+    cursor: pointer;
 }
+
 .songMenuItem:hover {
-  background: #dfece6;
+    background: #dfece6;
 }
+
 #tutorialContainer {
-  position: absolute;
-  left: 0px;
-  right: 0px;
-  top: 0px;
-  bottom: 0px;
-  z-index: 200;
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    bottom: 0px;
+    z-index: 200;
 }

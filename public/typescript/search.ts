@@ -254,7 +254,7 @@ class SearchCallback {
             success: data => {
                 this.pushSongToPlaylist(song, <string>data.id);
                 playlistManager.loadPlaylist(<string>data.id, title)
-                playlistManager.addSongToPlaylist(song, playlistManager.getPlaylistMap[<string>data.id]);
+                playlistManager.addSongToPlaylist(song, playlistManager.getPlaylistMap()[<string>data.id]);
             }
         });
     }

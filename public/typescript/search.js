@@ -257,7 +257,7 @@ var SearchCallback = (function () {
             success: function (data) {
                 _this.pushSongToPlaylist(song, data.id);
                 playlistManager.loadPlaylist(data.id, title);
-                playlistManager.addSongToPlaylist(song, playlistManager.getPlaylistMap[data.id]);
+                playlistManager.addSongToPlaylist(song, playlistManager.getPlaylistMap()[data.id]);
             }
         });
     };
