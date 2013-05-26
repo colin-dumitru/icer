@@ -18,17 +18,17 @@ function run() {
     globalPlaylistManager.bind();
     songDetailManager.bind();
     globalPlaylistManager.pushSongs([
-        new Song("077f4678-2eed-4e3e-bdbd-8476a9201b62", new SongInfo("Believe Me Natalie", "The Killers", null, null, 0, 0, 0), "http://userserve-ak.last.fm/serve/300x300/68101062.png"), 
-        new Song("812349b2-b115-4dc2-b90e-040a1eac3725", new SongInfo("I Believe in a Thing Called Love", "The Darkness", null, null, 0, 0, 0), "http://userserve-ak.last.fm/serve/300x300/87434825.png"), 
-        new Song("13194c93-89c6-4ab4-aaf2-15db5d73b74e", new SongInfo("Believe", "Cher", null, null, 0, 0, 0), "http://userserve-ak.last.fm/serve/300x300/71997588.png"), 
-        new Song("5750327d-09ba-43e5-bd75-a08ba29e22f5", new SongInfo("We Believe", "Red Hot Chili Peppers", null, null, 0, 0, 0), "http://userserve-ak.last.fm/serve/300x300/66662762.png"), 
-        new Song("0196b4cc-66ec-4ad4-acad-2fe852a4ccd5", new SongInfo("I'm a Believer", "The Monkees", null, null, 0, 0, 0), "http://userserve-ak.last.fm/serve/300x300/77468760.png"), 
+        new Song("077f4678-2eed-4e3e-bdbd-8476a9201b62", new SongInfo("Believe Me Natalie", "The Killers", null, null, 0, 0, 0), "http://userserve-ak.last.fm/serve/300x300/68101062.png"),
+        new Song("812349b2-b115-4dc2-b90e-040a1eac3725", new SongInfo("I Believe in a Thing Called Love", "The Darkness", null, null, 0, 0, 0), "http://userserve-ak.last.fm/serve/300x300/87434825.png"),
+        new Song("13194c93-89c6-4ab4-aaf2-15db5d73b74e", new SongInfo("Believe", "Cher", null, null, 0, 0, 0), "http://userserve-ak.last.fm/serve/300x300/71997588.png"),
+        new Song("5750327d-09ba-43e5-bd75-a08ba29e22f5", new SongInfo("We Believe", "Red Hot Chili Peppers", null, null, 0, 0, 0), "http://userserve-ak.last.fm/serve/300x300/66662762.png"),
+        new Song("0196b4cc-66ec-4ad4-acad-2fe852a4ccd5", new SongInfo("I'm a Believer", "The Monkees", null, null, 0, 0, 0), "http://userserve-ak.last.fm/serve/300x300/77468760.png"),
         new Song("076ed98f-f3e9-44c8-b9b7-66624de9b9f0", new SongInfo("Believe", "The Bravery", null, null, 0, 0, 0), "http://userserve-ak.last.fm/serve/300x300/9723711.jpg")
     ]);
     checkForTutorial();
 }
 function checkForTutorial() {
-    if(readCookie("tutorial") == null) {
+    if (readCookie("tutorial") == null) {
         showTutorial();
         disableTutorial();
     } else {
@@ -65,6 +65,7 @@ var SectionManager = (function () {
         this.pagesBuild = 0;
         this.firstSection = null;
     }
+
     SectionManager.prototype.build = function () {
         this.menuSelector = $("#menuSelector");
         this.sectionTable = $("#sectionTable");
@@ -95,7 +96,7 @@ var SectionManager = (function () {
     SectionManager.prototype.onPageLoadComplete = function (section) {
         binders[section.id].buildPage(section.rootNode);
         this.pagesBuild++;
-        if(this.pagesBuild == this.sections.length) {
+        if (this.pagesBuild == this.sections.length) {
             this.initialize();
         }
     };
@@ -178,7 +179,7 @@ var SectionManager = (function () {
             });
             _this.changeSection(_this.sections.indexOf(section));
         });
-        if(this.firstSection == null) {
+        if (this.firstSection == null) {
             this.firstSection = $("#" + this.sections[0].id + "Menu");
         }
     };
@@ -208,6 +209,7 @@ var Section = (function () {
         this.id = id;
         this.url = url;
     }
+
     return Section;
 })();
 var ItemList = (function () {
@@ -226,6 +228,7 @@ var ItemList = (function () {
         this.sectionContainer = null;
         this.itemListDivider = null;
     }
+
     ItemList.prototype.pushItemList = function (key) {
         this.itemListQueue[key] = {
             itemList: this.itemList,
@@ -236,7 +239,7 @@ var ItemList = (function () {
     ItemList.prototype.popItemList = function (key) {
         var _this = this;
         var itemData = this.itemListQueue[key];
-        if(itemData == null) {
+        if (itemData == null) {
             itemData = {
                 itemList: [],
                 selectedItem: null
@@ -255,20 +258,20 @@ var ItemList = (function () {
     ItemList.prototype.bind = function () {
         var _this = this;
         $(window).mousemove(function (event) {
-            if(disableUserAction || _this.isHidden) {
+            if (disableUserAction || _this.isHidden) {
                 return;
             }
-            if(_this.isCollapsed && event.clientX > (dimensions.windowWidth - 15)) {
+            if (_this.isCollapsed && event.clientX > (dimensions.windowWidth - 15)) {
                 _this.giveFocus();
             }
-            if(!_this.isCollapsed && event.clientX < (dimensions.windowWidth - 250)) {
+            if (!_this.isCollapsed && event.clientX < (dimensions.windowWidth - 250)) {
                 _this.takeFocus();
             }
         });
         var input = $("#newItemInput");
         input.keypress(function (event) {
-            if(event.which == 13) {
-                if(_this.onInput == null) {
+            if (event.which == 13) {
+                if (_this.onInput == null) {
                     return;
                 }
                 var text = input.val();
@@ -322,7 +325,7 @@ var ItemList = (function () {
         item.rootNode.click(function () {
             _this.switchItem(item);
             _this.takeFocus();
-            if(item.onSelect != null) {
+            if (item.onSelect != null) {
                 item.onSelect();
             }
         });
@@ -332,7 +335,7 @@ var ItemList = (function () {
         this.selectedItem = item;
     };
     ItemList.prototype.giveItemFocus = function (item) {
-        if(this.selectedItem != null) {
+        if (this.selectedItem != null) {
             this.selectedItem.rootNode.removeClass("itemListFocused");
         }
         item.rootNode.addClass("itemListFocused");
@@ -353,6 +356,7 @@ var Item = (function () {
         this.id = id;
         this.title = title;
     }
+
     return Item;
 })();
 var PlayManager = (function () {
@@ -364,6 +368,7 @@ var PlayManager = (function () {
         this.durationText = null;
         this.seekSlider = null;
     }
+
     PlayManager.prototype.bind = function () {
         var _this = this;
         SC.initialize({
@@ -376,7 +381,7 @@ var PlayManager = (function () {
         this.seekSlider = $("#seekSlider");
     };
     PlayManager.prototype.updateElapsed = function () {
-        if(this.currentPlayer != null) {
+        if (this.currentPlayer != null) {
             var seconds = Math.floor(this.currentPlayer.position / 1000);
             var minutes = Math.floor(seconds / 60);
             var clampedSeconds = seconds % 60;
@@ -385,13 +390,13 @@ var PlayManager = (function () {
         }
     };
     PlayManager.prototype.padZeros = function (text) {
-        if(text.length == 1) {
+        if (text.length == 1) {
             return "0" + text;
         }
         return text;
     };
     PlayManager.prototype.playSong = function (song) {
-        if(song == this.currentSong) {
+        if (song == this.currentSong) {
             this.currentPlayer.resume();
         } else {
             this.stopCurrentSong();
@@ -399,22 +404,22 @@ var PlayManager = (function () {
         }
     };
     PlayManager.prototype.stopCurrentSong = function () {
-        if(this.currentPlayer != null) {
+        if (this.currentPlayer != null) {
             this.currentPlayer.stop();
         }
     };
     PlayManager.prototype.pause = function () {
-        if(this.currentSong != null) {
+        if (this.currentSong != null) {
             this.currentPlayer.pause();
         }
     };
     PlayManager.prototype.seek = function (percentage) {
-        if(this.currentPlayer != null) {
+        if (this.currentPlayer != null) {
             this.currentPlayer.setPosition(Math.floor(this.currentPlayer.duration * (percentage / 1000)));
         }
     };
     PlayManager.prototype.changeVolume = function (value) {
-        if(this.currentSong != null) {
+        if (this.currentSong != null) {
             this.currentPlayer.setVolume(value);
         }
     };
@@ -426,10 +431,10 @@ var PlayManager = (function () {
         SC.get('/tracks', {
             q: song.info.title + " " + song.info.artist
         }, function (tracks) {
-            if(tracks.length == 0) {
+            if (tracks.length == 0) {
                 _this.onSongError(song);
             } else {
-                if(currentId == _this.playbackId) {
+                if (currentId == _this.playbackId) {
                     _this.playResolved(_this.bestTrack(tracks), song, currentId);
                 }
             }
@@ -438,8 +443,8 @@ var PlayManager = (function () {
     PlayManager.prototype.bestTrack = function (tracks) {
         var maxPlays = tracks[0].playback_count;
         var maxTrack = tracks[0];
-        for(var i = 1; i < tracks.length; i++) {
-            if(tracks[i].playback_count > maxPlays) {
+        for (var i = 1; i < tracks.length; i++) {
+            if (tracks[i].playback_count > maxPlays) {
                 maxPlays = tracks[i].playback_count;
                 maxTrack = tracks[i];
             }
@@ -470,7 +475,7 @@ var PlayManager = (function () {
         });
     };
     PlayManager.prototype.switchActiveSong = function (sound, playbackId) {
-        if(playbackId == this.playbackId) {
+        if (playbackId == this.playbackId) {
             this.currentPlayer = sound;
             sound.play();
         }
@@ -488,23 +493,24 @@ var GlobalPlaylistManager = (function () {
         this.globalPlaylistSongContainer = null;
         this.globalPlaylistContainer = null;
     }
+
     GlobalPlaylistManager.prototype.bind = function () {
         var _this = this;
         this.volumeSliderContainer = $("#volumeSliderContainer");
         this.globalPlaylistSongContainer = $("#globalPlaylistSongContainer");
         this.globalPlaylistContainer = $("#globalPlaylistContainer");
         $(window).mousemove(function (event) {
-            if(disableUserAction) {
+            if (disableUserAction) {
                 return;
             }
-            if(_this.isCollapsed && event.clientY > (dimensions.windowHeight - 15) && (event.clientX < (dimensions.windowWidth / 2 - 185) || event.clientX > (dimensions.windowWidth / 2 + 235))) {
+            if (_this.isCollapsed && event.clientY > (dimensions.windowHeight - 15) && (event.clientX < (dimensions.windowWidth / 2 - 185) || event.clientX > (dimensions.windowWidth / 2 + 235))) {
                 _this.giveFocus();
             }
-            if(event.clientY < (dimensions.windowHeight - 155)) {
-                if(!_this.isCollapsed) {
+            if (event.clientY < (dimensions.windowHeight - 155)) {
+                if (!_this.isCollapsed) {
                     _this.takeFocus();
                 }
-                if(_this.isVolumeVisible) {
+                if (_this.isVolumeVisible) {
                     _this.volumeSliderContainer.hide();
                     _this.isVolumeVisible = false;
                 }
@@ -528,12 +534,12 @@ var GlobalPlaylistManager = (function () {
             _this.playToggle();
         });
         $("#nextButton").click(function () {
-            if(_this.playing) {
+            if (_this.playing) {
                 _this.playNext();
             }
         });
         $("#previousButton").click(function () {
-            if(_this.playing) {
+            if (_this.playing) {
                 _this.playPrevious();
             }
         });
@@ -574,14 +580,14 @@ var GlobalPlaylistManager = (function () {
             return s.mbid == reorderedItem.next().attr("songId");
         })[0];
         this.songQueue.splice(this.songQueue.indexOf(changedSong), 1);
-        if(nextSong == null) {
+        if (nextSong == null) {
             this.songQueue.push(changedSong);
         } else {
             this.songQueue.splice(this.songQueue.indexOf(nextSong), 0, changedSong);
         }
     };
     GlobalPlaylistManager.prototype.changePosition = function (value) {
-        if(this.playing) {
+        if (this.playing) {
             playManager.seek(value);
         }
     };
@@ -595,7 +601,7 @@ var GlobalPlaylistManager = (function () {
         songContainer.find(".imageArtist").text(":(");
     };
     GlobalPlaylistManager.prototype.playToggle = function () {
-        if(this.playing) {
+        if (this.playing) {
             this.pause();
         } else {
             this.play();
@@ -603,14 +609,14 @@ var GlobalPlaylistManager = (function () {
     };
     GlobalPlaylistManager.prototype.play = function () {
         var currentSong = this.getCurrentSong();
-        if(currentSong == null) {
+        if (currentSong == null) {
             return;
         }
         this.playSong(currentSong);
     };
     GlobalPlaylistManager.prototype.playNext = function () {
         var currentSongIndex = this.songQueue.indexOf(this.getCurrentSong()) + 1;
-        if(currentSongIndex == this.songQueue.length) {
+        if (currentSongIndex == this.songQueue.length) {
             currentSongIndex = 0;
         }
         var songToPlay = this.songQueue[currentSongIndex];
@@ -618,14 +624,14 @@ var GlobalPlaylistManager = (function () {
     };
     GlobalPlaylistManager.prototype.playPrevious = function () {
         var currentSongIndex = this.songQueue.indexOf(this.getCurrentSong()) - 1;
-        if(currentSongIndex < 0) {
+        if (currentSongIndex < 0) {
             currentSongIndex = this.songQueue.length - 1;
         }
         var songToPlay = this.songQueue[currentSongIndex];
         this.playSong(songToPlay);
     };
     GlobalPlaylistManager.prototype.playSong = function (song) {
-        if(song == null) {
+        if (song == null) {
             return;
         }
         this.unDecorateSong(this.playingSong);
@@ -640,7 +646,7 @@ var GlobalPlaylistManager = (function () {
         songContainer.append(this.createOverlay());
     };
     GlobalPlaylistManager.prototype.unDecorateSong = function (song) {
-        if(song == null) {
+        if (song == null) {
             return;
         }
         var songContainer = $("#globalPlay" + song.mbid).find(".playingSongOverlay");
@@ -657,7 +663,7 @@ var GlobalPlaylistManager = (function () {
         playManager.pause();
     };
     GlobalPlaylistManager.prototype.getCurrentSong = function () {
-        if(this.playingSong == null) {
+        if (this.playingSong == null) {
             return this.songQueue[0];
         }
         return this.playingSong;
@@ -669,7 +675,7 @@ var GlobalPlaylistManager = (function () {
         });
     };
     GlobalPlaylistManager.prototype.pushSong = function (song) {
-        if(this.songQueue.filter(function (e) {
+        if (this.songQueue.filter(function (e) {
             return e.mbid == song.mbid;
         }).length == 0) {
             this.songQueue.push(song);
@@ -683,24 +689,26 @@ var GlobalPlaylistManager = (function () {
             _this.showSongMenu = false;
             _this.playSong(song);
         }).mousedown(function (e) {
-            return _this.startMenuTimer(song, e.clientX, e.clientY);
-        });
+                return _this.startMenuTimer(song, e.clientX, e.clientY);
+            });
         this.globalPlaylistSongContainer.append(template);
     };
     GlobalPlaylistManager.prototype.startMenuTimer = function (song, x, y) {
         var _this = this;
         this.showSongMenu = true;
         var callBack = function (option) {
-            if(option == 0) {
+            if (option == 0) {
                 _this.deleteSong(song);
-            } else if(option == 1) {
-                _this.clearSongs();
+            } else {
+                if (option == 1) {
+                    _this.clearSongs();
+                }
             }
         };
         window.setTimeout(function () {
-            if(_this.showSongMenu) {
+            if (_this.showSongMenu) {
                 songMenu.show([
-                    "Delete", 
+                    "Delete",
                     "Delete All"
                 ], {
                     x: x,

@@ -13,7 +13,7 @@ class HistoryBinder implements SectionBinder {
             .draggable({
                 containment: "#historyContainer",
                 axis: "x",
-                stop: (event, ui) => {
+                drag: (event, ui) => {
                     this.historyManager.slideReferencePoint(ui.position.left)
                 }
             });
@@ -160,12 +160,12 @@ class HistoryManager {
     getWeekNumber() {
         var date = new Date();
         var day = date.getDay();
-        if(day == 0) {
+        if (day == 0) {
             day = 7;
         }
         date.setDate(date.getDate() + (4 - day));
         var year = date.getFullYear();
-        var ZBDoCY = Math.floor((date.getTime() - new Date(year, 0, 1, -6)) / 86400000);
+        var ZBDoCY = Math.floor((date.getTime() - new Date(year, 0, 1, -6).getTime()) / 86400000);
         return Math.floor(ZBDoCY / 7);
     }
 
@@ -200,7 +200,7 @@ class HistoryManager {
         var currentWeek = this.getWeekNumber();
         for (var i = 0; i < currentWeek; i++) {
             points.push(
-                new HistoryPoint(0 , [
+                new HistoryPoint(0, [
                     {name: "", volume: 0},
                     {name: "", volume: 0},
                     {name: "", volume: 0},
@@ -215,7 +215,7 @@ class HistoryManager {
 }
 
 class HistoryPoint {
-    constructor(public listenVolume:number, public genres:{ name : String; volume:number; }[], public artists:string[], public updatedGenres: bool, public updatedArtists: bool) {
+    constructor(public listenVolume:number, public genres:{ name : String; volume:number; }[], public artists:string[], public updatedGenres:bool, public updatedArtists:bool) {
     }
 
 }
