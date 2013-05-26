@@ -87,7 +87,9 @@ class HistoryManager {
             dataType: "json",
             success: data => {
                 for (var i = 0, len = data.length; i < len; i++) {
-                    this.historyPoints[data[i].item - 1].listenVolume = data[i].plays;
+                    if (this.historyPoints[data[i].item - 1] != null) {
+                        this.historyPoints[data[i].item - 1].listenVolume = data[i].plays;
+                    }
                 }
 
                 this.buildHistoryChart();

@@ -86,7 +86,9 @@ var HistoryManager = (function () {
             dataType: "json",
             success: function (data) {
                 for (var i = 0, len = data.length; i < len; i++) {
-                    _this.historyPoints[data[i].item - 1].listenVolume = data[i].plays;
+                    if (_this.historyPoints[data[i].item - 1] != null) {
+                        _this.historyPoints[data[i].item - 1].listenVolume = data[i].plays;
+                    }
                 }
                 _this.buildHistoryChart();
             }
