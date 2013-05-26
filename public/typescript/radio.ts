@@ -1,3 +1,5 @@
+var customSearchValues:string[] = [];
+
 class RadioBinder implements SectionBinder {
     private radioManager:RadioManager;
 
@@ -28,6 +30,7 @@ class RadioBinder implements SectionBinder {
         });
 
         this.customCriteria = new RadioCriteriaInput("radioCustomCriteria", true, () => {
+            customSearchValues.push($("#customCriteriaInput").val());
             return $("#customCriteriaInput").val();
         });
 
@@ -44,10 +47,10 @@ class RadioBinder implements SectionBinder {
         $("#radioManagerResetButton").click(() => {
 
             $("#radioCriteriaTableBody").empty();
-            for (var i in this.radioManager.selectedCriterias) {
-                $("#" + this.radioManager.selectedCriterias[i].id).show();
+            for (var i in RadioManager.selectedCriterias) {
+                $("#" + RadioManager.selectedCriterias[i].id).show();
             }
-            this.radioManager.selectedCriterias = [];
+            RadioManager.selectedCriterias = [];
 
             this.radioManager.addCriteriaToReset(this.criteriaSongs);
             this.radioManager.addCriteriaToReset(this.criteriaAlbums);
@@ -62,7 +65,7 @@ class RadioBinder implements SectionBinder {
 
 class RadioManager {
     private criterias:RadioCriteriaInput[] = [];
-    public selectedCriterias:RadioCriteriaInput[] = [];
+    public static selectedCriterias:RadioCriteriaInput[] = [];
 
     private recentSongs:Song[] = [];
     public static globalPlayer:Song[] = [];
@@ -76,7 +79,10 @@ class RadioManager {
         $.ajax("/radio/songs/", {
             type: "POST",
             dataType: "json",
-            success: data =>this.onSongResult(data)
+            success: data =>{
+                this.onSongResult(data)
+                this.loadRadio();
+            }
         });
     }
 
@@ -89,7 +95,7 @@ class RadioManager {
         }
     }
 
-    public static addToGlobalPlayer(song:Song) {
+    public static addSongToGlobalPlayer(song:Song) {
 
         RadioManager.globalPlayer.push(song);
         RadioManager.globalPlayer = RadioManager.shuffle(RadioManager.globalPlayer);
@@ -119,8 +125,15 @@ class RadioManager {
             .addClass("radioCriteriaCell")
             .append(criteriaTemplate);
         $("#radioCriteriaTableBody").append(tr);
-        this.selectedCriterias.push(criteriaInput);
+        RadioManager.selectedCriterias.push(criteriaInput);
         tr.find("#radioCriteriaCloseButton").click(() => {
+            for (var i in customSearchValues) {
+                if (customSearchValues[i] == criteria)
+                {
+                    var index = customSearchValues.indexOf(criteria);
+                    customSearchValues.splice(index, 1);
+                }
+            }
             tr.remove();
             $("#" + criteriaInput.id).show();
             this.deleteCriteria(criteriaInput);
@@ -134,9 +147,9 @@ class RadioManager {
     }
 
     deleteCriteria(criteriaInput:RadioCriteriaInput) {
-        var index = this.selectedCriterias.indexOf(criteriaInput, 0);
+        var index = RadioManager.selectedCriterias.indexOf(criteriaInput, 0);
         if (index != undefined) {
-            this.selectedCriterias.splice(index, 1);
+            RadioManager.selectedCriterias.splice(index, 1);
         }
     }
 
@@ -155,67 +168,67 @@ class RadioManager {
             $("#radioCriteriaTableBody").empty();
             this.criterias.forEach((criteria) => {
                 $("#" + criteria.id).show();
-                for (var i in this.selectedCriterias) {
-                    this.deleteCriteria(this.selectedCriterias[i]);
+                for (var i in RadioManager.selectedCriterias) {
+                    this.deleteCriteria(RadioManager.selectedCriterias[i]);
                 }
             });
         });
 
 
         $("#radioManagerPlayButton").click(() => {
-
-
-            //this.loadRecentSongs();
-
             globalPlaylistManager.clearSongs();
             RadioManager.globalPlayer = [];
 
-            if (this.selectedCriterias.length == 0)
+            if (RadioManager.selectedCriterias.length == 0)
                 globalPlaylistManager.clearSongs();
-
-
-            for (var i in this.selectedCriterias) {
-                var selected = this.selectedCriterias[i].id;
-                switch (selected) {
-                    case "radioCustomCriteria":
-                    {
-                        new SearchCustom().loadCustomSearchSongs();
-                        break;
-                    }
-                    case "radioRecentSongsCriteria":
-                    {
-                        for (var j = 0; j < this.recentSongs.length; j++) {
-                            new SearchSimilarSongs().loadSimilarSongs(this.recentSongs[j].info.title);
-                        }
-                        break;
-                    }
-                    case  "radioRecentGenresCriteria":
-                    {
-                        for (var j = 0; j < this.recentSongs.length; j++) {
-                            if (this.recentSongs[j].info.genre != null)
-                                new SearchSimilarGenre().loadSimilarGenreSongs(this.recentSongs[j].info.genre);
-                        }
-
-                        break;
-                    }
-                    case  "radioRecentAlbumsCriteria":
-                    {
-                        for (var j = 0; j < this.recentSongs.length; j++) {
-                            new SearchSimilarAlbum().loadSimilarAlbumSongs(this.recentSongs[j].info.artist);
-                        }
-                        break;
-                    }
-                    default:
-                    {
-                        globalPlaylistManager.clearSongs();
-                        break;
-                    }
-                }
-            }
-        })
-        ;
+            this.loadRecentSongs();
+        });
     }
 
+    public loadRadio()
+    {
+        for (var i in RadioManager.selectedCriterias) {
+            var selected = RadioManager.selectedCriterias[i].id;
+            switch (selected) {
+                case "radioCustomCriteria":
+                {
+                    for (var i = 0; i < customSearchValues.length; i++) {
+                        new SearchCustom().loadCustomSearchSongs(customSearchValues[i]);
+                    }
+                    break;
+                }
+                case "radioRecentSongsCriteria":
+                {
+                    for (var i = 0; i < this.recentSongs.length; i++) {
+                        new SearchSimilarSongs().loadSimilarSongs(this.recentSongs[i].info.title);
+                    }
+                    break;
+                }
+                case  "radioRecentGenresCriteria":
+                {
+                    for (var i = 0; i < this.recentSongs.length; i++) {
+                        if (this.recentSongs[i].info.genre!=null)
+                            new SearchSimilarGenre().loadSimilarGenreSongs(this.recentSongs[i].info.genre);
+                    }
+
+                    break;
+                }
+                case  "radioRecentAlbumsCriteria":
+                {
+                    for (var i = 0; i < this.recentSongs.length; i++) {
+                        if (this.recentSongs[i].info.album!=null)
+                            new SearchSimilarAlbum().loadSimilarAlbumSongs(this.recentSongs[i].info.artist);
+                    }
+                    break;
+                }
+                default:
+                {
+                    globalPlaylistManager.clearSongs();
+                    break;
+                }
+            }
+        }
+    }
 }
 
 class RadioCriteriaInput {
@@ -276,7 +289,7 @@ class SearchSimilarSongs {
         var id = guid(track.mbid, track.name.trim() + track.artist.name.trim());
         var song = new Song(id, new SongInfo(track.name, track.artist.name, null, null, 0, 0, 0), getLargeImage(track.image));
 
-        RadioManager.addToGlobalPlayer(song);
+        RadioManager.addSongToGlobalPlayer(song);
     }
 
 
@@ -331,7 +344,7 @@ class SearchSimilarGenre {
     }
 
     private addGenreSongs(tracks, tag:Tag) {
-        for (var i = 0; i < tracks.length; i++) {
+        for (var i = 0; i <  Math.round(20/RadioManager.selectedCriterias.length); i++) {
             this.addGenreSong(tracks[i]);
         }
     }
@@ -340,7 +353,7 @@ class SearchSimilarGenre {
         var id = guid(track.mbid, track.name.trim() + track.artist.name.trim());
         var song = new Song(id, new SongInfo(track.name, track.artist.name, null, null, 0, 0, 0), getLargeImage(track.image));
 
-        RadioManager.addToGlobalPlayer(song);
+        RadioManager.addSongToGlobalPlayer(song);
     }
 
     private buildGenreSearchUrl(tag:Tag):string {
@@ -409,7 +422,7 @@ class SearchSimilarAlbum {
         var id = guid(track.mbid, track.name.trim() + track.artist.name.trim());
         var song = new Song(id, new SongInfo(track.name, track.artist.name, null, null, 0, 0, 0), image);
 
-        RadioManager.addToGlobalPlayer(song);
+        RadioManager.addSongToGlobalPlayer(song);
     }
 
 
@@ -429,13 +442,15 @@ class SearchSimilarAlbum {
 
 class SearchCustom {
 
-    loadCustomSearchSongs() {
+    loadCustomSearchSongs(inputCustom:string) {
         $.ajax({
-            url: this.buildSearchUrl($("#customCriteriaInput").val()),
+            url: this.buildSearchUrl(inputCustom),
             dataType: "json",
             method: "POST",
-            success: (res:any) =>this.onMainResult(res["results"]["trackmatches"]["track"])
+            success: (res:any) =>{
+                this.onMainResult(res["results"]["trackmatches"]["track"])
 
+            }
         })
     }
 
@@ -445,7 +460,7 @@ class SearchCustom {
     }
 
     private onMainResult(tracks:any[]) {
-        for (var i = 0; i < tracks.length; i++) {
+        for (var i = 0; i < Math.round(20/RadioManager.selectedCriterias.length); i++) {
             this.pushMainResult(tracks[i]);
         }
     }
@@ -454,6 +469,6 @@ class SearchCustom {
         var id = guid(track.mbid, track.name.trim() + track.artist.trim());
         var song = new Song(id, new SongInfo(track.name, track.artist, null, null, 0, 0, 0), getLargeImage(track.image));
 
-        RadioManager.addToGlobalPlayer(song);
+        RadioManager.addSongToGlobalPlayer(song);
     }
 }
