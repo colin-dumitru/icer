@@ -1,0 +1,1 @@
+insert into playback_history (song_id, userid, play_date) select mbid, 107219770279037001012, date '2013-01-01' + cast(round(random() * 200) as integer) from songs order by random() limit 50
