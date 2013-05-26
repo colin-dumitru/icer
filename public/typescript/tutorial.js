@@ -3,7 +3,6 @@ var Tutorial = (function () {
         this.sectionQueue = [];
         this.previousSection = null;
     }
-
     Tutorial.prototype.start = function () {
         disableUserAction = true;
         this.tutorialContent = $("#tutorialContent");
@@ -25,12 +24,12 @@ var Tutorial = (function () {
         });
     };
     Tutorial.prototype.bindNextSection = function () {
-        if (this.previousSection != null) {
+        if(this.previousSection != null) {
             this.tutorialInfoContainer.removeClass(this.previousSection.containerClass);
             this.tutorialAccent.removeClass(this.previousSection.focusClass);
         }
         var section = this.sectionQueue.pop();
-        if (section == null) {
+        if(section == null) {
             this.showFinishTutorial();
         } else {
             this.tutorialContent.text(section.content);
@@ -74,7 +73,6 @@ var InitialTutorialSection = (function () {
         this.containerClass = "initialTutorialSection";
         this.focusClass = "tutorialAccentHidden";
     }
-
     InitialTutorialSection.prototype.proceed = function () {
     };
     return InitialTutorialSection;
@@ -87,7 +85,6 @@ var MenuBarTutorial = (function () {
         this.containerClass = "menuBarTutorialContent";
         this.focusClass = "menuBarTutorialAccent";
     }
-
     MenuBarTutorial.prototype.proceed = function () {
     };
     return MenuBarTutorial;
@@ -100,7 +97,6 @@ var MenuBarNavigationTutorial = (function () {
         this.containerClass = "menuBarTutorialContent";
         this.focusClass = "menuBarTutorialAccent";
     }
-
     MenuBarNavigationTutorial.prototype.proceed = function () {
         $("#radioMenu").click();
         window.setTimeout(function () {
@@ -123,7 +119,6 @@ var ItemBarTutorial = (function () {
         this.containerClass = "itemBarTutorialContent";
         this.focusClass = "itemBarTutorialAccent";
     }
-
     ItemBarTutorial.prototype.proceed = function () {
     };
     return ItemBarTutorial;
@@ -136,7 +131,6 @@ var ItemBarOpenTutorial = (function () {
         this.containerClass = "itemBarTutorialOpenedContent";
         this.focusClass = "itemBarTutorialOpenedAccent";
     }
-
     ItemBarOpenTutorial.prototype.proceed = function () {
         itemList.giveFocus();
     };
@@ -150,7 +144,6 @@ var ItemBarEnterTutorial = (function () {
         this.containerClass = "itemBarTutorialOpenedContent";
         this.focusClass = "itemBarTutorialEnterAccent";
     }
-
     ItemBarEnterTutorial.prototype.proceed = function () {
         window.setTimeout(function () {
             $("#newItemInput").val("Passenger");
@@ -170,7 +163,6 @@ var SearchResultTutorial = (function () {
         this.containerClass = "searchFinishedTutorialContent";
         this.focusClass = "searchFinishedTutorialAccent";
     }
-
     SearchResultTutorial.prototype.proceed = function () {
     };
     return SearchResultTutorial;
@@ -183,7 +175,6 @@ var NavigationTutorial = (function () {
         this.containerClass = "navigationTutorialContent";
         this.focusClass = "navigationTutorialAccent";
     }
-
     NavigationTutorial.prototype.proceed = function () {
         searchManager.giveNextSessionFocus();
         window.setTimeout(function () {
@@ -212,7 +203,6 @@ var PlaybackTutorial = (function () {
         this.containerClass = "playbackTutorialContent";
         this.focusClass = "playbackTutorialAccent";
     }
-
     PlaybackTutorial.prototype.proceed = function () {
     };
     return PlaybackTutorial;
@@ -225,7 +215,6 @@ var GlobalPlaylistTutorial = (function () {
         this.containerClass = "globalPlaylistTutorialContent";
         this.focusClass = "globalPlaylistTutorialAccent";
     }
-
     GlobalPlaylistTutorial.prototype.proceed = function () {
         globalPlaylistManager.giveFocus();
     };
@@ -239,7 +228,6 @@ var GlobalPlaylistArrangeTutorial = (function () {
         this.containerClass = "globalPlaylistTutorialContent";
         this.focusClass = "globalPlaylistTutorialAccent";
     }
-
     GlobalPlaylistArrangeTutorial.prototype.proceed = function () {
         globalPlaylistManager.giveFocus();
     };

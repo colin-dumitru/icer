@@ -1,7 +1,5 @@
 var HistoryBinder = (function () {
-    function HistoryBinder() {
-    }
-
+    function HistoryBinder() { }
     HistoryBinder.prototype.buildPage = function (rootNode) {
         this.historyManager = new HistoryManager(rootNode);
         this.historyManager.loadHistory();
@@ -11,7 +9,7 @@ var HistoryBinder = (function () {
         $("#historySlider").draggable({
             containment: "#historyContainer",
             axis: "x",
-            drag: function (event, ui) {
+            stop: function (event, ui) {
                 _this.historyManager.slideReferencePoint(ui.position.left);
             }
         });
@@ -27,28 +25,69 @@ var HistoryManager = (function () {
             {
                 x: 0,
                 y: 0
-            },
+            }, 
             {
                 x: 1,
                 y: 10
-            },
+            }, 
             {
                 x: 2,
                 y: 0
-            },
+            }, 
             {
                 x: 3,
                 y: 10
             }
         ];
     }
-
     HistoryManager.prototype.loadHistory = function () {
-        this.historyPoints = this.mockHistory();
-        this.buildHistoryChart();
+        this.historyPoints = this.initializeHistory();
+        this.getPlayback();
         this.buildGenreChart();
-        this.dataWidth = $("#historyContainer").width();
+        this.dataWidth = 800;
         this.slideReferencePoint(0);
+    };
+    HistoryManager.prototype.getGenres = function (week) {
+        var _this = this;
+        $.ajax("/history/genres/" + week, {
+            type: "POST",
+            dataType: "json",
+            success: function (data) {
+                for(var i = 0, len = data.length; i < len; i++) {
+                    _this.historyPoints[week].genres[i].name = data[i].item;
+                    _this.historyPoints[week].genres[i].volume = data[i].plays;
+                }
+                _this.historyPoints[week].updatedGenres = true;
+                _this.displayDataPoint(_this.historyPoints[week]);
+            }
+        });
+    };
+    HistoryManager.prototype.getArtists = function (week) {
+        var _this = this;
+        $.ajax("/history/artists/" + week, {
+            type: "POST",
+            dataType: "json",
+            success: function (data) {
+                for(var i = 0, len = data.length; i < len; i++) {
+                    _this.historyPoints[week].artists[i] = data[i].item.toString();
+                }
+                _this.historyPoints[week].updatedArtists = true;
+                _this.displayDataPoint(_this.historyPoints[week]);
+            }
+        });
+    };
+    HistoryManager.prototype.getPlayback = function () {
+        var _this = this;
+        $.ajax("/history/playback", {
+            type: "POST",
+            dataType: "json",
+            success: function (data) {
+                for(var i = 0, len = data.length; i < len; i++) {
+                    _this.historyPoints[data[i].item - 1].listenVolume = data[i].plays;
+                }
+                _this.buildHistoryChart();
+            }
+        });
     };
     HistoryManager.prototype.buildGenreChart = function () {
         var data = this.genreData;
@@ -94,7 +133,27 @@ var HistoryManager = (function () {
     HistoryManager.prototype.slideReferencePoint = function (position) {
         var dataSetIndex = Math.floor(position / (this.dataWidth / this.historyPoints.length));
         var point = this.historyPoints[dataSetIndex];
-        this.displayDataPoint(point);
+        if(!point.updatedArtists && !point.updatedGenres) {
+            if(!point.updatedGenres) {
+                this.getGenres(dataSetIndex);
+            }
+            if(!point.updatedArtists) {
+                this.getArtists(dataSetIndex);
+            }
+        } else {
+            this.displayDataPoint(point);
+        }
+    };
+    HistoryManager.prototype.getWeekNumber = function () {
+        var date = new Date();
+        var day = date.getDay();
+        if(day == 0) {
+            day = 7;
+        }
+        date.setDate(date.getDate() + (4 - day));
+        var year = date.getFullYear();
+        var ZBDoCY = Math.floor((date.getTime() - new Date(year, 0, 1, -6)) / 86400000);
+        return Math.floor(ZBDoCY / 7);
     };
     HistoryManager.prototype.displayDataPoint = function (point) {
         var _this = this;
@@ -106,81 +165,63 @@ var HistoryManager = (function () {
             };
         });
         this.genreChart.render();
-        $("#historyGenreLabel1").text(point.genres[0].name);
-        $("#historyGenreLabel2").text(point.genres[1].name);
-        $("#historyGenreLabel3").text(point.genres[2].name);
-        $("#historyGenreLabel4").text(point.genres[3].name);
-        $("#historyArtist1").text(point.artists[0]);
-        $("#historyArtist2").text(point.artists[1]);
-        $("#historyArtist3").text(point.artists[2]);
-        $("#historyArtist4").text(point.artists[3]);
+        for(var i = 0; i < 4; i++) {
+            if(point.artists[i] === "") {
+                $("#historyArtist" + (i + 1)).css("display", "none");
+            } else {
+                var historyArtist = $("#historyArtist" + (i + 1));
+                historyArtist.css("display", "list-item");
+                historyArtist.text(point.artists[i]);
+            }
+            if(point.genres[i].name === "") {
+                $("#historyGenreLabel" + (i + 1)).css("display", "none");
+            } else {
+                var historyGenreLabel = $("#historyGenreLabel" + (i + 1));
+                historyGenreLabel.css("display", "inline");
+                historyGenreLabel.text(point.genres[i].name);
+            }
+        }
     };
-    HistoryManager.prototype.mockHistory = function () {
-        var genres = [
-            "rock",
-            "pop",
-            "country",
-            "electronic",
-            "trance",
-            "hip-hop"
-        ];
-        var artists = [
-            "Colplay",
-            "Mat Kearney",
-            "Taylor Swift",
-            "For Fighting Five",
-            "John Groban",
-            "Camo & Krooked",
-            "Israel Kamakawiwo'ole"
-        ];
+    HistoryManager.prototype.initializeHistory = function () {
         var points = [];
-
-        function randomGenre() {
-            var index = Math.floor(Math.random() * genres.length);
-            return genres[index];
-        }
-
-        function randomArtist() {
-            var index = Math.floor(Math.random() * artists.length);
-            return artists[index];
-        }
-
-        for (var i = 0; i < 25; i++) {
-            points.push(new HistoryPoint(Math.random() * 50, [
+        var currentWeek = this.getWeekNumber();
+        for(var i = 0; i < currentWeek; i++) {
+            points.push(new HistoryPoint(0, [
                 {
-                    name: randomGenre(),
-                    volume: Math.random() * 50
-                },
+                    name: "",
+                    volume: 0
+                }, 
                 {
-                    name: randomGenre(),
-                    volume: Math.random() * 50
-                },
+                    name: "",
+                    volume: 0
+                }, 
                 {
-                    name: randomGenre(),
-                    volume: Math.random() * 50
-                },
+                    name: "",
+                    volume: 0
+                }, 
                 {
-                    name: randomGenre(),
-                    volume: Math.random() * 50
+                    name: "",
+                    volume: 0
                 }
             ], [
-                randomArtist(),
-                randomArtist(),
-                randomArtist(),
-                randomArtist()
-            ]));
+                "", 
+                "", 
+                "", 
+                ""
+            ], false, false));
         }
         return points;
     };
     return HistoryManager;
 })();
 var HistoryPoint = (function () {
-    function HistoryPoint(listenVolume, genres, artists) {
+    function HistoryPoint(listenVolume, genres, artists, updatedGenres, updatedArtists) {
         this.listenVolume = listenVolume;
         this.genres = genres;
         this.artists = artists;
+        this.updatedGenres = updatedGenres;
+        this.updatedArtists = updatedArtists;
     }
-
     return HistoryPoint;
 })();
 //@ sourceMappingURL=history.js.map

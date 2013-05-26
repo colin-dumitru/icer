@@ -5,7 +5,6 @@ var MobilePlaylistManager = (function () {
         this.optionsCollapsed = true;
         this.selectedPlaylist = null;
     }
-
     MobilePlaylistManager.prototype.bind = function () {
         $("#playNow").on("click", function (e) {
             var selectedSong = $(".playlistItemOptionContainerFocused");
@@ -83,7 +82,7 @@ var MobilePlaylistManager = (function () {
     MobilePlaylistManager.prototype.playPlaylist = function () {
         var songs = $(".playlistItemOptionContainer");
         globalPlaylistManager.clearSongs();
-        for (var i = 0; i < songs.length; i++) {
+        for(var i = 0; i < songs.length; i++) {
             var song = new MSong(songs[i].getAttribute("songId"), songs[i].getAttribute("songTitle"), songs[i].getAttribute("songArtist"), songs[i].getAttribute("songImage"));
             globalPlaylistManager.pushSong(song);
         }
@@ -102,7 +101,7 @@ var MobilePlaylistManager = (function () {
     };
     MobilePlaylistManager.prototype.closeOverlay = function () {
         $(document).click(function (e) {
-            if (e.target.id != "#box") {
+            if(e.target.id != "#box") {
                 $('#box').fadeOut('fast');
             }
         });
@@ -116,14 +115,14 @@ var MobilePlaylistManager = (function () {
         });
     };
     MobilePlaylistManager.prototype.searchItemClicked = function (item) {
-        if (item == this.selectedItem) {
+        if(item == this.selectedItem) {
             this.refocusOptions(item);
         } else {
             this.changeOptionsFocus(item);
         }
     };
     MobilePlaylistManager.prototype.refocusOptions = function (item) {
-        if (this.optionsCollapsed) {
+        if(this.optionsCollapsed) {
             this.giveOptionsFocus();
         } else {
             this.takeOptionsFocus(item);
@@ -131,11 +130,11 @@ var MobilePlaylistManager = (function () {
     };
     MobilePlaylistManager.prototype.changeOptionsFocus = function (item) {
         $(item).addClass("playlistItemOptionContainerFocused");
-        if (this.selectedItem != null) {
+        if(this.selectedItem != null) {
             $(this.selectedItem).removeClass("playlistItemOptionContainerFocused");
         }
         this.selectedItem = item;
-        if (this.optionsCollapsed) {
+        if(this.optionsCollapsed) {
             this.giveOptionsFocus();
         }
     };

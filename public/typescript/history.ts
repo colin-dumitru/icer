@@ -13,7 +13,7 @@ class HistoryBinder implements SectionBinder {
             .draggable({
                 containment: "#historyContainer",
                 axis: "x",
-                drag: (event, ui) => {
+                stop: (event, ui) => {
                     this.historyManager.slideReferencePoint(ui.position.left)
                 }
             });
@@ -41,13 +41,58 @@ class HistoryManager {
     }
 
     loadHistory() {
-        this.historyPoints = this.mockHistory();
-
-        this.buildHistoryChart();
+        this.historyPoints = this.initializeHistory();
+        this.getPlayback();
         this.buildGenreChart();
-        this.dataWidth = $("#historyContainer").width();
+        this.dataWidth = 800;
 
         this.slideReferencePoint(0);
+    }
+
+    getGenres(week:number) {
+        //alert("week: " + week);
+        $.ajax("/history/genres/" + week, {
+            type: "POST",
+            dataType: "json",
+            success: data => {
+                for (var i = 0, len = data.length; i < len; i++) {
+                    this.historyPoints[week].genres[i].name = data[i].item;
+                    this.historyPoints[week].genres[i].volume = data[i].plays;
+                }
+
+                this.historyPoints[week].updatedGenres = true;
+                this.displayDataPoint(this.historyPoints[week]);
+            }
+        });
+    }
+
+    getArtists(week:number) {
+        $.ajax("/history/artists/" + week, {
+            type: "POST",
+            dataType: "json",
+            success: data => {
+                for (var i = 0, len = data.length; i < len; i++) {
+                    this.historyPoints[week].artists[i] = data[i].item.toString();
+                }
+
+                this.historyPoints[week].updatedArtists = true;
+                this.displayDataPoint(this.historyPoints[week]);
+            }
+        });
+    }
+
+    getPlayback() {
+        $.ajax("/history/playback", {
+            type: "POST",
+            dataType: "json",
+            success: data => {
+                for (var i = 0, len = data.length; i < len; i++) {
+                    this.historyPoints[data[i].item - 1].listenVolume = data[i].plays;
+                }
+
+                this.buildHistoryChart();
+            }
+        });
     }
 
     private buildGenreChart() {
@@ -98,7 +143,30 @@ class HistoryManager {
     slideReferencePoint(position:number) {
         var dataSetIndex = Math.floor(position / (this.dataWidth / this.historyPoints.length));
         var point = this.historyPoints[dataSetIndex];
-        this.displayDataPoint(point);
+
+        if (!point.updatedArtists && !point.updatedGenres) {
+            if (!point.updatedGenres) {
+                this.getGenres(dataSetIndex)
+            }
+
+            if (!point.updatedArtists) {
+                this.getArtists(dataSetIndex)
+            }
+        } else {
+            this.displayDataPoint(point);
+        }
+    }
+
+    getWeekNumber() {
+        var date = new Date();
+        var day = date.getDay();
+        if(day == 0) {
+            day = 7;
+        }
+        date.setDate(date.getDate() + (4 - day));
+        var year = date.getFullYear();
+        var ZBDoCY = Math.floor((date.getTime() - new Date(year, 0, 1, -6)) / 86400000);
+        return Math.floor(ZBDoCY / 7);
     }
 
     displayDataPoint(point:HistoryPoint) {
@@ -107,42 +175,38 @@ class HistoryManager {
         });
         this.genreChart.render();
 
-        $("#historyGenreLabel1").text(point.genres[0].name);
-        $("#historyGenreLabel2").text(point.genres[1].name);
-        $("#historyGenreLabel3").text(point.genres[2].name);
-        $("#historyGenreLabel4").text(point.genres[3].name);
+        for (var i = 0; i < 4; i++) {
+            if (point.artists[i] === "") {
+                $("#historyArtist" + (i + 1)).css("display", "none");
+            } else {
+                var historyArtist = $("#historyArtist" + (i + 1))
+                historyArtist.css("display", "list-item");
+                historyArtist.text(point.artists[i]);
+            }
 
-        $("#historyArtist1").text(point.artists[0]);
-        $("#historyArtist2").text(point.artists[1]);
-        $("#historyArtist3").text(point.artists[2]);
-        $("#historyArtist4").text(point.artists[3]);
+            if (point.genres[i].name === "") {
+                $("#historyGenreLabel" + (i + 1)).css("display", "none");
+            } else {
+                var historyGenreLabel = $("#historyGenreLabel" + (i + 1))
+                historyGenreLabel.css("display", "inline");
+                historyGenreLabel.text(point.genres[i].name);
+            }
+        }
     }
 
-    mockHistory():HistoryPoint[] {
-        var genres = ["rock", "pop", "country", "electronic", "trance", "hip-hop"];
-        var artists = ["Colplay", "Mat Kearney", "Taylor Swift", "For Fighting Five", "John Groban", "Camo & Krooked", "Israel Kamakawiwo'ole"];
-
+    initializeHistory():HistoryPoint[] {
         var points = [];
 
-        function randomGenre() {
-            var index = Math.floor(Math.random() * genres.length);
-            return genres[index];
-        }
-
-        function randomArtist() {
-            var index = Math.floor(Math.random() * artists.length);
-            return artists[index];
-        }
-
-        for (var i = 0; i < 25; i++) {
+        var currentWeek = this.getWeekNumber();
+        for (var i = 0; i < currentWeek; i++) {
             points.push(
-                new HistoryPoint(Math.random() * 50, [
-                    {name: randomGenre(), volume: Math.random() * 50},
-                    {name: randomGenre(), volume: Math.random() * 50},
-                    {name: randomGenre(), volume: Math.random() * 50},
-                    {name: randomGenre(), volume: Math.random() * 50}
+                new HistoryPoint(0 , [
+                    {name: "", volume: 0},
+                    {name: "", volume: 0},
+                    {name: "", volume: 0},
+                    {name: "", volume: 0}
                 ],
-                    [randomArtist(), randomArtist(), randomArtist(), randomArtist()])
+                    ["", "", "", ""], false, false)
             );
         }
 
@@ -151,7 +215,7 @@ class HistoryManager {
 }
 
 class HistoryPoint {
-    constructor(public listenVolume:number, public genres:{ name : String; volume:number; }[], public artists:string[]) {
+    constructor(public listenVolume:number, public genres:{ name : String; volume:number; }[], public artists:string[], public updatedGenres: bool, public updatedArtists: bool) {
     }
 
 }

@@ -15,6 +15,9 @@ GET     /assets/*file               controllers.Assets.at(path="/public", file)
 
 #History
 POST    /history/push               controllers.history.History.push
+POST    /history/genres/:week       controllers.history.History.getGenres(week: Int)
+POST    /history/artists/:week      controllers.history.History.getArtists(week: Int)
+POST    /history/playback           controllers.history.History.getPlayback
 
 #Playlist
 POST /playlist/load controllers.playlist.Playlists.findAllForUser

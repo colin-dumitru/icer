@@ -194,18 +194,12 @@ class ChartsManager {
             type: "POST",
             dataType: "json",
             success: data => {
-                if (data.length == 0) {
-                    //alert("No chart available for selected time span.")
-                }
                     var songs:Song[] = [data.length];
                     for (var i = 0, len = data.length; i < len; i++) {
                         var songInfo = new SongInfo(data[i].title, data[i].artist, data[i].album, data[i].genre, data[i].peek, data[i].weeksOnTop, data[i].positionChange);
                         songs[i] = new Song(data[i].mbid, songInfo, data[i].imageUrl);
                     }
                     this.setSongList(songs);
-            },
-            error: function (reason) {
-                alert(reason)
             }
         });
     }
