@@ -107,10 +107,21 @@ class GlobalPlaylistManager {
     private footer = null;
     private playbackContainer = null;
     private playingSongs = null;
+    private playingSongOptionContainer = null;
     private playButton = null;
+    private previousButton = null;
+    private nextButton = null;
+    private upButton = null;
+    private downButton = null;
+    private deletePlayingSong = null;
+    private deletePlayingSongs = null;
+    private playCurrentSong = null;
 
     private collapsed = true;
+    private playing = false;
 
+    private selectedSongItem = null;
+    private playingSongItem = null;
 
     bind() {
         this.progressBar = $("#progressBars");
@@ -120,6 +131,14 @@ class GlobalPlaylistManager {
         this.playbackContainer = $("#playbackContainer");
         this.playingSongs = $("#playingSongs");
         this.playButton = $("#playButton");
+        this.nextButton = $("#nextButton");
+        this.previousButton = $("#previousButton");
+        this.playingSongOptionContainer = $("#playingSongOptionContainer");
+        this.upButton = $("#upButton");
+        this.downButton = $("#downButton");
+        this.deletePlayingSong = $("#deletePlayingSong");
+        this.deletePlayingSongs = $("#deletePlayingSongs");
+        this.playCurrentSong = $("#playCurrentSong");
 
         this.playbackArrow.click(() => {
             if (this.collapsed) {
@@ -152,10 +171,85 @@ class GlobalPlaylistManager {
         this.playButton.click(() => {
             this.playToggle();
         });
+
+        this.upButton.click(() => {
+            this.moveUp();
+        });
+
+        this.downButton.click(() => {
+            this.moveDown();
+        });
+
+        this.deletePlayingSong.click(() => {
+            this.deleteCurrentSong();
+        });
+
+        this.deletePlayingSongs.click(() => {
+            this.clearSongs();
+        });
+
+        this.playCurrentSong.click(() => {
+            this.playSelectedSong();
+        });
+    }
+
+    private playSelectedSong() {
+        this.playingSongItem = this.selectedSongItem;
+        this.resumePlayingSong();
+    }
+
+    private deleteCurrentSong() {
+        $(this.selectedSongItem).remove();
+    }
+
+    private moveUp() {
+        var qitem = $(this.selectedSongItem);
+
+        qitem.insertBefore(qitem.prev());
+    }
+
+    private moveDown() {
+        var qitem = $(this.selectedSongItem);
+
+        qitem.insertAfter(qitem.next());
     }
 
     private playToggle() {
+        if (this.playing) {
+            this.pausePlayingSong();
+        } else {
+            this.resumePlayingSong();
+        }
+    }
 
+    private pausePlayingSong() {
+        this.playing = false;
+        this.playButton.attr("src", "assets/images/paused.png");
+
+        player.pause();
+    }
+
+    private resumePlayingSong() {
+        this.playing = true;
+        this.playButton.attr("src", "assets/images/play.png");
+
+        if (this.playingSongItem == null) {
+            this.playSong(this.getFirstSongItem().get());
+        } else {
+            this.playSong(this.playingSongItem);
+        }
+    }
+
+    private playSong(item) {
+        $(this.playingSongItem).removeClass("playingSongPlaying");
+        this.playingSongItem = item;
+        $(this.playingSongItem).removeClass("playingSongPlaying");
+        var selectedSong = this.convertItemToSong($(item));
+        player.playSong(selectedSong);
+    }
+
+    private getFirstSongItem() {
+        return this.playingSongs.children().first();
     }
 
     private giveFocus() {
@@ -198,17 +292,58 @@ class GlobalPlaylistManager {
 
     private bindItemClick(item, song:MSong) {
         $(item).click(() => {
-            player.playSong(song);
+            this.toggleOptions(item, song);
         });
+    }
+
+    private toggleOptions(item, song) {
+        if (item == this.selectedSongItem) {
+            this.hideOptions();
+        } else {
+            this.showOptions(item);
+        }
+    }
+
+    private showOptions(item) {
+        $(this.selectedSongItem).removeClass("playingSongSelected");
+        this.selectedSongItem = item;
+        $(this.selectedSongItem).addClass("playingSongSelected");
+
+        this.playingSongOptionContainer.css({
+            transform: "translate3d(-38px, 0, 0)"
+        });
+    }
+
+    private hideOptions() {
+        $(this.selectedSongItem).removeClass("playingSongSelected");
+        this.selectedSongItem = null;
+
+        this.playingSongOptionContainer.css({
+            transform: "translate3d(0, 0, 0)"
+        });
+
     }
 
     private convertSongToItem(song:MSong) {
         var container = $("<div></div>");
 
         container.addClass("playingSong");
+        container.attr("songId", song.mbid);
+        container.attr("songTitle", song.title);
+        container.attr("songArtist", song.artist);
+        container.attr("songImageUrl", song.imageUrl);
         container.text(song.title + "-" + song.artist);
 
         return container;
+    }
+
+    private convertItemToSong(item):MSong {
+        return new MSong(
+            item.attr("songId"),
+            item.attr("songTitle"),
+            item.attr("songArtist"),
+            item.attr("songImageUrl")
+        );
     }
 }
 
@@ -249,12 +384,20 @@ class Player {
     }
 
     public playSong(song:MSong) {
-        if (song == this.currentSong) {
+        if (song.mbid != null && song.mbid == this.currentSongMbid()) {
             this.currentPlayer.resume();
         } else {
             this.stopCurrentSong();
             this.resolveSoundUrl(song);
             this.updateSongInfo(song);
+        }
+    }
+
+    private currentSongMbid() {
+        if (this.currentSong == null) {
+            return null;
+        } else {
+            return this.currentSong.mbid;
         }
     }
 

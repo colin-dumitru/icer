@@ -99,8 +99,19 @@ var GlobalPlaylistManager = (function () {
         this.footer = null;
         this.playbackContainer = null;
         this.playingSongs = null;
+        this.playingSongOptionContainer = null;
         this.playButton = null;
+        this.previousButton = null;
+        this.nextButton = null;
+        this.upButton = null;
+        this.downButton = null;
+        this.deletePlayingSong = null;
+        this.deletePlayingSongs = null;
+        this.playCurrentSong = null;
         this.collapsed = true;
+        this.playing = false;
+        this.selectedSongItem = null;
+        this.playingSongItem = null;
     }
 
     GlobalPlaylistManager.prototype.bind = function () {
@@ -112,6 +123,14 @@ var GlobalPlaylistManager = (function () {
         this.playbackContainer = $("#playbackContainer");
         this.playingSongs = $("#playingSongs");
         this.playButton = $("#playButton");
+        this.nextButton = $("#nextButton");
+        this.previousButton = $("#previousButton");
+        this.playingSongOptionContainer = $("#playingSongOptionContainer");
+        this.upButton = $("#upButton");
+        this.downButton = $("#downButton");
+        this.deletePlayingSong = $("#deletePlayingSong");
+        this.deletePlayingSongs = $("#deletePlayingSongs");
+        this.playCurrentSong = $("#playCurrentSong");
         this.playbackArrow.click(function () {
             if (_this.collapsed) {
                 _this.giveFocus();
@@ -140,8 +159,67 @@ var GlobalPlaylistManager = (function () {
         this.playButton.click(function () {
             _this.playToggle();
         });
+        this.upButton.click(function () {
+            _this.moveUp();
+        });
+        this.downButton.click(function () {
+            _this.moveDown();
+        });
+        this.deletePlayingSong.click(function () {
+            _this.deleteCurrentSong();
+        });
+        this.deletePlayingSongs.click(function () {
+            _this.clearSongs();
+        });
+        this.playCurrentSong.click(function () {
+            _this.playSelectedSong();
+        });
+    };
+    GlobalPlaylistManager.prototype.playSelectedSong = function () {
+        this.playingSongItem = this.selectedSongItem;
+        this.resumePlayingSong();
+    };
+    GlobalPlaylistManager.prototype.deleteCurrentSong = function () {
+        $(this.selectedSongItem).remove();
+    };
+    GlobalPlaylistManager.prototype.moveUp = function () {
+        var qitem = $(this.selectedSongItem);
+        qitem.insertBefore(qitem.prev());
+    };
+    GlobalPlaylistManager.prototype.moveDown = function () {
+        var qitem = $(this.selectedSongItem);
+        qitem.insertAfter(qitem.next());
     };
     GlobalPlaylistManager.prototype.playToggle = function () {
+        if (this.playing) {
+            this.pausePlayingSong();
+        } else {
+            this.resumePlayingSong();
+        }
+    };
+    GlobalPlaylistManager.prototype.pausePlayingSong = function () {
+        this.playing = false;
+        this.playButton.attr("src", "assets/images/paused.png");
+        player.pause();
+    };
+    GlobalPlaylistManager.prototype.resumePlayingSong = function () {
+        this.playing = true;
+        this.playButton.attr("src", "assets/images/play.png");
+        if (this.playingSongItem == null) {
+            this.playSong(this.getFirstSongItem().get());
+        } else {
+            this.playSong(this.playingSongItem);
+        }
+    };
+    GlobalPlaylistManager.prototype.playSong = function (item) {
+        $(this.playingSongItem).removeClass("playingSongPlaying");
+        this.playingSongItem = item;
+        $(this.playingSongItem).removeClass("playingSongPlaying");
+        var selectedSong = this.convertItemToSong($(item));
+        player.playSong(selectedSong);
+    };
+    GlobalPlaylistManager.prototype.getFirstSongItem = function () {
+        return this.playingSongs.children().first();
     };
     GlobalPlaylistManager.prototype.giveFocus = function () {
         this.collapsed = false;
@@ -172,15 +250,45 @@ var GlobalPlaylistManager = (function () {
         this.playingSongs.empty();
     };
     GlobalPlaylistManager.prototype.bindItemClick = function (item, song) {
+        var _this = this;
         $(item).click(function () {
-            player.playSong(song);
+            _this.toggleOptions(item, song);
+        });
+    };
+    GlobalPlaylistManager.prototype.toggleOptions = function (item, song) {
+        if (item == this.selectedSongItem) {
+            this.hideOptions();
+        } else {
+            this.showOptions(item);
+        }
+    };
+    GlobalPlaylistManager.prototype.showOptions = function (item) {
+        $(this.selectedSongItem).removeClass("playingSongSelected");
+        this.selectedSongItem = item;
+        $(this.selectedSongItem).addClass("playingSongSelected");
+        this.playingSongOptionContainer.css({
+            transform: "translate3d(-38px, 0, 0)"
+        });
+    };
+    GlobalPlaylistManager.prototype.hideOptions = function () {
+        $(this.selectedSongItem).removeClass("playingSongSelected");
+        this.selectedSongItem = null;
+        this.playingSongOptionContainer.css({
+            transform: "translate3d(0, 0, 0)"
         });
     };
     GlobalPlaylistManager.prototype.convertSongToItem = function (song) {
         var container = $("<div></div>");
         container.addClass("playingSong");
+        container.attr("songId", song.mbid);
+        container.attr("songTitle", song.title);
+        container.attr("songArtist", song.artist);
+        container.attr("songImageUrl", song.imageUrl);
         container.text(song.title + "-" + song.artist);
         return container;
+    };
+    GlobalPlaylistManager.prototype.convertItemToSong = function (item) {
+        return new MSong(item.attr("songId"), item.attr("songTitle"), item.attr("songArtist"), item.attr("songImageUrl"));
     };
     return GlobalPlaylistManager;
 })();
@@ -217,12 +325,19 @@ var Player = (function () {
         }
     };
     Player.prototype.playSong = function (song) {
-        if (song == this.currentSong) {
+        if (song.mbid != null && song.mbid == this.currentSongMbid()) {
             this.currentPlayer.resume();
         } else {
             this.stopCurrentSong();
             this.resolveSoundUrl(song);
             this.updateSongInfo(song);
+        }
+    };
+    Player.prototype.currentSongMbid = function () {
+        if (this.currentSong == null) {
+            return null;
+        } else {
+            return this.currentSong.mbid;
         }
     };
     Player.prototype.updateSongInfo = function (song) {

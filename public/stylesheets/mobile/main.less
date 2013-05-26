@@ -269,7 +269,7 @@ body {
   position: relative;
 }
 
-#playingSongs {
+#playingSongsWrapper {
   position: absolute;
   top: 10px;
   bottom: 10px;
@@ -278,7 +278,14 @@ body {
   background: darken(@background_variant, 10%);
   border-radius: 2px;
   border: 1px solid @foreground;
+  overflow: hidden;
+}
+
+#playingSongs {
+  height: 100%;
+  width: 100%;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 
 #playingSongTitle {
@@ -304,7 +311,7 @@ body {
 
 .playingSong {
   .fontText;
-  color: @foreground_text;
+  color: @background_text;
   font-size: 1em;
   padding: 2px;
   overflow-x: hidden;
@@ -312,12 +319,41 @@ body {
   cursor: pointer;
 }
 
+.playingSongSelected {
+  background: lighten(@background_variant, 10%);
+}
+
+.playingSongPlaying {
+  background: lighten(@background_variant, 20%);
+}
+
 .playingSong:hover {
   background: @foreground_focus;
+  color: @foreground_text;
 }
 
 .deleteButton {
   background: "/assets/images/delete.png";
   width: 32px;
   height: 32px;
+}
+
+#playingSongOptionContainer {
+  position: absolute;
+  top: 0px;
+  right: -38px;
+  width: 38px;
+  background: @background_variant;
+
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+  -webkit-transition: -webkit-transform 0.4s ease;
+  transition: transform 0.4s ease;
+}
+
+.playingSongsOption {
+  margin-left: 3px;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
 }

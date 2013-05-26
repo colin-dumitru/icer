@@ -66,7 +66,16 @@
                         </td>
                         <td rowspan="4">
                             <div id="playingSongsContainer">
-                                <div id="playingSongs"></div>
+                                <div id="playingSongsWrapper">
+                                    <div id="playingSongs"></div>
+                                    <div id="playingSongOptionContainer">
+                                        <img id="playCurrentSong" class="playingSongsOption" src="@routes.Assets.at("images/play.png")" />
+                                        <img id="upButton" class="playingSongsOption" src="@routes.Assets.at("images/up.png")" />
+                                        <img id="downButton" class="playingSongsOption" src="@routes.Assets.at("images/down.png")" />
+                                        <img id="deletePlayingSong" class="playingSongsOption" src="@routes.Assets.at("images/delete.png")" />
+                                        <img id="deletePlayingSongs" class="playingSongsOption" src="@routes.Assets.at("images/delete_all.png")" />
+                                    </div>
+                                </div>
                             </div>
                         </td>
                     </tr>
