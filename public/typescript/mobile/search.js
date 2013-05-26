@@ -49,8 +49,7 @@ var SearchManager = (function () {
     SearchManager.prototype.playCurrentSong = function () {
         var item = this.selectedItem;
         var song = new MSong(item.attr("songId"), item.attr("songTitle"), item.attr("songArtist"), item.attr("songImage"));
-        globalPlaylistManager.pushSong(song);
-        player.playSong(song);
+        globalPlaylistManager.pushSongAndPlay(song);
         this.cancelMoveOptionsToItem(this.selectedItem);
     };
     SearchManager.prototype.addCurrentSongToPlaylist = function (playlistId) {

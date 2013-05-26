@@ -191,6 +191,24 @@ class GlobalPlaylistManager {
         this.playCurrentSong.click(() => {
             this.playSelectedSong();
         });
+
+        this.nextButton.click(() => {
+            this.playNext();
+        });
+
+        this.previousButton.click(() => {
+            this.playPrevious();
+        });
+    }
+
+    private playNext() {
+        var nextItem = $(this.playingSongItem).next().get();
+        this.resumePlayingSong(nextItem);
+    }
+
+    private playPrevious() {
+        var prevItem = $(this.playingSongItem).prev().get();
+        this.resumePlayingSong(prevItem);
     }
 
     private playSelectedSong() {
@@ -229,21 +247,21 @@ class GlobalPlaylistManager {
         player.pause();
     }
 
-    private resumePlayingSong() {
+    private resumePlayingSong(item = this.playingSongItem) {
         this.playing = true;
         this.playButton.attr("src", "assets/images/play.png");
 
-        if (this.playingSongItem == null) {
+        if (item == null) {
             this.playSong(this.getFirstSongItem().get());
         } else {
-            this.playSong(this.playingSongItem);
+            this.playSong(item);
         }
     }
 
     private playSong(item) {
         $(this.playingSongItem).removeClass("playingSongPlaying");
         this.playingSongItem = item;
-        $(this.playingSongItem).removeClass("playingSongPlaying");
+        $(this.playingSongItem).addClass("playingSongPlaying");
         var selectedSong = this.convertItemToSong($(item));
         player.playSong(selectedSong);
     }
@@ -280,13 +298,20 @@ class GlobalPlaylistManager {
         player.changeVolume(position);
     }
 
-    public pushSong(song:MSong) {
+    pushSong(song:MSong) {
         var item = this.convertSongToItem(song);
         this.bindItemClick(item, song);
         this.playingSongs.append(item);
     }
 
-    public clearSongs() {
+    pushSongAndPlay(song:MSong) {
+        var item = this.convertSongToItem(song);
+        this.bindItemClick(item, song);
+        this.playingSongs.append(item);
+        this.resumePlayingSong(item.get());
+    }
+
+    clearSongs() {
         this.playingSongs.empty();
     }
 

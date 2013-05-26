@@ -174,6 +174,20 @@ var GlobalPlaylistManager = (function () {
         this.playCurrentSong.click(function () {
             _this.playSelectedSong();
         });
+        this.nextButton.click(function () {
+            _this.playNext();
+        });
+        this.previousButton.click(function () {
+            _this.playPrevious();
+        });
+    };
+    GlobalPlaylistManager.prototype.playNext = function () {
+        var nextItem = $(this.playingSongItem).next().get();
+        this.resumePlayingSong(nextItem);
+    };
+    GlobalPlaylistManager.prototype.playPrevious = function () {
+        var prevItem = $(this.playingSongItem).prev().get();
+        this.resumePlayingSong(prevItem);
     };
     GlobalPlaylistManager.prototype.playSelectedSong = function () {
         this.playingSongItem = this.selectedSongItem;
@@ -202,19 +216,22 @@ var GlobalPlaylistManager = (function () {
         this.playButton.attr("src", "assets/images/paused.png");
         player.pause();
     };
-    GlobalPlaylistManager.prototype.resumePlayingSong = function () {
+    GlobalPlaylistManager.prototype.resumePlayingSong = function (item) {
+        if (typeof item === "undefined") {
+            item = this.playingSongItem;
+        }
         this.playing = true;
         this.playButton.attr("src", "assets/images/play.png");
-        if (this.playingSongItem == null) {
+        if (item == null) {
             this.playSong(this.getFirstSongItem().get());
         } else {
-            this.playSong(this.playingSongItem);
+            this.playSong(item);
         }
     };
     GlobalPlaylistManager.prototype.playSong = function (item) {
         $(this.playingSongItem).removeClass("playingSongPlaying");
         this.playingSongItem = item;
-        $(this.playingSongItem).removeClass("playingSongPlaying");
+        $(this.playingSongItem).addClass("playingSongPlaying");
         var selectedSong = this.convertItemToSong($(item));
         player.playSong(selectedSong);
     };
@@ -245,6 +262,12 @@ var GlobalPlaylistManager = (function () {
         var item = this.convertSongToItem(song);
         this.bindItemClick(item, song);
         this.playingSongs.append(item);
+    };
+    GlobalPlaylistManager.prototype.pushSongAndPlay = function (song) {
+        var item = this.convertSongToItem(song);
+        this.bindItemClick(item, song);
+        this.playingSongs.append(item);
+        this.resumePlayingSong(item.get());
     };
     GlobalPlaylistManager.prototype.clearSongs = function () {
         this.playingSongs.empty();
