@@ -155,25 +155,25 @@ var RadioManager = (function () {
             switch (selected) {
                 case "radioCustomCriteria":
                 {
-                    for (var i = 0; i < customSearchValues.length; i++) {
-                        new SearchCustom().loadCustomSearchSongs(customSearchValues[i]);
+                    for (var j = 0; j < customSearchValues.length; j++) {
+                        new SearchCustom().loadCustomSearchSongs(customSearchValues[j]);
                     }
                     break;
                 }
 
                 case "radioRecentSongsCriteria":
                 {
-                    for (var i = 0; i < this.recentSongs.length; i++) {
-                        new SearchSimilarSongs().loadSimilarSongs(this.recentSongs[i].info.title);
+                    for (var j = 0; j < this.recentSongs.length; j++) {
+                        new SearchSimilarSongs().loadSimilarSongs(this.recentSongs[j].info.title);
                     }
                     break;
                 }
 
                 case "radioRecentGenresCriteria":
                 {
-                    for (var i = 0; i < this.recentSongs.length; i++) {
-                        if (this.recentSongs[i].info.genre != null) {
-                            new SearchSimilarGenre().loadSimilarGenreSongs(this.recentSongs[i].info.genre);
+                    for (var j = 0; j < this.recentSongs.length; j++) {
+                        if (this.recentSongs[j].info.genre != null) {
+                            new SearchSimilarGenre().loadSimilarGenreSongs(this.recentSongs[j].info.genre);
                         }
                     }
                     break;
@@ -181,9 +181,9 @@ var RadioManager = (function () {
 
                 case "radioRecentAlbumsCriteria":
                 {
-                    for (var i = 0; i < this.recentSongs.length; i++) {
-                        if (this.recentSongs[i].info.album != null) {
-                            new SearchSimilarAlbum().loadSimilarAlbumSongs(this.recentSongs[i].info.artist);
+                    for (var j = 0; j < this.recentSongs.length; j++) {
+                        if (this.recentSongs[j].info.album != null) {
+                            new SearchSimilarAlbum().loadSimilarAlbumSongs(this.recentSongs[j].info.artist);
                         }
                     }
                     break;

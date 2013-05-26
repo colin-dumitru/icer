@@ -79,7 +79,7 @@ class RadioManager {
         $.ajax("/radio/songs/", {
             type: "POST",
             dataType: "json",
-            success: data =>{
+            success: data => {
                 this.onSongResult(data)
                 this.loadRadio();
             }
@@ -128,8 +128,7 @@ class RadioManager {
         RadioManager.selectedCriterias.push(criteriaInput);
         tr.find("#radioCriteriaCloseButton").click(() => {
             for (var i in customSearchValues) {
-                if (customSearchValues[i] == criteria)
-                {
+                if (customSearchValues[i] == criteria) {
                     var index = customSearchValues.indexOf(criteria);
                     customSearchValues.splice(index, 1);
                 }
@@ -185,39 +184,38 @@ class RadioManager {
         });
     }
 
-    public loadRadio()
-    {
+    public loadRadio() {
         for (var i in RadioManager.selectedCriterias) {
             var selected = RadioManager.selectedCriterias[i].id;
             switch (selected) {
                 case "radioCustomCriteria":
                 {
-                    for (var i = 0; i < customSearchValues.length; i++) {
-                        new SearchCustom().loadCustomSearchSongs(customSearchValues[i]);
+                    for (var j = 0; j < customSearchValues.length; j++) {
+                        new SearchCustom().loadCustomSearchSongs(customSearchValues[j]);
                     }
                     break;
                 }
                 case "radioRecentSongsCriteria":
                 {
-                    for (var i = 0; i < this.recentSongs.length; i++) {
-                        new SearchSimilarSongs().loadSimilarSongs(this.recentSongs[i].info.title);
+                    for (var j = 0; j < this.recentSongs.length; j++) {
+                        new SearchSimilarSongs().loadSimilarSongs(this.recentSongs[j].info.title);
                     }
                     break;
                 }
                 case  "radioRecentGenresCriteria":
                 {
-                    for (var i = 0; i < this.recentSongs.length; i++) {
-                        if (this.recentSongs[i].info.genre!=null)
-                            new SearchSimilarGenre().loadSimilarGenreSongs(this.recentSongs[i].info.genre);
+                    for (var j = 0; j < this.recentSongs.length; j++) {
+                        if (this.recentSongs[j].info.genre != null)
+                            new SearchSimilarGenre().loadSimilarGenreSongs(this.recentSongs[j].info.genre);
                     }
 
                     break;
                 }
                 case  "radioRecentAlbumsCriteria":
                 {
-                    for (var i = 0; i < this.recentSongs.length; i++) {
-                        if (this.recentSongs[i].info.album!=null)
-                            new SearchSimilarAlbum().loadSimilarAlbumSongs(this.recentSongs[i].info.artist);
+                    for (var j = 0; j < this.recentSongs.length; j++) {
+                        if (this.recentSongs[j].info.album != null)
+                            new SearchSimilarAlbum().loadSimilarAlbumSongs(this.recentSongs[j].info.artist);
                     }
                     break;
                 }
@@ -344,7 +342,7 @@ class SearchSimilarGenre {
     }
 
     private addGenreSongs(tracks, tag:Tag) {
-        for (var i = 0; i <  Math.round(20/RadioManager.selectedCriterias.length); i++) {
+        for (var i = 0; i < Math.round(20 / RadioManager.selectedCriterias.length); i++) {
             this.addGenreSong(tracks[i]);
         }
     }
@@ -447,7 +445,7 @@ class SearchCustom {
             url: this.buildSearchUrl(inputCustom),
             dataType: "json",
             method: "POST",
-            success: (res:any) =>{
+            success: (res:any) => {
                 this.onMainResult(res["results"]["trackmatches"]["track"])
 
             }
@@ -460,7 +458,7 @@ class SearchCustom {
     }
 
     private onMainResult(tracks:any[]) {
-        for (var i = 0; i < Math.round(20/RadioManager.selectedCriterias.length); i++) {
+        for (var i = 0; i < Math.round(20 / RadioManager.selectedCriterias.length); i++) {
             this.pushMainResult(tracks[i]);
         }
     }
