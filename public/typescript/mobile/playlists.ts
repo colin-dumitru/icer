@@ -192,6 +192,7 @@ class MobilePlaylistManager {
 
     private stopMoveOption(item) {
         if (item.position().left <= 0 - 3 * window.innerWidth / 4) {
+            this.selectedItem = item;
             this.deleteSongMethod();
         } else if (item.position().left < -100) {
             this.moveOptionsToItem(item);
