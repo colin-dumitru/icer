@@ -22,7 +22,7 @@ var MobilePlaylistManager = (function () {
         });
     };
     MobilePlaylistManager.prototype.playNowMethod = function () {
-        var item = $(this.selectedItem);
+        var item = this.selectedItem;
         var song = new MSong(item.attr("songid"), item.attr("songtitle"), item.attr("songartist"), item.attr("songimage"));
         globalPlaylistManager.pushSongAndPlay(song);
         this.cancelMoveOptionsToItem(this.selectedItem);
