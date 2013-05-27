@@ -43,6 +43,67 @@
     $ git clone https://github.com/colin-dumitru/icer.git
 </code></pre>
 
+            <h3>Update 27-05-2013: Usability and finishing touches</h3>
+
+            <p>
+                As the implementation of the project is nearing completion, we started to move focus towards usability
+                and performance improvements.
+            </p>
+
+            <p>
+                The first thing we addressed regarding performance was the general animation smoothness. As the application
+                uses 3D elements, they are quite performance intensive and generate very jittery animations on low end
+                machines. We've tried to correct this behaviour by moving away from JQuery animations and towards CSS3
+                transitions and 3d transformations. This has had a very big impact on the general smoothness of the application
+                and has made the whole experience much better for a lot of users. A full technical report on how we managed
+                to achieve better performance can be found below.
+            </p>
+
+            <p>
+                As for usability, we've made a lot of minor and incremental changes to our UI based on user feedback.
+                The two biggest and most notable changes are to the UI color scheme and a reduction in information
+                density to the search section.
+            </p>
+
+            <p>
+                We've decided to go for a tone neutral color scheme, with a lot of desaturated colors to be able to help
+                those which cannot distinguish easily between color hues (the contrast is achieved using brightness levels
+                as opposed to color hues). While researching the color scheme, we've found that most of the users
+                we've asked, seem to lean towards a blue-tinted color scheme (usually not the first option, but the
+                most common amongst second and third options).
+            </p>
+
+            <p>
+                We've also decided to reduce the general information density of the application. While 3d pages do provide
+                the added bonus that you can see more information on the screen, we've found that users have a hard time
+                trying to focus on a particular section which interests them, as they are overloaded with unneeded information.
+                This is why we've decided, that for the search section, similar songs should only be visible when
+                hovering over the desired track.
+            </p>
+
+            <p>
+                The changelog for this week includes:
+            <ul>
+                <li>General performance improvements.</li>
+                <li>New color scheme.</li>
+                <li>Modified search functionality to display similar songs on hover.</li>
+                <li>Reordered some icons for search and playlists to make them less confusing.</li>
+                <li>All radio criteria now work.</li>
+                <li>History now uses real data.</li>
+                <li>Search for mobile now displaying options for a song when sliding the song to the left.</li>
+                <li>Completed playback for mobile web-site.</li>
+            </ul>
+            </p>
+
+            <div class="resourcePage">
+                <div>
+                    <strong>Performance technical Report</strong>
+                    <a href="data/ussability/performance.pdf">
+                        (link)
+                    </a>
+                </div>
+            </div>
+
             <h3>Update 07-05-2013: Mobile and Tablet Version</h3>
 
             <p>
