@@ -8,13 +8,11 @@ class MobilePlaylistManager {
     private selectedPlaylist = null;
     private playNow = null;
     private searchFromHere = null;
-    private deleteSong = null;
 
     bind() {
         this.optionsContainer = $("#playlistOptionContainer");
         this.playNow = $("#playNow");
         this.searchFromHere = $("#searchFromHere");
-        this.deleteSong = $("#deleteSong");
     }
 
     bindControls() {
@@ -27,9 +25,6 @@ class MobilePlaylistManager {
             _this.searchFromHereMethod();
         });
 
-        this.deleteSong.click(() => {
-            _this.deleteSongMethod();
-        });
     }
 
     public playNowMethod() {
@@ -197,9 +192,8 @@ class MobilePlaylistManager {
 
     private stopMoveOption(item) {
         if (item.position().left < 0 - 3 * window.innerWidth / 4) {
-            this.deleteSongMethod(item);
-        }
-        if (item.position().left < -100) {
+            this.deleteSongMethod();
+        } else if (item.position().left < -100) {
             this.moveOptionsToItem(item);
         } else {
             this.cancelMoveOptionsToItem(item);
