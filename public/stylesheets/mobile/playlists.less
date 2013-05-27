@@ -1,7 +1,7 @@
 @import "../common";
 
 .playlistResult {
-  background: @background_variant;
+  background: @foreground_text;
   width: 100%;
 }
 
@@ -60,16 +60,34 @@
   right: 20px;;
   top: 0px;
   height: 100px;
-  width: 260px;
+  width: 80px;
   margin-top: 5px;
 
   -webkit-transition: opacity 0.4s ease;
   transition: opacity 0.4s ease;
 }
 
+#playlistOptionButtonContainer {
+  height: 96px;
+  width: 50px;
+  float: right;
+  border-radius: 2px;
+  background: @background_variant;
+  padding: 2px;
+  margin-left: 3px;
+}
+
+#playlistOptionButtonContainer hr {
+  width: 40px;
+  margin-left: 5px;
+  margin-top: 3px;
+  margin-bottom: 3px;
+  color: @foreground;
+}
+
 .searchOption {
-  width: 35px;
-  height: 35px;
+  width: 45px;
+  height: 45px;
   float: left;
   cursor: pointer;
 }
@@ -81,9 +99,7 @@
 #playNow {
   font-family: 'Noto Sans', sans-serif;
   font-size: 1.5em;
-  padding-left: 15px;
-  padding-right: 15px;
-  color: #edfffc;
+  color: @background_variant;
 }
 
 #playNow:hover {
@@ -94,9 +110,7 @@
 #searchFromHere {
   font-family: 'Noto Sans', sans-serif;
   font-size: 1.5em;
-  padding-left: 15px;
-  padding-right: 15px;
-  color: #edfffc;
+  color: @background_variant;
 }
 
 #searchFromHere:hover {

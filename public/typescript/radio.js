@@ -1,8 +1,6 @@
 var customSearchValues = [];
 var RadioBinder = (function () {
-    function RadioBinder() {
-    }
-
+    function RadioBinder() { }
     RadioBinder.prototype.buildPage = function (rootNode) {
         this.radioManager = new RadioManager(rootNode);
         this.criteriaSongs = new RadioCriteriaInput("radioRecentSongsCriteria", false, function () {
@@ -32,7 +30,7 @@ var RadioBinder = (function () {
         var _this = this;
         $("#radioManagerResetButton").click(function () {
             $("#radioCriteriaTableBody").empty();
-            for (var i in RadioManager.selectedCriterias) {
+            for(var i in RadioManager.selectedCriterias) {
                 $("#" + RadioManager.selectedCriterias[i].id).show();
             }
             RadioManager.selectedCriterias = [];
@@ -50,7 +48,6 @@ var RadioManager = (function () {
         this.recentSongs = [];
         this.loadRecentSongs();
     }
-
     RadioManager.selectedCriterias = [];
     RadioManager.globalPlayer = [];
     RadioManager.prototype.loadRecentSongs = function () {
@@ -66,7 +63,7 @@ var RadioManager = (function () {
     };
     RadioManager.prototype.onSongResult = function (data) {
         this.recentSongs = [];
-        for (var i = 0; i < data.length; i++) {
+        for(var i = 0; i < data.length; i++) {
             var songInfo = new SongInfo(data[i].title, data[i].artist, data[i].album, data[i].genre, 0, 0, 0);
             var song = new Song(data[i].mbid, songInfo, data[i].imageUrl);
             this.recentSongs.push(song);
@@ -83,7 +80,7 @@ var RadioManager = (function () {
         this.criterias.push(criteria);
         $("#" + criteria.id).click(function () {
             var criteriaTitle = criteria.labelFormatter();
-            if (!criteria.repeatable) {
+            if(!criteria.repeatable) {
                 $("#" + criteria.id).hide();
             }
             _this.addCriteria(criteriaTitle, criteria);
@@ -97,8 +94,8 @@ var RadioManager = (function () {
         $("#radioCriteriaTableBody").append(tr);
         RadioManager.selectedCriterias.push(criteriaInput);
         tr.find("#radioCriteriaCloseButton").click(function () {
-            for (var i in customSearchValues) {
-                if (customSearchValues[i] == criteria) {
+            for(var i in customSearchValues) {
+                if(customSearchValues[i] == criteria) {
                     var index = customSearchValues.indexOf(criteria);
                     customSearchValues.splice(index, 1);
                 }
@@ -115,12 +112,12 @@ var RadioManager = (function () {
     };
     RadioManager.prototype.deleteCriteria = function (criteriaInput) {
         var index = RadioManager.selectedCriterias.indexOf(criteriaInput, 0);
-        if (index != undefined) {
+        if(index != undefined) {
             RadioManager.selectedCriterias.splice(index, 1);
         }
     };
     RadioManager.shuffle = function shuffle(o) {
-        for (var j, x, i = o.length; i; j = Math.floor(Math.random() * i) , x = o[--i] , o[i] = o[j] , o[j] = x) {
+        for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i) , x = o[--i] , o[i] = o[j] , o[j] = x) {
             ;
         }
         return o;
@@ -134,7 +131,7 @@ var RadioManager = (function () {
             $("#radioCriteriaTableBody").empty();
             _this.criterias.forEach(function (criteria) {
                 $("#" + criteria.id).show();
-                for (var i in RadioManager.selectedCriterias) {
+                for(var i in RadioManager.selectedCriterias) {
                     _this.deleteCriteria(RadioManager.selectedCriterias[i]);
                 }
             });
@@ -142,50 +139,45 @@ var RadioManager = (function () {
         $("#radioManagerPlayButton").click(function () {
             globalPlaylistManager.clearSongs();
             RadioManager.globalPlayer = [];
-            if (RadioManager.selectedCriterias.length == 0) {
+            if(RadioManager.selectedCriterias.length == 0) {
                 globalPlaylistManager.clearSongs();
             }
             _this.loadRecentSongs();
         });
     };
     RadioManager.prototype.loadRadio = function () {
-        for (var i in RadioManager.selectedCriterias) {
+        for(var i in RadioManager.selectedCriterias) {
             var selected = RadioManager.selectedCriterias[i].id;
-            switch (selected) {
-                case "radioCustomCriteria":
-                {
-                    for (var j = 0; j < customSearchValues.length; j++) {
+            switch(selected) {
+                case "radioCustomCriteria": {
+                    for(var j = 0; j < customSearchValues.length; j++) {
                         new SearchCustom().loadCustomSearchSongs(customSearchValues[j]);
                     }
                     break;
                 }
-                case "radioRecentSongsCriteria":
-                {
-                    for (var j = 0; j < this.recentSongs.length; j++) {
+                case "radioRecentSongsCriteria": {
+                    for(var j = 0; j < this.recentSongs.length; j++) {
                         new SearchSimilarSongs().loadSimilarSongs(this.recentSongs[j].info.title);
                     }
                     break;
                 }
-                case "radioRecentGenresCriteria":
-                {
-                    for (var j = 0; j < this.recentSongs.length; j++) {
-                        if (this.recentSongs[j].info.genre != null) {
+                case "radioRecentGenresCriteria": {
+                    for(var j = 0; j < this.recentSongs.length; j++) {
+                        if(this.recentSongs[j].info.genre != null) {
                             new SearchSimilarGenre().loadSimilarGenreSongs(this.recentSongs[j].info.genre);
                         }
                     }
                     break;
                 }
-                case "radioRecentAlbumsCriteria":
-                {
-                    for (var j = 0; j < this.recentSongs.length; j++) {
-                        if (this.recentSongs[j].info.album != null) {
+                case "radioRecentAlbumsCriteria": {
+                    for(var j = 0; j < this.recentSongs.length; j++) {
+                        if(this.recentSongs[j].info.album != null) {
                             new SearchSimilarAlbum().loadSimilarAlbumSongs(this.recentSongs[j].info.artist);
                         }
                     }
                     break;
                 }
-                default:
-                {
+                default: {
                     globalPlaylistManager.clearSongs();
                     break;
                 }
@@ -200,13 +192,10 @@ var RadioCriteriaInput = (function () {
         this.repeatable = repeatable;
         this.labelFormatter = labelFormatter;
     }
-
     return RadioCriteriaInput;
 })();
 var SearchSimilarSongs = (function () {
-    function SearchSimilarSongs() {
-    }
-
+    function SearchSimilarSongs() { }
     SearchSimilarSongs.prototype.loadSimilarSongs = function (song) {
         var _this = this;
         $.ajax({
@@ -219,7 +208,7 @@ var SearchSimilarSongs = (function () {
         });
     };
     SearchSimilarSongs.prototype.onMainResult = function (tracks) {
-        for (var i = 0; i < tracks.length; i++) {
+        for(var i = 0; i < tracks.length; i++) {
             this.pushMainResult(tracks[i]);
         }
     };
@@ -240,12 +229,12 @@ var SearchSimilarSongs = (function () {
         });
     };
     SearchSimilarSongs.prototype.onSimilarResults = function (res, song) {
-        if (res.error == null && res["similartracks"] != null && Array.isArray(res["similartracks"]["track"])) {
+        if(res.error == null && res["similartracks"] != null && Array.isArray(res["similartracks"]["track"])) {
             this.addSimilarSongs(res["similartracks"]["track"], song);
         }
     };
     SearchSimilarSongs.prototype.addSimilarSongs = function (tracks, song) {
-        for (var i = 0; i < tracks.length; i++) {
+        for(var i = 0; i < tracks.length; i++) {
             this.addSimilarSong(tracks[i]);
         }
     };
@@ -263,9 +252,7 @@ var SearchSimilarSongs = (function () {
     return SearchSimilarSongs;
 })();
 var SearchSimilarGenre = (function () {
-    function SearchSimilarGenre() {
-    }
-
+    function SearchSimilarGenre() { }
     SearchSimilarGenre.prototype.loadSimilarGenreSongs = function (genre) {
         var _this = this;
         $.ajax({
@@ -278,7 +265,7 @@ var SearchSimilarGenre = (function () {
         });
     };
     SearchSimilarGenre.prototype.onMainResult = function (tags) {
-        for (var i = 0; i < tags.length; i++) {
+        for(var i = 0; i < tags.length; i++) {
             this.pushMainResult(tags[i]);
         }
     };
@@ -301,7 +288,7 @@ var SearchSimilarGenre = (function () {
         this.addGenreSongs(res["toptracks"]["track"], tag);
     };
     SearchSimilarGenre.prototype.addGenreSongs = function (tracks, tag) {
-        for (var i = 0; i < Math.round(20 / RadioManager.selectedCriterias.length); i++) {
+        for(var i = 0; i < Math.round(20 / RadioManager.selectedCriterias.length); i++) {
             this.addGenreSong(tracks[i]);
         }
     };
@@ -319,9 +306,7 @@ var SearchSimilarGenre = (function () {
     return SearchSimilarGenre;
 })();
 var SearchSimilarAlbum = (function () {
-    function SearchSimilarAlbum() {
-    }
-
+    function SearchSimilarAlbum() { }
     SearchSimilarAlbum.prototype.loadSimilarAlbumSongs = function (artist) {
         var _this = this;
         $.ajax({
@@ -334,7 +319,7 @@ var SearchSimilarAlbum = (function () {
         });
     };
     SearchSimilarAlbum.prototype.onMainResult = function (albums, artist) {
-        for (var i = 0; i < albums.length; i++) {
+        for(var i = 0; i < albums.length; i++) {
             this.pushMainResult(albums[i], artist);
         }
     };
@@ -355,13 +340,13 @@ var SearchSimilarAlbum = (function () {
         });
     };
     SearchSimilarAlbum.prototype.onAlbumResults = function (res) {
-        if (res.error == null && res["album"]["tracks"]["track"] != null) {
+        if(res.error == null && res["album"]["tracks"]["track"] != null) {
             var image = getLargeImage(res["album"]["image"]);
             this.addAlbumSongs(res["album"]["tracks"]["track"], image);
         }
     };
     SearchSimilarAlbum.prototype.addAlbumSongs = function (tracks, image) {
-        for (var i = 0; i < 3; i++) {
+        for(var i = 0; i < 3; i++) {
             this.addAlbumSong(tracks[Math.floor(Math.random() * tracks.length)], image);
         }
     };
@@ -379,9 +364,7 @@ var SearchSimilarAlbum = (function () {
     return SearchSimilarAlbum;
 })();
 var SearchCustom = (function () {
-    function SearchCustom() {
-    }
-
+    function SearchCustom() { }
     SearchCustom.prototype.loadCustomSearchSongs = function (inputCustom) {
         var _this = this;
         $.ajax({
@@ -397,7 +380,7 @@ var SearchCustom = (function () {
         return "http://ws.audioscrobbler.com/2.0/?method=track.search&track=" + tag + "&api_key=" + lastFmApiKey + "&format=json&limit=15";
     };
     SearchCustom.prototype.onMainResult = function (tracks) {
-        for (var i = 0; i < Math.round(20 / RadioManager.selectedCriterias.length); i++) {
+        for(var i = 0; i < Math.round(20 / RadioManager.selectedCriterias.length); i++) {
             this.pushMainResult(tracks[i]);
         }
     };

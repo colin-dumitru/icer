@@ -34,13 +34,13 @@ class MobilePlaylistManager {
 
     public playNowMethod() {
         var item = $(this.selectedItem);
-        var song = new MSong(item.attr("songId"), item.attr("songTitle"), item.attr("songArtist"), item.attr("songImage"));
+        var song = new MSong(item.attr("songid"), item.attr("songtitle"), item.attr("songartist"), item.attr("songimage"));
         globalPlaylistManager.pushSongAndPlay(song);
         this.cancelMoveOptionsToItem(this.selectedItem);
     }
 
     public searchFromHereMethod() {
-        var item = this.selectedItem
+        var item = this.selectedItem;
         var query = item.attr("songtitle") + " " + item.attr("songartist");
         performSearch(query);
     }
@@ -52,7 +52,6 @@ class MobilePlaylistManager {
     }
 
     private deleteSongFromPlaylist(songId:string) {
-
         var _this = this;
         $.ajax("/mobile/playlist/song/delete/" + encodeURIComponent(this.selectedPlaylist) + "/" + encodeURIComponent(songId), {
             type: "GET",
@@ -197,6 +196,9 @@ class MobilePlaylistManager {
 
 
     private stopMoveOption(item) {
+        if (item.position().left < 0 - 3 * window.innerWidth / 4) {
+            this.deleteSongMethod(item);
+        }
         if (item.position().left < -100) {
             this.moveOptionsToItem(item);
         } else {
@@ -218,7 +220,7 @@ class MobilePlaylistManager {
         item.css({
             WebkitTransition: "-webkit-transform 0.4s ease",
             transition: "transform 0.4s ease",
-            transform: "translate3d(-270,0,0)"
+            transform: "translate3d(-90,0,0)"
         });
     }
 

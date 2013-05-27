@@ -23,7 +23,7 @@
         <div class="playlistResult">
             @for(song <- songs) {
                 <div class="playlistItemTableContainer">
-                    <table class="playlistItemTable">
+                    <table class="playlistItemTable" songId="@song.mbid" songTitle="@song.title" songArtist="@song.artist" songImage="@song.imageUrl">
                         <tr>
                             <td rowspan="2" class="playlistItemImage"><img src="@song.imageUrl" /></td>
                             <td class="playlistItemTitle">@song.title</td>
