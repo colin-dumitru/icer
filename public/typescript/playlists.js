@@ -40,19 +40,13 @@ var PlaylistBinder = (function () {
     PlaylistBinder.prototype.navigationHandler = function (event) {
         switch (event.which) {
             case 38:
-            {
                 playlistManager.givePreviousPlaylistFocus();
                 event.preventDefault();
                 break;
-
-            }
             case 40:
-            {
                 playlistManager.giveNextPlaylistFocus();
                 event.preventDefault();
                 break;
-
-            }
         }
     };
     return PlaylistBinder;
@@ -119,13 +113,16 @@ var PlaylistManager = (function () {
             type: "POST",
             dataType: "json",
             success: function (data) {
-                for (var i = 0; i < data.length; i++) {
-                    var songInfo = new SongInfo(data[i].title, data[i].artist, data[i].album, data[i].genre, data[i].peek, data[i].weeksOnTop, data[i].positionChange);
-                    var song = new Song(data[i].mbid, songInfo, data[i].imageUrl);
-                    _this.addSongToPlaylist(song, playlist);
-                }
+                _this.processResultsSongs(data, playlist);
             }
         });
+    };
+    PlaylistManager.prototype.processResultsSongs = function (data, playlist) {
+        for (var i = 0; i < data.length; i++) {
+            var songInfo = new SongInfo(data[i].title, data[i].artist, data[i].album, data[i].genre, data[i].peek, data[i].weeksOnTop, data[i].positionChange);
+            var song = new Song(data[i].mbid, songInfo, data[i].imageUrl);
+            this.addSongToPlaylist(song, playlist);
+        }
     };
     PlaylistManager.prototype.addSongToPlaylist = function (song, playlist) {
         var image = buildSmallSong(song);
@@ -138,15 +135,11 @@ var PlaylistManager = (function () {
         var detailCallback = function (option, subOption) {
             if (option == 0) {
                 _this.playSong(song);
-            } else {
-                if (option == 1) {
-                    _this.changeToSearchSection();
-                    _this.searchFromSong(song);
-                } else {
-                    if (option == 2) {
-                        _this.removeSong(song, template);
-                    }
-                }
+            } else if (option == 1) {
+                _this.changeToSearchSection();
+                _this.searchFromSong(song);
+            } else if (option == 2) {
+                _this.removeSong(song, template);
             }
         };
         template.click(function (e) {
@@ -252,28 +245,25 @@ var PlaylistPageManager = (function () {
         $(this.rootNode).find("#deletePlaylistButton").click(function () {
             _this.deletePlaylist();
         });
-        $(this.rootNode).find("#sharePlaylistButton").click(function () {
+        $(this.rootNode).find("#sharePlaylistButton").click(function (e) {
+            e.stopPropagation();
             $(_this.rootNode).find('#box').fadeIn('fast');
-            $(_this.rootNode).find('#boxclose').click(function () {
-                _this.closeOverlay();
-            });
         });
         $(this.rootNode).find("#facebookButton").click(function () {
-            _this.closeOverlay();
             _this.shareOnFacebook(newURL);
         });
         $(this.rootNode).find("#twitterButton").click(function () {
-            _this.closeOverlay();
             _this.shareOnTwitter(newURL);
         });
         $(this.rootNode).find("#googleButton").click(function () {
-            _this.closeOverlay();
             _this.shareOnGooglePlus(newURL);
         });
+        this.closeOverlay();
     };
     PlaylistPageManager.prototype.playPlaylist = function () {
         globalPlaylistManager.clearSongs();
         globalPlaylistManager.pushSongs(this.playlist.songs);
+        globalPlaylistManager.playSong(this.playlist.songs[0]);
     };
     PlaylistPageManager.prototype.deletePlaylist = function () {
         this.deletePlaylistPage();
@@ -295,6 +285,14 @@ var PlaylistPageManager = (function () {
         });
     };
     PlaylistPageManager.prototype.closeOverlay = function () {
+        var _this = this;
+        $(document).click(function (e) {
+            if (e.target.id != "#box") {
+                _this.closeBox();
+            }
+        });
+    };
+    PlaylistPageManager.prototype.closeBox = function () {
         $(this.rootNode).find('#box').fadeOut('fast');
     };
     PlaylistPageManager.prototype.shareOnFacebook = function (urlPlaylist) {

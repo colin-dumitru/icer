@@ -47,7 +47,7 @@
   color: @foreground_text;
   font-size: 30px;
   height: 50px;
-  width: 100px;
+  width: 15 0px;
   float: right;
 }
 
@@ -77,4 +77,70 @@
 
 #sharePlaylistButton:hover {
   background: lighten(@foreground_focus, 20%);
+}
+
+.box {
+  position: absolute;
+  top: 81%;
+  left: 101%;
+  width: 200px;
+  z-index: 100;
+}
+
+#facebookButton {
+  border: none;
+  left: 0px;
+  padding-left: 15px;
+  background: @foreground_variant;
+  color: @foreground_text;
+  font-size: 15px;
+  width: 120px;
+  text-align: left;
+}
+
+#facebookButton:hover {
+  background: @foreground_focus;
+}
+
+#twitterButton:hover {
+  background: @foreground_focus;
+}
+
+#googleButton:hover {
+  background: @foreground_focus;
+}
+
+#twitterButton {
+  border: none;
+  padding-left: 15px;
+  background: @foreground_variant;
+  color: @foreground_text;
+  font-size: 15px;
+  width: 120px;
+  text-align: left;
+}
+
+#googleButton {
+  border: none;
+  padding-left: 15px;
+  background: @foreground_variant;
+  color: @foreground_text;
+  font-size: 15px;
+  width: 120px;
+  text-align: left;
+}
+
+#facebookPic {
+  background: @foreground_variant;
+  margin-top: 2px;
+}
+
+#twitterPic {
+  background: @foreground_variant;
+  margin-top: 2px;
+}
+
+#googlePic {
+  background: @foreground_variant;
+  margin-top: 2px;
 }

@@ -77,7 +77,7 @@ var RadioManager = (function () {
         RadioManager.globalPlayer = RadioManager.shuffle(RadioManager.globalPlayer);
         globalPlaylistManager.clearSongs();
         globalPlaylistManager.pushSongs(RadioManager.globalPlayer);
-    }
+    };
     RadioManager.prototype.addCriteriaInput = function (criteria) {
         var _this = this;
         this.criterias.push(criteria);
@@ -122,10 +122,9 @@ var RadioManager = (function () {
     RadioManager.shuffle = function shuffle(o) {
         for (var j, x, i = o.length; i; j = Math.floor(Math.random() * i) , x = o[--i] , o[i] = o[j] , o[j] = x) {
             ;
-            ;
         }
         return o;
-    }
+    };
     RadioManager.prototype.bind = function () {
         var _this = this;
         $("#radioAddButtonCell").click(function () {
@@ -160,7 +159,6 @@ var RadioManager = (function () {
                     }
                     break;
                 }
-
                 case "radioRecentSongsCriteria":
                 {
                     for (var j = 0; j < this.recentSongs.length; j++) {
@@ -168,7 +166,6 @@ var RadioManager = (function () {
                     }
                     break;
                 }
-
                 case "radioRecentGenresCriteria":
                 {
                     for (var j = 0; j < this.recentSongs.length; j++) {
@@ -178,7 +175,6 @@ var RadioManager = (function () {
                     }
                     break;
                 }
-
                 case "radioRecentAlbumsCriteria":
                 {
                     for (var j = 0; j < this.recentSongs.length; j++) {
@@ -188,13 +184,11 @@ var RadioManager = (function () {
                     }
                     break;
                 }
-
                 default:
                 {
                     globalPlaylistManager.clearSongs();
                     break;
                 }
-
             }
         }
     };

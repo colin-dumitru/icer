@@ -4,29 +4,70 @@ declare var $;
 class MobilePlaylistManager {
 
     private optionsContainer = null;
-
     private selectedItem = null;
-    private optionsCollapsed = true;
     private selectedPlaylist = null;
+    private playNow = null;
+    private searchFromHere = null;
+    private deleteSong = null;
 
     bind() {
-        $("#playNow").on("click", function (e) {
-            var selectedSong = $(".playlistItemOptionContainerFocused");
-            var songToPlay = new MSong(selectedSong.attr("songid"), selectedSong.attr("songtitle"), selectedSong.attr("songartist"), selectedSong.attr("songimage"));
-            mPlaylistManager.playSong(songToPlay);
+        this.optionsContainer = $("#playlistOptionContainer");
+        this.playNow = $("#playNow");
+        this.searchFromHere = $("#searchFromHere");
+        this.deleteSong = $("#deleteSong");
+    }
+
+    bindControls() {
+        var _this = this;
+        this.playNow.click(() => {
+            _this.playNowMethod();
         });
 
-        $("#searchFromHere").on("click", function (e) {
-            var selectedSong = $(".playlistItemOptionContainerFocused");
-            var query = selectedSong.attr("songtitle") + " " + selectedSong.attr("songartist");
-            performSearch(query);
+        this.searchFromHere.click(() => {
+            _this.searchFromHereMethod();
         });
 
-        $("#deleteSong").on("click", function (e) {
-            var selectedSong = $(".playlistItemOptionContainerFocused");
-            var songId = selectedSong.attr("songid");
-            mPlaylistManager.deleteSongFromPlaylist(songId);
+        this.deleteSong.click(() => {
+            _this.deleteSongMethod();
         });
+    }
+
+    public playNowMethod() {
+        var item = $(this.selectedItem);
+        var song = new MSong(item.attr("songId"), item.attr("songTitle"), item.attr("songArtist"), item.attr("songImage"));
+        globalPlaylistManager.pushSongAndPlay(song);
+        this.cancelMoveOptionsToItem(this.selectedItem);
+    }
+
+    public searchFromHereMethod() {
+        var item = this.selectedItem
+        var query = item.attr("songtitle") + " " + item.attr("songartist");
+        performSearch(query);
+    }
+
+    public deleteSongMethod() {
+        var selectedSong = this.selectedItem;
+        var songId = selectedSong.attr("songid");
+        mPlaylistManager.deleteSongFromPlaylist(songId);
+    }
+
+    private deleteSongFromPlaylist(songId:string) {
+
+        var _this = this;
+        $.ajax("/mobile/playlist/song/delete/" + encodeURIComponent(this.selectedPlaylist) + "/" + encodeURIComponent(songId), {
+            type: "GET",
+            success: function () {
+                _this.deleteSongFromTable();
+            },
+            error: function (reason) {
+                alert(reason.toString())
+            }
+        });
+    }
+
+    public deleteSongFromTable() {
+        this.optionsContainer.remove();
+        this.selectedItem.remove();
     }
 
     onAddPlaylistInput(query:string) {
@@ -62,37 +103,41 @@ class MobilePlaylistManager {
     private bindItems() {
         var newURL = 'http%3A%2F%2Fuplayed.herokuapp.com%2Fget%2F' + this.selectedPlaylist;
 
-        this.optionsContainer = $("#playlistOptionContainer");
-
-        //crw on("click") should only be used when dealing wih collections of JQuery items as it binds a single
-        //event delegator for the entire collection. You should use click() as it is more optimised for your use case
         var _this = this;
-        $(".playlistItemOptionContainer").on("click", function (e) {
-            _this.searchItemClicked(this);
+        $(".playlistItemTable").draggable({
+            axis: "x",
+            handle: ".playlistItemOptionContainer",
+            start: function () {
+                _this.startMoveOption($(this));
+            },
+            stop: function () {
+                _this.stopMoveOption($(this));
+            }
         });
 
-        $("#mobilePlayButton").on("click", () => {
+        $("#mobilePlayButton").click(() => {
             _this.playPlaylist();
         });
 
-        $("#mobileShareButton").on("click", function (e) => {
+        $("#mobileShareButton").click((e) => {
             e.stopPropagation();
             this.sharePlaylist();
         });
 
-        $("#mobileDeleteButton").on("click", () => {
+
+        $("#mobileDeleteButton").click(() => {
             this.deletePlaylist();
         });
 
-        $("#facebookButton").on("click", () => {
+        $("#facebookButton").click(() => {
             this.shareOnFacebook(newURL);
         });
 
-        $("#twitterButton").on("click", () => {
+        $("#twitterButton").click(() => {
             this.shareOnTwitter(newURL);
         });
 
-        $("#googleButton").on("click", () => {
+        $("#googleButton").click(() => {
             this.shareOnGooglePlus(newURL);
         });
 
@@ -100,11 +145,14 @@ class MobilePlaylistManager {
     }
 
     private playPlaylist() {
-        var songs = $(".playlistItemOptionContainer");
+        var songs = $(".playlistItemTable");
         globalPlaylistManager.clearSongs();
         for (var i = 0; i < songs.length; i++) {
             var song = new MSong(songs[i].getAttribute("songId"), songs[i].getAttribute("songTitle"), songs[i].getAttribute("songArtist"), songs[i].getAttribute("songImage"));
-            globalPlaylistManager.pushSong(song);
+            if (i == 0)
+                globalPlaylistManager.pushSongAndPlay(song);
+            else
+                globalPlaylistManager.pushSong(song);
         }
     }
 
@@ -134,65 +182,70 @@ class MobilePlaylistManager {
 
     private deletePlaylist() {
         titleManager.setTitle("Select An Item");
+
         itemManager.deleteItem(this.selectedPlaylist)
-        itemManager.loadContent("/mobile/playlist/delete/" + encodeURIComponent(this.selectedPlaylist), () => {
-            this.bindItems();
+        $.ajax("/mobile/playlist/delete/" + encodeURIComponent(this.selectedPlaylist), {
+            type: "GET",
+            error: function (reason) {
+                alert(reason.toString())
+            }
+        });
+        itemManager.deleteItem(this.selectedPlaylist)
+        $(".playlistOptions").remove();
+        $(".playlistResult").remove();
+    }
+
+
+    private stopMoveOption(item) {
+        if (item.position().left < -100) {
+            this.moveOptionsToItem(item);
+        } else {
+            this.cancelMoveOptionsToItem(item);
+        }
+    }
+
+    private cancelMoveOptionsToItem(item) {
+        item.css({
+            WebkitTransition: "-webkit-transform 0.4s ease",
+            transition: "transform 0.4s ease",
+            transform: "translate3d(0,0,0)"
         });
     }
 
-    //crw search?
-    private searchItemClicked(item) {
-        if (item == this.selectedItem) {
-            this.refocusOptions(item);
-        } else {
-            this.changeOptionsFocus(item);
-        }
-    }
-
-    private refocusOptions(item) {
-        if (this.optionsCollapsed) {
-            this.giveOptionsFocus();
-        } else {
-            this.takeOptionsFocus(item);
-        }
-    }
-
-    private changeOptionsFocus(item) {
-        $(item).addClass("playlistItemOptionContainerFocused");
-        if (this.selectedItem != null) {
-            $(this.selectedItem).removeClass("playlistItemOptionContainerFocused");
-        }
-
+    private moveOptionsToItem(item) {
         this.selectedItem = item;
-        if (this.optionsCollapsed) {
-            this.giveOptionsFocus();
+        this.bindControls();
+        item.css({
+            WebkitTransition: "-webkit-transform 0.4s ease",
+            transition: "transform 0.4s ease",
+            transform: "translate3d(-270,0,0)"
+        });
+    }
+
+    private hidePreviousOption(currentItem) {
+        if (this.selectedItem != null && this.selectedItem != currentItem) {
+            this.selectedItem.css({
+                WebkitTransition: "",
+                transition: "",
+                WebkitTransform: "translate3d(-0,0,0)",
+                transform: "translate3d(-0,0,0)"
+            });
         }
+    }
+
+    private startMoveOption(item) {
+        this.hidePreviousOption(item);
+        item.css({
+            WebkitTransition: "",
+            transition: ""
+        });
+        this.optionsContainer.remove();
+        item.parent().prepend(this.optionsContainer);
+        this.giveOptionsFocus();
     }
 
     private giveOptionsFocus() {
-        this.optionsCollapsed = false;
-        this.optionsContainer.fadeIn(400);
-    }
-
-    private takeOptionsFocus(item) {
-        $(item).removeClass("playlistItemOptionContainerFocused");
-        this.optionsCollapsed = true;
-        this.optionsContainer.fadeOut(400);
-    }
-
-
-    private deleteSongFromPlaylist(songId:string) {
-        this.optionsContainer.fadeOut(400);
-        itemManager.loadContent("/mobile/playlist/song/delete/" + encodeURIComponent(this.selectedPlaylist) + "/" + encodeURIComponent(songId), () => {
-            this.bindItems();
-        });
-    }
-
-    private playSong(song:MSong) {
-        this.optionsContainer.fadeOut(400);
-        globalPlaylistManager.pushSong(song);
-        //to do
-        //player.playSong(song);
+        this.optionsContainer.show(0);
     }
 }
 var mPlaylistManager = new MobilePlaylistManager();

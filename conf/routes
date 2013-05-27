@@ -41,6 +41,6 @@ GET     /mobile/section/search                              controllers.search.S
 GET     /mobile/section/playlists                           controllers.playlist.Playlists.section
 GET     /mobile/playlist/:id                                controllers.playlist.Playlists.playlist(id)
 GET     /mobile/playlist/add/:name                          controllers.playlist.Playlists.createPlaylist(name)
-GET     /mobile/playlist/delete/:id                         controllers.playlist.Playlists.mobileDeletePlaylist(id)
-GET     /mobile/playlist/song/delete/:idPlaylist/:idSong    controllers.playlist.Playlists.mobileDeleteSongFromPlaylist(idPlaylist,idSong)
+GET     /mobile/playlist/delete/:id                         controllers.playlist.Playlists.deletePlaylist(id)
+GET     /mobile/playlist/song/delete/:idPlaylist/:idSong    controllers.playlist.Playlists.deleteSongFromPlaylist(idPlaylist,idSong)
 

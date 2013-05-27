@@ -132,15 +132,17 @@ class PlaylistManager {
             type: "POST",
             dataType: "json",
             success: data => {
-
-                //crw move to a different function
-                for (var i = 0; i < data.length; i++) {
-                    var songInfo = new SongInfo(data[i].title, data[i].artist, data[i].album, data[i].genre, data[i].peek, data[i].weeksOnTop, data[i].positionChange)
-                    var song = new Song(data[i].mbid, songInfo, data[i].imageUrl)
-                    this.addSongToPlaylist(song, playlist);
-                }
+                this.processResultsSongs(data, playlist);
             }
         });
+    }
+
+    private processResultsSongs(data, playlist) {
+        for (var i = 0; i < data.length; i++) {
+            var songInfo = new SongInfo(data[i].title, data[i].artist, data[i].album, data[i].genre, data[i].peek, data[i].weeksOnTop, data[i].positionChange)
+            var song = new Song(data[i].mbid, songInfo, data[i].imageUrl)
+            this.addSongToPlaylist(song, playlist);
+        }
     }
 
     addSongToPlaylist(song:Song, playlist:Playlist) {
@@ -263,32 +265,30 @@ class PlaylistPageManager {
         $(this.rootNode).find("#deletePlaylistButton").click(() => {
             this.deletePlaylist();
         });
-        $(this.rootNode).find("#sharePlaylistButton").click(() => {
+        $(this.rootNode).find("#sharePlaylistButton").click((e) => {
+            e.stopPropagation();
             $(this.rootNode).find('#box').fadeIn('fast');
 
-            $(this.rootNode).find('#boxclose').click(() => {
-                this.closeOverlay();
-            });
         });
 
-
         $(this.rootNode).find("#facebookButton").click(() => {
-            this.closeOverlay();
             this.shareOnFacebook(newURL);
         });
         $(this.rootNode).find("#twitterButton").click(() => {
-            this.closeOverlay();
             this.shareOnTwitter(newURL);
         });
         $(this.rootNode).find("#googleButton").click(() => {
-            this.closeOverlay();
             this.shareOnGooglePlus(newURL);
         });
+
+
+        this.closeOverlay();
     }
 
     private playPlaylist() {
         globalPlaylistManager.clearSongs();
         globalPlaylistManager.pushSongs(this.playlist.songs);
+        globalPlaylistManager.playSong(this.playlist.songs[0]);
     }
 
     private deletePlaylist() {
@@ -317,6 +317,15 @@ class PlaylistPageManager {
     }
 
     private closeOverlay() {
+        var _this = this;
+        $(document).click(function (e) {
+            if (e.target.id != "#box") {
+                _this.closeBox();
+            }
+        });
+    }
+
+    public closeBox() {
         $(this.rootNode).find('#box').fadeOut('fast');
     }
 

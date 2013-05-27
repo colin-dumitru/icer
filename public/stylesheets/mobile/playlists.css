@@ -64,6 +64,7 @@
 }
 
 .playlistItemTableContainer {
+    position: relative;
     box-sizing: border-box;
     width: 100%;
     padding: 5px 10px 5px 10px;
@@ -74,12 +75,12 @@
     width: 100%;
     height: 100px;
     table-layout: fixed;
-    background: #414850;
-    color: #3b4953;
+    background: #e1f1ff;
+    color: #414850;
     font-family: 'Roboto', sans-serif;
     font-size: 1em;
     border-collapse: collapse;
-    border: 1px solid #e1f1ff;
+    border: 1px solid #7b8791;
 }
 
 .playlistItemTable td {
@@ -109,4 +110,172 @@
 
 .playlistItemTitle {
     height: 50px;
+}
+
+#playlistOptionContainer {
+    display: none;
+    position: absolute;
+    right: 20px;
+    top: 0px;
+    height: 100px;
+    width: 260px;
+    margin-top: 5px;
+    -webkit-transition: opacity 0.4s ease;
+    transition: opacity 0.4s ease;
+}
+
+.searchOption {
+    width: 35px;
+    height: 35px;
+    float: left;
+    cursor: pointer;
+}
+
+.searchOption:hover {
+    background: #dfece6;
+}
+
+#playNow {
+    font-family: 'Noto Sans', sans-serif;
+    font-size: 1.5em;
+    padding-left: 15px;
+    padding-right: 15px;
+    color: #edfffc;
+}
+
+#playNow:hover {
+    background: #dfece6;
+    cursor: pointer;
+}
+
+#searchFromHere {
+    font-family: 'Noto Sans', sans-serif;
+    font-size: 1.5em;
+    padding-left: 15px;
+    padding-right: 15px;
+    color: #edfffc;
+}
+
+#searchFromHere:hover {
+    background: #dfece6;
+    cursor: pointer;
+}
+
+#deleteSong {
+    font-family: 'Noto Sans', sans-serif;
+    font-size: 1.5em;
+    padding-left: 15px;
+    padding-right: 15px;
+    color: #edfffc;
+}
+
+#deleteSong:hover {
+    background: #dfece6;
+    cursor: pointer;
+}
+
+.playlistOptions {
+    height: 40px;
+    width: 100%;
+    background: #dcddb1;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.5em;
+    color: #414850;
+}
+
+#mobilePlayButton {
+    margin-left: 20%;
+    height: 40px;
+}
+
+#mobilePlayButton:hover {
+    cursor: pointer;
+    border-width: 0 0 5px;
+    border-style: solid;
+}
+
+#mobileShareButton {
+    margin-left: 20%;
+}
+
+#mobileShareButton:hover {
+    cursor: pointer;
+    border-width: 0 0 5px;
+    border-style: solid;
+}
+
+#mobileDeleteButton {
+    margin-left: 20%;
+}
+
+#mobileDeleteButton:hover {
+    cursor: pointer;
+    border-width: 0 0 5px;
+    border-style: solid;
+}
+
+.box {
+    position: absolute;
+    top: 30px;
+    left: 39%;
+    width: 200px;
+    z-index: 100;
+}
+
+#facebookButton {
+    border: none;
+    left: 0px;
+    padding-left: 15px;
+    background: #dcddb1;
+    color: #414850;
+    font-size: 30px;
+    width: 200px;
+    text-align: left;
+}
+
+#facebookButton:hover {
+    background: #dfece6;
+}
+
+#twitterButton:hover {
+    background: #dfece6;
+}
+
+#googleButton:hover {
+    background: #dfece6;
+}
+
+#twitterButton {
+    border: none;
+    padding-left: 15px;
+    background: #dcddb1;
+    color: #414850;
+    font-size: 30px;
+    width: 200px;
+    text-align: left;
+}
+
+#googleButton {
+    border: none;
+    padding-left: 15px;
+    background: #dcddb1;
+    color: #414850;
+    font-size: 30px;
+    width: 200px;
+    text-align: left;
+}
+
+#facebookPic {
+    background: #dcddb1;
+    margin-top: 2px;
+}
+
+#twitterPic {
+    background: #dcddb1;
+    margin-top: 2px;
+}
+
+#googlePic {
+    background: #dcddb1;
+    margin-top: 2px;
 }

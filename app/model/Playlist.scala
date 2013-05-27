@@ -6,15 +6,12 @@ import anorm._
 import anorm.SqlParser._
 import java.math.BigDecimal
 
-//crw change template
 /**
- * Created with IntelliJ IDEA.
- * User: Irina
- * Date: 4/28/13
- * Time: 11:35 AM
- * To change this template use File | Settings | File Templates.
+ *
+ *
+ * Irina Naum
+ *
  */
-//crw you do not need val for case classes as it infered by default, or "{..}" empty classes
 case class Playlist(val id: Pk[Long], val userid: BigDecimal, val title: String) {
 }
 
@@ -55,13 +52,14 @@ object Playlist {
     }
   }
 
-  //crw check if the user who created the playlist is the one who deletes the song
-  def deleteSongFromPlaylist(idPlaylist: Long, idSong: String) {
+  def deleteSongFromPlaylist(idPlaylist: Long, idSong: String, userId: BigDecimal) {
     DB.withConnection {
       implicit connection => {
-        SQL("delete from playlist_song where id_playlist = {idPlaylist} and id_song = {idSong}").on(
+        SQL("delete from playlist_song where id_playlist = {idPlaylist} and id_song = {idSong} " +
+          "and exists (select 1 from playlists where id = {idPlaylist} and userid = {userId} )").on(
           "idPlaylist" -> idPlaylist,
-          "idSong" -> idSong
+          "idSong" -> idSong,
+          "userId" -> userId
         ).executeUpdate()
       }
     }
@@ -75,6 +73,14 @@ object Playlist {
           .on("playlistId" -> playlistId)
           .on("songId" -> songId)
           .on("userId" -> userId).executeUpdate()
+      }
+    }
+  }
+
+  def copySongsToPlaylist(sqlStatement: String, userId: BigDecimal) {
+    DB.withConnection {
+      implicit connection => {
+        SQL(sqlStatement).executeUpdate()
       }
     }
   }
@@ -95,7 +101,7 @@ object Playlist {
       implicit connection =>
         val result = SQL("select * from playlists where id = {idPlaylist}").on("idPlaylist" -> idPlaylist).as(Playlist.simple *)
         result match {
-          case List() => ""
+          case List() => "No results found!"
           case result => result(0).title
         }
 
