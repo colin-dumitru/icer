@@ -61,7 +61,7 @@ class MobilePlaylistManager {
 
     public deleteSongFromTable() {
         this.optionsContainer.remove();
-        this.selectedItem.remove();
+        this.selectedItem.parent().remove();
     }
 
     onAddPlaylistInput(query:string) {

@@ -51,7 +51,7 @@ var MobilePlaylistManager = (function () {
     };
     MobilePlaylistManager.prototype.deleteSongFromTable = function () {
         this.optionsContainer.remove();
-        this.selectedItem.remove();
+        this.selectedItem.parent().remove();
     };
     MobilePlaylistManager.prototype.onAddPlaylistInput = function (query) {
         this.addPlaylist(query);
