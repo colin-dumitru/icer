@@ -699,8 +699,10 @@ var GlobalPlaylistManager = (function () {
         var callBack = function (option) {
             if (option == 0) {
                 _this.deleteSong(song);
-            } else if (option == 1) {
-                _this.clearSongs();
+            } else {
+                if (option == 1) {
+                    _this.clearSongs();
+                }
             }
         };
         window.setTimeout(function () {

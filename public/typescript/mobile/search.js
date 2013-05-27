@@ -8,6 +8,7 @@ var SearchManager = (function () {
         this.searchNewPlaylistInput = null;
         this.selectedItem = null;
     }
+
     SearchManager.prototype.bind = function () {
         this.searchPlaylistOptionContainer = $("#searchPlaylistOptionContainer");
         this.searchAddToPlaying = $("#searchAddToPlaying");
@@ -29,7 +30,7 @@ var SearchManager = (function () {
             _this.addCurrentSongToPlaylist($(this).attr("playlistId"));
         });
         this.searchNewPlaylistInput.keypress(function (e) {
-            if(e.which == 13) {
+            if (e.which == 13) {
                 _this.addSongToNewPlaylist($(this).val());
             }
         });
@@ -70,7 +71,7 @@ var SearchManager = (function () {
         this.cancelMoveOptionsToItem(this.selectedItem);
     };
     SearchManager.prototype.addCurrentSongToNowPlaying = function () {
-        if(this.selectedItem != null) {
+        if (this.selectedItem != null) {
             var item = $(this.selectedItem);
             var song = new MSong(item.attr("songId"), item.attr("songTitle"), item.attr("songArtist"), item.attr("songImage"));
             globalPlaylistManager.pushSong(song);
@@ -107,7 +108,7 @@ var SearchManager = (function () {
         });
     };
     SearchManager.prototype.stopMoveOption = function (item) {
-        if(item.position().left < -100) {
+        if (item.position().left < -100) {
             this.moveOptionsToItem(item);
         } else {
             this.cancelMoveOptionsToItem(item);
@@ -130,7 +131,7 @@ var SearchManager = (function () {
         });
     };
     SearchManager.prototype.hidePreviousOption = function (currentItem) {
-        if(this.selectedItem != null && this.selectedItem != currentItem) {
+        if (this.selectedItem != null && this.selectedItem != currentItem) {
             this.selectedItem.css({
                 WebkitTransition: "",
                 transition: "",
