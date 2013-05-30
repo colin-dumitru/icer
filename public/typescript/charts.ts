@@ -194,12 +194,12 @@ class ChartsManager {
             type: "POST",
             dataType: "json",
             success: data => {
-                    var songs:Song[] = [data.length];
-                    for (var i = 0, len = data.length; i < len; i++) {
-                        var songInfo = new SongInfo(data[i].title, data[i].artist, data[i].album, data[i].genre, data[i].peek, data[i].weeksOnTop, data[i].positionChange);
-                        songs[i] = new Song(data[i].mbid, songInfo, data[i].imageUrl);
-                    }
-                    this.setSongList(songs);
+                var songs:Song[] = [data.length];
+                for (var i = 0, len = data.length; i < len; i++) {
+                    var songInfo = new SongInfo(data[i].title, data[i].artist, data[i].album, data[i].genre, data[i].peek, data[i].weeksOnTop, data[i].positionChange);
+                    songs[i] = new Song(data[i].mbid, songInfo, data[i].imageUrl);
+                }
+                this.setSongList(songs);
             }
         });
     }
@@ -274,7 +274,15 @@ class ChartSongManager {
         });
 
         $(this.rootNode).find("#chartAddToPlaylist").click((e) => {
-            //TODO Add to Playlist
+            var chartPlaylistCallback = (selectedPlaylist:number, playlistTitle:string) => {
+                this.addSongToPlaylist(this.song, selectedPlaylist, playlistTitle);
+            };
+
+            chartPlaylistManager.showPlaylists(
+                this.buildPlaylistList(),
+                chartPlaylistCallback,
+                {x: $("#chartAddToPlaylist").offset().left,
+                    y: e.pageY});
         });
     }
 
@@ -283,15 +291,47 @@ class ChartSongManager {
     }
 
     private changeToSearchSection() {
-        binders["playlist"].unbind();
         sectionManager.changeSection(0);
     }
 
     private playSong(song:Song) {
         globalPlaylistManager.pushSong(song);
-        globalPlaylistManager.playSong(song);
     }
 
+    private addSongToPlaylist(song:Song, playlistIndex, title:string) {
+        if (playlistIndex == null) {
+            this.addSongToNewPlaylist(song, title);
+        } else {
+            var selectedPlaylist = playlistManager.getPlaylist()[playlistIndex];
+            playlistManager.addSongToPlaylist(song, selectedPlaylist);
+            this.pushSongToPlaylist(song, selectedPlaylist.id);
+        }
+    }
+
+    private pushSongToPlaylist(song:Song, playlistId:string) {
+        $.ajax({
+            url: "/playlist/song/add/" + playlistId,
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(song)
+        })
+    }
+
+    private addSongToNewPlaylist(song:Song, title:string) {
+        $.ajax("/playlist/new/" + title, {
+            type: "POST",
+            dataType: "json",
+            success: data => {
+                this.pushSongToPlaylist(song, <string>data.id);
+                playlistManager.loadPlaylist(<string>data.id, title)
+                playlistManager.addSongToPlaylist(song, playlistManager.getPlaylistMap()[<string>data.id]);
+            }
+        });
+    }
+
+    private buildPlaylistList():string[] {
+        return playlistManager.getPlaylist().map(p => p.title);
+    }
 }
 
 class ChartDate {

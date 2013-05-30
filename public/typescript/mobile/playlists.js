@@ -6,7 +6,6 @@ var MobilePlaylistManager = (function () {
         this.playNow = null;
         this.searchFromHere = null;
     }
-
     MobilePlaylistManager.prototype.bind = function () {
         this.optionsContainer = $("#playlistOptionContainer");
         this.playNow = $("#playNow");
@@ -119,9 +118,9 @@ var MobilePlaylistManager = (function () {
     MobilePlaylistManager.prototype.playPlaylist = function () {
         var songs = $(".playlistItemTable");
         globalPlaylistManager.clearSongs();
-        for (var i = 0; i < songs.length; i++) {
+        for(var i = 0; i < songs.length; i++) {
             var song = new MSong(songs[i].getAttribute("songId"), songs[i].getAttribute("songTitle"), songs[i].getAttribute("songArtist"), songs[i].getAttribute("songImage"));
-            if (i == 0) {
+            if(i == 0) {
                 globalPlaylistManager.pushSongAndPlay(song);
             } else {
                 globalPlaylistManager.pushSong(song);
@@ -142,7 +141,7 @@ var MobilePlaylistManager = (function () {
     };
     MobilePlaylistManager.prototype.closeOverlay = function () {
         $(document).click(function (e) {
-            if (e.target.id != "#box") {
+            if(e.target.id != "#box") {
                 $('#box').fadeOut('fast');
             }
         });
@@ -161,15 +160,13 @@ var MobilePlaylistManager = (function () {
         $(".playlistResult").remove();
     };
     MobilePlaylistManager.prototype.stopMoveOption = function (item) {
-        if (item.position().left <= 0 - 3 * window.innerWidth / 4) {
+        if(item.position().left <= 0 - 3 * window.innerWidth / 4) {
             this.selectedItem = item;
             this.deleteSongMethod();
+        } else if(item.position().left < -100) {
+            this.moveOptionsToItem(item);
         } else {
-            if (item.position().left < -100) {
-                this.moveOptionsToItem(item);
-            } else {
-                this.cancelMoveOptionsToItem(item);
-            }
+            this.cancelMoveOptionsToItem(item);
         }
     };
     MobilePlaylistManager.prototype.cancelMoveOptionsToItem = function (item) {
@@ -189,7 +186,7 @@ var MobilePlaylistManager = (function () {
         });
     };
     MobilePlaylistManager.prototype.hidePreviousOption = function (currentItem) {
-        if (this.selectedItem != null && this.selectedItem != currentItem) {
+        if(this.selectedItem != null && this.selectedItem != currentItem) {
             this.selectedItem.css({
                 WebkitTransition: "",
                 transition: "",

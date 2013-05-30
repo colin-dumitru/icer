@@ -662,3 +662,53 @@ html {
   bottom: 0px;
   z-index: 200;
 }
+
+#chartPlaylistContainer {
+  display: none;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 130px;
+  height: 100px;
+  z-index: 50;
+}
+
+#chartPlaylistMenu {
+  position: absolute;
+  width: 130px;
+  float: left;
+}
+
+.chartPlaylistOptionsContainer {
+  display: none;
+  width: 90%;
+  position: relative;
+  margin: 0 auto;
+  overflow-y: auto;
+  max-height: 200px;
+  background: darken(@foreground_variant, 10%);
+  box-shadow: black 0px 0px 20px inset;
+  border: 1px solid @foreground_variant;
+}
+
+#chartPlaylistOptionsList li {
+  .fontMenu2;
+  font-size: 15px;
+  color: @foreground_text;
+  padding-left: 5px;
+  padding-right: 5px;
+  cursor: pointer;
+}
+
+#chartPlaylistOptionsList li:hover {
+  background: @foreground_focus;
+}
+
+#chartPlaylistInput {
+  border: none;
+  border-bottom: 1px solid @background_text;
+  width: 100%;
+  background: @background_variant;
+  color: @background_text;
+  .fontText;
+}
