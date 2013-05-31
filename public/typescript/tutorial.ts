@@ -72,6 +72,7 @@ class Tutorial {
         this.sectionQueue.push(new GlobalPlaylistArrangeTutorial());
         this.sectionQueue.push(new GlobalPlaylistTutorial());
         this.sectionQueue.push(new PlaybackTutorial());
+        this.sectionQueue.push(new SongOptionsTutorial());
         this.sectionQueue.push(new NavigationTutorial());
         this.sectionQueue.push(new SearchResultTutorial());
         this.sectionQueue.push(new ItemBarEnterTutorial());
@@ -214,10 +215,45 @@ class NavigationTutorial implements TutorialSection {
         }, 2400);
         window.setTimeout(() => {
             searchManager.givePreviousSessionFocus();
-        }, 3400);
+        }, 1400);
         window.setTimeout(() => {
-            searchManager.giveNextSessionFocus();
-        }, 4400);
+            searchManager.givePreviousSessionFocus();
+        }, 1400);
+        window.setTimeout(() => {
+            searchManager.givePreviousSessionFocus();
+        }, 1400);
+
+
+    }
+}
+
+class SongOptionsTutorial implements TutorialSection {
+    content:string = "Each song (be it a result of a search or a song from a playlist) has certain options, which are visible if you left click on the picture of the song.";
+    finishButtonText:string = "Finish tutorial now.";
+    nextButtonText:string = "Okay";
+    containerClass:string = "songOptionsTutorialContent";
+    focusClass:string = "songOptionsTutorialAccent";
+
+    proceed() {
+
+        var element = $(searchManager.rootNode).find('#searchPageSongsContainer').find('.clickable')[0];
+        var songInfo = $(searchManager.rootNode).find('#searchSongTitle')[0].innerHTML;
+        var songName = songInfo.split("-")[0];
+        var songArtist = songInfo.split("-")[1];
+        var song = new Song(null, new SongInfo(songName, songArtist, null, null, 0, 0, 0), null);
+
+        window.setTimeout(() => {
+            songDetailManager.showDetails([
+                {label: "Play Now", subOptions: []},
+                {label: "Add To Playlist", subOptions: []},
+                {label: "Add to Now Playing", subOptions: []},
+                {label: "Search From Here", subOptions: []}
+            ],
+                -1,
+                song,
+                {x: element.getBoundingClientRect().left, y: element.getBoundingClientRect().top});
+        }, 2400);
+
 
     }
 }

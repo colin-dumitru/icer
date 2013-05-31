@@ -3,6 +3,7 @@ var Tutorial = (function () {
         this.sectionQueue = [];
         this.previousSection = null;
     }
+
     Tutorial.prototype.start = function () {
         disableUserAction = true;
         this.tutorialContent = $("#tutorialContent");
@@ -24,12 +25,12 @@ var Tutorial = (function () {
         });
     };
     Tutorial.prototype.bindNextSection = function () {
-        if(this.previousSection != null) {
+        if (this.previousSection != null) {
             this.tutorialInfoContainer.removeClass(this.previousSection.containerClass);
             this.tutorialAccent.removeClass(this.previousSection.focusClass);
         }
         var section = this.sectionQueue.pop();
-        if(section == null) {
+        if (section == null) {
             this.showFinishTutorial();
         } else {
             this.tutorialContent.text(section.content);
@@ -54,6 +55,7 @@ var Tutorial = (function () {
         this.sectionQueue.push(new GlobalPlaylistArrangeTutorial());
         this.sectionQueue.push(new GlobalPlaylistTutorial());
         this.sectionQueue.push(new PlaybackTutorial());
+        this.sectionQueue.push(new SongOptionsTutorial());
         this.sectionQueue.push(new NavigationTutorial());
         this.sectionQueue.push(new SearchResultTutorial());
         this.sectionQueue.push(new ItemBarEnterTutorial());
@@ -73,6 +75,7 @@ var InitialTutorialSection = (function () {
         this.containerClass = "initialTutorialSection";
         this.focusClass = "tutorialAccentHidden";
     }
+
     InitialTutorialSection.prototype.proceed = function () {
     };
     return InitialTutorialSection;
@@ -85,6 +88,7 @@ var MenuBarTutorial = (function () {
         this.containerClass = "menuBarTutorialContent";
         this.focusClass = "menuBarTutorialAccent";
     }
+
     MenuBarTutorial.prototype.proceed = function () {
     };
     return MenuBarTutorial;
@@ -97,6 +101,7 @@ var MenuBarNavigationTutorial = (function () {
         this.containerClass = "menuBarTutorialContent";
         this.focusClass = "menuBarTutorialAccent";
     }
+
     MenuBarNavigationTutorial.prototype.proceed = function () {
         $("#radioMenu").click();
         window.setTimeout(function () {
@@ -119,6 +124,7 @@ var ItemBarTutorial = (function () {
         this.containerClass = "itemBarTutorialContent";
         this.focusClass = "itemBarTutorialAccent";
     }
+
     ItemBarTutorial.prototype.proceed = function () {
     };
     return ItemBarTutorial;
@@ -131,6 +137,7 @@ var ItemBarOpenTutorial = (function () {
         this.containerClass = "itemBarTutorialOpenedContent";
         this.focusClass = "itemBarTutorialOpenedAccent";
     }
+
     ItemBarOpenTutorial.prototype.proceed = function () {
         itemList.giveFocus();
     };
@@ -144,6 +151,7 @@ var ItemBarEnterTutorial = (function () {
         this.containerClass = "itemBarTutorialOpenedContent";
         this.focusClass = "itemBarTutorialEnterAccent";
     }
+
     ItemBarEnterTutorial.prototype.proceed = function () {
         window.setTimeout(function () {
             $("#newItemInput").val("Passenger");
@@ -163,6 +171,7 @@ var SearchResultTutorial = (function () {
         this.containerClass = "searchFinishedTutorialContent";
         this.focusClass = "searchFinishedTutorialAccent";
     }
+
     SearchResultTutorial.prototype.proceed = function () {
     };
     return SearchResultTutorial;
@@ -175,6 +184,7 @@ var NavigationTutorial = (function () {
         this.containerClass = "navigationTutorialContent";
         this.focusClass = "navigationTutorialAccent";
     }
+
     NavigationTutorial.prototype.proceed = function () {
         searchManager.giveNextSessionFocus();
         window.setTimeout(function () {
@@ -188,12 +198,56 @@ var NavigationTutorial = (function () {
         }, 2400);
         window.setTimeout(function () {
             searchManager.givePreviousSessionFocus();
-        }, 3400);
+        }, 1400);
         window.setTimeout(function () {
-            searchManager.giveNextSessionFocus();
-        }, 4400);
+            searchManager.givePreviousSessionFocus();
+        }, 1400);
+        window.setTimeout(function () {
+            searchManager.givePreviousSessionFocus();
+        }, 1400);
     };
     return NavigationTutorial;
+})();
+var SongOptionsTutorial = (function () {
+    function SongOptionsTutorial() {
+        this.content = "Each song (be it a result of a search or a song from a playlist) has certain options, which are visible if you left click on the picture of the song.";
+        this.finishButtonText = "Finish tutorial now.";
+        this.nextButtonText = "Okay";
+        this.containerClass = "songOptionsTutorialContent";
+        this.focusClass = "songOptionsTutorialAccent";
+    }
+
+    SongOptionsTutorial.prototype.proceed = function () {
+        var element = $(searchManager.rootNode).find('#searchPageSongsContainer').find('.clickable')[0];
+        var songInfo = $(searchManager.rootNode).find('#searchSongTitle')[0].innerHTML;
+        var songName = songInfo.split("-")[0];
+        var songArtist = songInfo.split("-")[1];
+        var song = new Song(null, new SongInfo(songName, songArtist, null, null, 0, 0, 0), null);
+        window.setTimeout(function () {
+            songDetailManager.showDetails([
+                {
+                    label: "Play Now",
+                    subOptions: []
+                },
+                {
+                    label: "Add To Playlist",
+                    subOptions: []
+                },
+                {
+                    label: "Add to Now Playing",
+                    subOptions: []
+                },
+                {
+                    label: "Search From Here",
+                    subOptions: []
+                }
+            ], -1, song, {
+                x: element.getBoundingClientRect().left,
+                y: element.getBoundingClientRect().top
+            });
+        }, 1400);
+    };
+    return SongOptionsTutorial;
 })();
 var PlaybackTutorial = (function () {
     function PlaybackTutorial() {
@@ -203,6 +257,7 @@ var PlaybackTutorial = (function () {
         this.containerClass = "playbackTutorialContent";
         this.focusClass = "playbackTutorialAccent";
     }
+
     PlaybackTutorial.prototype.proceed = function () {
     };
     return PlaybackTutorial;
@@ -215,6 +270,7 @@ var GlobalPlaylistTutorial = (function () {
         this.containerClass = "globalPlaylistTutorialContent";
         this.focusClass = "globalPlaylistTutorialAccent";
     }
+
     GlobalPlaylistTutorial.prototype.proceed = function () {
         globalPlaylistManager.giveFocus();
     };
@@ -228,6 +284,7 @@ var GlobalPlaylistArrangeTutorial = (function () {
         this.containerClass = "globalPlaylistTutorialContent";
         this.focusClass = "globalPlaylistTutorialAccent";
     }
+
     GlobalPlaylistArrangeTutorial.prototype.proceed = function () {
         globalPlaylistManager.giveFocus();
     };
