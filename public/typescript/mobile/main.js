@@ -41,6 +41,16 @@ function playlistCallback() {
     });
 }
 function radioCallback() {
+    sectionManager.loadSection("/mobile/section/radio", function () {
+        itemsOnLoadRadio();
+        itemManager.itemAddCallback = function (content) {
+            itemManager.addItem(content, content);
+            new SearchCustom().loadCustomSearchSongs(content);
+        };
+        itemManager.itemSelectedCallback = function (id, title) {
+            return mRadioManager.onSearchSelected(id);
+        };
+    });
 }
 function performSearch(query) {
     sectionManager.loadSection("/mobile/section/search", function () {
@@ -306,7 +316,7 @@ var GlobalPlaylistManager = (function () {
         return container;
     };
     GlobalPlaylistManager.prototype.convertItemToSong = function (item) {
-        return new MSong(item.attr("songId"), item.attr("songTitle"), item.attr("songArtist"), item.attr("songImageUrl"));
+        return new MSong(item.attr("songId"), item.attr("songTitle"), item.attr("songArtist"), item.attr("songGenre"), item.attr("songImageUrl"));
     };
     return GlobalPlaylistManager;
 })();
@@ -433,10 +443,11 @@ var Player = (function () {
     return Player;
 })();
 var MSong = (function () {
-    function MSong(mbid, title, artist, imageUrl) {
+    function MSong(mbid, title, artist, genre, imageUrl) {
         this.mbid = mbid;
         this.title = title;
         this.artist = artist;
+        this.genre = genre;
         this.imageUrl = imageUrl;
     }
     return MSong;

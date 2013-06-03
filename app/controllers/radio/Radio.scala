@@ -17,6 +17,11 @@ import modelview.SongModelView
 object Radio extends Controller{
 
 
+  def section() = Secured {
+    (req, userId) =>
+      Ok(views.html.mobile.section_radio())
+  }
+
   def getRecentSongs() = Secured {
     (request, idUser) => {
       val songsForHistory = Song.getRecentSongs(idUser)

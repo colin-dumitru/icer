@@ -43,4 +43,4 @@ GET     /mobile/playlist/:id                                controllers.playlist
 GET     /mobile/playlist/add/:name                          controllers.playlist.Playlists.createPlaylist(name)
 GET     /mobile/playlist/delete/:id                         controllers.playlist.Playlists.deletePlaylist(id)
 GET     /mobile/playlist/song/delete/:idPlaylist/:idSong    controllers.playlist.Playlists.deleteSongFromPlaylist(idPlaylist,idSong)
-
+GET     /mobile/section/radio                               controllers.radio.Radio.section

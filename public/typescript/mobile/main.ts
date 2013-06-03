@@ -51,7 +51,15 @@ function playlistCallback() {
 }
 
 function radioCallback() {
-    //todo
+    sectionManager.loadSection("/mobile/section/radio", () => {
+        itemsOnLoadRadio();
+
+        itemManager.itemAddCallback = (content) => {
+            itemManager.addItem(content, content);
+            new SearchCustom().loadCustomSearchSongs(content);
+        }
+        itemManager.itemSelectedCallback = (id, title) => mRadioManager.onSearchSelected(id);
+    });
 }
 
 function performSearch(query:string) {
@@ -367,6 +375,7 @@ class GlobalPlaylistManager {
             item.attr("songId"),
             item.attr("songTitle"),
             item.attr("songArtist"),
+            item.attr("songGenre"),
             item.attr("songImageUrl")
         );
     }
@@ -512,6 +521,6 @@ class Player {
 }
 
 class MSong {
-    constructor(public mbid:string, public title:string, public artist:string, public imageUrl:string) {
+    constructor(public mbid:string, public title:string, public artist:string, public genre:string, public imageUrl:string) {
     }
 }

@@ -3,6 +3,10 @@ function itemsOnLoad() {
     itemManager = new ItemManager();
     itemManager.bind();
 }
+function itemsOnLoadRadio() {
+    itemManager = new ItemManager();
+    itemManager.bindRadio();
+}
 var ItemManager = (function () {
     function ItemManager() {
         this.collapsed = true;
@@ -20,6 +24,17 @@ var ItemManager = (function () {
         this.itemList = $("#itemList");
         this.itemListContainer = $("#itemListContainer");
         this.itemContent = $("#itemContent");
+        this.bindItemInput();
+        this.bindInitialItems();
+    };
+    ItemManager.prototype.bindRadio = function () {
+        this.itemTable = $("#itemTable");
+        this.itemList = $("#itemList");
+        this.itemListContainer = $("#itemListContainer");
+        this.itemContent = $("#itemContent");
+        this.addItem("RecentSongs", "Recent Songs");
+        this.addItem("RecentGenres", "Recent Genres");
+        this.addItem("RecentAlbums", "Recent Albums");
         this.bindItemInput();
         this.bindInitialItems();
     };

@@ -29,7 +29,7 @@ class MobilePlaylistManager {
 
     public playNowMethod() {
         var item = this.selectedItem;
-        var song = new MSong(item.attr("songid"), item.attr("songtitle"), item.attr("songartist"), item.attr("songimage"));
+        var song = new MSong(item.attr("songid"), item.attr("songtitle"), item.attr("songartist"), item.attr("songgenre"), item.attr("songimage"));
         globalPlaylistManager.pushSongAndPlay(song);
         this.cancelMoveOptionsToItem(this.selectedItem);
     }
@@ -142,7 +142,7 @@ class MobilePlaylistManager {
         var songs = $(".playlistItemTable");
         globalPlaylistManager.clearSongs();
         for (var i = 0; i < songs.length; i++) {
-            var song = new MSong(songs[i].getAttribute("songId"), songs[i].getAttribute("songTitle"), songs[i].getAttribute("songArtist"), songs[i].getAttribute("songImage"));
+            var song = new MSong(songs[i].getAttribute("songId"), songs[i].getAttribute("songTitle"), songs[i].getAttribute("songArtist"), songs[i].getAttribute("songGenre"), songs[i].getAttribute("songImage"));
             if (i == 0)
                 globalPlaylistManager.pushSongAndPlay(song);
             else

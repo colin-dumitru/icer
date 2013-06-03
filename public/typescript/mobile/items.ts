@@ -8,6 +8,12 @@ function itemsOnLoad() {
     itemManager.bind();
 }
 
+function itemsOnLoadRadio() {
+    itemManager = new ItemManager();
+
+    itemManager.bindRadio();
+}
+
 class ItemManager {
     private collapsed = true;
     private itemTable = null;
@@ -28,6 +34,21 @@ class ItemManager {
 
         this.bindItemInput();
         this.bindInitialItems();
+    }
+
+    bindRadio() {
+        this.itemTable = $("#itemTable");
+        this.itemList = $("#itemList");
+        this.itemListContainer = $("#itemListContainer");
+        this.itemContent = $("#itemContent");
+
+        this.addItem("RecentSongs", "Recent Songs");
+        this.addItem("RecentGenres", "Recent Genres");
+        this.addItem("RecentAlbums", "Recent Albums");
+
+        this.bindItemInput();
+        this.bindInitialItems();
+
     }
 
     private bindInitialItems() {
