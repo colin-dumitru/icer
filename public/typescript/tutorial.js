@@ -198,13 +198,13 @@ var NavigationTutorial = (function () {
         }, 2400);
         window.setTimeout(function () {
             searchManager.givePreviousSessionFocus();
-        }, 1400);
+        }, 3400);
         window.setTimeout(function () {
             searchManager.givePreviousSessionFocus();
-        }, 1400);
+        }, 4400);
         window.setTimeout(function () {
             searchManager.givePreviousSessionFocus();
-        }, 1400);
+        }, 5400);
     };
     return NavigationTutorial;
 })();
@@ -246,6 +246,9 @@ var SongOptionsTutorial = (function () {
                 y: element.getBoundingClientRect().top
             });
         }, 1400);
+        window.setTimeout(function () {
+            songDetailManager.hide();
+        }, 4400);
     };
     return SongOptionsTutorial;
 })();

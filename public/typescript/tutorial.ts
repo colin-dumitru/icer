@@ -215,13 +215,13 @@ class NavigationTutorial implements TutorialSection {
         }, 2400);
         window.setTimeout(() => {
             searchManager.givePreviousSessionFocus();
-        }, 1400);
+        }, 3400);
         window.setTimeout(() => {
             searchManager.givePreviousSessionFocus();
-        }, 1400);
+        }, 4400);
         window.setTimeout(() => {
             searchManager.givePreviousSessionFocus();
-        }, 1400);
+        }, 5400);
 
 
     }
@@ -252,8 +252,10 @@ class SongOptionsTutorial implements TutorialSection {
                 -1,
                 song,
                 {x: element.getBoundingClientRect().left, y: element.getBoundingClientRect().top});
-        }, 2400);
-
+        }, 1400);
+        window.setTimeout(() => {
+            songDetailManager.hide()
+        }, 4400);
 
     }
 }

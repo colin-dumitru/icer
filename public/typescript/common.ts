@@ -182,9 +182,10 @@ class SongDetailManager {
     }
 
     private bindHover() {
-        $(window).mousemove((event) => {
-            if (this.menuHidden) return;
 
+        $(window).mousemove((event) => {
+            if (disableUserAction) return;
+            if (this.menuHidden) return;
             if (event.clientX < (this.menuX - 10)
                 || event.clientX > (this.menuX + this.menuWidth + 10)
                 || event.clientY < (this.menuY - 10)
@@ -424,7 +425,7 @@ class ChartPlaylistManager {
 
     private updateLayout(position:{x : number; y:number;}) {
         $("#chartPlaylistContainer")
-            .css("left", position.x )
+            .css("left", position.x)
             .css("top", position.y + 15)
             .show(300);
     }
