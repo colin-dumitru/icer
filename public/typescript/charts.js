@@ -13,6 +13,7 @@ var ChartsBinder = (function () {
     };
     ChartsBinder.prototype.bind = function () {
         if(this.firstDisplay) {
+            chartPlaylistManager.bind();
             this.loadData();
             this.firstDisplay = false;
         }
@@ -326,4 +327,81 @@ var ChartDate = (function () {
     };
     return ChartDate;
 })();
+var ChartPlaylistManager = (function () {
+    function ChartPlaylistManager() {
+        this.menuHidden = true;
+    }
+    ChartPlaylistManager.prototype.bind = function () {
+        var chartPlaylistContainer = $("#chartPlaylistContainer");
+        this.menuWidth = chartPlaylistContainer.width();
+        this.menuHeight = chartPlaylistContainer.height();
+        this.bindHover();
+    };
+    ChartPlaylistManager.prototype.showPlaylists = function (playlists, chartPlaylistCallback, position) {
+        this.menuHidden = false;
+        $("#chartPlaylistContainer").empty();
+        var container = $("<div></div>");
+        var optionTemplate = template("#chartPlaylistTemplate");
+        container.append(optionTemplate);
+        $("#chartPlaylistContainer").append(container);
+        this.buildPlaylist(playlists, chartPlaylistCallback, container);
+        this.updateLayout(position);
+        this.menuX = this.hasSpaceOnRight(position.x) ? position.x : position.x - this.menuWidth;
+        this.menuY = this.hasSpaceOnBottom(position.y) ? position.y : position.y - this.menuHeight;
+    };
+    ChartPlaylistManager.prototype.buildPlaylist = function (playlists, chartPlaylistCallback, parentTemplate) {
+        var _this = this;
+        var listContainer = parentTemplate.find("#chartPlaylistOptionsContainer");
+        var container = parentTemplate.find("#chartPlaylistOptionsList");
+        var _this = this;
+        listContainer.show();
+        listContainer.find("#chartPlaylistInput").keypress(function (event) {
+            if(event.which == 13) {
+                var text = this.value;
+                this.value = "";
+                chartPlaylistCallback(null, text);
+                _this.hide();
+            }
+        });
+        playlists.forEach(function (playlist, index) {
+            var li = $("<li></li>");
+            li.append(playlist);
+            container.append(li);
+            _this.bindPlaylistClick(index, li, chartPlaylistCallback);
+        });
+    };
+    ChartPlaylistManager.prototype.bindPlaylistClick = function (playlistIndex, template, chartPlaylistCallback) {
+        var _this = this;
+        template.click(function () {
+            chartPlaylistCallback(playlistIndex, null);
+            _this.hide();
+        });
+    };
+    ChartPlaylistManager.prototype.updateLayout = function (position) {
+        $("#chartPlaylistContainer").css("left", position.x).css("top", position.y + 15).show(300);
+    };
+    ChartPlaylistManager.prototype.bindHover = function () {
+        var _this = this;
+        $(window).mousemove(function (event) {
+            if(_this.menuHidden) {
+                return;
+            }
+            if(event.clientX < (_this.menuX - 10) || event.clientX > (_this.menuX + _this.menuWidth + 10) || event.clientY < (_this.menuY - 10) || event.clientY > (_this.menuY + _this.menuHeight + 10)) {
+                _this.hide();
+            }
+        });
+    };
+    ChartPlaylistManager.prototype.hide = function () {
+        $("#chartPlaylistContainer").hide(300);
+        this.menuHidden = true;
+    };
+    ChartPlaylistManager.prototype.hasSpaceOnRight = function (x) {
+        return x + this.menuWidth < dimensions.windowWidth || x < this.menuWidth;
+    };
+    ChartPlaylistManager.prototype.hasSpaceOnBottom = function (y) {
+        return y + this.menuHeight < dimensions.windowHeight || y < this.menuHeight;
+    };
+    return ChartPlaylistManager;
+})();
+var chartPlaylistManager = new ChartPlaylistManager();
 //@ sourceMappingURL=charts.js.map

@@ -1,427 +1,411 @@
 .hidden {
-    display: none;
+  display: none;
 }
-
 .noPadding {
-    padding: 0px;
-    margin: 0px;
+  padding: 0px;
+  margin: 0px;
 }
-
 * {
-    padding: 0px;
-    margin: 0px;
+  padding: 0px;
+  margin: 0px;
 }
-
 .inline {
-    display: inline-block;
+  display: inline-block;
 }
-
 .clickable {
-    cursor: pointer;
+  cursor: pointer;
 }
-
 .zeroHeight {
-    position: relative;
-    height: 0px;
+  position: relative;
+  height: 0px;
 }
-
 .topAlign {
-    vertical-align: top;
+  vertical-align: top;
 }
-
 .fullFrame {
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 }
-
 .noOverflow {
-    overflow: hidden;
+  overflow: hidden;
 }
-
 .fontMenu {
-    font-family: 'Days One', sans-serif;
+  font-family: 'Days One', sans-serif;
 }
-
 .fontMenu2 {
-    font-family: 'Noto Sans', sans-serif;
+  font-family: 'Noto Sans', sans-serif;
 }
-
 .fontText {
-    font-family: 'Roboto', sans-serif;
+  font-family: 'Roboto', sans-serif;
 }
-
 .roundTopRight {
-    border-top-right-radius: 5px;
+  border-top-right-radius: 5px;
 }
-
 .roundBottomRight {
-    border-bottom-right-radius: 5px;
+  border-bottom-right-radius: 5px;
 }
-
 #chartsCell {
-    position: relative;
-    width: 600px;
-    height: 450px;
-    margin: 0 auto;
-    -webkit-perspective: 0px;
-    perspective: 0px;
+  position: relative;
+  width: 600px;
+  height: 450px;
+  margin: 0 auto;
+  -webkit-perspective: 0px;
+  perspective: 0px;
 }
-
 #chartsSongListContainer {
-    position: absolute;
-    width: 600px;
-    height: 450px;
-    margin: 0 auto;
-    overflow-y: auto;
-    background: #e1f1ff;
-    box-shadow: black 0px 0px 20px;
+  position: absolute;
+  width: 600px;
+  height: 450px;
+  margin: 0 auto;
+  overflow-y: auto;
+  background: #e1f1ff;
+  box-shadow: black 0px 0px 20px;
 }
-
 #chartSongTable {
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 }
-
 #chartSongContainer {
-    width: 100%;
-    height: 150px;
-    margin-bottom: 10px;
-    border-bottom: 1px solid #414850;
+  width: 100%;
+  height: 150px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #414850;
 }
-
 #chartSongImageContainer {
-    width: 150px;
-    vertical-align: middle;
+  width: 150px;
+  vertical-align: middle;
 }
-
 #chartSongImageContainer img {
-    width: 150px;
+  width: 150px;
 }
-
 #chartMenuContainer {
-    width: 130px;
-    height: 100px;
+  width: 130px;
+  height: 100px;
 }
-
 #chartChangeCell {
-    height: 30px;
+  height: 30px;
 }
-
 #chartChangeContainer {
-    width: 100px;
-    height: 40px;
-    margin: 0 auto;
-    position: relative;
+  width: 100px;
+  height: 40px;
+  margin: 0 auto;
+  position: relative;
 }
-
 #chartRankContainer {
-    position: absolute;
-    left: 0px;
-    bottom: 0px;
-    display: inline-block;
-    font-family: 'Roboto', sans-serif;
-    color: #414850;
-    font-size: 40px;
-    vertical-align: middle;
-    text-align: center;
-    width: 33%;
-    height: 40px;
+  position: absolute;
+  left: 0px;
+  bottom: 0px;
+  display: inline-block;
+  font-family: 'Roboto', sans-serif;
+  color: #414850;
+  font-size: 40px;
+  vertical-align: middle;
+  text-align: center;
+  width: 33%;
+  height: 40px;
 }
-
 #chartChangeArrowContainer {
-    position: absolute;
-    right: 20px;
-    bottom: 0px;
-    display: inline-block;
-    font-family: 'Roboto', sans-serif;
-    color: #414850;
-    font-size: 40px;
-    vertical-align: middle;
-    text-align: center;
-    width: 33%;
-    height: 100%;
+  position: absolute;
+  right: 20px;
+  bottom: 0px;
+  display: inline-block;
+  font-family: 'Roboto', sans-serif;
+  color: #414850;
+  font-size: 40px;
+  vertical-align: middle;
+  text-align: center;
+  width: 33%;
+  height: 100%;
 }
-
 #chartRankChangeContainer {
-    position: absolute;
-    bottom: 0px;
-    right: 0px;
-    font-family: 'Roboto', sans-serif;
-    color: #414850;
-    display: inline-block;
-    font-size: 15px;
-    vertical-align: bottom;
-    text-align: center;
-    width: 20%;
-    height: 15px;
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  font-family: 'Roboto', sans-serif;
+  color: #414850;
+  display: inline-block;
+  font-size: 15px;
+  vertical-align: bottom;
+  text-align: center;
+  width: 20%;
+  height: 15px;
 }
-
 .chartChangeArrowUp {
-    font-family: 'Roboto', sans-serif;
-    color: #418440;
-    vertical-align: middle;
-    text-align: center;
-    font-size: 30px;
-    width: 45px;
-    height: 100%;
+  font-family: 'Roboto', sans-serif;
+  color: #418440;
+  vertical-align: middle;
+  text-align: center;
+  font-size: 30px;
+  width: 45px;
+  height: 100%;
 }
-
 .chartChangeArrowDown {
-    font-family: 'Roboto', sans-serif;
-    color: #418440;
-    vertical-align: middle;
-    text-align: center;
-    font-size: 30px;
-    width: 45px;
-    height: 100%;
-    color: #dfece6;
+  font-family: 'Roboto', sans-serif;
+  color: #418440;
+  vertical-align: middle;
+  text-align: center;
+  font-size: 30px;
+  width: 45px;
+  height: 100%;
+  color: #dfece6;
 }
-
 .chartChangeArrowEqual {
-    font-family: 'Roboto', sans-serif;
-    color: #418440;
-    vertical-align: middle;
-    text-align: center;
-    font-size: 30px;
-    width: 45px;
-    height: 100%;
-    color: #414850;
+  font-family: 'Roboto', sans-serif;
+  color: #418440;
+  vertical-align: middle;
+  text-align: center;
+  font-size: 30px;
+  width: 45px;
+  height: 100%;
+  color: #414850;
 }
-
 #chartTitleContainer {
-    font-family: 'Roboto', sans-serif;
-    color: #414850;
-    font-size: 25px;
-    text-align: center;
-    width: 300px;
-    height: 30px;
-    overflow: hidden;
+  font-family: 'Roboto', sans-serif;
+  color: #414850;
+  font-size: 25px;
+  text-align: center;
+  width: 300px;
+  height: 30px;
+  overflow: hidden;
 }
-
 #chartArtistContainer {
-    font-family: 'Roboto', sans-serif;
-    color: #2a2f34;
-    font-size: 20px;
-    text-align: center;
-    overflow: hidden;
+  font-family: 'Roboto', sans-serif;
+  color: #2a2f34;
+  font-size: 20px;
+  text-align: center;
+  overflow: hidden;
 }
-
 #rankContainerCell {
-    width: 120px;
-    margin: 0 auto;
+  width: 120px;
+  margin: 0 auto;
 }
-
 #rankContainerCell div {
-    color: #414850;
-    font-family: 'Roboto', sans-serif;
-    font-size: 20px;
-    text-align: center;
-    display: inline-block;
-    width: 24px;
+  color: #414850;
+  font-family: 'Roboto', sans-serif;
+  font-size: 20px;
+  text-align: center;
+  display: inline-block;
+  width: 24px;
 }
-
 .chartMenuButton {
-    text-align: center;
-    font-family: 'Noto Sans', sans-serif;
-    color: #414850;
-    font-size: 15px;
-    cursor: pointer;
+  text-align: center;
+  font-family: 'Noto Sans', sans-serif;
+  color: #414850;
+  font-size: 15px;
+  cursor: pointer;
 }
-
 .chartMenuButton:hover {
-    background: #dfece6;
+  background: #dfece6;
 }
-
 #chartsWhenButton {
-    position: absolute;
-    text-align: center;
-    vertical-align: middle;
-    top: 0px;
-    right: -100px;
-    font-family: 'Noto Sans', sans-serif;
-    width: 100px;
-    height: 50px;
-    background: #e1f1ff;
-    color: #414850;
-    font-size: 30px;
-    cursor: pointer;
+  position: absolute;
+  text-align: center;
+  vertical-align: middle;
+  top: 0px;
+  right: -100px;
+  font-family: 'Noto Sans', sans-serif;
+  width: 100px;
+  height: 50px;
+  background: #e1f1ff;
+  color: #414850;
+  font-size: 30px;
+  cursor: pointer;
 }
-
 #chartsWhenButton:hover {
-    background: #e1f1ff;
+  background: #e1f1ff;
 }
-
 #chartsDoneButton {
-    display: none;
-    position: absolute;
-    text-align: center;
-    vertical-align: middle;
-    bottom: 0px;
-    right: -100px;
-    font-family: 'Noto Sans', sans-serif;
-    width: 100px;
-    height: 50px;
-    background: #418440;
-    color: #ddefff;
-    font-size: 30px;
-    cursor: pointer;
+  display: none;
+  position: absolute;
+  text-align: center;
+  vertical-align: middle;
+  bottom: 0px;
+  right: -100px;
+  font-family: 'Noto Sans', sans-serif;
+  width: 100px;
+  height: 50px;
+  background: #418440;
+  color: #ddefff;
+  font-size: 30px;
+  cursor: pointer;
 }
-
 #chartsDoneButton:hover {
-    background: #dfece6;
-    color: #414850;
+  background: #dfece6;
+  color: #414850;
 }
-
 #chartsCancelButton {
-    display: none;
-    position: absolute;
-    text-align: center;
-    vertical-align: middle;
-    bottom: 50px;
-    right: -100px;
-    font-family: 'Noto Sans', sans-serif;
-    width: 100px;
-    height: 50px;
-    background: #dfece6;
-    color: #414850;
-    font-size: 30px;
-    cursor: pointer;
+  display: none;
+  position: absolute;
+  text-align: center;
+  vertical-align: middle;
+  bottom: 50px;
+  right: -100px;
+  font-family: 'Noto Sans', sans-serif;
+  width: 100px;
+  height: 50px;
+  background: #dfece6;
+  color: #414850;
+  font-size: 30px;
+  cursor: pointer;
 }
-
 #chartsCancelButton:hover {
-    background: #dfece6;
+  background: #dfece6;
 }
-
 #chartsYearContainer {
-    position: absolute;
-    width: 600px;
-    height: 450px;
-    margin: 0 auto;
-    width: 100%;
-    height: 100%;
-    background: rgba(225, 241, 255, 0.5);
+  position: absolute;
+  width: 600px;
+  height: 450px;
+  margin: 0 auto;
+  width: 100%;
+  height: 100%;
+  background: rgba(225, 241, 255, 0.5);
 }
-
 #chartsYearContainer table {
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 }
-
 #chartsYearContainer td {
-    text-align: center;
-    width: 50%;
-    height: 50%;
-    color: #414850;
-    font-family: 'Roboto', sans-serif;
-    font-size: 50px;
-    cursor: pointer;
+  text-align: center;
+  width: 50%;
+  height: 50%;
+  color: #414850;
+  font-family: 'Roboto', sans-serif;
+  font-size: 50px;
+  cursor: pointer;
 }
-
 #chartsYearContainer td:hover {
-    background: #dfece6;
+  background: #dfece6;
 }
-
 #chartsMonthContainer {
-    position: absolute;
-    width: 600px;
-    height: 450px;
-    margin: 0 auto;
-    width: 100%;
-    height: 100%;
-    background: rgba(225, 241, 255, 0.5);
+  position: absolute;
+  width: 600px;
+  height: 450px;
+  margin: 0 auto;
+  width: 100%;
+  height: 100%;
+  background: rgba(225, 241, 255, 0.5);
 }
-
 #chartsMonthContainer table {
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 }
-
 #chartsMonthContainer td {
-    text-align: center;
-    width: 33%;
-    height: 25%;
-    color: #414850;
-    font-family: 'Roboto', sans-serif;
-    font-size: 30px;
-    cursor: pointer;
+  text-align: center;
+  width: 33%;
+  height: 25%;
+  color: #414850;
+  font-family: 'Roboto', sans-serif;
+  font-size: 30px;
+  cursor: pointer;
 }
-
 #chartsMonthContainer td:hover {
-    background: #dfece6;
+  background: #dfece6;
 }
-
 #chartsWeekContainer {
-    position: absolute;
-    width: 600px;
-    height: 450px;
-    margin: 0 auto;
-    width: 100%;
-    height: 100%;
-    background: rgba(225, 241, 255, 0.5);
+  position: absolute;
+  width: 600px;
+  height: 450px;
+  margin: 0 auto;
+  width: 100%;
+  height: 100%;
+  background: rgba(225, 241, 255, 0.5);
 }
-
 #chartsWeekContainer table {
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 }
-
 #chartsWeekContainer td {
-    text-align: center;
-    width: 33%;
-    height: 25%;
-    cursor: pointer;
+  text-align: center;
+  width: 33%;
+  height: 25%;
+  cursor: pointer;
 }
-
 #chartsWeekContainer td:hover {
-    background: #dfece6;
+  background: #dfece6;
 }
-
 #chartsWeekContainer td span {
-    color: #131518;
-    font-family: 'Roboto', sans-serif;
-    font-size: 20px;
+  color: #131518;
+  font-family: 'Roboto', sans-serif;
+  font-size: 20px;
 }
-
 #chartsWeekContainer td span:first-child {
-    color: #414850;
-    display: block;
-    font-size: 30px;
+  color: #414850;
+  display: block;
+  font-size: 30px;
 }
-
 #chartsDayContainer {
-    position: absolute;
-    width: 600px;
-    height: 450px;
-    margin: 0 auto;
-    width: 100%;
-    height: 100%;
-    background: rgba(225, 241, 255, 0.5);
+  position: absolute;
+  width: 600px;
+  height: 450px;
+  margin: 0 auto;
+  width: 100%;
+  height: 100%;
+  background: rgba(225, 241, 255, 0.5);
 }
-
 #chartsDayContainer table {
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 }
-
 #chartsDayContainer td {
-    text-align: center;
-    width: 50%;
-    height: 25%;
-    cursor: pointer;
+  text-align: center;
+  width: 50%;
+  height: 25%;
+  cursor: pointer;
 }
-
 #chartsDayContainer td:hover {
-    background: #dfece6;
+  background: #dfece6;
 }
-
 #chartsDayContainer td span {
-    color: #131518;
-    font-family: 'Roboto', sans-serif;
-    font-size: 20px;
+  color: #131518;
+  font-family: 'Roboto', sans-serif;
+  font-size: 20px;
 }
-
 #chartsDayContainer td span:first-child {
-    color: #414850;
-    display: block;
-    font-size: 30px;
+  color: #414850;
+  display: block;
+  font-size: 30px;
+}
+#chartPlaylistContainer {
+  display: none;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 130px;
+  height: 100px;
+  z-index: 50;
+}
+#chartPlaylistMenu {
+  position: absolute;
+  width: 130px;
+  float: left;
+}
+.chartPlaylistOptionsContainer {
+  display: none;
+  width: 90%;
+  position: relative;
+  margin: 0 auto;
+  overflow-y: auto;
+  max-height: 200px;
+  background: #ccce8d;
+  box-shadow: black 0px 0px 20px inset;
+  border: 1px solid #dcddb1;
+}
+#chartPlaylistOptionsList li {
+  font-family: 'Noto Sans', sans-serif;
+  font-size: 15px;
+  color: #414850;
+  padding-left: 5px;
+  padding-right: 5px;
+  cursor: pointer;
+}
+#chartPlaylistOptionsList li:hover {
+  background: #dfece6;
+}
+#chartPlaylistInput {
+  border: none;
+  border-bottom: 1px solid #ddefff;
+  width: 100%;
+  background: #7b8791;
+  color: #ddefff;
+  font-family: 'Roboto', sans-serif;
 }

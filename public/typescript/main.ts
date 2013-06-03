@@ -28,7 +28,6 @@ function run() {
     playManager.bind();
     globalPlaylistManager.bind();
     songDetailManager.bind();
-    chartPlaylistManager.bind();
 
     //todo temp
     globalPlaylistManager.pushSongs([

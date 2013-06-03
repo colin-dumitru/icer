@@ -17,7 +17,6 @@ function run() {
     playManager.bind();
     globalPlaylistManager.bind();
     songDetailManager.bind();
-    chartPlaylistManager.bind();
     globalPlaylistManager.pushSongs([
         new Song("077f4678-2eed-4e3e-bdbd-8476a9201b62", new SongInfo("Believe Me Natalie", "The Killers", null, null, 0, 0, 0), "http://userserve-ak.last.fm/serve/300x300/68101062.png"), 
         new Song("812349b2-b115-4dc2-b90e-040a1eac3725", new SongInfo("I Believe in a Thing Called Love", "The Darkness", null, null, 0, 0, 0), "http://userserve-ak.last.fm/serve/300x300/87434825.png"), 
