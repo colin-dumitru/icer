@@ -13,7 +13,7 @@ class HistoryBinder implements SectionBinder {
             .draggable({
                 containment: "#historyContainer",
                 axis: "x",
-                drag: (event, ui) => {
+                stop: (event, ui) => {
                     this.historyManager.slideReferencePoint(ui.position.left)
                 }
             });
@@ -50,7 +50,6 @@ class HistoryManager {
     }
 
     getGenres(week:number) {
-        //alert("week: " + week);
         $.ajax("/history/genres/" + week, {
             type: "POST",
             dataType: "json",
@@ -61,7 +60,7 @@ class HistoryManager {
                 }
 
                 this.historyPoints[week].updatedGenres = true;
-                this.displayDataPoint(this.historyPoints[week]);
+                this.displayDataPointGenres(this.historyPoints[week]);
             }
         });
     }
@@ -76,7 +75,7 @@ class HistoryManager {
                 }
 
                 this.historyPoints[week].updatedArtists = true;
-                this.displayDataPoint(this.historyPoints[week]);
+                this.displayDataPointArtists(this.historyPoints[week]);
             }
         });
     }
@@ -148,14 +147,15 @@ class HistoryManager {
 
         if (!point.updatedArtists && !point.updatedGenres) {
             if (!point.updatedGenres) {
-                this.getGenres(dataSetIndex)
+                this.getGenres(dataSetIndex);
             }
 
             if (!point.updatedArtists) {
-                this.getArtists(dataSetIndex)
+                this.getArtists(dataSetIndex);
             }
         } else {
-            this.displayDataPoint(point);
+            this.displayDataPointArtists(point);
+            this.displayDataPointGenres(point);
         }
     }
 
@@ -171,12 +171,24 @@ class HistoryManager {
         return Math.floor(ZBDoCY / 7);
     }
 
-    displayDataPoint(point:HistoryPoint) {
+    displayDataPointGenres(point:HistoryPoint) {
         point.genres.forEach((item, index) => {
             this.genreData[index] = {x: index, y: item.volume, name: item.name};
         });
         this.genreChart.render();
 
+        for (var i = 0; i < 4; i++) {
+            if (point.genres[i].name === "") {
+                $("#historyGenreLabel" + (i + 1)).css("display", "none");
+            } else {
+                var historyGenreLabel = $("#historyGenreLabel" + (i + 1))
+                historyGenreLabel.css("display", "inline");
+                historyGenreLabel.text(point.genres[i].name);
+            }
+        }
+    }
+
+    displayDataPointArtists(point:HistoryPoint) {
         for (var i = 0; i < 4; i++) {
             if (point.artists[i] === "") {
                 $("#historyArtist" + (i + 1)).css("display", "none");
@@ -184,14 +196,6 @@ class HistoryManager {
                 var historyArtist = $("#historyArtist" + (i + 1))
                 historyArtist.css("display", "list-item");
                 historyArtist.text(point.artists[i]);
-            }
-
-            if (point.genres[i].name === "") {
-                $("#historyGenreLabel" + (i + 1)).css("display", "none");
-            } else {
-                var historyGenreLabel = $("#historyGenreLabel" + (i + 1))
-                historyGenreLabel.css("display", "inline");
-                historyGenreLabel.text(point.genres[i].name);
             }
         }
     }

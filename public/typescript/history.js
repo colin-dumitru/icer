@@ -9,7 +9,7 @@ var HistoryBinder = (function () {
         $("#historySlider").draggable({
             containment: "#historyContainer",
             axis: "x",
-            drag: function (event, ui) {
+            stop: function (event, ui) {
                 _this.historyManager.slideReferencePoint(ui.position.left);
             }
         });
@@ -58,7 +58,7 @@ var HistoryManager = (function () {
                     _this.historyPoints[week].genres[i].volume = data[i].plays;
                 }
                 _this.historyPoints[week].updatedGenres = true;
-                _this.displayDataPoint(_this.historyPoints[week]);
+                _this.displayDataPointGenres(_this.historyPoints[week]);
             }
         });
     };
@@ -72,7 +72,7 @@ var HistoryManager = (function () {
                     _this.historyPoints[week].artists[i] = data[i].item.toString();
                 }
                 _this.historyPoints[week].updatedArtists = true;
-                _this.displayDataPoint(_this.historyPoints[week]);
+                _this.displayDataPointArtists(_this.historyPoints[week]);
             }
         });
     };
@@ -143,7 +143,8 @@ var HistoryManager = (function () {
                 this.getArtists(dataSetIndex);
             }
         } else {
-            this.displayDataPoint(point);
+            this.displayDataPointArtists(point);
+            this.displayDataPointGenres(point);
         }
     };
     HistoryManager.prototype.getWeekNumber = function () {
@@ -157,7 +158,7 @@ var HistoryManager = (function () {
         var ZBDoCY = Math.floor((date.getTime() - new Date(year, 0, 1, -6).getTime()) / 86400000);
         return Math.floor(ZBDoCY / 7);
     };
-    HistoryManager.prototype.displayDataPoint = function (point) {
+    HistoryManager.prototype.displayDataPointGenres = function (point) {
         var _this = this;
         point.genres.forEach(function (item, index) {
             _this.genreData[index] = {
@@ -168,19 +169,23 @@ var HistoryManager = (function () {
         });
         this.genreChart.render();
         for(var i = 0; i < 4; i++) {
-            if(point.artists[i] === "") {
-                $("#historyArtist" + (i + 1)).css("display", "none");
-            } else {
-                var historyArtist = $("#historyArtist" + (i + 1));
-                historyArtist.css("display", "list-item");
-                historyArtist.text(point.artists[i]);
-            }
             if(point.genres[i].name === "") {
                 $("#historyGenreLabel" + (i + 1)).css("display", "none");
             } else {
                 var historyGenreLabel = $("#historyGenreLabel" + (i + 1));
                 historyGenreLabel.css("display", "inline");
                 historyGenreLabel.text(point.genres[i].name);
+            }
+        }
+    };
+    HistoryManager.prototype.displayDataPointArtists = function (point) {
+        for(var i = 0; i < 4; i++) {
+            if(point.artists[i] === "") {
+                $("#historyArtist" + (i + 1)).css("display", "none");
+            } else {
+                var historyArtist = $("#historyArtist" + (i + 1));
+                historyArtist.css("display", "list-item");
+                historyArtist.text(point.artists[i]);
             }
         }
     };
