@@ -74,6 +74,7 @@ var RadioManager = (function () {
         RadioManager.globalPlayer = RadioManager.shuffle(RadioManager.globalPlayer);
         globalPlaylistManager.clearSongs();
         globalPlaylistManager.pushSongs(RadioManager.globalPlayer);
+        globalPlaylistManager.playSong(RadioManager.globalPlayer[0]);
     };
     RadioManager.prototype.addCriteriaInput = function (criteria) {
         var _this = this;

@@ -283,7 +283,7 @@ class ChartSongManager {
                 this.buildPlaylistList(),
                 chartPlaylistCallback,
                 {x: $("#chartAddToPlaylist").offset().left,
-                 y: e.pageY});
+                    y: e.pageY});
         });
     }
 
@@ -297,6 +297,7 @@ class ChartSongManager {
 
     private playSong(song:Song) {
         globalPlaylistManager.pushSong(song);
+        globalPlaylistManager.playSong(song);
     }
 
     private addSongToPlaylist(song:Song, playlistIndex, title:string) {
@@ -415,7 +416,7 @@ class ChartPlaylistManager {
 
     private updateLayout(position:{x : number; y:number;}) {
         $("#chartPlaylistContainer")
-            .css("left", position.x )
+            .css("left", position.x)
             .css("top", position.y + 15)
             .show(300);
     }

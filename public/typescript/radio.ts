@@ -101,6 +101,7 @@ class RadioManager {
         RadioManager.globalPlayer = RadioManager.shuffle(RadioManager.globalPlayer);
         globalPlaylistManager.clearSongs();
         globalPlaylistManager.pushSongs(RadioManager.globalPlayer);
+        globalPlaylistManager.playSong(RadioManager.globalPlayer[0]);
 
     }
 
