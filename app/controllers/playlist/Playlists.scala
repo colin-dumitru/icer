@@ -81,9 +81,15 @@ object Playlists extends Controller {
         val newPlaylist = new Playlist(null, userId, playlistName);
         val id = Playlist.create(newPlaylist);
         var sqlStatement = "insert into playlist_song(id_playlist, id_song) values  "
-        Song.getSongsForPlaylist(idPlaylist.toLong) foreach (song => sqlStatement = sqlStatement + " (" + id + ", '" + song.mbid + "'),");
-        sqlStatement = sqlStatement.dropRight(1);
-        Playlist.copySongsToPlaylist(sqlStatement, userId);
+        val songs = Song.getSongsForPlaylist(idPlaylist.toLong)
+        songs match {
+          case Nil => ;
+          case songs => {
+            songs foreach (song => sqlStatement = sqlStatement + " (" + id + ", '" + song.mbid + "'),");
+            sqlStatement = sqlStatement.dropRight(1);
+            Playlist.copySongsToPlaylist(sqlStatement, userId);
+          }
+        }
       }
       Redirect(controllers.routes.Application.index().url)
     }
