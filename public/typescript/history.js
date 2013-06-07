@@ -59,6 +59,7 @@ var HistoryManager = (function () {
                 }
                 _this.historyPoints[week].updatedGenres = true;
                 _this.displayDataPointGenres(_this.historyPoints[week]);
+                _this.displayWeekInterval(week);
             }
         });
     };
@@ -73,6 +74,7 @@ var HistoryManager = (function () {
                 }
                 _this.historyPoints[week].updatedArtists = true;
                 _this.displayDataPointArtists(_this.historyPoints[week]);
+                _this.displayWeekInterval(week);
             }
         });
     };
@@ -145,6 +147,7 @@ var HistoryManager = (function () {
         } else {
             this.displayDataPointArtists(point);
             this.displayDataPointGenres(point);
+            this.displayWeekInterval(dataSetIndex);
         }
     };
     HistoryManager.prototype.getWeekNumber = function () {
@@ -189,6 +192,13 @@ var HistoryManager = (function () {
             }
         }
     };
+    HistoryManager.prototype.displayWeekInterval = function (week) {
+        var starDate = this.firstDayOfWeek(week + 1);
+        var endDate = this.firstDayOfWeek(week + 2);
+        endDate.setDate(endDate.getDate() - 1);
+        $("#historyStartDate").text(starDate.getDate() + "/" + (starDate.getMonth() + 1) + "/" + starDate.getFullYear());
+        $("#historyEndDate").text(endDate.getDate() + "/" + (endDate.getMonth() + 1) + "/" + endDate.getFullYear());
+    };
     HistoryManager.prototype.initializeHistory = function () {
         var points = [];
         var currentWeek = this.getWeekNumber();
@@ -218,6 +228,40 @@ var HistoryManager = (function () {
             ], false, false));
         }
         return points;
+    };
+    HistoryManager.prototype.firstDayOfWeek = function (week) {
+        var date = this.firstWeekOfYear((new Date()).getFullYear()), weekTime = this.weeksToMilliseconds(week), targetTime = date.getTime() + weekTime;
+        return new Date(targetTime);
+    };
+    HistoryManager.prototype.weeksToMilliseconds = function (weeks) {
+        return 1000 * 60 * 60 * 24 * 7 * (weeks - 1);
+    };
+    HistoryManager.prototype.firstWeekOfYear = function (year) {
+        var date = new Date();
+        date = this.firstDayOfYear(date, year);
+        date = this.firstWeekday(date);
+        return date;
+    };
+    HistoryManager.prototype.firstDayOfYear = function (date, year) {
+        date.setYear(year);
+        date.setDate(1);
+        date.setMonth(0);
+        date.setHours(0);
+        date.setMinutes(0);
+        date.setSeconds(0);
+        date.setMilliseconds(0);
+        return date;
+    };
+    HistoryManager.prototype.firstWeekday = function (firstOfJanuaryDate) {
+        var firstDayOfWeek = 1;
+        var weekLength = 7;
+        var day = firstOfJanuaryDate.getDay();
+        day = (day === 0) ? 7 : day;
+        var dayOffset = -day + firstDayOfWeek;
+        if(weekLength - day + 1 < 4) {
+            dayOffset += weekLength;
+        }
+        return new Date(firstOfJanuaryDate.getTime() + dayOffset * 24 * 60 * 60 * 1000);
     };
     return HistoryManager;
 })();

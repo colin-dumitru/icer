@@ -61,6 +61,7 @@ class HistoryManager {
 
                 this.historyPoints[week].updatedGenres = true;
                 this.displayDataPointGenres(this.historyPoints[week]);
+                this.displayWeekInterval(week);
             }
         });
     }
@@ -76,6 +77,7 @@ class HistoryManager {
 
                 this.historyPoints[week].updatedArtists = true;
                 this.displayDataPointArtists(this.historyPoints[week]);
+                this.displayWeekInterval(week);
             }
         });
     }
@@ -156,6 +158,7 @@ class HistoryManager {
         } else {
             this.displayDataPointArtists(point);
             this.displayDataPointGenres(point);
+            this.displayWeekInterval(dataSetIndex);
         }
     }
 
@@ -200,6 +203,15 @@ class HistoryManager {
         }
     }
 
+    private displayWeekInterval(week:number) {
+        var starDate = this.firstDayOfWeek(week + 1);
+        var endDate = this.firstDayOfWeek(week + 2);
+        endDate.setDate(endDate.getDate() - 1);
+
+        $("#historyStartDate").text(starDate.getDate() + "/" + (starDate.getMonth() + 1) + "/" + starDate.getFullYear());
+        $("#historyEndDate").text(endDate.getDate() + "/" + (endDate.getMonth() + 1) + "/" + endDate.getFullYear());
+    }
+
     initializeHistory():HistoryPoint[] {
         var points = [];
 
@@ -217,6 +229,50 @@ class HistoryManager {
         }
 
         return points;
+    }
+
+    private firstDayOfWeek(week) {
+        var date       = this.firstWeekOfYear((new Date()).getFullYear()),
+            weekTime   = this.weeksToMilliseconds(week),
+            targetTime = date.getTime() + weekTime;
+
+        return new Date(targetTime)
+
+    }
+    private weeksToMilliseconds(weeks) {
+        return 1000 * 60 * 60 * 24 * 7 * (weeks - 1);
+    }
+
+    private firstWeekOfYear(year) {
+        var date = new Date();
+        date = this.firstDayOfYear(date, year);
+        date = this.firstWeekday(date);
+        return date;
+    }
+
+    private firstDayOfYear(date, year) {
+        date.setYear(year);
+        date.setDate(1);
+        date.setMonth(0);
+        date.setHours(0);
+        date.setMinutes(0);
+        date.setSeconds(0);
+        date.setMilliseconds(0);
+        return date;
+    }
+
+
+    private firstWeekday(firstOfJanuaryDate) {
+        var firstDayOfWeek = 1;
+        var weekLength = 7;
+        var day = firstOfJanuaryDate.getDay();
+        day = (day === 0) ? 7 : day;
+        var dayOffset =- day + firstDayOfWeek;
+        if (weekLength - day + 1 < 4) {
+            dayOffset += weekLength;
+        }
+
+        return new Date(firstOfJanuaryDate.getTime() + dayOffset * 24 * 60 * 60 * 1000);
     }
 }
 
