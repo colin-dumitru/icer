@@ -168,7 +168,7 @@ class HistoryManager {
         date.setDate(date.getDate() + (4 - day));
         var year = date.getFullYear();
         var ZBDoCY = Math.floor((date.getTime() - new Date(year, 0, 1, -6).getTime()) / 86400000);
-        return Math.floor(ZBDoCY / 7);
+        return Math.floor(ZBDoCY / 7) + 1;
     }
 
     displayDataPointGenres(point:HistoryPoint) {

@@ -43,21 +43,21 @@ object PlaybackHistory {
     }
   }
 
-  def findWeekPlays(userId: BigDecimal): List[(String, Long)] = {
+  def findWeekPlays(userId: BigDecimal): List[(Double, Long)] = {
     DB.withConnection {
       implicit connection =>
-        val genres = SQL("select to_char(date_trunc('week', p.play_date), 'WW') as week, count(p.*) " +
-          "from playback_history p where p.userid = {userId} group by date_trunc('week', p.play_date) order by week asc;").on(
+        val genres = SQL("select extract(week from p.play_date) AS week, count(p.*) " +
+          "from playback_history p where p.userid = {userId} group by week order by week asc;").on(
           "userId" -> userId)
-        genres().map(row => (row[String]("week"), row[Long]("count"))).toList
+        genres().map(row => (row[Double]("week"), row[Long]("count"))).toList
     }
   }
 
-  def findGenres(userId: BigDecimal, week: String): List[(String, Long)] = {
+  def findGenres(userId: BigDecimal, week: Double): List[(String, Long)] = {
     DB.withConnection {
       implicit connection =>
         val genres = SQL("select s.genre, COUNT(s.*) from songs s, playback_history p where p.song_id = s.mbid and " +
-          "p.userid = {userId} and to_char(date_trunc('week', p.play_date), 'WW') = {week} " +
+          "p.userid = {userId} and extract(week from p.play_date) = {week} " +
           "group by s.genre order by count(s.genre) desc limit 4;").on(
           "userId" -> userId,
           "week" -> week)
@@ -65,11 +65,11 @@ object PlaybackHistory {
     }
   }
 
-  def findArtists(userId: BigDecimal, week: String): List[(String, Long)] = {
+  def findArtists(userId: BigDecimal, week: Double): List[(String, Long)] = {
     DB.withConnection {
       implicit connection =>
         val artists = SQL("select s.artist, COUNT(s.*) from songs s, playback_history p where p.song_id = s.mbid and " +
-          "p.userid = {userId} and to_char(date_trunc('week', p.play_date), 'WW') = {week} " +
+          "p.userid = {userId} and extract(week from p.play_date) = {week} " +
           "group by s.artist order by count(s.artist) desc limit 4;").on(
           "userId" -> userId,
           "week" -> week)

@@ -26,14 +26,14 @@ object History extends Controller {
   def getPlayback = Secured {
     (request, idUser) => {
       val result = PlaybackHistory.findWeekPlays(idUser)
-      val weekPlays = result.map(p => new HistoryModelView(p._1, p._2)).toArray
+      val weekPlays = result.map(p => new HistoryModelView(p._1.toString, p._2)).toArray
       Ok(generate(weekPlays)).as("application/json")
     }
   }
 
   def getGenres(week: Int) = Secured {
     (request, idUser) => {
-      val result = PlaybackHistory.findGenres(idUser, if (week < 9)  "0" + (week + 1) else "" + (week + 1))
+      val result = PlaybackHistory.findGenres(idUser, (week + 1))
       val genres = result.map(p => new HistoryModelView(p._1, p._2)).toArray
       Ok(generate(genres)).as("application/json")
     }
@@ -41,7 +41,7 @@ object History extends Controller {
 
   def getArtists(week: Int) = Secured {
     (request, idUser) => {
-      val result = PlaybackHistory.findArtists(idUser, if (week < 9)  "0" + (week + 1) else "" + (week + 1))
+      val result = PlaybackHistory.findArtists(idUser, (week + 1))
       val artists = result.map(p => new HistoryModelView(p._1, p._2)).toArray
       Ok(generate(artists)).as("application/json")
     }
