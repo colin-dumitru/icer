@@ -385,7 +385,7 @@
   position: relative;
   margin: 0 auto;
   overflow-y: auto;
-  max-height: 200px;
+  max-height: 100px;
   background: #ccce8d;
   box-shadow: black 0px 0px 20px inset;
   border: 1px solid #dcddb1;
