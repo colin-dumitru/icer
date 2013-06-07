@@ -2,7 +2,6 @@ var ChartsBinder = (function () {
     function ChartsBinder() {
         this.firstDisplay = true;
     }
-
     ChartsBinder.prototype.buildPage = function (rootNode) {
         this.manager = new ChartsManager(rootNode);
         this.manager.addPickerPage(new PickerPage($("#chartsSongListContainer")));
@@ -13,7 +12,7 @@ var ChartsBinder = (function () {
         this.manager.bind();
     };
     ChartsBinder.prototype.bind = function () {
-        if (this.firstDisplay) {
+        if(this.firstDisplay) {
             chartPlaylistManager.bind();
             this.loadData();
             this.firstDisplay = false;
@@ -33,25 +32,24 @@ var ChartsManager = (function () {
         this.rootNode = rootNode;
         this.pickerPages = [];
         this.longMonths = [
-            1,
-            3,
-            5,
-            7,
-            8,
-            10,
+            1, 
+            3, 
+            5, 
+            7, 
+            8, 
+            10, 
             12
         ];
         this.shortMonths = [
-            4,
-            6,
-            9,
+            4, 
+            6, 
+            9, 
             11
         ];
         this.arrowDown = template("#chartsDown");
         this.arrowUp = template("#chartsUp");
         this.arrowNoChange = template("#chartsNoChange");
     }
-
     ChartsManager.prototype.bind = function () {
         var _this = this;
         $("#chartsWhenButton").click(function () {
@@ -69,12 +67,12 @@ var ChartsManager = (function () {
                 var month = index + 1;
                 _this.startDate.month = month;
                 _this.interval = "1 month";
-                if ($.inArray(month, _this.longMonths) != -1) {
+                if($.inArray(month, _this.longMonths) != -1) {
                     _this.displayContainerValues("chartsWeekContainer", 0);
-                } else if ($.inArray(month, _this.shortMonths) != -1) {
+                } else if($.inArray(month, _this.shortMonths) != -1) {
                     _this.displayContainerValues("chartsWeekContainer", 1);
-                } else if (month == 2) {
-                    if (_this.startDate.year % 4 == 0) {
+                } else if(month == 2) {
+                    if(_this.startDate.year % 4 == 0) {
                         _this.displayContainerValues("chartsWeekContainer", 2);
                     } else {
                         _this.displayContainerValues("chartsWeekContainer", 3);
@@ -87,22 +85,22 @@ var ChartsManager = (function () {
             $(elem).click(function () {
                 _this.startDate.day = parseInt(elem.childNodes[1].innerHTML.substr(1, 2));
                 _this.interval = "1 week";
-                if ($(elem).parent().index() == 0) {
+                if($(elem).parent().index() == 0) {
                     _this.week = $(elem).index() + 1;
-                } else if ($(elem).parent().index() == 1) {
+                } else if($(elem).parent().index() == 1) {
                     _this.week = $(elem).index() + 3;
                 } else {
                     _this.week = 5;
                 }
-                if (_this.week < 5) {
+                if(_this.week < 5) {
                     _this.displayContainerValues("chartsDayContainer", (_this.week - 1));
-                } else if (_this.week == 5) {
-                    if ($.inArray(_this.startDate.month, _this.longMonths) != -1) {
+                } else if(_this.week == 5) {
+                    if($.inArray(_this.startDate.month, _this.longMonths) != -1) {
                         _this.displayContainerValues("chartsDayContainer", 4);
-                    } else if ($.inArray(_this.startDate.month, _this.shortMonths) != -1) {
+                    } else if($.inArray(_this.startDate.month, _this.shortMonths) != -1) {
                         _this.displayContainerValues("chartsDayContainer", 5);
                     } else {
-                        if (_this.startDate.year % 4 == 0) {
+                        if(_this.startDate.year % 4 == 0) {
                             _this.displayContainerValues("chartsDayContainer", 6);
                         }
                     }
@@ -114,7 +112,7 @@ var ChartsManager = (function () {
             $(elem).click(function () {
                 _this.startDate.day = parseInt(elem.childNodes[1].innerHTML.substr(1, 2));
                 _this.interval = "1 day";
-                if (_this.week == 5 && _this.startDate.day < 29) {
+                if(_this.week == 5 && _this.startDate.day < 29) {
                     _this.startDate.month += 1;
                 }
                 _this.updateCharts(_this.startDate.toString(), _this.interval);
@@ -130,8 +128,8 @@ var ChartsManager = (function () {
     ChartsManager.prototype.displayContainerValues = function (container, index) {
         var children = document.getElementById(container).children;
         var length = children.length;
-        for (var i = 0; i < length; i++) {
-            if (i != index) {
+        for(var i = 0; i < length; i++) {
+            if(i != index) {
                 $(children[i]).css("display", "none");
             } else {
                 $(children[index]).css("display", "table");
@@ -149,8 +147,8 @@ var ChartsManager = (function () {
             page.rootNode.transition({
                 perspective: 100,
                 translate3d: [
-                    0,
-                    -100 * (i - _this.currentIndex),
+                    0, 
+                    -100 * (i - _this.currentIndex), 
                     20 * (i - _this.currentIndex)
                 ],
                 opacity: (i > _this.currentIndex) ? 0 : (i == _this.currentIndex) ? 1 : 0.5
@@ -158,12 +156,12 @@ var ChartsManager = (function () {
         });
         window.setTimeout(function () {
             _this.pickerPages.forEach(function (page, index) {
-                if (index > _this.currentIndex) {
+                if(index > _this.currentIndex) {
                     $(page.rootNode).addClass("hidden");
                 }
             });
         }, 400);
-        if (index > 1) {
+        if(index > 1) {
             $("#chartsDoneButton").show("slide", {
                 direction: "left"
             }, 200);
@@ -172,7 +170,7 @@ var ChartsManager = (function () {
                 direction: "left"
             }, 200);
         }
-        if (index > 0) {
+        if(index > 0) {
             $("#chartsCancelButton").show("slide", {
                 direction: "left"
             }, 200);
@@ -194,7 +192,7 @@ var ChartsManager = (function () {
                 var songs = [
                     data.length
                 ];
-                for (var i = 0, len = data.length; i < len; i++) {
+                for(var i = 0, len = data.length; i < len; i++) {
                     var songInfo = new SongInfo(data[i].title, data[i].artist, data[i].album, data[i].genre, data[i].peek, data[i].weeksOnTop, data[i].positionChange);
                     songs[i] = new Song(data[i].mbid, songInfo, data[i].imageUrl);
                 }
@@ -224,19 +222,19 @@ var ChartsManager = (function () {
         return rootDiv;
     };
     ChartsManager.prototype.buildPositionIcon = function (change) {
-        if (change < 0) {
+        if(change < 0) {
             return this.arrowDown;
         }
-        if (change > 0) {
+        if(change > 0) {
             return this.arrowUp;
         }
         return this.arrowNoChange;
     };
     ChartsManager.prototype.buildPositionClass = function (change) {
-        if (change < 0) {
+        if(change < 0) {
             return "chartChangeArrowDown";
         }
-        if (change > 0) {
+        if(change > 0) {
             return "chartChangeArrowUp";
         }
         return "chartChangeArrowEqual";
@@ -247,7 +245,6 @@ var PickerPage = (function () {
     function PickerPage(rootNode) {
         this.rootNode = rootNode;
     }
-
     return PickerPage;
 })();
 var ChartSongManager = (function () {
@@ -255,7 +252,6 @@ var ChartSongManager = (function () {
         this.song = song;
         this.rootNode = rootNode;
     }
-
     ChartSongManager.prototype.bind = function () {
         var _this = this;
         $(this.rootNode).find("#chartPlayNow").click(function () {
@@ -286,7 +282,7 @@ var ChartSongManager = (function () {
         globalPlaylistManager.playSong(song);
     };
     ChartSongManager.prototype.addSongToPlaylist = function (song, playlistIndex, title) {
-        if (playlistIndex == null) {
+        if(playlistIndex == null) {
             this.addSongToNewPlaylist(song, title);
         } else {
             var selectedPlaylist = playlistManager.getPlaylist()[playlistIndex];
@@ -327,7 +323,6 @@ var ChartDate = (function () {
         this.month = month;
         this.day = day;
     }
-
     ChartDate.prototype.toString = function () {
         return "'" + this.year + '-' + this.month + '-' + this.day + "'";
     };
@@ -337,7 +332,6 @@ var ChartPlaylistManager = (function () {
     function ChartPlaylistManager() {
         this.menuHidden = true;
     }
-
     ChartPlaylistManager.prototype.bind = function () {
         var chartPlaylistContainer = $("#chartPlaylistContainer");
         this.menuWidth = chartPlaylistContainer.width();
@@ -363,7 +357,7 @@ var ChartPlaylistManager = (function () {
         var _this = this;
         listContainer.show();
         listContainer.find("#chartPlaylistInput").keypress(function (event) {
-            if (event.which == 13) {
+            if(event.which == 13) {
                 var text = this.value;
                 this.value = "";
                 chartPlaylistCallback(null, text);
@@ -390,10 +384,10 @@ var ChartPlaylistManager = (function () {
     ChartPlaylistManager.prototype.bindHover = function () {
         var _this = this;
         $(window).mousemove(function (event) {
-            if (_this.menuHidden) {
+            if(_this.menuHidden) {
                 return;
             }
-            if (event.clientX < (_this.menuX - 10) || event.clientX > (_this.menuX + _this.menuWidth + 10) || event.clientY < (_this.menuY - 10) || event.clientY > (_this.menuY + _this.menuHeight + 10)) {
+            if(event.clientX < (_this.menuX - 10) || event.clientX > (_this.menuX + _this.menuWidth + 10) || event.clientY < (_this.menuY - 10) || event.clientY > (_this.menuY + _this.menuHeight + 10)) {
                 _this.hide();
             }
         });
