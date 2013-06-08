@@ -108,6 +108,9 @@ var SearchManager = (function () {
     };
     SearchManager.prototype.giveSessionFocus = function (session) {
         var _this = this;
+        if(session == null) {
+            return;
+        }
         this.currentIndex = this.searchSessionsQueue.indexOf(session);
         this.searchSessionsQueue.forEach(function (session, i) {
             session.rootNode().css({
@@ -209,7 +212,7 @@ var SearchCallback = (function () {
             songDetailManager.showDetails([
                 {
                     label: "Play Now",
-                    subOptions: []
+                    subOptions: null
                 }, 
                 {
                     label: "Add To Playlist",
@@ -217,11 +220,11 @@ var SearchCallback = (function () {
                 }, 
                 {
                     label: "Add to Now Playing",
-                    subOptions: []
+                    subOptions: null
                 }, 
                 {
                     label: "Search From Here",
-                    subOptions: []
+                    subOptions: null
                 }
             ], detailCallback, song, {
                 x: e.pageX,

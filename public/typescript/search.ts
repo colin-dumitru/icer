@@ -115,6 +115,9 @@ class SearchManager {
     }
 
     public giveSessionFocus(session:SearchSession) {
+        if(session == null) {
+            return;
+        }
         this.currentIndex = this.searchSessionsQueue.indexOf(session);
         this.searchSessionsQueue.forEach((session, i) => {
             session.rootNode()
@@ -226,10 +229,10 @@ class SearchCallback {
 
         template.click((e) => {
             songDetailManager.showDetails([
-                {label: "Play Now", subOptions: []},
+                {label: "Play Now", subOptions: null},
                 {label: "Add To Playlist", subOptions: this.buildPlaylistList()},
-                {label: "Add to Now Playing", subOptions: []},
-                {label: "Search From Here", subOptions: []}
+                {label: "Add to Now Playing", subOptions: null},
+                {label: "Search From Here", subOptions: null}
             ],
                 detailCallback,
                 song,

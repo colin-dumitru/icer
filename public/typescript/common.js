@@ -64,7 +64,7 @@ var SongDetailManager = (function () {
         var optionTemplate = template("#songDetailOptionTemplate", option.label);
         container.append(optionTemplate);
         $("#songDetailMenuCell").append(container);
-        if(option.subOptions.length == 0) {
+        if(option.subOptions == null) {
             this.bindOptionClick(optionIndex, null, container, detailCallback);
         } else {
             this.buildSubOptions(option.subOptions, optionIndex, detailCallback, container);
