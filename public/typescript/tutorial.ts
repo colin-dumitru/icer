@@ -244,10 +244,10 @@ class SongOptionsTutorial implements TutorialSection {
 
         window.setTimeout(() => {
             songDetailManager.showDetails([
-                {label: "Play Now", subOptions: []},
-                {label: "Add To Playlist", subOptions: []},
-                {label: "Add to Now Playing", subOptions: []},
-                {label: "Search From Here", subOptions: []}
+                {label: "Play Now", subOptions: null},
+                {label: "Add To Playlist", subOptions: null},
+                {label: "Add to Now Playing", subOptions: null},
+                {label: "Search From Here", subOptions: null}
             ],
                 function () {
                 },

@@ -151,15 +151,15 @@ var PlaylistManager = (function () {
             songDetailManager.showDetails([
                 {
                     label: "Play Now",
-                    subOptions: []
+                    subOptions: null
                 }, 
                 {
                     label: "Search From Here",
-                    subOptions: []
+                    subOptions: null
                 }, 
                 {
                     label: "Remove From Playlist",
-                    subOptions: []
+                    subOptions: null
                 }
             ], detailCallback, song, {
                 x: e.pageX,

@@ -217,19 +217,19 @@ var SongOptionsTutorial = (function () {
             songDetailManager.showDetails([
                 {
                     label: "Play Now",
-                    subOptions: []
+                    subOptions: null
                 }, 
                 {
                     label: "Add To Playlist",
-                    subOptions: []
+                    subOptions: null
                 }, 
                 {
                     label: "Add to Now Playing",
-                    subOptions: []
+                    subOptions: null
                 }, 
                 {
                     label: "Search From Here",
-                    subOptions: []
+                    subOptions: null
                 }
             ], function () {
             }, song, {

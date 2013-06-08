@@ -166,9 +166,9 @@ class PlaylistManager {
 
         template.click((e) => {
             songDetailManager.showDetails([
-                {label: "Play Now", subOptions: []},
-                {label: "Search From Here", subOptions: []},
-                {label: "Remove From Playlist", subOptions: []}
+                {label: "Play Now", subOptions: null},
+                {label: "Search From Here", subOptions: null},
+                {label: "Remove From Playlist", subOptions: null}
             ],
                 detailCallback, song, {x: e.pageX, y: e.pageY});
         });
