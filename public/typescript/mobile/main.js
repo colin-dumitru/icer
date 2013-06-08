@@ -17,6 +17,7 @@ function run() {
     searchCallback();
 }
 function searchCallback() {
+    titleManager.title.show();
     sectionManager.loadSection("/mobile/section/search", function () {
         itemsOnLoad();
         mSearchManager.bind();
@@ -29,6 +30,7 @@ function searchCallback() {
     });
 }
 function playlistCallback() {
+    titleManager.title.show();
     sectionManager.loadSection("/mobile/section/playlists", function () {
         itemsOnLoad();
         mPlaylistManager.bind();
@@ -41,11 +43,12 @@ function playlistCallback() {
     });
 }
 function radioCallback() {
+    titleManager.title.hide();
     sectionManager.loadSection("/mobile/section/radio", function () {
         itemsOnLoadRadio();
         itemManager.itemAddCallback = function (content) {
-            itemManager.addItem(content, content);
-            new SearchCustom().loadCustomSearchSongs(content);
+            itemManager.addRadioItem(content, content);
+            mRadioManager.onSearchSelected(content);
         };
         itemManager.itemSelectedCallback = function (id, title) {
             return mRadioManager.onSearchSelected(id);

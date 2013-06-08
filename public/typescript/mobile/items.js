@@ -32,10 +32,12 @@ var ItemManager = (function () {
         this.itemList = $("#itemList");
         this.itemListContainer = $("#itemListContainer");
         this.itemContent = $("#itemContent");
-        this.addItem("RecentSongs", "Recent Songs");
-        this.addItem("RecentGenres", "Recent Genres");
-        this.addItem("RecentAlbums", "Recent Albums");
-        this.bindItemInput();
+        var container = $("<div> <input id='itemRadioInput'/></div>");
+        this.itemContent.append(container);
+        this.addRadioItem("RecentSongs", "Recent Songs");
+        this.addRadioItem("RecentGenres", "Recent Genres");
+        this.addRadioItem("RecentAlbums", "Recent Albums");
+        this.bindItemRadioInput();
         this.bindInitialItems();
     };
     ItemManager.prototype.bindInitialItems = function () {
@@ -48,6 +50,16 @@ var ItemManager = (function () {
     ItemManager.prototype.bindItemInput = function () {
         var _this = this;
         $("#itemInput").keypress(function (e) {
+            if(e.which == 13) {
+                _this.itemAddCallback($(this).val());
+                $(this).val("");
+                _this.takeFocus();
+            }
+        });
+    };
+    ItemManager.prototype.bindItemRadioInput = function () {
+        var _this = this;
+        $("#itemRadioInput").keypress(function (e) {
             if(e.which == 13) {
                 _this.itemAddCallback($(this).val());
                 $(this).val("");
@@ -82,6 +94,14 @@ var ItemManager = (function () {
         container.addClass("selectItem");
         container.attr("itemId", id);
         this.itemList.append(container);
+        this.bindItem(container, id, title);
+    };
+    ItemManager.prototype.addRadioItem = function (id, title) {
+        var container = $("<div></div>");
+        container.text(title);
+        container.addClass("selectItem");
+        container.attr("itemId", id);
+        this.itemContent.append(container);
         this.bindItem(container, id, title);
     };
     ItemManager.prototype.deleteItem = function (id) {

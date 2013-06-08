@@ -55,7 +55,6 @@ var MobileRadioManager = (function () {
         this.playingMSongs = [];
         switch(id) {
             case "RecentGenres": {
-                titleManager.setTitle("Recent Genres");
                 for(var j = 0; j < this.recentMSongs.length; j++) {
                     if(this.recentMSongs[j].genre != null) {
                         new SearchSimilarGenre().loadSimilarGenreSongs(this.recentMSongs[j].genre);
@@ -64,14 +63,12 @@ var MobileRadioManager = (function () {
                 break;
             }
             case "RecentSongs": {
-                titleManager.setTitle("Recent Songs");
                 for(var j = 0; j < this.recentMSongs.length; j++) {
                     new SearchSimilarSongs().loadSimilarSongs(this.recentMSongs[j].title);
                 }
                 break;
             }
             case "RecentAlbums": {
-                titleManager.setTitle("Recent Albums");
                 for(var j = 0; j < this.recentMSongs.length; j++) {
                     new SearchSimilarAlbum().loadSimilarAlbumSongs(this.recentMSongs[j].artist);
                 }
@@ -142,6 +139,9 @@ var SearchSimilarGenre = (function () {
         var id = MobileRadioManager.guid(track.mbid, track.name.trim() + track.artist.name.trim());
         var song = new MSong(id, track.name, track.artist.name, null, MobileRadioManager.getLargeImage(track.image));
         mRadioManager.addSongToGlobalPlayer(song);
+        setTimeout(function () {
+            player.playSong(mRadioManager.playingMSongs[0]);
+        }, 2000);
     };
     SearchSimilarGenre.prototype.buildGenreSearchUrl = function (tag) {
         return "http://ws.audioscrobbler.com/2.0/?method=tag.gettoptracks&tag=" + tag.name + "&api_key=" + lastFmApiKey + "&format=json&limit=5";
@@ -200,6 +200,9 @@ var SearchSimilarAlbum = (function () {
         var id = MobileRadioManager.guid(track.mbid, track.name.trim() + track.artist.name.trim());
         var song = new MSong(id, track.name, track.artist.name, null, image);
         mRadioManager.addSongToGlobalPlayer(song);
+        setTimeout(function () {
+            player.playSong(mRadioManager.playingMSongs[0]);
+        }, 2000);
     };
     SearchSimilarAlbum.prototype.buildAlbumSearchUrl = function (album) {
         return "http://ws.audioscrobbler.com/2.0/?method=album.getinfo&artist=" + album.info.artist + "&album=" + album.info.name + "&api_key=" + lastFmApiKey + "&format=json";
@@ -257,6 +260,9 @@ var SearchSimilarSongs = (function () {
         var id = MobileRadioManager.guid(track.mbid, track.name.trim() + track.artist.name.trim());
         var song = new MSong(id, track.name, track.artist.name, null, MobileRadioManager.getLargeImage(track.image));
         mRadioManager.addSongToGlobalPlayer(song);
+        setTimeout(function () {
+            player.playSong(mRadioManager.playingMSongs[0]);
+        }, 2000);
     };
     SearchSimilarSongs.prototype.buildSimilarSongsSearchUrl = function (song) {
         return "http://ws.audioscrobbler.com/2.0/?method=track.getsimilar&artist=" + song.info.artist + "&track=" + song.info.title + "&api_key=" + lastFmApiKey + "&format=json&limit=5";
@@ -292,6 +298,9 @@ var SearchCustom = (function () {
         var id = MobileRadioManager.guid(track.mbid, track.name.trim() + track.artist.trim());
         var song = new MSong(id, track.name, track.artist, null, MobileRadioManager.getLargeImage(track.image));
         mRadioManager.addSongToGlobalPlayer(song);
+        setTimeout(function () {
+            player.playSong(mRadioManager.playingMSongs[0]);
+        }, 2000);
     };
     return SearchCustom;
 })();

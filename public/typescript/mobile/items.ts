@@ -4,13 +4,11 @@ var itemManager:ItemManager;
 
 function itemsOnLoad() {
     itemManager = new ItemManager();
-
     itemManager.bind();
 }
 
 function itemsOnLoadRadio() {
     itemManager = new ItemManager();
-
     itemManager.bindRadio();
 }
 
@@ -18,8 +16,9 @@ class ItemManager {
     private collapsed = true;
     private itemTable = null;
     private itemList = null;
-    private itemListContainer = null;
+    public itemListContainer = null;
     private itemContent = null;
+
 
     itemAddCallback:(content:string) => void = (id) => {
     };
@@ -37,18 +36,21 @@ class ItemManager {
     }
 
     bindRadio() {
+
         this.itemTable = $("#itemTable");
         this.itemList = $("#itemList");
         this.itemListContainer = $("#itemListContainer");
         this.itemContent = $("#itemContent");
 
-        this.addItem("RecentSongs", "Recent Songs");
-        this.addItem("RecentGenres", "Recent Genres");
-        this.addItem("RecentAlbums", "Recent Albums");
+        var container = $("<div> <input id='itemRadioInput'/></div>");
+        this.itemContent.append(container);
 
-        this.bindItemInput();
+        this.addRadioItem("RecentSongs", "Recent Songs");
+        this.addRadioItem("RecentGenres", "Recent Genres");
+        this.addRadioItem("RecentAlbums", "Recent Albums");
+
+        this.bindItemRadioInput();
         this.bindInitialItems();
-
     }
 
     private bindInitialItems() {
@@ -72,6 +74,20 @@ class ItemManager {
             }
         });
     }
+
+
+    private bindItemRadioInput() {
+        var _this = this;
+
+        $("#itemRadioInput").keypress(function (e) {
+            if (e.which == 13) {
+                _this.itemAddCallback($(this).val());
+                $(this).val("");
+                _this.takeFocus();
+            }
+        });
+    }
+
 
     public toggle() {
         if (this.collapsed) {
@@ -108,6 +124,16 @@ class ItemManager {
         container.attr("itemId", id);
 
         this.itemList.append(container);
+        this.bindItem(container, id, title);
+    }
+
+    public addRadioItem(id:string, title:string) {
+        var container = $("<div></div>");
+
+        container.text(title);
+        container.addClass("selectItem");
+        container.attr("itemId", id);
+        this.itemContent.append(container);
         this.bindItem(container, id, title);
     }
 

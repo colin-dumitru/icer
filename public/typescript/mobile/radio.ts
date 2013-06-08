@@ -64,7 +64,6 @@ class MobileRadioManager {
         switch (id) {
 
             case "RecentGenres": {
-                titleManager.setTitle("Recent Genres");
                 for (var j = 0; j < this.recentMSongs.length; j++) {
                     if (this.recentMSongs[j].genre != null) {
                         new SearchSimilarGenre().loadSimilarGenreSongs(this.recentMSongs[j].genre);
@@ -74,7 +73,6 @@ class MobileRadioManager {
             }
 
             case "RecentSongs": {
-                titleManager.setTitle("Recent Songs");
                 for (var j = 0; j < this.recentMSongs.length; j++) {
                     new SearchSimilarSongs().loadSimilarSongs(this.recentMSongs[j].title);
                 }
@@ -82,7 +80,6 @@ class MobileRadioManager {
             }
 
             case "RecentAlbums": {
-                titleManager.setTitle("Recent Albums");
                 for (var j = 0; j < this.recentMSongs.length; j++) {
                     new SearchSimilarAlbum().loadSimilarAlbumSongs(this.recentMSongs[j].artist);
                 }
@@ -102,8 +99,10 @@ class MobileRadioManager {
         if (this.playingMSongs.filter(e => e.mbid == song.mbid).length == 0) {
             globalPlaylistManager.pushSong(song);
             this.playingMSongs.push(song);
+
         }
     }
+
 
     onSearchSelected(id:string) {
         this.loadRecentSongs(id);
@@ -160,6 +159,10 @@ class SearchSimilarGenre {
         var id = MobileRadioManager.guid(track.mbid, track.name.trim() + track.artist.name.trim());
         var song = new MSong(id, track.name, track.artist.name, null, MobileRadioManager.getLargeImage(track.image));
         mRadioManager.addSongToGlobalPlayer(song);
+
+        setTimeout(function (){
+            player.playSong(mRadioManager.playingMSongs[0]);
+        }, 2000);
 
     }
 
@@ -230,6 +233,9 @@ class SearchSimilarAlbum {
         var id = MobileRadioManager.guid(track.mbid, track.name.trim() + track.artist.name.trim());
         var song = new MSong(id, track.name, track.artist.name, null, image);
         mRadioManager.addSongToGlobalPlayer(song);
+        setTimeout(function (){
+            player.playSong(mRadioManager.playingMSongs[0]);
+        }, 2000);
     }
 
 
@@ -300,6 +306,9 @@ class SearchSimilarSongs {
         var id = MobileRadioManager.guid(track.mbid, track.name.trim() + track.artist.name.trim());
         var song = new MSong(id, track.name, track.artist.name, null, MobileRadioManager.getLargeImage(track.image));
         mRadioManager.addSongToGlobalPlayer(song);
+        setTimeout(function (){
+            player.playSong(mRadioManager.playingMSongs[0]);
+        }, 2000);
     }
 
 
@@ -348,6 +357,9 @@ class SearchCustom {
         var id = MobileRadioManager.guid(track.mbid, track.name.trim() + track.artist.trim());
         var song = new MSong(id, track.name, track.artist, null, MobileRadioManager.getLargeImage(track.image));
         mRadioManager.addSongToGlobalPlayer(song);
+        setTimeout(function (){
+            player.playSong(mRadioManager.playingMSongs[0]);
+        }, 2000);
     }
 }
 

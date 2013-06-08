@@ -194,6 +194,19 @@ body {
     background: #414850;
 }
 
+#itemRadioInput {
+    box-sizing: border-box;
+    padding: 5px;
+    width: 190px;
+    height: 30px;
+    font-size: 20px;
+    font-family: 'Roboto', sans-serif;
+    color: #ddefff;
+    border: 1px solid #414850;
+    margin: 5px;
+    background: #7b8791;
+}
+
 .selectItem {
     width: 190px;
     box-sizing: border-box;

@@ -29,6 +29,7 @@ function run() {
 }
 
 function searchCallback() {
+    titleManager.title.show();
     sectionManager.loadSection("/mobile/section/search", () => {
         itemsOnLoad();
 
@@ -40,6 +41,7 @@ function searchCallback() {
 }
 
 function playlistCallback() {
+    titleManager.title.show();
     sectionManager.loadSection("/mobile/section/playlists", () => {
         itemsOnLoad();
 
@@ -51,12 +53,13 @@ function playlistCallback() {
 }
 
 function radioCallback() {
+    titleManager.title.hide();
     sectionManager.loadSection("/mobile/section/radio", () => {
         itemsOnLoadRadio();
 
         itemManager.itemAddCallback = (content) => {
-            itemManager.addItem(content, content);
-            new SearchCustom().loadCustomSearchSongs(content);
+            itemManager.addRadioItem(content, content);
+            mRadioManager.onSearchSelected(content);
         }
         itemManager.itemSelectedCallback = (id, title) => mRadioManager.onSearchSelected(id);
     });
@@ -91,7 +94,7 @@ class SectionManager {
 }
 
 class TitleManager {
-    private title = null;
+    public title = null;
     private titleSpan = null;
 
     bind() {
