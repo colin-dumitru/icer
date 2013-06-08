@@ -1,0 +1,93 @@
+.hidden {
+  display: none;
+}
+.noPadding {
+  padding: 0px;
+  margin: 0px;
+}
+* {
+  padding: 0px;
+  margin: 0px;
+}
+.inline {
+  display: inline-block;
+}
+.clickable {
+  cursor: pointer;
+}
+.zeroHeight {
+  position: relative;
+  height: 0px;
+}
+.topAlign {
+  vertical-align: top;
+}
+.fullFrame {
+  width: 100%;
+  height: 100%;
+}
+.noOverflow {
+  overflow: hidden;
+}
+.fontMenu {
+  font-family: 'Days One', sans-serif;
+}
+.fontMenu2 {
+  font-family: 'Noto Sans', sans-serif;
+}
+.fontText {
+  font-family: 'Roboto', sans-serif;
+}
+.roundTopRight {
+  border-top-right-radius: 5px;
+}
+.roundBottomRight {
+  border-bottom-right-radius: 5px;
+}
+#radioPlayButton {
+  background: #dcddb1;
+  height: 40px;
+  width: 100%;
+  text-align: center;
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.5em;
+  color: #414850;
+  cursor: pointer;
+}
+.criteriaContainer {
+  position: relative;
+  margin: 5px 10px 5px 10px;
+  height: 100px;
+  background: #e1f1ff;
+  color: #414850;
+  font-family: 'Roboto', sans-serif;
+  font-size: 1em;
+  border: 1px solid #7b8791;
+}
+.criteriaImage {
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  width: 100px;
+  height: 100px;
+}
+.criteriaLabel {
+  position: absolute;
+  left: 110px;
+  top: 30px;
+  bottom: 30px;
+  right: 60px;
+  font-family: 'Roboto', sans-serif;
+  color: #414850;
+  font-size: 1em;
+  text-align: center;
+}
+.criteriaOption {
+  position: absolute;
+  width: 50px;
+  right: 0px;
+  top: 0px;
+  bottom: 0px;
+  background: #dcddb1;
+  cursor: pointer;
+}
