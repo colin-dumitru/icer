@@ -12,9 +12,6 @@ var RadioBinder = (function () {
         this.criteriaGenres = new RadioCriteriaInput("radioRecentGenresCriteria", false, function () {
             return "Recent Genres";
         });
-        this.criteriaPastConcerts = new RadioCriteriaInput("radioPastConcertsCriteria", false, function () {
-            return "Past Concerts";
-        });
         this.customCriteria = new RadioCriteriaInput("radioCustomCriteria", true, function () {
             customSearchValues.push($("#customCriteriaInput").val());
             return $("#customCriteriaInput").val();
@@ -23,7 +20,6 @@ var RadioBinder = (function () {
         this.radioManager.addCriteriaInput(this.criteriaSongs);
         this.radioManager.addCriteriaInput(this.criteriaGenres);
         this.radioManager.addCriteriaInput(this.criteriaAlbums);
-        this.radioManager.addCriteriaInput(this.criteriaPastConcerts);
         this.radioManager.bind();
     };
     RadioBinder.prototype.bind = function () {
@@ -74,7 +70,9 @@ var RadioManager = (function () {
         RadioManager.globalPlayer = RadioManager.shuffle(RadioManager.globalPlayer);
         globalPlaylistManager.clearSongs();
         globalPlaylistManager.pushSongs(RadioManager.globalPlayer);
-        globalPlaylistManager.playSong(RadioManager.globalPlayer[0]);
+        setTimeout(function () {
+            globalPlaylistManager.playSong(RadioManager.globalPlayer[0]);
+        }, 3000);
     };
     RadioManager.prototype.addCriteriaInput = function (criteria) {
         var _this = this;
