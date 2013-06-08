@@ -77,7 +77,6 @@ var SectionManager = (function () {
         this.callback = {
         };
     }
-
     SectionManager.prototype.bind = function () {
         var _this = this;
         $("#menuSelect").change(function () {
@@ -94,7 +93,6 @@ var TitleManager = (function () {
         this.title = null;
         this.titleSpan = null;
     }
-
     TitleManager.prototype.bind = function () {
         this.title = $("#title");
         this.titleSpan = $("#titleSpan");
@@ -129,7 +127,6 @@ var GlobalPlaylistManager = (function () {
         this.selectedSongItem = null;
         this.playingSongItem = null;
     }
-
     GlobalPlaylistManager.prototype.bind = function () {
         var _this = this;
         this.progressBar = $("#progressBars");
@@ -148,7 +145,7 @@ var GlobalPlaylistManager = (function () {
         this.deletePlayingSongs = $("#deletePlayingSongs");
         this.playCurrentSong = $("#playCurrentSong");
         this.playbackArrow.click(function () {
-            if (_this.collapsed) {
+            if(_this.collapsed) {
                 _this.giveFocus();
             } else {
                 _this.takeFocus();
@@ -221,7 +218,7 @@ var GlobalPlaylistManager = (function () {
         qitem.insertAfter(qitem.next());
     };
     GlobalPlaylistManager.prototype.playToggle = function () {
-        if (this.playing) {
+        if(this.playing) {
             this.pausePlayingSong();
         } else {
             this.resumePlayingSong();
@@ -233,12 +230,10 @@ var GlobalPlaylistManager = (function () {
         player.pause();
     };
     GlobalPlaylistManager.prototype.resumePlayingSong = function (item) {
-        if (typeof item === "undefined") {
-            item = this.playingSongItem;
-        }
+        if (typeof item === "undefined") { item = this.playingSongItem; }
         this.playing = true;
         this.playButton.attr("src", "assets/images/play.png");
-        if (item == null) {
+        if(item == null) {
             this.playSong(this.getFirstSongItem().get());
         } else {
             this.playSong(item);
@@ -301,7 +296,7 @@ var GlobalPlaylistManager = (function () {
         });
     };
     GlobalPlaylistManager.prototype.toggleOptions = function (item, song) {
-        if (item == this.selectedSongItem) {
+        if(item == this.selectedSongItem) {
             this.hideOptions();
         } else {
             this.showOptions(item);
@@ -349,7 +344,6 @@ var Player = (function () {
         this.playingSongArtist = null;
         this.playingSongImage = null;
     }
-
     Player.prototype.bind = function () {
         var _this = this;
         SC.initialize({
@@ -365,12 +359,12 @@ var Player = (function () {
         this.playingSongImage = $("#playingSongImage");
     };
     Player.prototype.updateElapsed = function () {
-        if (this.currentPlayer != null) {
+        if(this.currentPlayer != null) {
             this.seekSlider.slider("value", Math.floor((this.currentPlayer.position / this.currentPlayer.duration) * 1000));
         }
     };
     Player.prototype.playSong = function (song) {
-        if (song.mbid != null && song.mbid == this.currentSongMbid()) {
+        if(song.mbid != null && song.mbid == this.currentSongMbid()) {
             this.currentPlayer.resume();
         } else {
             this.stopCurrentSong();
@@ -379,7 +373,7 @@ var Player = (function () {
         }
     };
     Player.prototype.currentSongMbid = function () {
-        if (this.currentSong == null) {
+        if(this.currentSong == null) {
             return null;
         } else {
             return this.currentSong.mbid;
@@ -391,22 +385,22 @@ var Player = (function () {
         this.playingSongImage.attr("src", song.imageUrl);
     };
     Player.prototype.stopCurrentSong = function () {
-        if (this.currentPlayer != null) {
+        if(this.currentPlayer != null) {
             this.currentPlayer.stop();
         }
     };
     Player.prototype.pause = function () {
-        if (this.currentSong != null) {
+        if(this.currentSong != null) {
             this.currentPlayer.pause();
         }
     };
     Player.prototype.seek = function (percentage) {
-        if (this.currentPlayer != null) {
+        if(this.currentPlayer != null) {
             this.currentPlayer.setPosition(Math.floor(this.currentPlayer.duration * (percentage / 1000)));
         }
     };
     Player.prototype.changeVolume = function (value) {
-        if (this.currentSong != null) {
+        if(this.currentSong != null) {
             this.currentPlayer.setVolume(value);
         }
     };
@@ -418,10 +412,10 @@ var Player = (function () {
         SC.get('/tracks', {
             q: song.title + " " + song.artist
         }, function (tracks) {
-            if (tracks.length == 0) {
+            if(tracks.length == 0) {
                 _this.onSongError(song);
             } else {
-                if (currentId == _this.playbackId) {
+                if(currentId == _this.playbackId) {
                     _this.playResolved(_this.bestTrack(tracks), song, currentId);
                 }
             }
@@ -430,8 +424,8 @@ var Player = (function () {
     Player.prototype.bestTrack = function (tracks) {
         var maxPlays = tracks[0].playback_count;
         var maxTrack = tracks[0];
-        for (var i = 1; i < tracks.length; i++) {
-            if (tracks[i].playback_count > maxPlays) {
+        for(var i = 1; i < tracks.length; i++) {
+            if(tracks[i].playback_count > maxPlays) {
                 maxPlays = tracks[i].playback_count;
                 maxTrack = tracks[i];
             }
@@ -453,7 +447,7 @@ var Player = (function () {
         });
     };
     Player.prototype.switchActiveSong = function (sound, playbackId) {
-        if (playbackId == this.playbackId) {
+        if(playbackId == this.playbackId) {
             this.currentPlayer = sound;
             sound.play();
         }
@@ -468,7 +462,6 @@ var MSong = (function () {
         this.genre = genre;
         this.imageUrl = imageUrl;
     }
-
     return MSong;
 })();
 //@ sourceMappingURL=main.js.map

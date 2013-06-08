@@ -1,12 +1,10 @@
 var MobileRadioManager = (function () {
-    function MobileRadioManager() {
-    }
-
+    function MobileRadioManager() { }
     MobileRadioManager.prototype.pushCriteria = function (criteria) {
         var item = this.buildCriteriaItem(criteria);
         this.bindCriteriaItem(item);
         this.itemContent.append(item);
-        if (criteria.id != "custom") {
+        if(criteria.id != "custom") {
             itemManager.deleteItem(criteria.id);
         }
     };
@@ -30,9 +28,9 @@ var MobileRadioManager = (function () {
         });
     };
     MobileRadioManager.prototype.stopMoveOption = function (item) {
-        if (item.position().left <= 0 - 3 * window.innerWidth / 4) {
+        if(item.position().left <= 0 - 3 * window.innerWidth / 4) {
             item.remove();
-            if (item.attr("criteriaId") != "custom") {
+            if(item.attr("criteriaId") != "custom") {
                 itemManager.addItem(item.attr("criteriaId"), item.attr("criteriaContent"));
             }
         } else {

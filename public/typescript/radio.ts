@@ -6,7 +6,6 @@ class RadioBinder implements SectionBinder {
     private criteriaSongs:RadioCriteriaInput;
     private criteriaAlbums:RadioCriteriaInput;
     private criteriaGenres:RadioCriteriaInput;
-    private criteriaPastConcerts:RadioCriteriaInput;
     private customCriteria:RadioCriteriaInput;
 
     buildPage(rootNode:any) {
@@ -25,9 +24,6 @@ class RadioBinder implements SectionBinder {
             return "Recent Genres";
         });
 
-        this.criteriaPastConcerts = new RadioCriteriaInput("radioPastConcertsCriteria", false, () => {
-            return "Past Concerts";
-        });
 
         this.customCriteria = new RadioCriteriaInput("radioCustomCriteria", true, () => {
             customSearchValues.push($("#customCriteriaInput").val());
@@ -38,7 +34,6 @@ class RadioBinder implements SectionBinder {
         this.radioManager.addCriteriaInput(this.criteriaSongs);
         this.radioManager.addCriteriaInput(this.criteriaGenres);
         this.radioManager.addCriteriaInput(this.criteriaAlbums);
-        this.radioManager.addCriteriaInput(this.criteriaPastConcerts);
 
         this.radioManager.bind();
     }
@@ -101,9 +96,10 @@ class RadioManager {
         RadioManager.globalPlayer = RadioManager.shuffle(RadioManager.globalPlayer);
         globalPlaylistManager.clearSongs();
         globalPlaylistManager.pushSongs(RadioManager.globalPlayer);
-        globalPlaylistManager.playSong(RadioManager.globalPlayer[0]);
-
-    }
+        setTimeout(function (){
+            globalPlaylistManager.playSong(RadioManager.globalPlayer[0]);
+        }, 3000);
+        }
 
     addCriteriaInput(criteria:RadioCriteriaInput) {
 
