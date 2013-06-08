@@ -1,0 +1,53 @@
+@import "../common";
+
+#radioPlayButton {
+  background: @foreground_variant;
+  height: 40px;
+  width: 100%;
+  text-align: center;
+  .fontText;
+  font-size: 1.5em;
+  color: @foreground_text;
+  cursor: pointer;
+}
+
+.criteriaContainer {
+  position: relative;
+  margin: 5px 10px 5px 10px;
+  height: 100px;
+  background: @foreground;
+  color: @foreground_text;
+  .fontText;
+  font-size: 1em;
+  border: 1px solid @background_variant;
+}
+
+.criteriaImage {
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  width: 100px;
+  height: 100px;
+}
+
+.criteriaLabel {
+  position: absolute;
+  left: 110px;
+  top: 30px;
+  bottom: 30px;
+  right: 60px;
+  .fontText;
+  color: @foreground_text;
+  font-size: 1em;
+  text-align: center;
+}
+
+.criteriaOption {
+  position: absolute;
+  width: 50px;
+  right: 0px;
+  top: 0px;
+  bottom: 0px;
+  background: @foreground_variant;
+  cursor: pointer;
+}

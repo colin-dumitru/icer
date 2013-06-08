@@ -36,11 +36,13 @@ POST /radio/songs/ controllers.radio.Radio.getRecentSongs
 
 #Mobile
 GET     /mobile                                             controllers.Application.mobile
-GET     /mobile/search/:query                               controllers.search.Search.search(query)
 GET     /mobile/section/search                              controllers.search.Search.section
 GET     /mobile/section/playlists                           controllers.playlist.Playlists.section
+GET     /mobile/section/radio                               controllers.radio.Radio.section
+GET     /mobile/search/:query                               controllers.search.Search.search(query)
 GET     /mobile/playlist/:id                                controllers.playlist.Playlists.playlist(id)
 GET     /mobile/playlist/add/:name                          controllers.playlist.Playlists.createPlaylist(name)
 GET     /mobile/playlist/delete/:id                         controllers.playlist.Playlists.deletePlaylist(id)
 GET     /mobile/playlist/song/delete/:idPlaylist/:idSong    controllers.playlist.Playlists.deleteSongFromPlaylist(idPlaylist,idSong)
-GET     /mobile/section/radio                               controllers.radio.Radio.section
+POST    /mobile/radio/build                                 controllers.radio.Radio.buildRadio()
+

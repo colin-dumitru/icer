@@ -52,13 +52,12 @@ function playlistCallback() {
 
 function radioCallback() {
     sectionManager.loadSection("/mobile/section/radio", () => {
-        itemsOnLoadRadio();
+        itemsOnLoad();
 
-        itemManager.itemAddCallback = (content) => {
-            itemManager.addItem(content, content);
-            new SearchCustom().loadCustomSearchSongs(content);
-        }
-        itemManager.itemSelectedCallback = (id, title) => mRadioManager.onSearchSelected(id);
+        mRadioManager.bind();
+
+        itemManager.itemAddCallback = (content) => mRadioManager.pushCriteria({id: "custom", content: content});
+        itemManager.itemSelectedCallback = (id, title) => mRadioManager.pushCriteria({id: id, content: title});
     });
 }
 
@@ -248,14 +247,14 @@ class GlobalPlaylistManager {
         }
     }
 
-    private pausePlayingSong() {
+    public pausePlayingSong() {
         this.playing = false;
         this.playButton.attr("src", "assets/images/paused.png");
 
         player.pause();
     }
 
-    private resumePlayingSong(item = this.playingSongItem) {
+    public resumePlayingSong(item = this.playingSongItem) {
         this.playing = true;
         this.playButton.attr("src", "assets/images/play.png");
 
@@ -304,6 +303,13 @@ class GlobalPlaylistManager {
 
     private changeVolume(position:number) {
         player.changeVolume(position);
+    }
+
+    pushSongs(songs:MSong[]) {
+        var _this = this;
+        $.each(songs, function () {
+            _this.pushSong(this);
+        })
     }
 
     pushSong(song:MSong) {

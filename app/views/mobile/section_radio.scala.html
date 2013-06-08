@@ -1,13 +1,17 @@
+import modelview.Item
+
 <!DOCTYPE html>
 <html>
-<head>
-<link rel="stylesheet" href="@routes.Assets.at("stylesheets/mobile/search.css")">
-<script type="text/javascript" src="@routes.Assets.at("typescript/mobile/radio.js")"></script>
-<title> Search </title>
-</head>
-<body>
-@mobile.items(Nil) {
-    <div>No Searches Performed</div>
-}
-</body>
+    <head>
+        <link rel="stylesheet" href="@routes.Assets.at("stylesheets/mobile/radio.css")">
+        <script type="text/javascript" src="@routes.Assets.at("typescript/mobile/radio.js")"></script>
+        <title> Search </title>
+    </head>
+    <body>
+    @mobile.items(
+        List(Item("recent_songs", "Recent Songs"), Item("recent_albums", "Recent Albums"), Item("recent_genres", "Recent Genres"))
+    ) {
+        <div>No Searches Performed</div>
+    }
+    </body>
 </html>

@@ -3,10 +3,6 @@ function itemsOnLoad() {
     itemManager = new ItemManager();
     itemManager.bind();
 }
-function itemsOnLoadRadio() {
-    itemManager = new ItemManager();
-    itemManager.bindRadio();
-}
 var ItemManager = (function () {
     function ItemManager() {
         this.collapsed = true;
@@ -19,22 +15,12 @@ var ItemManager = (function () {
         this.itemSelectedCallback = function (id, label) {
         };
     }
+
     ItemManager.prototype.bind = function () {
         this.itemTable = $("#itemTable");
         this.itemList = $("#itemList");
         this.itemListContainer = $("#itemListContainer");
         this.itemContent = $("#itemContent");
-        this.bindItemInput();
-        this.bindInitialItems();
-    };
-    ItemManager.prototype.bindRadio = function () {
-        this.itemTable = $("#itemTable");
-        this.itemList = $("#itemList");
-        this.itemListContainer = $("#itemListContainer");
-        this.itemContent = $("#itemContent");
-        this.addItem("RecentSongs", "Recent Songs");
-        this.addItem("RecentGenres", "Recent Genres");
-        this.addItem("RecentAlbums", "Recent Albums");
         this.bindItemInput();
         this.bindInitialItems();
     };
@@ -48,7 +34,7 @@ var ItemManager = (function () {
     ItemManager.prototype.bindItemInput = function () {
         var _this = this;
         $("#itemInput").keypress(function (e) {
-            if(e.which == 13) {
+            if (e.which == 13) {
                 _this.itemAddCallback($(this).val());
                 $(this).val("");
                 _this.takeFocus();
@@ -56,7 +42,7 @@ var ItemManager = (function () {
         });
     };
     ItemManager.prototype.toggle = function () {
-        if(this.collapsed) {
+        if (this.collapsed) {
             this.giveFocus();
         } else {
             this.takeFocus();
