@@ -238,11 +238,10 @@ html {
   position: absolute;
   right: 0px;
   top: 0px;
-  width: 250px;
   height: 100%;
   background: #7b8791;
-  -webkit-transition: all 0.4s ease;
-  transition: all 0.4s ease;
+  -webkit-transition: -webkit-transform 0.4s ease;
+  transition: transform 0.4s ease;
   -webkit-transform-origin: 0% 50%;
   transform-origin: 0% 50%;
 }
@@ -315,6 +314,7 @@ html {
   bottom: 0px;
   -webkit-transition: -webkit-transform 0.4s ease;
   transition: transform 0.4s ease;
+  z-index: 11;
 }
 .globalPlaylistContainer {
   -webkit-transform: translate3d(0, 0, 0);

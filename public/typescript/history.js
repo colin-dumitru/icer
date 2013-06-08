@@ -102,7 +102,7 @@ var HistoryManager = (function () {
             height: 175,
             series: [
                 {
-                    color: '#DDD',
+                    color: '#e1f1ff',
                     data: data
                 }
             ]
@@ -125,7 +125,7 @@ var HistoryManager = (function () {
             height: 200,
             series: [
                 {
-                    color: '#DDD',
+                    color: '#e1f1ff',
                     data: data
                 }
             ],

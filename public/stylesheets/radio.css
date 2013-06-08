@@ -1,193 +1,162 @@
 .hidden {
-    display: none;
+  display: none;
 }
-
 .noPadding {
-    padding: 0px;
-    margin: 0px;
+  padding: 0px;
+  margin: 0px;
 }
-
 * {
-    padding: 0px;
-    margin: 0px;
+  padding: 0px;
+  margin: 0px;
 }
-
 .inline {
-    display: inline-block;
+  display: inline-block;
 }
-
 .clickable {
-    cursor: pointer;
+  cursor: pointer;
 }
-
 .zeroHeight {
-    position: relative;
-    height: 0px;
+  position: relative;
+  height: 0px;
 }
-
 .topAlign {
-    vertical-align: top;
+  vertical-align: top;
 }
-
 .fullFrame {
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 }
-
 .noOverflow {
-    overflow: hidden;
+  overflow: hidden;
 }
-
 .fontMenu {
-    font-family: 'Days One', sans-serif;
+  font-family: 'Days One', sans-serif;
 }
-
 .fontMenu2 {
-    font-family: 'Noto Sans', sans-serif;
+  font-family: 'Noto Sans', sans-serif;
 }
-
 .fontText {
-    font-family: 'Roboto', sans-serif;
+  font-family: 'Roboto', sans-serif;
 }
-
 .roundTopRight {
-    border-top-right-radius: 5px;
+  border-top-right-radius: 5px;
 }
-
 .roundBottomRight {
-    border-bottom-right-radius: 5px;
+  border-bottom-right-radius: 5px;
 }
-
 #radioTable {
-    width: 700px;
-    height: 400px;
-    margin: 0 auto;
-    overflow-y: auto;
-    table-layout: fixed;
+  width: 700px;
+  height: 400px;
+  margin: 0 auto;
+  overflow-y: auto;
+  table-layout: fixed;
 }
-
 #radioCriteriaTableContainer {
-    overflow-y: auto;
-    height: 100%;
+  overflow-y: auto;
+  height: 100%;
 }
-
 #radioMenuCell {
-    width: 200px;
-    vertical-align: top;
-    padding: 5px;
+  width: 200px;
+  vertical-align: top;
+  padding: 5px;
 }
-
 .radioManagerButton {
-    font-family: 'Noto Sans', sans-serif;
-    border: 1px solid #ffffff;
-    background: #e1f1ff;
-    color: #414850;
-    font-size: 15px;
-    width: 100%;
+  font-family: 'Noto Sans', sans-serif;
+  border: 1px solid #ffffff;
+  background: #e1f1ff;
+  color: #414850;
+  font-size: 15px;
+  width: 100%;
 }
-
 .radioManagerButton:hover {
-    background: #dfece6;
+  background: #dfece6;
 }
-
 .radioManagerButtonLarge {
-    font-family: 'Noto Sans', sans-serif;
-    border: 1px solid #ffffff;
-    background: #e1f1ff;
-    color: #414850;
-    font-size: 15px;
-    width: 100%;
-    color: #418440;
-    background: #dcddb1;
-    font-size: 40px;
+  font-family: 'Noto Sans', sans-serif;
+  border: 1px solid #ffffff;
+  background: #e1f1ff;
+  color: #414850;
+  font-size: 15px;
+  width: 100%;
+  color: #418440;
+  background: #dcddb1;
+  font-size: 40px;
 }
-
 .radioManagerButtonLarge:hover {
-    background: #dfece6;
+  background: #dfece6;
 }
-
 #radioBuilderTable {
-    width: 100%;
-    height: 100%;
-    background: #e1f1ff;
-    border: 1px solid #dfece6;
-    border-radius: 2px;
-    box-shadow: 0px 0px 5px black;
+  width: 100%;
+  height: 100%;
+  background: #e1f1ff;
+  border: 1px solid #dfece6;
+  border-radius: 2px;
+  box-shadow: 0px 0px 5px black;
 }
-
 #radioAddButtonCell {
-    font-family: 'Noto Sans', sans-serif;
-    font-size: 25px;
-    width: 100%;
-    height: 30px;
-    color: #418440;
-    text-align: center;
-    background: #7b8791;
+  font-family: 'Noto Sans', sans-serif;
+  font-size: 25px;
+  width: 100%;
+  height: 30px;
+  color: #414850;
+  text-align: center;
+  background: #7b8791;
+  cursor: pointer;
 }
-
 #radioAddButtonCell:hover {
-    background: #ffffff;
+  background: #ffffff;
 }
-
 .radioCriteriaOption {
-    font-family: 'Roboto', sans-serif;
-    cursor: pointer;
-    font-size: 20px;
-    text-align: center;
-    height: 30px;
-    color: #414850;
-    background: rgba(225, 241, 255, 0.5);
-    border-bottom: 1px solid #3b4953;
+  font-family: 'Roboto', sans-serif;
+  cursor: pointer;
+  font-size: 20px;
+  text-align: center;
+  height: 30px;
+  color: #414850;
+  background: rgba(225, 241, 255, 0.5);
+  border-bottom: 1px solid #3b4953;
 }
-
 .radioCriteriaOption input {
-    font-family: 'Roboto', sans-serif;
-    margin-left: 10px;
-    border-radius: 5px;
-    height: 15px;
-    width: 250px;
+  font-family: 'Roboto', sans-serif;
+  margin-left: 10px;
+  border-radius: 5px;
+  height: 15px;
+  width: 250px;
 }
-
 .radioCriteriaOption:hover {
-    background: #dfece6;
+  background: #dfece6;
 }
-
 #radioCriteriaContainer {
-    display: none;
-    position: absolute;
-    width: 450px;
-    left: 15px;
-    top: 0px;
+  display: none;
+  position: absolute;
+  width: 450px;
+  left: 15px;
+  top: 0px;
 }
-
 #radioCriteriaTable {
-    width: 100%;
-    box-shadow: #3b4953 0px 5px 5px;
+  width: 100%;
+  box-shadow: #3b4953 0px 5px 5px;
 }
-
 .radioCriteriaTableCell {
-    vertical-align: top;
-    width: 100%;
+  vertical-align: top;
+  width: 100%;
 }
-
 .radioCriteriaCell {
-    font-family: 'Roboto', sans-serif;
-    color: #414850;
-    font-size: 15px;
-    text-align: center;
-    background: #e1f1ff;
-    height: 30px;
+  font-family: 'Roboto', sans-serif;
+  color: #414850;
+  font-size: 15px;
+  text-align: center;
+  background: #e1f1ff;
+  height: 30px;
 }
-
 .radioCriteriaCloseCell {
-    background: #dfece6;
-    color: #414850;
-    font-family: 'Roboto', sans-serif;
-    font-size: 20px;
-    width: 50px;
-    cursor: pointer;
+  background: #dfece6;
+  color: #414850;
+  font-family: 'Roboto', sans-serif;
+  font-size: 20px;
+  width: 50px;
+  cursor: pointer;
 }
-
 .radioCriteriaCloseCell:hover {
-    background: #ffffff;
+  background: #ffffff;
 }

@@ -108,7 +108,7 @@ class HistoryManager {
             height: 175,
             series: [
                 {
-                    color: '#DDD',
+                    color: '#e1f1ff',
                     data: data
                 }
             ]
@@ -132,7 +132,7 @@ class HistoryManager {
             height: 200,
             series: [
                 {
-                    color: '#DDD',
+                    color: '#e1f1ff',
                     data: data
                 }
             ],
