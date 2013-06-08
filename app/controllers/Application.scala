@@ -17,7 +17,7 @@ object Application extends Controller {
   def index = Secured {
     (request, userId) =>
       val header: String = request.headers("User-Agent").toLowerCase
-      if (header.matches(Global.mobileUserAgent) || header.substring(0, 4).matches(Global.mobileUserAgent2)) {
+      if (header.matches(Global.mobileUserAgent)) {
         redirectToMobile(request)
       } else {
         redirectToDesktop(request)
