@@ -96,10 +96,10 @@ class RadioManager {
         RadioManager.globalPlayer = RadioManager.shuffle(RadioManager.globalPlayer);
         globalPlaylistManager.clearSongs();
         globalPlaylistManager.pushSongs(RadioManager.globalPlayer);
-        setTimeout(function (){
+        setTimeout(function () {
             globalPlaylistManager.playSong(RadioManager.globalPlayer[0]);
         }, 3000);
-        }
+    }
 
     addCriteriaInput(criteria:RadioCriteriaInput) {
 

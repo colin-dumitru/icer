@@ -1,5 +1,7 @@
 var HistoryBinder = (function () {
-    function HistoryBinder() { }
+    function HistoryBinder() {
+    }
+
     HistoryBinder.prototype.buildPage = function (rootNode) {
         this.historyManager = new HistoryManager(rootNode);
         this.historyManager.loadHistory();
@@ -25,21 +27,22 @@ var HistoryManager = (function () {
             {
                 x: 0,
                 y: 0
-            }, 
+            },
             {
                 x: 1,
                 y: 10
-            }, 
+            },
             {
                 x: 2,
                 y: 0
-            }, 
+            },
             {
                 x: 3,
                 y: 10
             }
         ];
     }
+
     HistoryManager.prototype.loadHistory = function () {
         this.historyPoints = this.initializeHistory();
         this.getPlayback();
@@ -53,7 +56,7 @@ var HistoryManager = (function () {
             type: "POST",
             dataType: "json",
             success: function (data) {
-                for(var i = 0, len = data.length; i < len; i++) {
+                for (var i = 0, len = data.length; i < len; i++) {
                     _this.historyPoints[week].genres[i].name = data[i].item;
                     _this.historyPoints[week].genres[i].volume = data[i].plays;
                 }
@@ -69,7 +72,7 @@ var HistoryManager = (function () {
             type: "POST",
             dataType: "json",
             success: function (data) {
-                for(var i = 0, len = data.length; i < len; i++) {
+                for (var i = 0, len = data.length; i < len; i++) {
                     _this.historyPoints[week].artists[i] = data[i].item.toString();
                 }
                 _this.historyPoints[week].updatedArtists = true;
@@ -84,8 +87,8 @@ var HistoryManager = (function () {
             type: "POST",
             dataType: "json",
             success: function (data) {
-                for(var i = 0, len = data.length; i < len; i++) {
-                    if(_this.historyPoints[data[i].item - 1] != null) {
+                for (var i = 0, len = data.length; i < len; i++) {
+                    if (_this.historyPoints[data[i].item - 1] != null) {
                         _this.historyPoints[data[i].item - 1].listenVolume = data[i].plays;
                     }
                 }
@@ -137,11 +140,11 @@ var HistoryManager = (function () {
     HistoryManager.prototype.slideReferencePoint = function (position) {
         var dataSetIndex = Math.floor(position / (this.dataWidth / this.historyPoints.length));
         var point = this.historyPoints[dataSetIndex];
-        if(!point.updatedArtists && !point.updatedGenres) {
-            if(!point.updatedGenres) {
+        if (!point.updatedArtists && !point.updatedGenres) {
+            if (!point.updatedGenres) {
                 this.getGenres(dataSetIndex);
             }
-            if(!point.updatedArtists) {
+            if (!point.updatedArtists) {
                 this.getArtists(dataSetIndex);
             }
         } else {
@@ -153,7 +156,7 @@ var HistoryManager = (function () {
     HistoryManager.prototype.getWeekNumber = function () {
         var date = new Date();
         var day = date.getDay();
-        if(day == 0) {
+        if (day == 0) {
             day = 7;
         }
         date.setDate(date.getDate() + (4 - day));
@@ -171,8 +174,8 @@ var HistoryManager = (function () {
             };
         });
         this.genreChart.render();
-        for(var i = 0; i < 4; i++) {
-            if(point.genres[i].name === "") {
+        for (var i = 0; i < 4; i++) {
+            if (point.genres[i].name === "") {
                 $("#historyGenreLabel" + (i + 1)).css("display", "none");
             } else {
                 var historyGenreLabel = $("#historyGenreLabel" + (i + 1));
@@ -182,8 +185,8 @@ var HistoryManager = (function () {
         }
     };
     HistoryManager.prototype.displayDataPointArtists = function (point) {
-        for(var i = 0; i < 4; i++) {
-            if(point.artists[i] === "") {
+        for (var i = 0; i < 4; i++) {
+            if (point.artists[i] === "") {
                 $("#historyArtist" + (i + 1)).css("display", "none");
             } else {
                 var historyArtist = $("#historyArtist" + (i + 1));
@@ -202,35 +205,38 @@ var HistoryManager = (function () {
     HistoryManager.prototype.initializeHistory = function () {
         var points = [];
         var currentWeek = this.getWeekNumber();
-        for(var i = 0; i < currentWeek; i++) {
+        for (var i = 0; i < currentWeek; i++) {
             points.push(new HistoryPoint(0, [
                 {
                     name: "",
                     volume: 0
-                }, 
+                },
                 {
                     name: "",
                     volume: 0
-                }, 
+                },
                 {
                     name: "",
                     volume: 0
-                }, 
+                },
                 {
                     name: "",
                     volume: 0
                 }
             ], [
-                "", 
-                "", 
-                "", 
+                "",
+                "",
+                "",
                 ""
             ], false, false));
         }
         return points;
     };
     HistoryManager.prototype.firstDayOfWeek = function (week) {
-        var date = this.firstWeekOfYear((new Date()).getFullYear()), weekTime = this.weeksToMilliseconds(week), targetTime = date.getTime() + weekTime;
+        var date = this.firstWeekOfYear((new Date()).getFullYear());
+        var weekTime = this.weeksToMilliseconds(week);
+        var targetTime = date.getTime() + weekTime;
+
         return new Date(targetTime);
     };
     HistoryManager.prototype.weeksToMilliseconds = function (weeks) {
@@ -258,7 +264,7 @@ var HistoryManager = (function () {
         var day = firstOfJanuaryDate.getDay();
         day = (day === 0) ? 7 : day;
         var dayOffset = -day + firstDayOfWeek;
-        if(weekLength - day + 1 < 4) {
+        if (weekLength - day + 1 < 4) {
             dayOffset += weekLength;
         }
         return new Date(firstOfJanuaryDate.getTime() + dayOffset * 24 * 60 * 60 * 1000);
@@ -273,6 +279,7 @@ var HistoryPoint = (function () {
         this.updatedGenres = updatedGenres;
         this.updatedArtists = updatedArtists;
     }
+
     return HistoryPoint;
 })();
 //@ sourceMappingURL=history.js.map

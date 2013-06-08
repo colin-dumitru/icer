@@ -249,12 +249,13 @@ class SongOptionsTutorial implements TutorialSection {
                 {label: "Add to Now Playing", subOptions: []},
                 {label: "Search From Here", subOptions: []}
             ],
-                -1,
+                function () {
+                },
                 song,
                 {x: element.getBoundingClientRect().left, y: element.getBoundingClientRect().top});
         }, 1400);
         window.setTimeout(() => {
-            songDetailManager.hide()
+            songDetailManager.hide();
         }, 4400);
 
     }
