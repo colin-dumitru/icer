@@ -10,19 +10,34 @@ import play.api.libs.json
 import scala.None
 import play.api.libs.json.JsValue
 import common.config.Global
+import play.api.templates.Html
 
 object Application extends Controller {
 
   def index = Secured {
     (request, userId) =>
-      Ok(views.html.main("Welcome to UPlay3D.", Auth.userInfo(request.session("access_token")).name,
-        Global.soundCloudClientId, Global.lastFmApiKey))
+      val header: String = request.headers("User-Agent").toLowerCase
+      if (header.matches(Global.mobileUserAgent) || header.substring(0, 4).matches(Global.mobileUserAgent2)) {
+        redirectToMobile(request)
+      } else {
+        redirectToDesktop(request)
+      }
+  }
+
+
+  def redirectToDesktop(request: Request[AnyContent]): SimpleResult[Html] = {
+    Ok(views.html.main("Welcome to UPlay3D.", Auth.userInfo(request.session("access_token")).name,
+      Global.soundCloudClientId, Global.lastFmApiKey))
+  }
+
+  def redirectToMobile(request: Request[AnyContent]): SimpleResult[Html] = {
+    Ok(views.html.mobile.main("Welcome to UPlay3D.", Auth.userInfo(request.session("access_token")).name,
+      Global.soundCloudClientId, Global.lastFmApiKey))
   }
 
   def mobile = Secured {
     (request, userId) =>
-      Ok(views.html.mobile.main("Welcome to UPlay3D.", Auth.userInfo(request.session("access_token")).name,
-        Global.soundCloudClientId, Global.lastFmApiKey))
+      redirectToMobile(request)
   }
 
 
