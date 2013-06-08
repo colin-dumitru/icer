@@ -699,7 +699,7 @@ class GlobalPlaylistManager {
         }
     }
 
-    private play() {
+    public play() {
         var currentSong = this.getCurrentSong();
         if (currentSong == null) {
             return;
@@ -759,7 +759,7 @@ class GlobalPlaylistManager {
         return elem;
     }
 
-    private pause() {
+    public pause() {
         this.playing = false;
         $("#playButton").addClass("playButtonPaused");
         playManager.pause();
