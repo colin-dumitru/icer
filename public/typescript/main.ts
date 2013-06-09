@@ -572,6 +572,7 @@ class GlobalPlaylistManager {
     private volumeSliderContainer = null;
     private globalPlaylistSongContainer = null;
     private globalPlaylistContainer = null;
+    private songMenuTemplate = null;
 
     bind() {
         this.volumeSliderContainer = $("#volumeSliderContainer");
@@ -655,6 +656,8 @@ class GlobalPlaylistManager {
         playManager.onFinish = (song) => {
             this.playNext();
         }
+
+        this.songMenuTemplate = template("#songMenu");
     }
 
     private songStartDrag(item) {
@@ -736,7 +739,10 @@ class GlobalPlaylistManager {
         this.playing = true;
         this.playingSong = song;
         playManager.playSong(song);
+
         $("#playButton").removeClass("playButtonPaused");
+        $("#playImage").show();
+        $("#pausedImage").hide();
     }
 
     private decorateSong(song:Song) {
@@ -762,6 +768,8 @@ class GlobalPlaylistManager {
     public pause() {
         this.playing = false;
         $("#playButton").addClass("playButtonPaused");
+        $("#playImage").hide();
+        $("#pausedImage").show();
         playManager.pause();
     }
 
@@ -790,30 +798,36 @@ class GlobalPlaylistManager {
         $(template)
             .attr("id", "globalPlay" + song.mbid)
             .attr("songId", song.mbid)
-            .click(() => {
-                this.showSongMenu = false;
-                this.playSong(song);
-            })
-            .mousedown((e) => this.startMenuTimer(song, e.clientX, e.clientY));
+            .addClass("globalPlaylistSong")
+            .mouseenter((e) => this.showSongOptions($(template), song))
+            .mouseleave((e) => this.hideSongOptions((template)));
         this.globalPlaylistSongContainer.append(template);
     }
 
-    private startMenuTimer(song:Song, x:number, y:number) {
-        this.showSongMenu = true;
+    private showSongOptions(item, song:Song) {
+        item
+            .addClass("globalPlaylistSongExpanded")
+            .append(this.songMenuTemplate);
 
-        var callBack = (option:number) => {
-            if (option == 0) {
-                this.deleteSong(song);
-            } else if (option == 1) {
-                this.clearSongs();
-            }
-        };
+        item.find("#songMenuPlay").click(() => {
+            this.showSongMenu = false;
+            this.playSong(song);
+        });
 
-        window.setTimeout(() => {
-            if (this.showSongMenu) {
-                songMenu.show(["Delete", "Delete All"], {x: x, y: y}, callBack);
-            }
-        }, 1000);
+        item.find("#songMenuDelete").click(() => {
+            this.deleteSong(song);
+        });
+
+        item.find("#songMenuDeleteAll").click(() => {
+            this.clearSongs();
+        });
+    }
+
+    private hideSongOptions(item) {
+        item
+            .removeClass("globalPlaylistSongExpanded")
+            .find("#songMenuOptions").remove();
+
     }
 
     deleteSong(song:Song) {

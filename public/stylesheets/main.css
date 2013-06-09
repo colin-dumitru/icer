@@ -428,6 +428,9 @@ html {
   border-right: 1px solid #7b8791;
   border-left: 1px solid #7b8791;
 }
+#playImage {
+  display: none;
+}
 .playButtonPaused {
   opacity: 0.5;
 }
@@ -662,4 +665,31 @@ html {
   top: 0px;
   bottom: 0px;
   z-index: 200;
+}
+.songMenu {
+  position: absolute;
+  left: 0;
+  bottom: -32px;
+  width: 100px;
+}
+.songOption {
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  margin: 0;
+  float: left;
+  border-top: 3px solid transparent;
+}
+.songOption:hover {
+  border-top: 3px solid #e1f1ff;
+}
+.globalPlaylistSong {
+  -webkit-transition: -webkit-transform 0.4s ease;
+  transition: transform 0.4s ease;
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+}
+.globalPlaylistSongExpanded {
+  -webkit-transform: translate3d(0, -32px, 0);
+  transform: translate3d(0, -32px, 0);
 }
