@@ -1,0 +1,7 @@
+Extras on demand -> click an artist a new menu appears
+center stage
+card stack -> at search we have (artists songs ...)
+Closable panels -> for the actual player
+global navigation -> the consistent menu everywhere
+button groups -> in the "main" menu
+

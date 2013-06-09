@@ -20,7 +20,7 @@
 <body>
 <header>
     <div class="inner">
-        <h1><img src="logo.png" /></h1>
+        <h1><img src="logo.png"/></h1>
 
         <h2>A music streaming service.</h2>
         <a href="https://github.com/colin-dumitru/icer" class="button">
@@ -30,372 +30,430 @@
 </header>
 
 <div id="content-wrapper">
-    <div class="inner clearfix">
-        <section id="main-content">
-            <h3>Welcome to U play3D.</h3>
+<div class="inner clearfix">
+<section id="main-content">
+<h3>Welcome to U play3D.</h3>
 
-            <p>U play3D is an online, cross-browser compatible, 3d music streaming website. You can create custom playlists
-                using your favourite songs or discover new artists or songs from your playback history. The project
-                is completely open source, you can clone it using the following command:
-            </p>
+<p>U play3D is an online, cross-browser compatible, 3d music streaming website. You can create custom playlists
+    using your favourite songs or discover new artists or songs from your playback history. The project
+    is completely open source, you can clone it using the following command:
+</p>
 
 <pre><code>
     $ git clone https://github.com/colin-dumitru/icer.git
 </code></pre>
 
-            <h3>Update 05-06-2013: Usability tests</h3>
+<h3>Update 09-06-2013: Final touches</h3>
 
-            <p>
-                Apart from some minor issues, the general implementation of the project is complete. All that remains
-                is to conduct some usability tests and make alterations to the user interface according to the results.
-                To help us in our goal, we have created a few usability tests which cover almost all features of the
-                desktop website.
-            </p>
+<p>
+    For our last update, we want to mention that thr results from our usability tests were very promising. Apart
+    from some minor issues, which were resolved with some minor changes to the application, the users found that
+    after completing a few tasks, they were able to accommodate very easily with the general workflow of the
+    application.
+</p>
 
-            <p>
-                The changelog for this week includes:
-            <ul>
-                <li>Fixed some issues with the custom search option on the radio section.</li>
-                <li>Added add to playlists functionality for charts section.</li>
-                <li>Added additional slides to the tutorial.</li>
-                <li>Fixed some data display issues with the charts section.</li>
-                <li>A temporary version of the radio section for mobile.</li>
-            </ul>
-            </p>
+<p>
+    As for final resources, we've created a basic user guide for both the desktop version of the application,
+    as well as for the mobile version, both of which can be found below. Additionally, a general report of all
+    the application functionality and evolution, which can be found below.
+</p>
 
-            <div class="resourcePage">
-                <div>
-                    <strong>Test 1</strong>
-                    <a href="data/tests/test1.html">
-                        (link)
-                    </a>
-                </div>
-                <div>
-                    <strong>Test 2</strong>
-                    <a href="data/tests/test2.html">
-                        (link)
-                    </a>
-                </div>
-                <div>
-                    <strong>Test 3</strong>
-                    <a href="data/tests/test3.html">
-                        (link)
-                    </a>
-                </div>
-                <div>
-                    <strong>Test 4</strong>
-                    <a href="data/tests/test4.html">
-                        (link)
-                    </a>
-                </div>
-            </div>
+<p>
+    The changelog for this week includes:
+<ul>
+    <li>Rearranged some items and labels to make them more intuitive to the user.</li>
+    <li>Finished mobile radio section.</li>
+    <li>Changed how the song menu is displayed for songs in the global playlist bar.</li>
+    <li>Added automatic redirection to mobile version for mobile devices.</li>
+    <li>Many bug fixes.</li>
+</ul>
+</p>
 
-            <h3>Update 27-05-2013: Usability and finishing touches</h3>
-
-            <p>
-                As the implementation of the project is nearing completion, we started to move focus towards usability
-                and performance improvements.
-            </p>
-
-            <p>
-                The first thing we addressed regarding performance was the general animation smoothness. As the application
-                uses 3D elements, they are quite performance intensive and generate very jittery animations on low end
-                machines. We've tried to correct this behaviour by moving away from JQuery animations and towards CSS3
-                transitions and 3d transformations. This has had a very big impact on the general smoothness of the application
-                and has made the whole experience much better for a lot of users. A full technical report on how we managed
-                to achieve better performance can be found below.
-            </p>
-
-            <p>
-                As for usability, we've made a lot of minor and incremental changes to our UI based on user feedback.
-                The two biggest and most notable changes are to the UI color scheme and a reduction in information
-                density to the search section.
-            </p>
-
-            <p>
-                We've decided to go for a tone neutral color scheme, with a lot of desaturated colors to be able to help
-                those which cannot distinguish easily between color hues (the contrast is achieved using brightness levels
-                as opposed to color hues). While researching the color scheme, we've found that most of the users
-                we've asked, seem to lean towards a blue-tinted color scheme (usually not the first option, but the
-                most common amongst second and third options).
-            </p>
-
-            <p>
-                We've also decided to reduce the general information density of the application. While 3d pages do provide
-                the added bonus that you can see more information on the screen, we've found that users have a hard time
-                trying to focus on a particular section which interests them, as they are overloaded with unneeded information.
-                This is why we've decided, that for the search section, similar songs should only be visible when
-                hovering over the desired track.
-            </p>
-
-            <p>
-                The changelog for this week includes:
-            <ul>
-                <li>General performance improvements.</li>
-                <li>New color scheme.</li>
-                <li>Modified search functionality to display similar songs on hover.</li>
-                <li>Reordered some icons for search and playlists to make them less confusing.</li>
-                <li>All radio criteria now work.</li>
-                <li>History now uses real data.</li>
-                <li>Search for mobile now displaying options for a song when sliding the song to the left.</li>
-                <li>Completed playback for mobile web-site.</li>
-            </ul>
-            </p>
-
-            <div class="resourcePage">
-                <div>
-                    <strong>Performance technical Report</strong>
-                    <a href="data/ussability/performance.pdf">
-                        (link)
-                    </a>
-                </div>
-            </div>
-
-            <h3>Update 07-05-2013: Mobile and Tablet Version</h3>
-
-            <p>
-                We recently found ourselves with a partially working version of the project, enough to test performance
-                on both desktop and mobile devices. And it wasn't good. Due to the high information density of the website,
-                with information shown which is not necessarily needed immediately (background and side pages), the pages
-                on mobile devices were rendered really slowly. Combining this with 3D animations made in CSS3, the project
-                as it stands now is virtually unusable on tablets and mobile phones.
-            </p>
-
-            <p>
-                This is why we decided, that instead of heavily optimizing the current project, we should build a separate,
-                more minimalistic version of the web-side for mobile devices only. Not only will it be slimmed down in
-                eye-candy, but also in features which are not often used or needed. The new mobile web-site will only
-                include a simplified version of the search page (with searching only by song title), playlist management
-                and the radio (and obviously playback functionality).
-            </p>
-
-            <p>
-                The changelog for this week includes:
-            <ul>
-                <li>Completed Search Functionality, including dynamic loading of results and hidden scroll-bars.</li>
-                <li>Improved playback matching between LastFM and SoundCloud.</li>
-                <li>Playlist managing, including adding/removing songs and playlists, playback and search from a playlist.</li>
-                <li>Charts generation for day/week/month/year</li>
-                <li>Mobile version now supports only a partially implemented search functionality.</li>
-                <li>Many bug fixes and optimizations.</li>
-            </ul>
-            </p>
-
-            <h3>Update 27-04-2013: New Development Project and More</h3>
-
-            <p>
-                Due to ongoing development and feature changes, the current project is becoming increasingly
-                unstable. This is why a new development project was created which showcases all ongoing
-                changes (the link can be found below). The old prototype link remains at the same location, and will
-                not be changed from now on.
-            </p>
-
-            <p>
-                The changelog for this week includes:
-                <ul>
-                    <li>Playback functionality with play/pause, next, previous, volume control and seeking.</li>
-                    <li>Partial playlist loading and creation.</li>
-                    <li>Partial search functionality, with searching by song name (with similar songs) and by artist</li>
-                </ul>
-            </p>
-
-            <p>
-                As a special note to the playback functionality, we are currently using the SoundCloud api for streaming
-                service, and the LastFM search api for searching and information gathering. This is why, on some occasions,
-                when playing a certain song, the playback might fail as the song was not found in the SoundCloud database
-                but it exist on LastFM. A visual queue is used to disable songs which cannot be played.
-            </p>
-
-            <div class="resourcePage">
-                <div>
-                    <strong>Development Project</strong>
-                    <a href="http://uplayed.herokuapp.com">
-                        (link)
-                    </a>
-                </div>
-            </div>
-
-            <h3>Update 12-04-2013: Prototype</h3>
-
-            <p>
-                An fully functional version of the prototype is available, which
-                exemplifies all future features to be released with the final version
-                of the website.
-            </p>
-
-            <div class="resourcePage">
-                <div>
-                    <strong>Documentation</strong>
-                    <a href="data/proto/Documentation.pdf">
-                        (link)
-                    </a>
-                </div>
-                <div>
-                    <strong>Online Prototype</strong>
-                    <a href="http://icer.herokuapp.com/">
-                        (link)
-                    </a>
-                </div>
-            </div>
-
-            <h3>Update 11-04-2013: StoryBoard, Design Patterns and QOC</h3>
-
-            <p>
-                This weeks update includes StoryBoard design for all Wireframe models
-                presented in the last question, the list of design patterns used in all
-                primary and secondary ideas and a few QOC examples used to create the Wireframe
-                ideas, and subsequently the prototype.
-            </p>
-
-            <div class="resourcePage">
-                <span>Design Patterns</span>
-                <div>
-                    <span class="resourceLabel">3D Pages</span>
-                    <a href="data/patterns/pages.txt">
-                        (link)
-                    </a>
-                </div>
-                <div>
-                    <span class="resourceLabel">Networked Graph</span>
-                    <a href="data/patterns/graph.txt">
-                        (link)
-                    </a>
-                </div>
-                <div>
-                    <span class="resourceLabel">Spinner</span>
-                    <a href="data/patterns/spinner.txt">
-                        (link)
-                    </a>
-                </div>
-                <div>
-                    <span class="resourceLabel">3D Pyramid</span>
-                    <a href="data/patterns/pyramid.txt">
-                        (link)
-                    </a>
-                </div>
-            </div>
-
-            <div class="resourcePage">
-                <span class="resourceLabel">QOC</span>
-                <a href="data/qoc/qoc.jpg">
-                    (link)
-                </a>
-            </div>
-
-            <div class="resourcePage">
-                <span>StoryBoard</span>
-                <div>
-                    <span class="resourceLabel">3D Pages</span>
-                    <a href="data/storyboard/pages.7z">
-                        (zip)
-                    </a>
-                </div>
-                <div>
-                    <span class="resourceLabel">Networked Graph</span>
-                    <a href="data/storyboard/graph.rar">
-                        (zip)
-                    </a>
-                </div>
-                <div>
-                    <span class="resourceLabel">Spinner</span>
-                    <a href="data/storyboard/spinner.rar">
-                        (zip)
-                    </a>
-                </div>
-                <div>
-                    <span class="resourceLabel">3D Pyramid</span>
-                    <a href="data/storyboard/pyramid.zip">
-                        (zip)
-                    </a>
-                </div>
-            </div>
-
-            <h3>Update 04-04-2013: Wireframe</h3>
-
-            <p>We've finalized our four main ideas which will be used when developing
-                the Icer application: one primary, the basis of the new application,
-                and three secondary which will serve as backup ideas. Below, you
-                will find all the resources available for all ideas, and this subsection
-                will be updated once more resources are created.
-
-            <div class="resourcePage">
-                <div>
-                    <span class="resourceLabel">3D Pages</span>
-                    <a href="http://indigo.infragistics.com/prototype/2AF31HBU">
-                        Prototype (link - password: hci_icer)
-                    </a>
-                    <a href="data/wireframe/icer_pages.7z">
-                        (zip)
-                    </a>
-                </div>
-                <div>
-                    <span class="resourceLabel">Networked Graph</span>
-                    <a href="http://indigo.infragistics.com/prototype/CZX5M5M8">
-                        Prototype (link - password: hci)
-                    </a>
-                    <a href="data/wireframe/icer_graph.7z">
-                        (zip)
-                    </a>
-                </div>
-                <div>
-                    <span class="resourceLabel">Spinner</span>
-                    <a href="http://indigo.infragistics.com/prototype/1BX9DSE8">
-                        Prototype (link - password: hci)
-                    </a>
-                    <a href="data/wireframe/icer_spinner.rar">
-                        (zip)
-                    </a>
-                </div>
-                <div>
-                    <span class="resourceLabel">3D Pyramid</span>
-                    <a href="http://indigo.infragistics.com/prototype/9JIP7WQO">
-                        Prototype (link - password: hci)
-                    </a>
-                    <a href="data/wireframe/icer_pyramid.rar">
-                        (zip)
-                    </a>
-                </div>
-            </div>
-
-            </p>
-
-            <h3>Update 25-01-2013: Personas</h3>
-
-            <p>
-                A few personas were created to better exemplify the target audience
-                for the application.
-            <ul class="resourcePage">
-                <li><a href="data/personas/Dave-Matthews.html">Dave Matthews (Primary)</a></li>
-                <li><a href="data/personas/Daniel-Ionescu.html">Daniel Ionescu (Primary)</a></li>
-                <li><a href="data/personas/Adrian-Munteanu.html">Adrian Munteanu (Supplemental)</a></li>
-                <li><a href="data/personas/Eugen-Cernatescu.html">Eugen Cernatescu (Secondary)</a></li>
-            </ul>
-            </p>
-        </section>
-
-        <aside id="sidebar">
-            <a href="https://github.com/colin-dumitru/icer/zipball/master" class="button">
-                <small>Download</small>
-                .zip file
-            </a>
-            <a href="https://github.com/colin-dumitru/icer/tarball/master" class="button">
-                <small>Download</small>
-                .tar.gz file
-            </a>
-
-            <p class="repo-owner"><a href="https://github.com/colin-dumitru/icer"></a> is maintained by <a
-                    href="https://github.com/colin-dumitru">colin-dumitru</a>.</p>
-
-            <p>Team members:
-            <ul>
-                <li>Catalin Dumitru</li>
-                <li>Naum Irina</li>
-                <li>Sabina Macarie</li>
-                <li>Stefan Onofrei</li>
-            </ul>
-            </p>
-        </aside>
+<div class="resourcePage">
+    <div>
+        <strong>Academic report</strong>
+        <a href="data/report/index.html">
+            (link)
+        </a>
+        <a href="data/report/report.zip">
+            (zip)
+        </a>
     </div>
+    <div>
+        <strong>User guide - desktop</strong>
+        <a href="data/user_guide/index.html">
+            (link)
+        </a>
+        <a href="data/user_guide/user_guide.zip">
+            (zip)
+        </a>
+    </div>
+    <div>
+        <strong>User guide - mobile</strong>
+        <a href="data/user_guide_mobile/index.html">
+            (link)
+        </a>
+        <a href="data/user_guide_mobile/user_guide_mobile.zip">
+            (zip)
+        </a>
+    </div>
+</div>
+
+<h3>Update 05-06-2013: Usability tests</h3>
+
+<p>
+    Apart from some minor issues, the general implementation of the project is complete. All that remains
+    is to conduct some usability tests and make alterations to the user interface according to the results.
+    To help us in our goal, we have created a few usability tests which cover almost all features of the
+    desktop website.
+</p>
+
+<p>
+    The changelog for this week includes:
+<ul>
+    <li>Fixed some issues with the custom search option on the radio section.</li>
+    <li>Added add to playlists functionality for charts section.</li>
+    <li>Added additional slides to the tutorial.</li>
+    <li>Fixed some data display issues with the charts section.</li>
+    <li>A temporary version of the radio section for mobile.</li>
+</ul>
+</p>
+
+<div class="resourcePage">
+    <div>
+        <strong>Test 1</strong>
+        <a href="data/tests/test1.html">
+            (link)
+        </a>
+    </div>
+    <div>
+        <strong>Test 2</strong>
+        <a href="data/tests/test2.html">
+            (link)
+        </a>
+    </div>
+    <div>
+        <strong>Test 3</strong>
+        <a href="data/tests/test3.html">
+            (link)
+        </a>
+    </div>
+    <div>
+        <strong>Test 4</strong>
+        <a href="data/tests/test4.html">
+            (link)
+        </a>
+    </div>
+</div>
+
+<h3>Update 27-05-2013: Usability and finishing touches</h3>
+
+<p>
+    As the implementation of the project is nearing completion, we started to move focus towards usability
+    and performance improvements.
+</p>
+
+<p>
+    The first thing we addressed regarding performance was the general animation smoothness. As the application
+    uses 3D elements, they are quite performance intensive and generate very jittery animations on low end
+    machines. We've tried to correct this behaviour by moving away from JQuery animations and towards CSS3
+    transitions and 3d transformations. This has had a very big impact on the general smoothness of the application
+    and has made the whole experience much better for a lot of users. A full technical report on how we managed
+    to achieve better performance can be found below.
+</p>
+
+<p>
+    As for usability, we've made a lot of minor and incremental changes to our UI based on user feedback.
+    The two biggest and most notable changes are to the UI color scheme and a reduction in information
+    density to the search section.
+</p>
+
+<p>
+    We've decided to go for a tone neutral color scheme, with a lot of desaturated colors to be able to help
+    those which cannot distinguish easily between color hues (the contrast is achieved using brightness levels
+    as opposed to color hues). While researching the color scheme, we've found that most of the users
+    we've asked, seem to lean towards a blue-tinted color scheme (usually not the first option, but the
+    most common amongst second and third options).
+</p>
+
+<p>
+    We've also decided to reduce the general information density of the application. While 3d pages do provide
+    the added bonus that you can see more information on the screen, we've found that users have a hard time
+    trying to focus on a particular section which interests them, as they are overloaded with unneeded information.
+    This is why we've decided, that for the search section, similar songs should only be visible when
+    hovering over the desired track.
+</p>
+
+<p>
+    The changelog for this week includes:
+<ul>
+    <li>General performance improvements.</li>
+    <li>New color scheme.</li>
+    <li>Modified search functionality to display similar songs on hover.</li>
+    <li>Reordered some icons for search and playlists to make them less confusing.</li>
+    <li>All radio criteria now work.</li>
+    <li>History now uses real data.</li>
+    <li>Search for mobile now displaying options for a song when sliding the song to the left.</li>
+    <li>Completed playback for mobile web-site.</li>
+</ul>
+</p>
+
+<div class="resourcePage">
+    <div>
+        <strong>Performance technical Report</strong>
+        <a href="data/ussability/performance.pdf">
+            (link)
+        </a>
+    </div>
+</div>
+
+<h3>Update 07-05-2013: Mobile and Tablet Version</h3>
+
+<p>
+    We recently found ourselves with a partially working version of the project, enough to test performance
+    on both desktop and mobile devices. And it wasn't good. Due to the high information density of the website,
+    with information shown which is not necessarily needed immediately (background and side pages), the pages
+    on mobile devices were rendered really slowly. Combining this with 3D animations made in CSS3, the project
+    as it stands now is virtually unusable on tablets and mobile phones.
+</p>
+
+<p>
+    This is why we decided, that instead of heavily optimizing the current project, we should build a separate,
+    more minimalistic version of the web-side for mobile devices only. Not only will it be slimmed down in
+    eye-candy, but also in features which are not often used or needed. The new mobile web-site will only
+    include a simplified version of the search page (with searching only by song title), playlist management
+    and the radio (and obviously playback functionality).
+</p>
+
+<p>
+    The changelog for this week includes:
+<ul>
+    <li>Completed Search Functionality, including dynamic loading of results and hidden scroll-bars.</li>
+    <li>Improved playback matching between LastFM and SoundCloud.</li>
+    <li>Playlist managing, including adding/removing songs and playlists, playback and search from a playlist.</li>
+    <li>Charts generation for day/week/month/year</li>
+    <li>Mobile version now supports only a partially implemented search functionality.</li>
+    <li>Many bug fixes and optimizations.</li>
+</ul>
+</p>
+
+<h3>Update 27-04-2013: New Development Project and More</h3>
+
+<p>
+    Due to ongoing development and feature changes, the current project is becoming increasingly
+    unstable. This is why a new development project was created which showcases all ongoing
+    changes (the link can be found below). The old prototype link remains at the same location, and will
+    not be changed from now on.
+</p>
+
+<p>
+    The changelog for this week includes:
+<ul>
+    <li>Playback functionality with play/pause, next, previous, volume control and seeking.</li>
+    <li>Partial playlist loading and creation.</li>
+    <li>Partial search functionality, with searching by song name (with similar songs) and by artist</li>
+</ul>
+</p>
+
+<p>
+    As a special note to the playback functionality, we are currently using the SoundCloud api for streaming
+    service, and the LastFM search api for searching and information gathering. This is why, on some occasions,
+    when playing a certain song, the playback might fail as the song was not found in the SoundCloud database
+    but it exist on LastFM. A visual queue is used to disable songs which cannot be played.
+</p>
+
+<div class="resourcePage">
+    <div>
+        <strong>Development Project</strong>
+        <a href="http://uplayed.herokuapp.com">
+            (link)
+        </a>
+    </div>
+</div>
+
+<h3>Update 12-04-2013: Prototype</h3>
+
+<p>
+    An fully functional version of the prototype is available, which
+    exemplifies all future features to be released with the final version
+    of the website.
+</p>
+
+<div class="resourcePage">
+    <div>
+        <strong>Documentation</strong>
+        <a href="data/proto/Documentation.pdf">
+            (link)
+        </a>
+    </div>
+    <div>
+        <strong>Online Prototype</strong>
+        <a href="http://icer.herokuapp.com/">
+            (link)
+        </a>
+    </div>
+</div>
+
+<h3>Update 11-04-2013: StoryBoard, Design Patterns and QOC</h3>
+
+<p>
+    This weeks update includes StoryBoard design for all Wireframe models
+    presented in the last question, the list of design patterns used in all
+    primary and secondary ideas and a few QOC examples used to create the Wireframe
+    ideas, and subsequently the prototype.
+</p>
+
+<div class="resourcePage">
+    <span>Design Patterns</span>
+
+    <div>
+        <span class="resourceLabel">3D Pages</span>
+        <a href="data/patterns/pages.txt">
+            (link)
+        </a>
+    </div>
+    <div>
+        <span class="resourceLabel">Networked Graph</span>
+        <a href="data/patterns/graph.txt">
+            (link)
+        </a>
+    </div>
+    <div>
+        <span class="resourceLabel">Spinner</span>
+        <a href="data/patterns/spinner.txt">
+            (link)
+        </a>
+    </div>
+    <div>
+        <span class="resourceLabel">3D Pyramid</span>
+        <a href="data/patterns/pyramid.txt">
+            (link)
+        </a>
+    </div>
+</div>
+
+<div class="resourcePage">
+    <span class="resourceLabel">QOC</span>
+    <a href="data/qoc/qoc.jpg">
+        (link)
+    </a>
+</div>
+
+<div class="resourcePage">
+    <span>StoryBoard</span>
+
+    <div>
+        <span class="resourceLabel">3D Pages</span>
+        <a href="data/storyboard/pages.7z">
+            (zip)
+        </a>
+    </div>
+    <div>
+        <span class="resourceLabel">Networked Graph</span>
+        <a href="data/storyboard/graph.rar">
+            (zip)
+        </a>
+    </div>
+    <div>
+        <span class="resourceLabel">Spinner</span>
+        <a href="data/storyboard/spinner.rar">
+            (zip)
+        </a>
+    </div>
+    <div>
+        <span class="resourceLabel">3D Pyramid</span>
+        <a href="data/storyboard/pyramid.zip">
+            (zip)
+        </a>
+    </div>
+</div>
+
+<h3>Update 04-04-2013: Wireframe</h3>
+
+<p>We've finalized our four main ideas which will be used when developing
+    the Icer application: one primary, the basis of the new application,
+    and three secondary which will serve as backup ideas. Below, you
+    will find all the resources available for all ideas, and this subsection
+    will be updated once more resources are created.
+
+<div class="resourcePage">
+    <div>
+        <span class="resourceLabel">3D Pages</span>
+        <a href="http://indigo.infragistics.com/prototype/2AF31HBU">
+            Prototype (link - password: hci_icer)
+        </a>
+        <a href="data/wireframe/icer_pages.7z">
+            (zip)
+        </a>
+    </div>
+    <div>
+        <span class="resourceLabel">Networked Graph</span>
+        <a href="http://indigo.infragistics.com/prototype/CZX5M5M8">
+            Prototype (link - password: hci)
+        </a>
+        <a href="data/wireframe/icer_graph.7z">
+            (zip)
+        </a>
+    </div>
+    <div>
+        <span class="resourceLabel">Spinner</span>
+        <a href="http://indigo.infragistics.com/prototype/1BX9DSE8">
+            Prototype (link - password: hci)
+        </a>
+        <a href="data/wireframe/icer_spinner.rar">
+            (zip)
+        </a>
+    </div>
+    <div>
+        <span class="resourceLabel">3D Pyramid</span>
+        <a href="http://indigo.infragistics.com/prototype/9JIP7WQO">
+            Prototype (link - password: hci)
+        </a>
+        <a href="data/wireframe/icer_pyramid.rar">
+            (zip)
+        </a>
+    </div>
+</div>
+
+</p>
+
+<h3>Update 25-01-2013: Personas</h3>
+
+<p>
+    A few personas were created to better exemplify the target audience
+    for the application.
+<ul class="resourcePage">
+    <li><a href="data/personas/Dave-Matthews.html">Dave Matthews (Primary)</a></li>
+    <li><a href="data/personas/Daniel-Ionescu.html">Daniel Ionescu (Primary)</a></li>
+    <li><a href="data/personas/Adrian-Munteanu.html">Adrian Munteanu (Supplemental)</a></li>
+    <li><a href="data/personas/Eugen-Cernatescu.html">Eugen Cernatescu (Secondary)</a></li>
+</ul>
+</p>
+</section>
+
+<aside id="sidebar">
+    <a href="https://github.com/colin-dumitru/icer/zipball/master" class="button">
+        <small>Download</small>
+        .zip file
+    </a>
+    <a href="https://github.com/colin-dumitru/icer/tarball/master" class="button">
+        <small>Download</small>
+        .tar.gz file
+    </a>
+
+    <p class="repo-owner"><a href="https://github.com/colin-dumitru/icer"></a> is maintained by <a
+            href="https://github.com/colin-dumitru">colin-dumitru</a>.</p>
+
+    <p>Team members:
+    <ul>
+        <li>Catalin Dumitru</li>
+        <li>Naum Irina</li>
+        <li>Sabina Macarie</li>
+        <li>Stefan Onofrei</li>
+    </ul>
+    </p>
+</aside>
+</div>
 </div>
 
 

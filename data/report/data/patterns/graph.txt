@@ -1,0 +1,9 @@
+Design Patterns:
+1. Closable Panels - The panel containing the music player can pe expanded.
+2. Global Navigation - Navigational elements consistently positioned at the top.
+3. Center Stage - The main content is located in the center.
+4. Continuous Scrolling - new data is automatically retrieved when the user explores his timeline.
+
+
+Prototype URL: http://indigo.infragistics.com/prototype/CZX5M5M8
+Prototype Password: hci
