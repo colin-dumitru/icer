@@ -95,7 +95,7 @@
 }
 #historyContainer {
   position: relative;
-  width: 800px;
+  width: 736px;
   height: 200px;
 }
 #historyBodyCell {
@@ -125,7 +125,7 @@
   font-family: 'Noto Sans', sans-serif;
   color: #ddefff;
   font-size: 30px;
-  width: 350px ;
+  width: 350px;
   position: relative;
   margin: 0 auto;
   top: 5%;

@@ -12,6 +12,7 @@ class HistoryBinder implements SectionBinder {
         $("#historySlider")
             .draggable({
                 containment: "#historyContainer",
+                scroll: false,
                 axis: "x",
                 stop: (event, ui) => {
                     this.historyManager.slideReferencePoint(ui.position.left)
@@ -232,13 +233,14 @@ class HistoryManager {
     }
 
     private firstDayOfWeek(week) {
-        var date       = this.firstWeekOfYear((new Date()).getFullYear()),
-            weekTime   = this.weeksToMilliseconds(week),
+        var date = this.firstWeekOfYear((new Date()).getFullYear()),
+            weekTime = this.weeksToMilliseconds(week),
             targetTime = date.getTime() + weekTime;
 
         return new Date(targetTime)
 
     }
+
     private weeksToMilliseconds(weeks) {
         return 1000 * 60 * 60 * 24 * 7 * (weeks - 1);
     }
@@ -267,7 +269,7 @@ class HistoryManager {
         var weekLength = 7;
         var day = firstOfJanuaryDate.getDay();
         day = (day === 0) ? 7 : day;
-        var dayOffset =- day + firstDayOfWeek;
+        var dayOffset = -day + firstDayOfWeek;
         if (weekLength - day + 1 < 4) {
             dayOffset += weekLength;
         }

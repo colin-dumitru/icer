@@ -2,7 +2,7 @@ var __extends = this.__extends || function (d, b) {
     function __() { this.constructor = d; }
     __.prototype = b.prototype;
     d.prototype = new __();
-}
+};
 var searchManager = null;
 var SearchBinder = (function () {
     function SearchBinder() { }
@@ -22,30 +22,22 @@ var SearchBinder = (function () {
     };
     SearchBinder.prototype.navigationHandler = function (event) {
         switch(event.which) {
-            case 37: {
+            case 37:
                 searchManager.givePreviousPageFocus();
                 event.preventDefault();
                 break;
-
-            }
-            case 38: {
+            case 38:
                 searchManager.givePreviousSessionFocus();
                 event.preventDefault();
                 break;
-
-            }
-            case 39: {
+            case 39:
                 searchManager.giveNextPageFocus();
                 event.preventDefault();
                 break;
-
-            }
-            case 40: {
+            case 40:
                 searchManager.giveNextSessionFocus();
                 event.preventDefault();
                 break;
-
-            }
         }
     };
     SearchBinder.prototype.loadData = function () {
@@ -194,18 +186,12 @@ var SearchCallback = (function () {
         var detailCallback = function (selectedOption, selectedSubOption, subOptionTitle) {
             if(selectedOption == 0) {
                 _this.playSong(song);
-            } else {
-                if(selectedOption == 2) {
-                    _this.pushSong(song);
-                } else {
-                    if(selectedOption == 3) {
-                        _this.searchFromSong(song);
-                    } else {
-                        if(selectedOption == 1) {
-                            _this.addSongToPlaylist(song, selectedSubOption, subOptionTitle);
-                        }
-                    }
-                }
+            } else if(selectedOption == 2) {
+                _this.pushSong(song);
+            } else if(selectedOption == 3) {
+                _this.searchFromSong(song);
+            } else if(selectedOption == 1) {
+                _this.addSongToPlaylist(song, selectedSubOption, subOptionTitle);
             }
         };
         template.click(function (e) {
@@ -861,42 +847,26 @@ var SearchPageManager = (function () {
     };
     SearchPageManager.prototype.getMenuItem = function (index) {
         switch(index) {
-            case 0: {
+            case 0:
                 return $(this.session.rootNode()).find("#searchMenuSongs");
-
-            }
-            case 1: {
+            case 1:
                 return $(this.session.rootNode()).find("#searchMenuArtist");
-
-            }
-            case 2: {
+            case 2:
                 return $(this.session.rootNode()).find("#searchMenuAlbums");
-
-            }
-            case 3: {
+            case 3:
                 return $(this.session.rootNode()).find("#searchMenuGenre");
-
-            }
         }
     };
     SearchPageManager.prototype.getPage = function (index) {
         switch(index) {
-            case 0: {
+            case 0:
                 return $(this.session.rootNode()).find("#searchPageSongs");
-
-            }
-            case 1: {
+            case 1:
                 return $(this.session.rootNode()).find("#searchPageArtist");
-
-            }
-            case 2: {
+            case 2:
                 return $(this.session.rootNode()).find("#searchPageAlbums");
-
-            }
-            case 3: {
+            case 3:
                 return $(this.session.rootNode()).find("#searchPageGenre");
-
-            }
         }
     };
     return SearchPageManager;

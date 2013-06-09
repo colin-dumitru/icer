@@ -69,17 +69,13 @@ var ChartsManager = (function () {
                 _this.interval = "1 month";
                 if($.inArray(month, _this.longMonths) != -1) {
                     _this.displayContainerValues("chartsWeekContainer", 0);
-                } else {
-                    if($.inArray(month, _this.shortMonths) != -1) {
-                        _this.displayContainerValues("chartsWeekContainer", 1);
+                } else if($.inArray(month, _this.shortMonths) != -1) {
+                    _this.displayContainerValues("chartsWeekContainer", 1);
+                } else if(month == 2) {
+                    if(_this.startDate.year % 4 == 0) {
+                        _this.displayContainerValues("chartsWeekContainer", 2);
                     } else {
-                        if(month == 2) {
-                            if(_this.startDate.year % 4 == 0) {
-                                _this.displayContainerValues("chartsWeekContainer", 2);
-                            } else {
-                                _this.displayContainerValues("chartsWeekContainer", 3);
-                            }
-                        }
+                        _this.displayContainerValues("chartsWeekContainer", 3);
                     }
                 }
                 _this.givePickerPageFocus(3);
@@ -91,27 +87,21 @@ var ChartsManager = (function () {
                 _this.interval = "1 week";
                 if($(elem).parent().index() == 0) {
                     _this.week = $(elem).index() + 1;
+                } else if($(elem).parent().index() == 1) {
+                    _this.week = $(elem).index() + 3;
                 } else {
-                    if($(elem).parent().index() == 1) {
-                        _this.week = $(elem).index() + 3;
-                    } else {
-                        _this.week = 5;
-                    }
+                    _this.week = 5;
                 }
                 if(_this.week < 5) {
                     _this.displayContainerValues("chartsDayContainer", (_this.week - 1));
-                } else {
-                    if(_this.week == 5) {
-                        if($.inArray(_this.startDate.month, _this.longMonths) != -1) {
-                            _this.displayContainerValues("chartsDayContainer", 4);
-                        } else {
-                            if($.inArray(_this.startDate.month, _this.shortMonths) != -1) {
-                                _this.displayContainerValues("chartsDayContainer", 5);
-                            } else {
-                                if(_this.startDate.year % 4 == 0) {
-                                    _this.displayContainerValues("chartsDayContainer", 6);
-                                }
-                            }
+                } else if(_this.week == 5) {
+                    if($.inArray(_this.startDate.month, _this.longMonths) != -1) {
+                        _this.displayContainerValues("chartsDayContainer", 4);
+                    } else if($.inArray(_this.startDate.month, _this.shortMonths) != -1) {
+                        _this.displayContainerValues("chartsDayContainer", 5);
+                    } else {
+                        if(_this.startDate.year % 4 == 0) {
+                            _this.displayContainerValues("chartsDayContainer", 6);
                         }
                     }
                 }

@@ -8,6 +8,7 @@ var HistoryBinder = (function () {
         var _this = this;
         $("#historySlider").draggable({
             containment: "#historyContainer",
+            scroll: false,
             axis: "x",
             stop: function (event, ui) {
                 _this.historyManager.slideReferencePoint(ui.position.left);
@@ -230,10 +231,7 @@ var HistoryManager = (function () {
         return points;
     };
     HistoryManager.prototype.firstDayOfWeek = function (week) {
-        var date = this.firstWeekOfYear((new Date()).getFullYear());
-        var weekTime = this.weeksToMilliseconds(week);
-        var targetTime = date.getTime() + weekTime;
-
+        var date = this.firstWeekOfYear((new Date()).getFullYear()), weekTime = this.weeksToMilliseconds(week), targetTime = date.getTime() + weekTime;
         return new Date(targetTime);
     };
     HistoryManager.prototype.weeksToMilliseconds = function (weeks) {

@@ -109,6 +109,7 @@ var SectionManager = (function () {
         var _this = this;
         this.menuSelector.draggable({
             containment: "#menu",
+            scroll: false,
             axis: "y",
             start: function () {
                 binders[_this.currentSection.id].unbind();
@@ -635,7 +636,7 @@ var GlobalPlaylistManager = (function () {
         this.playing = true;
         this.playingSong = song;
         playManager.playSong(song);
-        $("#playButton").removeClass("playButtonPaused");
+        $("#playButton").addClass("playButtonPaused");
         $("#playImage").show();
         $("#pausedImage").hide();
     };
@@ -657,7 +658,7 @@ var GlobalPlaylistManager = (function () {
     };
     GlobalPlaylistManager.prototype.pause = function () {
         this.playing = false;
-        $("#playButton").addClass("playButtonPaused");
+        $("#playButton").removeClass("playButtonPaused");
         $("#playImage").hide();
         $("#pausedImage").show();
         playManager.pause();

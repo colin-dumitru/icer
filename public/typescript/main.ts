@@ -147,6 +147,7 @@ class SectionManager {
         this.menuSelector
             .draggable({
                 containment: "#menu",
+                scroll: false,
                 axis: "y",
                 start: () => {
                     binders[this.currentSection.id].unbind();
@@ -740,7 +741,7 @@ class GlobalPlaylistManager {
         this.playingSong = song;
         playManager.playSong(song);
 
-        $("#playButton").removeClass("playButtonPaused");
+        $("#playButton").addClass("playButtonPaused");
         $("#playImage").show();
         $("#pausedImage").hide();
     }
@@ -767,7 +768,7 @@ class GlobalPlaylistManager {
 
     public pause() {
         this.playing = false;
-        $("#playButton").addClass("playButtonPaused");
+        $("#playButton").removeClass("playButtonPaused");
         $("#playImage").hide();
         $("#pausedImage").show();
         playManager.pause();
