@@ -240,7 +240,9 @@ function buildSmallSong(song:Song) {
     parentDiv.append(imageTemplate);
 
     if (song.imageUrl != null) {
-        parentDiv.find("#songImage").attr("src", song.imageUrl);
+        parentDiv.find("#songImage")
+            .attr("src", song.imageUrl)
+            .attr("alt", song.info.title + " " + song.info.artist);
     }
     return parentDiv;
 }

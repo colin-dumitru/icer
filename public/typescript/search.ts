@@ -205,12 +205,13 @@ class SearchCallback {
         });
     }
 
-    buildLargeImageTemplate(url:string) {
+    buildLargeImageTemplate(url:string, alt:string) {
         var img = $("<img />");
         img
             .attr("src", url)
             .attr("width", 120)
-            .attr("height", 120);
+            .attr("height", 120)
+            .attr("alt", alt);
         return img;
     }
 
@@ -462,7 +463,7 @@ class SearchSongCallback extends SearchCallback {
         var listContainer = $("<div></div>");
         var listTemplate = template("#searchSongListTemplate", "similar");
 
-        var imageTemplate = this.buildLargeImageTemplate(song.imageUrl);
+        var imageTemplate = this.buildLargeImageTemplate(song.imageUrl, song.info.title + " " + song.info.artist);
         imageTemplate.addClass("clickable");
 
         listContainer.append(listTemplate);
@@ -622,7 +623,7 @@ class SearchArtistCallback extends SearchCallback {
         var listContainer = $("<div></div>");
         var listTemplate = template("#searchSongListTemplate", "tracks");
 
-        var imageTemplate = this.buildLargeImageTemplate(artist.imageUrl);
+        var imageTemplate = this.buildLargeImageTemplate(artist.imageUrl, artist.info.name);
 
         listContainer.append(listTemplate);
         listContainer.find("#searchSongTitle").text(artist.info.name);
@@ -761,7 +762,7 @@ class SearchAlbumCallback extends SearchCallback {
         var listContainer = $("<div></div>");
         var listTemplate = template("#searchSongListTemplate", "tracks");
 
-        var imageTemplate = this.buildLargeImageTemplate(album.imageUrl);
+        var imageTemplate = this.buildLargeImageTemplate(album.imageUrl, album.info.name);
 
         listContainer.append(listTemplate);
         listContainer.find("#searchSongTitle").text(album.info.artist + "-" + album.info.name);

@@ -231,7 +231,10 @@ var HistoryManager = (function () {
         return points;
     };
     HistoryManager.prototype.firstDayOfWeek = function (week) {
-        var date = this.firstWeekOfYear((new Date()).getFullYear()), weekTime = this.weeksToMilliseconds(week), targetTime = date.getTime() + weekTime;
+        var date = this.firstWeekOfYear((new Date()).getFullYear());
+        var weekTime = this.weeksToMilliseconds(week);
+        var targetTime = date.getTime() + weekTime;
+
         return new Date(targetTime);
     };
     HistoryManager.prototype.weeksToMilliseconds = function (weeks) {
